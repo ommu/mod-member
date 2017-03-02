@@ -10,3 +10,22 @@ db_table_name	:
 
  
 db_sql_filename	: 
+
+plugin_menu		:
+	- urlTitle: Datas
+		urlRules: {siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: -, attr: -, icon: -}
+		submenu :
+			- urlTitle: Profiles
+				urlRules: {siteType: 0,1, userLevel: 1,2}
+				urlPath: {url: o/profile/manage, attr: -, icon: -}
+	- urlTitle: Setting
+		urlRules: {siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: o/setting/edit, attr: -, icon: -}
+
+content_menu	:
+		
+# controller o/profile
+	- urlTitle: Add Profile
+		urlRules: {member, o/profile, manage, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: add, attr: -, icon: -}

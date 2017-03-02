@@ -292,7 +292,7 @@ class MemberProfile extends CActiveRecord
 			*/
 			$this->defaultColumns[] = array(
 				'name' => 'user_limit',
-				'value' => '$data->user_limit',
+				'value' => '$data->multiple_user == 1 ? ($data->user_limit != 0 ? $data->user_limit : Yii::t(\'phrase\', \'Unlimited\')) : \'-\'',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -327,19 +327,19 @@ class MemberProfile extends CActiveRecord
 					),
 				), true),
 			);
+			$this->defaultColumns[] = array(
+				'name' => 'multiple_user',
+				'value' => '$data->multiple_user == \'1\' ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\')',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter'=>array(
+					1=>Yii::t('phrase', 'Yes'),
+					0=>Yii::t('phrase', 'No'),
+				),
+				'type' => 'raw',
+			);
 			if(!isset($_GET['type'])) {
-				$this->defaultColumns[] = array(
-					'name' => 'multiple_user',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("multiple_user",array("id"=>$data->profile_id)), $data->multiple_user, 1)',
-					'htmlOptions' => array(
-						'class' => 'center',
-					),
-					'filter'=>array(
-						1=>Yii::t('phrase', 'Yes'),
-						0=>Yii::t('phrase', 'No'),
-					),
-					'type' => 'raw',
-				);
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
 					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->profile_id)), $data->publish, 1)',
