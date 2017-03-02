@@ -19,12 +19,7 @@
 	);
 ?>
 
-<?php //begin.Messages ?>
-<?php
-if(Yii::app()->user->hasFlash('success'))
-	echo Utility::flashSuccess(Yii::app()->user->getFlash('success'));
-?>
-<?php //end.Messages ?>
+<div class="dialog-content">
 
 <?php $this->widget('application.components.system.FDetailView', array(
 	'data'=>$model,
@@ -32,27 +27,28 @@ if(Yii::app()->user->hasFlash('success'))
 		array(
 			'name'=>'profile_id',
 			'value'=>$model->profile_id,
-			//'value'=>$model->profile_id != '' ? $model->profile_id : '-',
 		),
 		array(
 			'name'=>'publish',
 			'value'=>$model->publish == '1' ? Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/publish.png') : Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/unpublish.png'),
-			//'value'=>$model->publish,
-		),
-		array(
-			'name'=>'profile_name',
-			'value'=>$model->profile_name,
-			//'value'=>$model->profile_name != '' ? $model->profile_name : '-',
-		),
-		array(
-			'name'=>'profile_desc',
-			'value'=>$model->profile_desc,
-			//'value'=>$model->profile_desc != '' ? $model->profile_desc : '-',
+			'type'=>'raw',
 		),
 		array(
 			'name'=>'multiple_user',
-			'value'=>$model->multiple_user,
-			//'value'=>$model->multiple_user != '' ? $model->multiple_user : '-',
+			'value'=>$model->multiple_user == '1' ? Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/publish.png') : Chtml::image(Yii::app()->theme->baseUrl.'/images/icons/unpublish.png'),
+			'type'=>'raw',
+		),
+		array(
+			'name'=>'profile_name',
+			'value'=>$model->profile_name != 0 ? Phrase::trans($model->profile_name) : '-',
+		),
+		array(
+			'name'=>'profile_desc',
+			'value'=>$model->profile_desc != 0 ? Phrase::trans($model->profile_desc) : '-',
+		),
+		array(
+			'name'=>'user_limit',
+			'value'=>$model->multiple_user == 1 ? ($model->user_limit != 0 ? $model->user_limit : Yii::t('phrase', 'Unlimited')) : '-',
 		),
 		array(
 			'name'=>'creation_date',
@@ -60,8 +56,7 @@ if(Yii::app()->user->hasFlash('success'))
 		),
 		array(
 			'name'=>'creation_id',
-			'value'=>$model->creation_id,
-			//'value'=>$model->creation_id != 0 ? $model->creation_id : '-',
+			'value'=>$model->creation_id != 0 ? $model->creation->displayname : '-',
 		),
 		array(
 			'name'=>'modified_date',
@@ -69,13 +64,10 @@ if(Yii::app()->user->hasFlash('success'))
 		),
 		array(
 			'name'=>'modified_id',
-			'value'=>$model->modified_id,
-			//'value'=>$model->modified_id != 0 ? $model->modified_id : '-',
+			'value'=>$model->modified_id != 0 ? $model->modified->displayname : '-',
 		),
 	),
 )); ?>
-
-<div class="dialog-content">
 </div>
 <div class="dialog-submit">
 	<?php echo CHtml::button(Yii::t('phrase', 'Close'), array('id'=>'closed')); ?>

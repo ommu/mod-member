@@ -28,6 +28,7 @@
  * @property string $profile_name
  * @property string $profile_desc
  * @property integer $multiple_user
+ * @property integer $user_limit
  * @property string $creation_date
  * @property string $creation_id
  * @property string $modified_date
@@ -39,6 +40,12 @@
 class MemberProfile extends CActiveRecord
 {
 	public $defaultColumns = array();
+	public $title;
+	public $description;
+	
+	// Variable Search
+	public $creation_search;
+	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -67,13 +74,20 @@ class MemberProfile extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('profile_name, profile_desc, creation_date, creation_id, modified_id', 'required'),
-			array('publish, multiple_user', 'numerical', 'integerOnly'=>true),
+			array('
+				title, description', 'required'),
+			array('publish, multiple_user, user_limit', 'numerical', 'integerOnly'=>true),
+			array('user_limit', 'length', 'max'=>5),
 			array('profile_name, profile_desc, creation_id, modified_id', 'length', 'max'=>11),
-			array('modified_date', 'safe'),
+			array('
+				title', 'length', 'max'=>32),
+			array('
+				description', 'length', 'max'=>128),
+			array('profile_name, profile_desc', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('profile_id, publish, profile_name, profile_desc, multiple_user, creation_date, creation_id, modified_date, modified_id', 'safe', 'on'=>'search'),
+			array('profile_id, publish, profile_name, profile_desc, multiple_user, user_limit, creation_date, creation_id, modified_date, modified_id,
+				title, description, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -85,7 +99,11 @@ class MemberProfile extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'ommuMembers_relation' => array(self::HAS_MANY, 'OmmuMembers', 'profile_id'),
+			'title' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'profile_name'),
+			'description' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'profile_desc'),
+			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'members' => array(self::HAS_MANY, 'Members', 'profile_id'),
 		);
 	}
 
@@ -97,13 +115,18 @@ class MemberProfile extends CActiveRecord
 		return array(
 			'profile_id' => Yii::t('attribute', 'Profile'),
 			'publish' => Yii::t('attribute', 'Publish'),
-			'profile_name' => Yii::t('attribute', 'Profile Name'),
-			'profile_desc' => Yii::t('attribute', 'Profile Desc'),
+			'profile_name' => Yii::t('attribute', 'Profile'),
+			'profile_desc' => Yii::t('attribute', 'Description'),
 			'multiple_user' => Yii::t('attribute', 'Multiple User'),
+			'user_limit' => Yii::t('attribute', 'User Limit'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'title' => Yii::t('attribute', 'Profile'),
+			'description' => Yii::t('attribute', 'Description'),
+			'creation_search' => Yii::t('attribute', 'Creation'),
+			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
 		/*
 			'Profile' => 'Profile',
@@ -136,6 +159,32 @@ class MemberProfile extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$defaultLang = OmmuLanguages::getDefault('code');
+		if(isset(Yii::app()->session['language']))
+			$language = Yii::app()->session['language'];
+		else 
+			$language = $defaultLang;
+		
+		$criteria->with = array(
+			'title' => array(
+				'alias'=>'title',
+				'select'=>$language,
+			),
+			'description' => array(
+				'alias'=>'description',
+				'select'=>$language,
+			),
+			'creation' => array(
+				'alias'=>'creation',
+				'select'=>'displayname'
+			),
+			'modified' => array(
+				'alias'=>'modified',
+				'select'=>'displayname'
+			),
+		);
 
 		$criteria->compare('t.profile_id',$this->profile_id);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish')
@@ -151,6 +200,7 @@ class MemberProfile extends CActiveRecord
 		$criteria->compare('t.profile_name',strtolower($this->profile_name),true);
 		$criteria->compare('t.profile_desc',strtolower($this->profile_desc),true);
 		$criteria->compare('t.multiple_user',$this->multiple_user);
+		$criteria->compare('t.user_limit',$this->user_limit);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
 		if(isset($_GET['creation']))
@@ -163,6 +213,11 @@ class MemberProfile extends CActiveRecord
 			$criteria->compare('t.modified_id',$_GET['modified']);
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
+		
+		$criteria->compare('title.'.$language,strtolower($this->title), true);
+		$criteria->compare('description.'.$language,strtolower($this->description), true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['MemberProfile_sort']))
 			$criteria->order = 't.profile_id DESC';
@@ -198,6 +253,7 @@ class MemberProfile extends CActiveRecord
 			$this->defaultColumns[] = 'profile_name';
 			$this->defaultColumns[] = 'profile_desc';
 			$this->defaultColumns[] = 'multiple_user';
+			$this->defaultColumns[] = 'user_limit';
 			$this->defaultColumns[] = 'creation_date';
 			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = 'modified_date';
@@ -224,36 +280,27 @@ class MemberProfile extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if(!isset($_GET['type'])) {
-				$this->defaultColumns[] = array(
-					'name' => 'publish',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->profile_id)), $data->publish, 1)',
-					'htmlOptions' => array(
-						'class' => 'center',
-					),
-					'filter'=>array(
-						1=>Yii::t('phrase', 'Yes'),
-						0=>Yii::t('phrase', 'No'),
-					),
-					'type' => 'raw',
-				);
-			}
-			$this->defaultColumns[] = 'profile_name';
-			$this->defaultColumns[] = 'profile_desc';
-			if(!isset($_GET['type'])) {
-				$this->defaultColumns[] = array(
-					'name' => 'multiple_user',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("multiple_user",array("id"=>$data->profile_id)), $data->multiple_user, 1)',
-					'htmlOptions' => array(
-						'class' => 'center',
-					),
-					'filter'=>array(
-						1=>Yii::t('phrase', 'Yes'),
-						0=>Yii::t('phrase', 'No'),
-					),
-					'type' => 'raw',
-				);
-			}
+			$this->defaultColumns[] = array(
+				'name' => 'title',
+				'value' => 'Phrase::trans($data->profile_name)',
+			);
+			/*
+			$this->defaultColumns[] = array(
+				'name' => 'description',
+				'value' => 'Phrase::trans($data->profile_desc)',
+			);
+			*/
+			$this->defaultColumns[] = array(
+				'name' => 'user_limit',
+				'value' => '$data->user_limit',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'creation_search',
+				'value' => '$data->creation->displayname',
+			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',
 				'value' => 'Utility::dateFormat($data->creation_date)',
@@ -280,34 +327,32 @@ class MemberProfile extends CActiveRecord
 					),
 				), true),
 			);
-			$this->defaultColumns[] = 'creation_id';
-			$this->defaultColumns[] = array(
-				'name' => 'modified_date',
-				'value' => 'Utility::dateFormat($data->modified_date)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
-					'model'=>$this,
-					'attribute'=>'modified_date',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
-					//'mode'=>'datetime',
+			if(!isset($_GET['type'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'multiple_user',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("multiple_user",array("id"=>$data->profile_id)), $data->multiple_user, 1)',
 					'htmlOptions' => array(
-						'id' => 'modified_date_filter',
+						'class' => 'center',
 					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
+					'filter'=>array(
+						1=>Yii::t('phrase', 'Yes'),
+						0=>Yii::t('phrase', 'No'),
 					),
-				), true),
-			);
-			$this->defaultColumns[] = 'modified_id';
+					'type' => 'raw',
+				);
+				$this->defaultColumns[] = array(
+					'name' => 'publish',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->profile_id)), $data->publish, 1)',
+					'htmlOptions' => array(
+						'class' => 'center',
+					),
+					'filter'=>array(
+						1=>Yii::t('phrase', 'Yes'),
+						0=>Yii::t('phrase', 'No'),
+					),
+					'type' => 'raw',
+				);
+			}			
 		}
 		parent::afterConstruct();
 	}
@@ -332,68 +377,46 @@ class MemberProfile extends CActiveRecord
 	/**
 	 * before validate attributes
 	 */
-	/*
 	protected function beforeValidate() {
-		if(parent::beforeValidate()) {
-			// Create action
+		if(parent::beforeValidate()) {		
+			if($this->isNewRecord)
+				$this->creation_id = Yii::app()->user->id;	
+			else
+				$this->modified_id = Yii::app()->user->id;
 		}
 		return true;
 	}
-	*/
-
-	/**
-	 * after validate attributes
-	 */
-	/*
-	protected function afterValidate()
-	{
-		parent::afterValidate();
-			// Create action
-		return true;
-	}
-	*/
 	
 	/**
 	 * before save attributes
 	 */
-	/*
 	protected function beforeSave() {
 		if(parent::beforeSave()) {
-		}
-		return true;	
-	}
-	*/
-	
-	/**
-	 * After save attributes
-	 */
-	/*
-	protected function afterSave() {
-		parent::afterSave();
-		// Create action
-	}
-	*/
+			if($this->isNewRecord) {
+				$location = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id);
+				$title=new OmmuSystemPhrase;
+				$title->location = $location.'_title';
+				$title->en_us = $this->title;
+				if($title->save())
+					$this->profile_name = $title->phrase_id;
 
-	/**
-	 * Before delete attributes
-	 */
-	/*
-	protected function beforeDelete() {
-		if(parent::beforeDelete()) {
-			// Create action
+				$desc=new OmmuSystemPhrase;
+				$desc->location = $location.'_description';
+				$desc->en_us = $this->description;
+				if($desc->save())
+					$this->profile_desc = $desc->phrase_id;
+				
+			} else {
+				$title = OmmuSystemPhrase::model()->findByPk($this->profile_name);
+				$title->en_us = $this->title;
+				$title->save();
+
+				$desc = OmmuSystemPhrase::model()->findByPk($this->profile_desc);
+				$desc->en_us = $this->description;
+				$desc->save();
+			}
 		}
 		return true;
 	}
-	*/
-
-	/**
-	 * After delete attributes
-	 */
-	/*
-	protected function afterDelete() {
-		parent::afterDelete();
-		// Create action
-	}
-	*/
 
 }

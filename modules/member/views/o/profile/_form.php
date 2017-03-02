@@ -13,6 +13,19 @@
  * @contect (+62)856-299-4114
  *
  */
+
+	$cs = Yii::app()->getClientScript();
+$js=<<<EOP
+	$('#MemberProfile_multiple_user').live('change', function() {
+		var id = $(this).prop('checked');		
+		if(id == true) {
+			$('div#user-limit').slideDown();
+		} else {
+			$('div#user-limit').slideUp();
+		}
+	});
+EOP;
+	$cs->registerScript('user-limit', $js, CClientScript::POS_END);
 ?>
 
 <?php $form=$this->beginWidget('application.components.system.OActiveForm', array(
@@ -21,104 +34,68 @@
 	//'htmlOptions' => array('enctype' => 'multipart/form-data')
 )); ?>
 
-<?php //begin.Messages ?>
-<div id="ajax-message">
-	<?php echo $form->errorSummary($model); ?>
-</div>
-<?php //begin.Messages ?>
-
-<fieldset>
-
-	<div class="clearfix publish">
-		<?php echo $form->labelEx($model,'publish'); ?>
-		<div class="desc">
-			<?php echo $form->checkBox($model,'publish'); ?>
-			<?php echo $form->labelEx($model,'publish'); ?>
-			<?php echo $form->error($model,'publish'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
-		</div>
-	</div>
-
-	<div class="clearfix">
-		<?php echo $form->labelEx($model,'profile_name'); ?>
-		<div class="desc">
-			<?php echo $form->textField($model,'profile_name',array('size'=>11,'maxlength'=>11)); ?>
-			<?php echo $form->error($model,'profile_name'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
-		</div>
-	</div>
-
-	<div class="clearfix">
-		<?php echo $form->labelEx($model,'profile_desc'); ?>
-		<div class="desc">
-			<?php echo $form->textField($model,'profile_desc',array('size'=>11,'maxlength'=>11)); ?>
-			<?php echo $form->error($model,'profile_desc'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
-		</div>
-	</div>
-
-	<div class="clearfix publish">
-		<?php echo $form->labelEx($model,'multiple_user'); ?>
-		<div class="desc">
-			<?php echo $form->checkBox($model,'multiple_user'); ?>
-			<?php echo $form->labelEx($model,'multiple_user'); ?>
-			<?php echo $form->error($model,'multiple_user'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
-		</div>
-	</div>
-
-	<div class="clearfix">
-		<?php echo $form->labelEx($model,'creation_date'); ?>
-		<div class="desc">
-			<?php echo $form->textField($model,'creation_date'); ?>
-			<?php echo $form->error($model,'creation_date'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
-		</div>
-	</div>
-
-	<div class="clearfix">
-		<?php echo $form->labelEx($model,'creation_id'); ?>
-		<div class="desc">
-			<?php echo $form->textField($model,'creation_id',array('size'=>11,'maxlength'=>11)); ?>
-			<?php echo $form->error($model,'creation_id'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
-		</div>
-	</div>
-
-	<div class="clearfix">
-		<?php echo $form->labelEx($model,'modified_date'); ?>
-		<div class="desc">
-			<?php echo $form->textField($model,'modified_date'); ?>
-			<?php echo $form->error($model,'modified_date'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
-		</div>
-	</div>
-
-	<div class="clearfix">
-		<?php echo $form->labelEx($model,'modified_id'); ?>
-		<div class="desc">
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
-			<?php echo $form->error($model,'modified_id'); ?>
-			<?php /*<div class="small-px silent"></div>*/?>
-		</div>
-	</div>
-
-	<div class="submit clearfix">
-		<label>&nbsp;</label>
-		<div class="desc">
-			<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('phrase', 'Create') : Yii::t('phrase', 'Save'), array('onclick' => 'setEnableSave()')); ?>
-		</div>
-	</div>
-
-</fieldset>
-<?php /*
 <div class="dialog-content">
+	<fieldset>
+		<?php //begin.Messages ?>
+		<div id="ajax-message">
+			<?php echo $form->errorSummary($model); ?>
+		</div>
+		<?php //begin.Messages ?>
+
+		<div class="clearfix">
+			<?php echo $form->labelEx($model,'title'); ?>
+			<div class="desc">
+				<?php 
+				$model->title = Phrase::trans($model->profile_name);
+				echo $form->textField($model,'title',array('maxlength'=>32,'class'=>'span-8')); ?>
+				<?php echo $form->error($model,'title'); ?>
+			</div>
+		</div>
+
+		<div class="clearfix">
+			<?php echo $form->labelEx($model,'description'); ?>
+			<div class="desc">
+				<?php 
+				$model->description = Phrase::trans($model->profile_desc);
+				echo $form->textArea($model,'description',array('maxlength'=>128,'class'=>'span-11 smaller')); ?>
+				<?php echo $form->error($model,'description'); ?>
+			</div>
+		</div>
+
+		<div class="clearfix publish">
+			<?php echo $form->labelEx($model,'multiple_user'); ?>
+			<div class="desc">
+				<?php echo $form->checkBox($model,'multiple_user'); ?>
+				<?php echo $form->labelEx($model,'multiple_user'); ?>
+				<?php echo $form->error($model,'multiple_user'); ?>
+				<?php /*<div class="small-px silent"></div>*/?>
+			</div>
+		</div>
+
+		<div id="user-limit" class="clearfix <?php echo $model->multiple_user == 0 ? 'hide' : '';?>">
+			<?php echo $form->labelEx($model,'user_limit'); ?>
+			<div class="desc">
+				<?php echo $form->textField($model,'user_limit',array('maxlength'=>5,'class'=>'span-4')); ?>
+				<?php echo $form->error($model,'user_limit'); ?>
+			</div>
+		</div>
+
+		<div class="clearfix publish">
+			<?php echo $form->labelEx($model,'publish'); ?>
+			<div class="desc">
+				<?php echo $form->checkBox($model,'publish'); ?>
+				<?php echo $form->labelEx($model,'publish'); ?>
+				<?php echo $form->error($model,'publish'); ?>
+				<?php /*<div class="small-px silent"></div>*/?>
+			</div>
+		</div>
+		
+	</fieldset>
 </div>
 <div class="dialog-submit">
 	<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('phrase', 'Create') : Yii::t('phrase', 'Save') ,array('onclick' => 'setEnableSave()')); ?>
 	<?php echo CHtml::button(Yii::t('phrase', 'Cancel'), array('id'=>'closed')); ?>
 </div>
-*/?>
 <?php $this->endWidget(); ?>
 
 
