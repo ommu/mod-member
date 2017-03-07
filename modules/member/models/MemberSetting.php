@@ -30,6 +30,11 @@
  * @property string $meta_description
  * @property integer $default_level_id
  * @property string $form_custom_insert_field
+ * @property integer $photo_limit
+ * @property integer $photo_resize
+ * @property string $photo_resize_size
+ * @property string $photo_view_size
+ * @property string $photo_file_type
  * @property string $modified_date
  * @property string $modified_id
  */
@@ -67,15 +72,16 @@ class MemberSetting extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('license, permission, meta_keyword, meta_description, default_level_id', 'required'),
-			array('permission, default_level_id', 'numerical', 'integerOnly'=>true),
+			array('license, permission, meta_keyword, meta_description, default_level_id, photo_limit, photo_resize, photo_file_type', 'required'),
+			array('permission, default_level_id, photo_limit, photo_resize', 'numerical', 'integerOnly'=>true),
 			array('license', 'length', 'max'=>32),
 			array('modified_id', 'length', 'max'=>11),
 			array('default_level_id', 'length', 'max'=>5),
-			array('form_custom_insert_field', 'safe'),
+			array('photo_limit', 'length', 'max'=>2),
+			array('form_custom_insert_field, photo_resize_size, photo_view_size', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, license, permission, meta_keyword, meta_description, default_level_id, form_custom_insert_field, modified_date, modified_id,
+			array('id, license, permission, meta_keyword, meta_description, default_level_id, form_custom_insert_field, photo_limit, photo_resize, photo_resize_size, photo_view_size, photo_file_type, modified_date, modified_id,
 				modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -105,6 +111,11 @@ class MemberSetting extends CActiveRecord
 			'meta_description' => Yii::t('attribute', 'Meta Description'),
 			'default_level_id' => Yii::t('attribute', 'Default User level'),
 			'form_custom_insert_field' => Yii::t('attribute', 'Custom Insert Form'),
+			'photo_limit' => Yii::t('attribute', 'Cover Limit'),
+			'photo_resize' => Yii::t('attribute', 'Cover Resize'),
+			'photo_resize_size' => Yii::t('attribute', 'Cover Resize Size'),
+			'photo_view_size' => Yii::t('attribute', 'Cover View Size'),
+			'photo_file_type' => Yii::t('attribute', 'Cover File Type'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
@@ -154,6 +165,11 @@ class MemberSetting extends CActiveRecord
 		$criteria->compare('t.meta_description',strtolower($this->meta_description),true);
 		$criteria->compare('t.default_level_id',$this->default_level_id);
 		$criteria->compare('t.form_custom_insert_field',strtolower($this->form_custom_insert_field),true);
+		$criteria->compare('t.photo_limit',$this->photo_limit);
+		$criteria->compare('t.photo_resize',$this->photo_resize);
+		$criteria->compare('t.photo_resize_size',strtolower($this->photo_resize_size),true);
+		$criteria->compare('t.photo_view_size',strtolower($this->photo_view_size),true);
+		$criteria->compare('t.photo_file_type',strtolower($this->photo_file_type),true);
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
 		if(isset($_GET['modified']))
@@ -199,6 +215,11 @@ class MemberSetting extends CActiveRecord
 			$this->defaultColumns[] = 'meta_description';
 			$this->defaultColumns[] = 'default_level_id';
 			$this->defaultColumns[] = 'form_custom_insert_field';
+			$this->defaultColumns[] = 'photo_limit';
+			$this->defaultColumns[] = 'photo_resize';
+			$this->defaultColumns[] = 'photo_resize_size';
+			$this->defaultColumns[] = 'photo_view_size';
+			$this->defaultColumns[] = 'photo_file_type';
 			$this->defaultColumns[] = 'modified_date';
 			$this->defaultColumns[] = 'modified_id';
 		}
@@ -229,6 +250,11 @@ class MemberSetting extends CActiveRecord
 			$this->defaultColumns[] = 'meta_description';
 			$this->defaultColumns[] = 'default_level_id';
 			$this->defaultColumns[] = 'form_custom_insert_field';
+			$this->defaultColumns[] = 'photo_limit';
+			$this->defaultColumns[] = 'photo_resize';
+			$this->defaultColumns[] = 'photo_resize_size';
+			$this->defaultColumns[] = 'photo_view_size';
+			$this->defaultColumns[] = 'photo_file_type';
 			$this->defaultColumns[] = 'modified_date';
 			$this->defaultColumns[] = array(
 				'name' => 'modified_search',
@@ -286,8 +312,23 @@ class MemberSetting extends CActiveRecord
 	 * before validate attributes
 	 */
 	protected function beforeValidate() {
-		if(parent::beforeValidate()) {		
+		if(parent::beforeValidate()) {
 			$this->modified_id = Yii::app()->user->id;
+			
+			if($this->photo_limit != '' && $this->photo_limit <= 0)
+				$this->addError('photo_limit', Yii::t('phrase', 'Photo Limit harus lebih besar dari 0'));
+			
+			if($this->photo_resize == 1 && ($this->photo_resize_size['width'] == '' || $this->photo_resize_size['height'] == ''))
+				$this->addError('photo_resize_size', Yii::t('phrase', 'Media Resize cannot be blank.'));
+			
+			if($this->photo_view_size['large']['width'] == '' || $this->photo_view_size['large']['height'] == '')
+				$this->addError('photo_view_size[large]', Yii::t('phrase', 'Large Size cannot be blank.'));
+			
+			if($this->photo_view_size['medium']['width'] == '' || $this->photo_view_size['medium']['height'] == '')
+				$this->addError('photo_view_size[medium]', Yii::t('phrase', 'Medium Size cannot be blank.'));
+			
+			if($this->photo_view_size['small']['width'] == '' || $this->photo_view_size['small']['height'] == '')
+				$this->addError('photo_view_size[small]', Yii::t('phrase', 'Small Size cannot be blank.'));
 		}
 		return true;
 	}
@@ -298,6 +339,9 @@ class MemberSetting extends CActiveRecord
 	protected function beforeSave() {
 		if(parent::beforeSave()) {
 			$this->form_custom_insert_field = serialize($this->form_custom_insert_field);
+			$this->photo_resize_size = serialize($this->photo_resize_size);
+			$this->photo_view_size = serialize($this->photo_view_size);
+			$this->photo_file_type = serialize(Utility::formatFileType($this->photo_file_type));
 		}
 		return true;
 	}

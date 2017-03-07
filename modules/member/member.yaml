@@ -30,6 +30,11 @@ plugin_menu		:
 		urlPath: {url: o/setting/edit, attr: -, icon: -}
 
 content_menu	:
+# controller o/admin
+	- urlTitle: Add Member
+		urlRules: {member, o/admin, manage, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: add, attr: -, icon: -}
+        
 # controller o/profile
 	- urlTitle: Add Profile
 		urlRules: {member, o/profile, manage, siteType: 0,1, userLevel: 1,2}

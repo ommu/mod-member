@@ -28,11 +28,11 @@
 	<fieldset>
 		<?php //begin.Messages ?>
 		<?php /*
-		*/?>
 		<div id="ajax-message">
 			<?php echo $form->errorSummary($model); ?>
 			<?php echo $form->errorSummary($users); ?>
 		</div>
+		*/?>
 		<?php //begin.Messages ?>
 
 		<div class="clearfix">
