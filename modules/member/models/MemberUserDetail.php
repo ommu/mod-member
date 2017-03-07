@@ -35,6 +35,9 @@
 class MemberUserDetail extends CActiveRecord
 {
 	public $defaultColumns = array();
+	
+	// Variable Search
+	public $updated_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -63,13 +66,14 @@ class MemberUserDetail extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('publish, member_user_id, updated_id', 'required'),
+			array('publish, member_user_id', 'required'),
 			array('publish', 'numerical', 'integerOnly'=>true),
 			array('member_user_id, updated_id', 'length', 'max'=>11),
-			array('updated_date', 'safe'),
+			array('', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, publish, member_user_id, updated_date, updated_id', 'safe', 'on'=>'search'),
+			array('id, publish, member_user_id, updated_date, updated_id,
+				updated_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -81,7 +85,8 @@ class MemberUserDetail extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'memberUser_relation' => array(self::BELONGS_TO, 'OmmuMemberUser', 'member_user_id'),
+			'user' => array(self::BELONGS_TO, 'MemberUser', 'member_user_id'),
+			'updated' => array(self::BELONGS_TO, 'Users', 'updated_id'),
 		);
 	}
 
@@ -96,6 +101,7 @@ class MemberUserDetail extends CActiveRecord
 			'member_user_id' => Yii::t('attribute', 'Member User'),
 			'updated_date' => Yii::t('attribute', 'Updated Date'),
 			'updated_id' => Yii::t('attribute', 'Updated'),
+			'updated_search' => Yii::t('attribute', 'Updated'),
 		);
 		/*
 			'ID' => 'ID',
@@ -124,6 +130,14 @@ class MemberUserDetail extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'updated' => array(
+				'alias'=>'updated',
+				'select'=>'displayname'
+			),
+		);
 
 		$criteria->compare('t.id',strtolower($this->id),true);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish')
@@ -143,6 +157,8 @@ class MemberUserDetail extends CActiveRecord
 		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		$criteria->compare('t.updated_id',strtolower($this->updated_id),true);
+		
+		$criteria->compare('updated.displayname',strtolower($this->updated_search), true);
 
 		if(!isset($_GET['MemberUserDetail_sort']))
 			$criteria->order = 't.id DESC';
@@ -188,33 +204,15 @@ class MemberUserDetail extends CActiveRecord
 	 */
 	protected function afterConstruct() {
 		if(count($this->defaultColumns) == 0) {
-			/*
-			$this->defaultColumns[] = array(
-				'class' => 'CCheckBoxColumn',
-				'name' => 'id',
-				'selectableRows' => 2,
-				'checkBoxHtmlOptions' => array('name' => 'trash_id[]')
-			);
-			*/
 			$this->defaultColumns[] = array(
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if(!isset($_GET['type'])) {
-				$this->defaultColumns[] = array(
-					'name' => 'publish',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->id)), $data->publish, 1)',
-					'htmlOptions' => array(
-						'class' => 'center',
-					),
-					'filter'=>array(
-						1=>Yii::t('phrase', 'Yes'),
-						0=>Yii::t('phrase', 'No'),
-					),
-					'type' => 'raw',
-				);
-			}
 			$this->defaultColumns[] = 'member_user_id';
+			$this->defaultColumns[] = array(
+				'name' => 'updated_search',
+				'value' => '$data->updated->displayname',
+			);
 			$this->defaultColumns[] = array(
 				'name' => 'updated_date',
 				'value' => 'Utility::dateFormat($data->updated_date)',
@@ -241,7 +239,18 @@ class MemberUserDetail extends CActiveRecord
 					),
 				), true),
 			);
-			$this->defaultColumns[] = 'updated_id';
+			$this->defaultColumns[] = array(
+				'name' => 'publish',
+				'value' => '$data->publish == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\')',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter'=>array(
+					1=>Yii::t('phrase', 'Yes'),
+					0=>Yii::t('phrase', 'No'),
+				),
+				'type' => 'raw',
+			);
 		}
 		parent::afterConstruct();
 	}
@@ -262,72 +271,5 @@ class MemberUserDetail extends CActiveRecord
 			return $model;			
 		}
 	}
-
-	/**
-	 * before validate attributes
-	 */
-	/*
-	protected function beforeValidate() {
-		if(parent::beforeValidate()) {
-			// Create action
-		}
-		return true;
-	}
-	*/
-
-	/**
-	 * after validate attributes
-	 */
-	/*
-	protected function afterValidate()
-	{
-		parent::afterValidate();
-			// Create action
-		return true;
-	}
-	*/
-	
-	/**
-	 * before save attributes
-	 */
-	/*
-	protected function beforeSave() {
-		if(parent::beforeSave()) {
-		}
-		return true;	
-	}
-	*/
-	
-	/**
-	 * After save attributes
-	 */
-	/*
-	protected function afterSave() {
-		parent::afterSave();
-		// Create action
-	}
-	*/
-
-	/**
-	 * Before delete attributes
-	 */
-	/*
-	protected function beforeDelete() {
-		if(parent::beforeDelete()) {
-			// Create action
-		}
-		return true;
-	}
-	*/
-
-	/**
-	 * After delete attributes
-	 */
-	/*
-	protected function afterDelete() {
-		parent::afterDelete();
-		// Create action
-	}
-	*/
 
 }
