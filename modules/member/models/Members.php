@@ -59,6 +59,7 @@ class Members extends CActiveRecord
 	public $defaultColumns = array();
 	
 	// Variable Search
+	public $member_search;
 	public $user_search;
 	public $creation_search;
 	public $modified_search;
@@ -98,7 +99,7 @@ class Members extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('member_id, publish, profile_id, member_header, member_photo, short_biography, creation_date, creation_id, modified_date, modified_id, 
-				user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
+				member_search, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -150,6 +151,7 @@ class Members extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'member_search' => Yii::t('attribute', 'Member'),
 			'user_search' => Yii::t('attribute', 'Users'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
@@ -233,6 +235,7 @@ class Members extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
+		$criteria->compare('view.member_name',strtolower($this->member_search), true);
 		$criteria->compare('view.users',$this->user_search);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
@@ -305,6 +308,10 @@ class Members extends CActiveRecord
 					'filter'=>MemberProfile::getProfile(),
 				);		
 			}
+			$this->defaultColumns[] = array(
+				'name' => 'member_search',
+				'value' => '$data->view->member_name',
+			);
 			//$this->defaultColumns[] = 'member_header';
 			//$this->defaultColumns[] = 'member_photo';
 			//$this->defaultColumns[] = 'short_biography';

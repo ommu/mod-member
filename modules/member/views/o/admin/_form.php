@@ -28,10 +28,11 @@
 	<fieldset>
 		<?php //begin.Messages ?>
 		<?php /*
+		*/?>
 		<div id="ajax-message">
 			<?php echo $form->errorSummary($model); ?>
+			<?php echo $form->errorSummary($users); ?>
 		</div>
-		*/?>
 		<?php //begin.Messages ?>
 
 		<div class="clearfix">
@@ -41,17 +42,18 @@
 					<?php //echo $form->textField($model,'profile_id');
 					$profile = MemberProfile::getProfile();
 					if(!empty($profile))
-						echo $form->dropDownList($model,'profile_id', $profile);
+						echo $form->dropDownList($model,'profile_id', $profile, array('prompt'=>Yii::t('phrase', 'Select Profile')));
 					else
 						echo $form->dropDownList($model,'profile_id', array('prompt'=>Yii::t('phrase', 'Select Profile')));?>
 				<?php } else {?>
-					<strong><?php echo Phrase::trans($data->profile_name);?></strong>
+					<strong><?php echo Phrase::trans($model->profile->profile_name);?></strong>
 				<?php }?>
 				<?php echo $form->error($model,'profile_id'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
 
+		<?php if(!$model->isNewRecord || ($model->isNewRecord && in_array('member_header', $form_custom))) {?>
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'member_header'); ?>
 			<div class="desc">
@@ -60,7 +62,9 @@
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
+		<?php }?>
 
+		<?php if(!$model->isNewRecord || ($model->isNewRecord && in_array('member_photo', $form_custom))) {?>
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'member_photo'); ?>
 			<div class="desc">
@@ -69,7 +73,9 @@
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
+		<?php }?>
 
+		<?php if(!$model->isNewRecord || ($model->isNewRecord && in_array('short_biography', $form_custom))) {?>
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'short_biography'); ?>
 			<div class="desc">
@@ -78,16 +84,88 @@
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
+		<?php }?>
 
-		<div class="clearfix publish">
-			<?php echo $form->labelEx($model,'publish'); ?>
+		<div class="clearfix">
+			<?php echo $form->labelEx($users,'displayname'); ?>
 			<div class="desc">
-				<?php echo $form->checkBox($model,'publish'); ?>
-				<?php echo $form->labelEx($model,'publish'); ?>
-				<?php echo $form->error($model,'publish'); ?>
+				<?php echo $form->textField($users,'displayname',array('maxlength'=>64,'class'=>'span-7')); ?>
+				<?php echo $form->error($users,'displayname'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
+
+		<?php if($setting->signup_username == 1) {?>
+		<div class="clearfix">
+			<label><?php echo $users->getAttributeLabel('username')?> <span class="required">*</span></label>
+			<div class="desc">
+				<?php echo $form->textField($users,'username',array('maxlength'=>32,'class'=>'span-7')); ?>
+				<?php echo $form->error($users,'username'); ?>
+			</div>
+		</div>
+		<?php }?>
+
+		<div class="clearfix">
+			<?php echo $form->labelEx($users,'email'); ?>
+			<div class="desc">
+				<?php echo $form->textField($users,'email',array('maxlength'=>32,'class'=>'span-7')); ?>
+				<?php echo $form->error($users,'email'); ?>
+				<?php /*<div class="small-px silent"></div>*/?>
+			</div>
+		</div>
+
+		<?php if($setting->signup_photo == 1) {?>
+		<div class="clearfix">
+			<?php echo $form->labelEx($users,'photos'); ?>
+			<div class="desc">
+				<?php echo $form->textArea($users,'photos',array('rows'=>6, 'cols'=>50, 'class'=>'span-10 smaller')); ?>
+				<?php echo $form->error($users,'photos'); ?>
+				<div class="small-px silent"><?php echo Yii::t('phrase', 'Inputkan alamat url photo Anda.<br/>contoh: http://ommu.co/putrasudaryanto.jpg');?></div>
+			</div>
+		</div>
+		<?php }?>
+		
+		<?php if(($users->isNewRecord && $setting->signup_random == 0) || !$users->isNewRecord) {?>
+		<div class="clearfix">
+			<label><?php echo $users->getAttributeLabel('newPassword')?> <?php echo $users->isNewRecord ? '<span class="required">*</span>' : '';?></label>
+			<div class="desc">
+				<?php echo $form->passwordField($users,'newPassword',array('maxlength'=>32,'class'=>'span-7')); ?>
+				<?php echo $form->error($users,'newPassword'); ?>
+			</div>
+		</div>
+
+		<div class="clearfix">
+			<label><?php echo $users->getAttributeLabel('confirmPassword')?> <?php echo $users->isNewRecord ? '<span class="required">*</span>' : '';?></label>
+			<div class="desc">
+				<?php echo $form->passwordField($users,'confirmPassword',array('maxlength'=>32,'class'=>'span-7')); ?>
+				<?php echo $form->error($users,'confirmPassword'); ?>
+			</div>
+		</div>
+		<?php }?>
+
+		<?php if(($users->isNewRecord && $setting->signup_approve == 0) || !$users->isNewRecord) {?>
+		<div class="clearfix publish">
+			<?php echo $form->labelEx($users,'enabled'); ?>
+			<div class="desc">
+				<?php echo $form->checkBox($users,'enabled'); ?>
+				<?php echo $form->labelEx($users,'enabled'); ?>
+				<?php echo $form->error($users,'enabled'); ?>
+				<?php /*<div class="small-px silent"></div>*/?>
+			</div>
+		</div>
+		<?php }?>
+
+		<?php if(($users->isNewRecord && $setting->signup_verifyemail == 1) || !$users->isNewRecord) {?>
+		<div class="clearfix publish">
+			<?php echo $form->labelEx($users,'verified'); ?>
+			<div class="desc">
+				<?php echo $form->checkBox($users,'verified'); ?>
+				<?php echo $form->labelEx($users,'verified'); ?>
+				<?php echo $form->error($users,'verified'); ?>
+				<?php /*<div class="small-px silent"></div>*/?>
+			</div>
+		</div>
+		<?php }?>
 
 	</fieldset>
 </div>

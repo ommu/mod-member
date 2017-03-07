@@ -28,6 +28,8 @@
  * @property integer $permission
  * @property string $meta_keyword
  * @property string $meta_description
+ * @property integer $default_level_id
+ * @property string $form_custom_insert_field
  * @property string $modified_date
  * @property string $modified_id
  */
@@ -65,14 +67,15 @@ class MemberSetting extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('license, permission, meta_keyword, meta_description', 'required'),
-			array('permission', 'numerical', 'integerOnly'=>true),
+			array('license, permission, meta_keyword, meta_description, default_level_id', 'required'),
+			array('permission, default_level_id', 'numerical', 'integerOnly'=>true),
 			array('license', 'length', 'max'=>32),
 			array('modified_id', 'length', 'max'=>11),
-			array('modified_date', 'safe'),
+			array('default_level_id', 'length', 'max'=>5),
+			array('form_custom_insert_field', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, license, permission, meta_keyword, meta_description, modified_date, modified_id,
+			array('id, license, permission, meta_keyword, meta_description, default_level_id, form_custom_insert_field, modified_date, modified_id,
 				modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -100,6 +103,8 @@ class MemberSetting extends CActiveRecord
 			'permission' => Yii::t('attribute', 'Permission'),
 			'meta_keyword' => Yii::t('attribute', 'Meta Keyword'),
 			'meta_description' => Yii::t('attribute', 'Meta Description'),
+			'default_level_id' => Yii::t('attribute', 'Default User level'),
+			'form_custom_insert_field' => Yii::t('attribute', 'Custom Insert Form'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
@@ -147,6 +152,8 @@ class MemberSetting extends CActiveRecord
 		$criteria->compare('t.permission',$this->permission);
 		$criteria->compare('t.meta_keyword',strtolower($this->meta_keyword),true);
 		$criteria->compare('t.meta_description',strtolower($this->meta_description),true);
+		$criteria->compare('t.default_level_id',$this->default_level_id);
+		$criteria->compare('t.form_custom_insert_field',strtolower($this->form_custom_insert_field),true);
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
 		if(isset($_GET['modified']))
@@ -190,6 +197,8 @@ class MemberSetting extends CActiveRecord
 			$this->defaultColumns[] = 'permission';
 			$this->defaultColumns[] = 'meta_keyword';
 			$this->defaultColumns[] = 'meta_description';
+			$this->defaultColumns[] = 'default_level_id';
+			$this->defaultColumns[] = 'form_custom_insert_field';
 			$this->defaultColumns[] = 'modified_date';
 			$this->defaultColumns[] = 'modified_id';
 		}
@@ -218,6 +227,8 @@ class MemberSetting extends CActiveRecord
 			$this->defaultColumns[] = 'permission';
 			$this->defaultColumns[] = 'meta_keyword';
 			$this->defaultColumns[] = 'meta_description';
+			$this->defaultColumns[] = 'default_level_id';
+			$this->defaultColumns[] = 'form_custom_insert_field';
 			$this->defaultColumns[] = 'modified_date';
 			$this->defaultColumns[] = array(
 				'name' => 'modified_search',
@@ -277,6 +288,16 @@ class MemberSetting extends CActiveRecord
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {		
 			$this->modified_id = Yii::app()->user->id;
+		}
+		return true;
+	}
+	
+	/**
+	 * before save attributes
+	 */
+	protected function beforeSave() {
+		if(parent::beforeSave()) {
+			$this->form_custom_insert_field = serialize($this->form_custom_insert_field);
 		}
 		return true;
 	}

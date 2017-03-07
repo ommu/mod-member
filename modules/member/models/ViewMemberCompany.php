@@ -1,11 +1,11 @@
 <?php
 /**
- * ViewMembers
+ * ViewMemberCompany
  * version: 0.0.1
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @created date 7 March 2017, 22:46 WIB
+ * @created date 8 March 2017, 02:08 WIB
  * @link https://github.com/ommu/Members
  * @contact (+62)856-299-4114
  *
@@ -20,16 +20,14 @@
  *
  * --------------------------------------------------------------------------------------
  *
- * This is the model class for table "_view_members".
+ * This is the model class for table "_view_member_company".
  *
- * The followings are the available columns in table '_view_members':
+ * The followings are the available columns in table '_view_member_company':
  * @property string $member_id
- * @property string $member_name
- * @property integer $user_id
- * @property string $users
- * @property string $user_all
+ * @property string $company_id
+ * @property string $company_name
  */
-class ViewMembers extends CActiveRecord
+class ViewMemberCompany extends CActiveRecord
 {
 	public $defaultColumns = array();
 
@@ -37,7 +35,7 @@ class ViewMembers extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ViewMembers the static model class
+	 * @return ViewMemberCompany the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -49,7 +47,7 @@ class ViewMembers extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '_view_members';
+		return '_view_member_company';
 	}
 
 	/**
@@ -68,14 +66,12 @@ class ViewMembers extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('member_id, user_id', 'numerical', 'integerOnly'=>true),
-			array('member_id, user_id', 'length', 'max'=>11),
-			array('users', 'length', 'max'=>23),
-			array('user_all', 'length', 'max'=>21),
-			array('member_name', 'safe'),
+			array('member_id, company_id', 'required'),
+			array('member_id, company_id', 'length', 'max'=>11),
+			array('company_name', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('member_id, member_name, user_id, users, user_all', 'safe', 'on'=>'search'),
+			array('member_id, company_id, company_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -87,7 +83,6 @@ class ViewMembers extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 		);
 	}
 
@@ -98,15 +93,13 @@ class ViewMembers extends CActiveRecord
 	{
 		return array(
 			'member_id' => Yii::t('attribute', 'Member'),
-			'member_name' => Yii::t('attribute', 'Member Name'),
-			'user_id' => Yii::t('attribute', 'User'),
-			'users' => Yii::t('attribute', 'Users'),
-			'user_all' => Yii::t('attribute', 'User All'),
+			'company_id' => Yii::t('attribute', 'Company'),
+			'company_name' => Yii::t('attribute', 'Company Name'),
 		);
 		/*
 			'Member' => 'Member',
-			'Users' => 'Users',
-			'User All' => 'User All',
+			'Company' => 'Company',
+			'Company Name' => 'Company Name',
 		
 		*/
 	}
@@ -129,13 +122,11 @@ class ViewMembers extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.member_id',$this->member_id);
-		$criteria->compare('t.member_name',strtolower($this->member_name),true);
-		$criteria->compare('t.user_id',$this->user_id);
-		$criteria->compare('t.users',$this->users);
-		$criteria->compare('t.user_all',$this->user_all);
+		$criteria->compare('t.member_id',strtolower($this->member_id),true);
+		$criteria->compare('t.company_id',strtolower($this->company_id),true);
+		$criteria->compare('t.company_name',strtolower($this->company_name),true);
 
-		if(!isset($_GET['ViewMembers_sort']))
+		if(!isset($_GET['ViewMemberCompany_sort']))
 			$criteria->order = 't.member_id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -165,10 +156,8 @@ class ViewMembers extends CActiveRecord
 			}
 		} else {
 			$this->defaultColumns[] = 'member_id';
-			$this->defaultColumns[] = 'member_name';
-			$this->defaultColumns[] = 'user_id';
-			$this->defaultColumns[] = 'users';
-			$this->defaultColumns[] = 'user_all';
+			$this->defaultColumns[] = 'company_id';
+			$this->defaultColumns[] = 'company_name';
 		}
 
 		return $this->defaultColumns;
@@ -184,10 +173,8 @@ class ViewMembers extends CActiveRecord
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
 			//$this->defaultColumns[] = 'member_id';
-			$this->defaultColumns[] = 'member_name';
-			$this->defaultColumns[] = 'user_id';
-			$this->defaultColumns[] = 'users';
-			$this->defaultColumns[] = 'user_all';
+			$this->defaultColumns[] = 'company_id';
+			$this->defaultColumns[] = 'company_name';
 		}
 		parent::afterConstruct();
 	}

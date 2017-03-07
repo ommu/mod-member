@@ -43,6 +43,7 @@ class MemberUser extends CActiveRecord
 	
 	// Variable Search
 	public $profile_search;
+	public $member_search;
 	public $user_search;
 	public $creation_search;
 	public $modified_search;
@@ -81,7 +82,7 @@ class MemberUser extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, publish, member_id, user_id, creation_date, creation_id, modified_date, modified_id, updated_date, 
-				profile_search, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
+				profile_search, member_search, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -94,10 +95,10 @@ class MemberUser extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'member' => array(self::BELONGS_TO, 'Members', 'member_id'),
-			'details' => array(self::HAS_MANY, 'MemberUserDetail', 'member_user_id'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'details' => array(self::HAS_MANY, 'MemberUserDetail', 'member_user_id'),
 		);
 	}
 
@@ -117,6 +118,7 @@ class MemberUser extends CActiveRecord
 			'modified_id' => Yii::t('attribute', 'Modified'),
 			'updated_date' => Yii::t('attribute', 'Updated Date'),
 			'profile_search' => Yii::t('attribute', 'Profile'),
+			'member_search' => Yii::t('attribute', 'Member'),
 			'user_search' => Yii::t('attribute', 'User'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
@@ -158,6 +160,10 @@ class MemberUser extends CActiveRecord
 			'member' => array(
 				'alias'=>'member',
 				'select'=>'profile_id'
+			),
+			'member.view' => array(
+				'alias'=>'member_v',
+				'select'=>'member_name'
 			),
 			'user' => array(
 				'alias'=>'user',
@@ -208,6 +214,7 @@ class MemberUser extends CActiveRecord
 			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		
 		$criteria->compare('member.profile_id',$this->profile_search);
+		$criteria->compare('member_v.member_name',strtolower($this->member_search), true);
 		$criteria->compare('user.displayname',strtolower($this->user_search), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
@@ -279,8 +286,8 @@ class MemberUser extends CActiveRecord
 					'filter'=>MemberProfile::getProfile(),
 				);
 				$this->defaultColumns[] = array(
-					'name' => 'member_id',
-					'value' => '$data->member_id',
+					'name' => 'member_search',
+					'value' => '$data->member->view->member_name',
 				);
 			}
 			if(!isset($_GET['user'])) {

@@ -76,6 +76,37 @@
 		</div>
 	</div>
 
+	<div class="clearfix">
+		<?php echo $form->labelEx($model,'default_level_id'); ?>
+		<div class="desc">
+			<?php 
+			$userlevel = UserLevel::getUserLevel();
+			if($userlevel != null)
+				echo $form->dropDownList($model,'default_level_id', $userlevel);
+			else
+				echo $form->dropDownList($model,'default_level_id', array('prompt'=>Yii::t('phrase', 'No Parent')));?>
+			<?php echo $form->error($model,'default_level_id'); ?>
+			<?php /*<div class="small-px silent"></div>*/?>
+		</div>
+	</div>
+
+	<div class="clearfix">
+		<label><?php echo $model->getAttributeLabel('form_custom_insert_field');?></label>
+		<div class="desc">
+			<?php 				
+			$customField = array(
+				'member_header' => $member->getAttributeLabel('member_header'),
+				'member_photo' => $member->getAttributeLabel('member_photo'),
+				'short_biography' => $member->getAttributeLabel('short_biography'),
+			);
+			if(!$model->getErrors())
+				$model->form_custom_insert_field = unserialize($model->form_custom_insert_field);
+			
+			echo $form->checkBoxList($model, 'form_custom_insert_field', $customField); ?>
+			<?php echo $form->error($model,'form_custom_insert_field'); ?>
+		</div>
+	</div>
+
 	<div class="submit clearfix">
 		<label>&nbsp;</label>
 		<div class="desc">

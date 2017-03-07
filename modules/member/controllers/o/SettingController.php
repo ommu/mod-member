@@ -110,6 +110,7 @@ class SettingController extends Controller
 		$model = MemberSetting::model()->findByPk(1);
 		if($model == null)
 			$model=new MemberSetting;
+		$member=new Members;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
@@ -152,6 +153,7 @@ class SettingController extends Controller
 		$this->pageMeta = '';
 		$this->render('admin_edit',array(
 			'model'=>$model,
+			'member'=>$member,
 		));
 	}
 

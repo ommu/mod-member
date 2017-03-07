@@ -143,18 +143,45 @@ class AdminController extends Controller
 	public function actionAdd() 
 	{
 		$model=new Members;
+		$users=new Users;
+		$memberUser=new MemberUser;
+		$setting = OmmuSettings::model()->findByPk(1, array(
+			'select'=>'signup_username, signup_approve, signup_verifyemail, signup_photo, signup_random',
+		));
+		$memberSetting = MemberSetting::model()->findByPk(1, array(
+			'select'=>'default_level_id, form_custom_insert_field',
+		));
+		$form_custom_insert_field = unserialize($memberSetting->form_custom_insert_field);
+		if(empty($form_custom_insert_field))
+			$form_custom_insert_field = array();
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
+		$this->performAjaxValidation($users);
+		$this->performAjaxValidation($memberUser);
 
-		if(isset($_POST['Members'])) {
+		if(isset($_POST['Members']) && isset($_POST['Users'])) {
 			$model->attributes=$_POST['Members'];
-
-			if($model->save()) {
-				Yii::app()->user->setFlash('success', Yii::t('phrase', 'Members success created.'));
-				//$this->redirect(array('view','id'=>$model->member_id));
-				//$this->redirect(array('manage'));
-				$this->redirect(Yii::app()->controller->createUrl('manage'));
+			$users->attributes=$_POST['Users'];
+			$users->scenario = 'formAdd';
+			$memberUser->attributes=$_POST['MemberUser'];
+			
+			$users->level_id = $memberSetting->default_level_id;
+			if($users->validate())
+				$model->publish = $users->enabled;
+			
+			if($model->validate() && $users->validate()) {
+				if($model->save() && $users->save()) {
+					$memberUser->member_id = $model->member_id;
+					$memberUser->user_id = $users->user_id;
+					$memberUser->validate();
+					if($memberUser->save()) {
+						Yii::app()->user->setFlash('success', Yii::t('phrase', 'Members success created.'));
+						//$this->redirect(array('view','id'=>$model->member_id));
+						//$this->redirect(array('manage'));
+						$this->redirect(Yii::app()->controller->createUrl('manage'));						
+					}
+				}
 			}
 		}
 		
@@ -167,6 +194,9 @@ class AdminController extends Controller
 		$this->pageMeta = '';
 		$this->render('admin_add',array(
 			'model'=>$model,
+			'users'=>$users,
+			'setting'=>$setting,
+			'form_custom'=>$form_custom_insert_field,
 		));
 	}
 
@@ -178,18 +208,36 @@ class AdminController extends Controller
 	public function actionEdit($id) 
 	{
 		$model=$this->loadModel($id);
+		$users = Users::model()->findByPk($model->view->user_id);
+		$setting = OmmuSettings::model()->findByPk(1, array(
+			'select'=>'signup_username, signup_approve, signup_verifyemail, signup_photo, signup_random',
+		));
+		$memberSetting = MemberSetting::model()->findByPk(1, array(
+			'select'=>'default_level_id, form_custom_insert_field',
+		));
+		$form_custom_insert_field = unserialize($memberSetting->form_custom_insert_field);
+		if(empty($form_custom_insert_field))
+			$form_custom_insert_field = array();
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
+		$this->performAjaxValidation($users);
 
-		if(isset($_POST['Members'])) {
+		if(isset($_POST['Members']) && isset($_POST['Users'])) {
 			$model->attributes=$_POST['Members'];
-
-			if($model->save()) {
-				Yii::app()->user->setFlash('success', Yii::t('phrase', 'Members success updated.'));
-				//$this->redirect(array('view','id'=>$model->member_id));
-				//$this->redirect(array('manage'));
-				$this->redirect(Yii::app()->controller->createUrl('manage'));
+			$users->attributes=$_POST['Users'];
+			$users->scenario = 'formEdit';
+			
+			if($users->validate())
+				$model->publish = $users->enabled;
+			
+			if($model->validate() && $users->validate()) {
+				if($model->save() && $users->save()) {
+					Yii::app()->user->setFlash('success', Yii::t('phrase', 'Members success updated.'));
+					//$this->redirect(array('view','id'=>$model->member_id));
+					//$this->redirect(array('manage'));
+					$this->redirect(Yii::app()->controller->createUrl('manage'));
+				}
 			}
 		}
 		
@@ -202,6 +250,9 @@ class AdminController extends Controller
 		$this->pageMeta = '';
 		$this->render('admin_edit',array(
 			'model'=>$model,
+			'users'=>$users,
+			'setting'=>$setting,
+			'form_custom'=>$form_custom_insert_field,
 		));
 	}
 	
