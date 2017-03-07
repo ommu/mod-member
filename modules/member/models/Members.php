@@ -57,6 +57,11 @@
 class Members extends CActiveRecord
 {
 	public $defaultColumns = array();
+	
+	// Variable Search
+	public $user_search;
+	public $creation_search;
+	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -85,13 +90,15 @@ class Members extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('profile_id, member_header, member_photo, short_biography, creation_date, creation_id, modified_id', 'required'),
+			array('profile_id', 'required'),
 			array('publish, profile_id', 'numerical', 'integerOnly'=>true),
 			array('creation_id, modified_id', 'length', 'max'=>11),
-			array('modified_date', 'safe'),
+			array('short_biography', 'length', 'max'=>160),
+			array('member_header, member_photo, short_biography', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('member_id, publish, profile_id, member_header, member_photo, short_biography, creation_date, creation_id, modified_date, modified_id', 'safe', 'on'=>'search'),
+			array('member_id, publish, profile_id, member_header, member_photo, short_biography, creation_date, creation_id, modified_date, modified_id, 
+				user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -103,6 +110,11 @@ class Members extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'view' => array(self::BELONGS_TO, 'ViewMembers', 'member_id'),
+			'profile' => array(self::BELONGS_TO, 'MemberProfile', 'profile_id'),
+			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
+			'users' => array(self::HAS_MANY, 'MemberUser', 'member_id'),
 			'ommuCvBios_relation' => array(self::HAS_MANY, 'OmmuCvBio', 'member_id'),
 			'ommuCvEducationAssures_relation' => array(self::HAS_MANY, 'OmmuCvEducationAssure', 'member_id'),
 			'ommuCvEducations_relation' => array(self::HAS_MANY, 'OmmuCvEducations', 'member_id'),
@@ -118,8 +130,6 @@ class Members extends CActiveRecord
 			'ommuCvSkills_relation' => array(self::HAS_MANY, 'OmmuCvSkills', 'member_id'),
 			'ommuCvTrainings_relation' => array(self::HAS_MANY, 'OmmuCvTrainings', 'member_id'),
 			'ommuMemberCompanies_relation' => array(self::HAS_MANY, 'OmmuMemberCompany', 'member_id'),
-			'ommuMemberUsers_relation' => array(self::HAS_MANY, 'OmmuMemberUser', 'member_id'),
-			'profile_relation' => array(self::BELONGS_TO, 'OmmuMemberProfile', 'profile_id'),
 			'ommuVacancies_relation' => array(self::HAS_MANY, 'OmmuVacancies', 'member_id'),
 		);
 	}
@@ -140,6 +150,9 @@ class Members extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'user_search' => Yii::t('attribute', 'Users'),
+			'creation_search' => Yii::t('attribute', 'Creation'),
+			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
 		/*
 			'Member' => 'Member',
@@ -173,6 +186,21 @@ class Members extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'view' => array(
+				'alias'=>'view',
+			),
+			'creation' => array(
+				'alias'=>'creation',
+				'select'=>'displayname'
+			),
+			'modified' => array(
+				'alias'=>'modified',
+				'select'=>'displayname'
+			),
+		);
 
 		$criteria->compare('t.member_id',strtolower($this->member_id),true);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish')
@@ -204,6 +232,10 @@ class Members extends CActiveRecord
 			$criteria->compare('t.modified_id',$_GET['modified']);
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
+		
+		$criteria->compare('view.users',$this->user_search);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['Members_sort']))
 			$criteria->order = 't.member_id DESC';
@@ -266,24 +298,20 @@ class Members extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if(!isset($_GET['type'])) {
+			if(!isset($_GET['profile'])) {
 				$this->defaultColumns[] = array(
-					'name' => 'publish',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->member_id)), $data->publish, 1)',
-					'htmlOptions' => array(
-						'class' => 'center',
-					),
-					'filter'=>array(
-						1=>Yii::t('phrase', 'Yes'),
-						0=>Yii::t('phrase', 'No'),
-					),
-					'type' => 'raw',
-				);
+					'name' => 'profile_id',
+					'value' => 'Phrase::trans($data->profile->profile_name)',
+					'filter'=>MemberProfile::getProfile(),
+				);		
 			}
-			$this->defaultColumns[] = 'profile_id';
-			$this->defaultColumns[] = 'member_header';
-			$this->defaultColumns[] = 'member_photo';
-			$this->defaultColumns[] = 'short_biography';
+			//$this->defaultColumns[] = 'member_header';
+			//$this->defaultColumns[] = 'member_photo';
+			//$this->defaultColumns[] = 'short_biography';
+			$this->defaultColumns[] = array(
+				'name' => 'creation_search',
+				'value' => '$data->creation->displayname',
+			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',
 				'value' => 'Utility::dateFormat($data->creation_date)',
@@ -310,34 +338,28 @@ class Members extends CActiveRecord
 					),
 				), true),
 			);
-			$this->defaultColumns[] = 'creation_id';
 			$this->defaultColumns[] = array(
-				'name' => 'modified_date',
-				'value' => 'Utility::dateFormat($data->modified_date)',
+				'name' => 'user_search',
+				'value' => 'CHtml::link($data->view->users, Yii::app()->controller->createUrl("o/user/manage",array(\'member\'=>$data->member_id,\'type\'=>\'publish\')))',
 				'htmlOptions' => array(
 					'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
-					'model'=>$this,
-					'attribute'=>'modified_date',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
-					//'mode'=>'datetime',
-					'htmlOptions' => array(
-						'id' => 'modified_date_filter',
-					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
-					),
-				), true),
+				),	
+				'type' => 'raw',
 			);
-			$this->defaultColumns[] = 'modified_id';
+			if(!isset($_GET['type'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'publish',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->member_id)), $data->publish, 1)',
+					'htmlOptions' => array(
+						'class' => 'center',
+					),
+					'filter'=>array(
+						1=>Yii::t('phrase', 'Yes'),
+						0=>Yii::t('phrase', 'No'),
+					),
+					'type' => 'raw',
+				);
+			}
 		}
 		parent::afterConstruct();
 	}
@@ -362,68 +384,14 @@ class Members extends CActiveRecord
 	/**
 	 * before validate attributes
 	 */
-	/*
 	protected function beforeValidate() {
-		if(parent::beforeValidate()) {
-			// Create action
+		if(parent::beforeValidate()) {		
+			if($this->isNewRecord)
+				$this->creation_id = Yii::app()->user->id;	
+			else
+				$this->modified_id = Yii::app()->user->id;
 		}
 		return true;
 	}
-	*/
-
-	/**
-	 * after validate attributes
-	 */
-	/*
-	protected function afterValidate()
-	{
-		parent::afterValidate();
-			// Create action
-		return true;
-	}
-	*/
-	
-	/**
-	 * before save attributes
-	 */
-	/*
-	protected function beforeSave() {
-		if(parent::beforeSave()) {
-		}
-		return true;	
-	}
-	*/
-	
-	/**
-	 * After save attributes
-	 */
-	/*
-	protected function afterSave() {
-		parent::afterSave();
-		// Create action
-	}
-	*/
-
-	/**
-	 * Before delete attributes
-	 */
-	/*
-	protected function beforeDelete() {
-		if(parent::beforeDelete()) {
-			// Create action
-		}
-		return true;
-	}
-	*/
-
-	/**
-	 * After delete attributes
-	 */
-	/*
-	protected function afterDelete() {
-		parent::afterDelete();
-		// Create action
-	}
-	*/
 
 }
