@@ -42,6 +42,7 @@ class MemberUser extends CActiveRecord
 	public $defaultColumns = array();
 	
 	// Variable Search
+	public $profile_search;
 	public $user_search;
 	public $creation_search;
 	public $modified_search;
@@ -80,7 +81,7 @@ class MemberUser extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, publish, member_id, user_id, creation_date, creation_id, modified_date, modified_id, updated_date, 
-				user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
+				profile_search, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -115,6 +116,7 @@ class MemberUser extends CActiveRecord
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
 			'updated_date' => Yii::t('attribute', 'Updated Date'),
+			'profile_search' => Yii::t('attribute', 'Profile'),
 			'user_search' => Yii::t('attribute', 'User'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
@@ -153,6 +155,10 @@ class MemberUser extends CActiveRecord
 		
 		// Custom Search
 		$criteria->with = array(
+			'member' => array(
+				'alias'=>'member',
+				'select'=>'profile_id'
+			),
 			'user' => array(
 				'alias'=>'user',
 				'select'=>'displayname'
@@ -201,6 +207,7 @@ class MemberUser extends CActiveRecord
 		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		
+		$criteria->compare('member.profile_id',$this->profile_search);
 		$criteria->compare('user.displayname',strtolower($this->user_search), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
@@ -266,6 +273,11 @@ class MemberUser extends CActiveRecord
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
 			if(!isset($_GET['member'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'profile_search',
+					'value' => 'Phrase::trans($data->member->profile->profile_name)',
+					'filter'=>MemberProfile::getProfile(),
+				);
 				$this->defaultColumns[] = array(
 					'name' => 'member_id',
 					'value' => '$data->member_id',
