@@ -42,8 +42,10 @@ class MemberProfile extends CActiveRecord
 	public $defaultColumns = array();
 	public $title;
 	public $description;
+	public $user_unlimit_i;
 	
 	// Variable Search
+	public $member_search;
 	public $creation_search;
 	public $modified_search;
 
@@ -75,8 +77,9 @@ class MemberProfile extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('
-				title, description', 'required'),
-			array('publish, multiple_user, user_limit', 'numerical', 'integerOnly'=>true),
+				title, description, user_unlimit_i', 'required'),
+			array('publish, multiple_user, user_limit,
+				user_unlimit_i', 'numerical', 'integerOnly'=>true),
 			array('user_limit', 'length', 'max'=>5),
 			array('profile_name, profile_desc, creation_id, modified_id', 'length', 'max'=>11),
 			array('
@@ -87,7 +90,7 @@ class MemberProfile extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('profile_id, publish, profile_name, profile_desc, multiple_user, user_limit, creation_date, creation_id, modified_date, modified_id,
-				title, description, creation_search, modified_search', 'safe', 'on'=>'search'),
+				title, description, member_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -99,6 +102,7 @@ class MemberProfile extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'view' => array(self::BELONGS_TO, 'ViewMemberProfile', 'profile_id'),
 			'title' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'profile_name'),
 			'description' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'profile_desc'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
@@ -125,6 +129,8 @@ class MemberProfile extends CActiveRecord
 			'modified_id' => Yii::t('attribute', 'Modified'),
 			'title' => Yii::t('attribute', 'Profile'),
 			'description' => Yii::t('attribute', 'Description'),
+			'user_unlimit_i' => Yii::t('attribute', 'Unlimited User'),
+			'member_search' => Yii::t('attribute', 'Member'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
@@ -168,6 +174,9 @@ class MemberProfile extends CActiveRecord
 			$language = $defaultLang;
 		
 		$criteria->with = array(
+			'view' => array(
+				'alias'=>'view',
+			),
 			'title' => array(
 				'alias'=>'title',
 				'select'=>$language,
@@ -216,6 +225,7 @@ class MemberProfile extends CActiveRecord
 		
 		$criteria->compare('title.'.$language,strtolower($this->title), true);
 		$criteria->compare('description.'.$language,strtolower($this->description), true);
+		$criteria->compare('view.members',$this->member_search);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
@@ -328,6 +338,14 @@ class MemberProfile extends CActiveRecord
 				), true),
 			);
 			$this->defaultColumns[] = array(
+				'name' => 'member_search',
+				'value' => 'CHtml::link($data->view->members, Yii::app()->controller->createUrl("o/admin/manage",array(\'profile\'=>$data->profile_id,\'type\'=>\'publish\')))',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),	
+				'type' => 'raw',
+			);
+			$this->defaultColumns[] = array(
 				'name' => 'multiple_user',
 				'value' => '$data->multiple_user == \'1\' ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\')',
 				'htmlOptions' => array(
@@ -375,10 +393,40 @@ class MemberProfile extends CActiveRecord
 	}
 
 	/**
+	 * Get member profile
+	 * 0 = unpublish
+	 * 1 = publish
+	 */
+	public static function getProfile($publish=null) 
+	{
+		$criteria=new CDbCriteria;
+		if($publish != null)
+			$criteria->compare('t.publish', $publish);
+		
+		$model = self::model()->findAll($criteria);
+
+		$items = array();
+		if($model != null) {
+			foreach($model as $key => $val) {
+				$items[$val->profile_id] = Phrase::trans($val->profile_name);
+			}
+			return $items;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * before validate attributes
 	 */
 	protected function beforeValidate() {
-		if(parent::beforeValidate()) {		
+		if(parent::beforeValidate()) {
+			if($this->user_unlimit_i == 1)
+				$this->user_limit = 0;
+			
+			if($this->user_unlimit_i == 0 && $this->user_limit != '' && $this->user_limit <= 0)
+				$this->addError('user_limit', Yii::t('phrase', 'User Limit harus lebih besar dari 0'));
+			
 			if($this->isNewRecord)
 				$this->creation_id = Yii::app()->user->id;	
 			else
