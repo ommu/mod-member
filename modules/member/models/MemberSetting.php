@@ -28,7 +28,8 @@
  * @property integer $permission
  * @property string $meta_keyword
  * @property string $meta_description
- * @property integer $default_level_id
+ * @property integer $default_user_level
+ * @property integer $default_member_level
  * @property string $form_custom_insert_field
  * @property integer $photo_limit
  * @property integer $photo_resize
@@ -72,16 +73,16 @@ class MemberSetting extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('license, permission, meta_keyword, meta_description, default_level_id, photo_limit, photo_resize, photo_file_type', 'required'),
-			array('permission, default_level_id, photo_limit, photo_resize', 'numerical', 'integerOnly'=>true),
+			array('license, permission, meta_keyword, meta_description, default_user_level, default_member_level, photo_limit, photo_resize, photo_file_type', 'required'),
+			array('permission, default_user_level, default_member_level, photo_limit, photo_resize', 'numerical', 'integerOnly'=>true),
 			array('license', 'length', 'max'=>32),
 			array('modified_id', 'length', 'max'=>11),
-			array('default_level_id', 'length', 'max'=>5),
+			array('default_user_level, default_member_level', 'length', 'max'=>5),
 			array('photo_limit', 'length', 'max'=>2),
 			array('form_custom_insert_field, photo_resize_size, photo_view_size', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, license, permission, meta_keyword, meta_description, default_level_id, form_custom_insert_field, photo_limit, photo_resize, photo_resize_size, photo_view_size, photo_file_type, modified_date, modified_id,
+			array('id, license, permission, meta_keyword, meta_description, default_user_level, default_member_level, form_custom_insert_field, photo_limit, photo_resize, photo_resize_size, photo_view_size, photo_file_type, modified_date, modified_id,
 				modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -109,7 +110,8 @@ class MemberSetting extends CActiveRecord
 			'permission' => Yii::t('attribute', 'Permission'),
 			'meta_keyword' => Yii::t('attribute', 'Meta Keyword'),
 			'meta_description' => Yii::t('attribute', 'Meta Description'),
-			'default_level_id' => Yii::t('attribute', 'Default User level'),
+			'default_user_level' => Yii::t('attribute', 'Default User level'),
+			'default_member_level' => Yii::t('attribute', 'Default Member level'),
 			'form_custom_insert_field' => Yii::t('attribute', 'Custom Insert Form'),
 			'photo_limit' => Yii::t('attribute', 'Photo Limit'),
 			'photo_resize' => Yii::t('attribute', 'Photo Resize'),
@@ -163,7 +165,8 @@ class MemberSetting extends CActiveRecord
 		$criteria->compare('t.permission',$this->permission);
 		$criteria->compare('t.meta_keyword',strtolower($this->meta_keyword),true);
 		$criteria->compare('t.meta_description',strtolower($this->meta_description),true);
-		$criteria->compare('t.default_level_id',$this->default_level_id);
+		$criteria->compare('t.default_user_level',$this->default_user_level);
+		$criteria->compare('t.default_member_level',$this->default_member_level);
 		$criteria->compare('t.form_custom_insert_field',strtolower($this->form_custom_insert_field),true);
 		$criteria->compare('t.photo_limit',$this->photo_limit);
 		$criteria->compare('t.photo_resize',$this->photo_resize);
@@ -213,7 +216,8 @@ class MemberSetting extends CActiveRecord
 			$this->defaultColumns[] = 'permission';
 			$this->defaultColumns[] = 'meta_keyword';
 			$this->defaultColumns[] = 'meta_description';
-			$this->defaultColumns[] = 'default_level_id';
+			$this->defaultColumns[] = 'default_user_level';
+			$this->defaultColumns[] = 'default_member_level';
 			$this->defaultColumns[] = 'form_custom_insert_field';
 			$this->defaultColumns[] = 'photo_limit';
 			$this->defaultColumns[] = 'photo_resize';
@@ -248,7 +252,8 @@ class MemberSetting extends CActiveRecord
 			$this->defaultColumns[] = 'permission';
 			$this->defaultColumns[] = 'meta_keyword';
 			$this->defaultColumns[] = 'meta_description';
-			$this->defaultColumns[] = 'default_level_id';
+			$this->defaultColumns[] = 'default_user_level';
+			$this->defaultColumns[] = 'default_member_level';
 			$this->defaultColumns[] = 'form_custom_insert_field';
 			$this->defaultColumns[] = 'photo_limit';
 			$this->defaultColumns[] = 'photo_resize';

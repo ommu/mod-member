@@ -90,15 +90,29 @@ EOP;
 	</div>
 
 	<div class="clearfix">
-		<?php echo $form->labelEx($model,'default_level_id'); ?>
+		<?php echo $form->labelEx($model,'default_user_level'); ?>
 		<div class="desc">
 			<?php 
 			$userlevel = UserLevel::getUserLevel();
 			if($userlevel != null)
-				echo $form->dropDownList($model,'default_level_id', $userlevel);
+				echo $form->dropDownList($model,'default_user_level', $userlevel, array('prompt'=>Yii::t('phrase', 'Select Userlevel')));
 			else
-				echo $form->dropDownList($model,'default_level_id', array('prompt'=>Yii::t('phrase', 'No Parent')));?>
-			<?php echo $form->error($model,'default_level_id'); ?>
+				echo $form->dropDownList($model,'default_user_level', array('prompt'=>Yii::t('phrase', 'Select Userlevel')));?>
+			<?php echo $form->error($model,'default_user_level'); ?>
+			<?php /*<div class="small-px silent"></div>*/?>
+		</div>
+	</div>
+
+	<div class="clearfix">
+		<?php echo $form->labelEx($model,'default_member_level'); ?>
+		<div class="desc">
+			<?php 
+			$memberlevel = MemberLevels::getLevel();
+			if($memberlevel != null)
+				echo $form->dropDownList($model,'default_member_level', $memberlevel, array('prompt'=>Yii::t('phrase', 'Select Member Level')));
+			else
+				echo $form->dropDownList($model,'default_member_level', array('prompt'=>Yii::t('phrase', 'Select Member Level')));?>
+			<?php echo $form->error($model,'default_member_level'); ?>
 			<?php /*<div class="small-px silent"></div>*/?>
 		</div>
 	</div>

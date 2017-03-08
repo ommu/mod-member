@@ -175,7 +175,7 @@ class AdminController extends Controller
 				'select'=>'signup_username, signup_approve, signup_verifyemail, signup_photo, signup_random',
 			));
 			$memberSetting = MemberSetting::model()->findByPk(1, array(
-				'select'=>'default_level_id, form_custom_insert_field',
+				'select'=>'default_user_level, form_custom_insert_field',
 			));
 			$form_custom_insert_field = unserialize($memberSetting->form_custom_insert_field);
 			if(empty($form_custom_insert_field))
@@ -213,7 +213,7 @@ class AdminController extends Controller
 					$memberCompany->attributes=$_POST['IpediaCompanies'];
 				$memberUser->attributes=$_POST['MemberUser'];
 				
-				$users->level_id = $memberSetting->default_level_id;
+				$users->level_id = $memberSetting->default_user_level;
 				if($users->validate())
 					$model->publish = $users->enabled;
 				if($condition == 1)
@@ -281,7 +281,7 @@ class AdminController extends Controller
 			$condition = 1;
 		
 		$memberSetting = MemberSetting::model()->findByPk(1, array(
-			'select'=>'default_level_id, form_custom_insert_field',
+			'select'=>'default_user_level, form_custom_insert_field',
 		));
 		$form_custom_insert_field = unserialize($memberSetting->form_custom_insert_field);
 		if(empty($form_custom_insert_field))
