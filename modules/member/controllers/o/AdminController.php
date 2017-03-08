@@ -152,7 +152,7 @@ class AdminController extends Controller
 				$model->attributes=$_POST['Members'];
 				
 				if($model->validate()) {
-					$this->redirect(array('add','type'=>$model->profile_id));
+					$this->redirect(array('add','type'=>$model->profile_id,'t'=>Utility::getUrlTitle(Phrase::trans($model->profile->profile_name)),'email'=>$model->member_user_i));
 				}
 			}
 			$dataArray = array(
@@ -166,7 +166,9 @@ class AdminController extends Controller
 			if($profile->multiple_user == 1)
 				$condition = 1;
 			
-			$users=new Users;
+			$users = Users::model()->findByAttributes(array('email' => $_GET['email']));
+			if($users == null)
+				$users=new Users;
 			if($condition == 1)
 				$company=new IpediaCompanies;
 				$memberCompany=new MemberCompany;
@@ -200,26 +202,39 @@ class AdminController extends Controller
 			
 			$model->profile_id = $profile->profile_id;
 			
-			$issetPost = isset($_POST['Members']) && isset($_POST['Users']);
-			if($condition == 1)
-				$issetPost = isset($_POST['Members']) && isset($_POST['Users']) && isset($_POST['IpediaCompanies']);
-			
-			if($issetPost) {
+			if(isset($_POST['Members'])) {
 				$model->attributes=$_POST['Members'];
 				$users->attributes=$_POST['Users'];
-				$users->scenario = 'formAdd';
+				if($users->user_id == null)
+					$users->scenario = 'formAdd';
 				if($condition == 1)
 					$company->attributes=$_POST['IpediaCompanies'];
 					$memberCompany->attributes=$_POST['IpediaCompanies'];
 				$memberUser->attributes=$_POST['MemberUser'];
 				
-				$users->level_id = $memberSetting->default_user_level;
+				if($users->user_id == null)
+					$users->level_id = $memberSetting->default_user_level;
 				if($users->validate())
 					$model->publish = $users->enabled;
 				if($condition == 1)
 					$company->validate();
 				
 				if($condition == 0) {
+					if($users->user_id != null) {
+						$data = MemberUser::model()->with('member','level')->find(array(
+							'select'    => 't.id, t.member_id, t.level_id, t.user_id',
+							'condition' => 'member.profile_id = :profile AND level.default = :level AND t.user_id = :user',
+							'params'    => array(
+								':profile' => $type,
+								':level' => 1,
+								':user' => $users->user_id,
+							),
+						));
+						if($data != null) {
+							Yii::app()->user->setFlash('Users_displayname_em_', Yii::t('phrase', 'User sudah terdaftar sebagai member personal'));
+							$this->redirect(Yii::app()->controller->createUrl('add', $_GET));		
+						}
+					}
 					if($model->validate() && $users->validate()) {
 						if($model->save() && $users->save()) {
 							$memberUser->member_id = $model->member_id;
@@ -260,7 +275,7 @@ class AdminController extends Controller
 		
 		$this->dialogDetail = true;
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-		$this->dialogWidth = $type == null ? 350 : 600;
+		$this->dialogWidth = $type == null ? 500 : 600;
 
 		$this->pageTitle = Yii::t('phrase', 'Create Members');
 		$this->pageDescription = '';
@@ -312,11 +327,7 @@ class AdminController extends Controller
 		if($condition == 1)
 			$this->performAjaxValidation($company);
 			
-		$issetPost = isset($_POST['Members']) && isset($_POST['Users']);
-		if($condition == 1)
-			$issetPost = isset($_POST['Members']) && isset($_POST['IpediaCompanies']);
-		
-		if($issetPost) {
+		if(isset($_POST['Members'])) {
 			$model->attributes=$_POST['Members'];
 			if($condition == 0) {
 				$users->attributes=$_POST['Users'];

@@ -52,6 +52,30 @@
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
+		
+		<div class="clearfix">
+			<?php echo $form->labelEx($model,'member_user_i'); ?>
+			<div class="desc">
+				<?php //echo $form->textField($model,'member_user_i',array('maxlength'=>32,'class'=>'span-6'));
+				$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+					'model' => $model,
+					'attribute' => 'member_user_i',
+					'source' => Yii::app()->controller->createUrl('o/user/suggest', array('data'=>'member')),
+					'options' => array(
+						//'delay '=> 50,
+						'minLength' => 1,
+						'showAnim' => 'fold',
+						'select' => "js:function(event, ui) {
+							$('#Members_member_user_i').val(ui.item.value);
+						}"
+					),
+					'htmlOptions' => array(
+						'class'	=> 'span-6',
+					),
+				));
+				echo $form->error($model,'member_user_i');?>
+			</div>
+		</div>
 
 	</fieldset>
 </div>

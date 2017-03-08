@@ -128,11 +128,13 @@ class UserController extends Controller
 						}
 					}
 				}
-				$criteria->select = "t.user_id, t.displayname";
+				$criteria->select = "t.user_id, t.displayname, t.email";
 				$criteria->compare('t.enabled',1);
-				$criteria->compare('t.displayname',strtolower(trim($_GET['term'])), true);
-				if($id != null)
-					$criteria->addNotInCondition('t.user_id',$items);
+				if($id != null) {
+					$criteria->compare('t.displayname',strtolower(trim($_GET['term'])), true);
+					$criteria->addNotInCondition('t.user_id',$items);					
+				} else
+					$criteria->compare('t.email',strtolower(trim($_GET['term'])), true);
 				$criteria->limit = $limit;
 				$criteria->order = "t.user_id ASC";
 				$model = Users::model()->findAll($criteria);
@@ -145,7 +147,7 @@ class UserController extends Controller
 				
 				if($model) {
 					foreach($model as $items) {
-						$result[] = array('id' => $items->user_id, 'value' => $items->displayname);
+						$result[] = array('id' => $items->user_id, 'value' => $id != null ? $items->displayname : $items->email);
 					}
 				} //else
 				//	$result[] = array('id' => 0, 'value' => $_GET['term']);

@@ -123,7 +123,7 @@
 		</div>
 		<?php }?>
 
-		<?php if($users != null) {?>
+		<?php if(($model->isNewRecord && $users->user_id == null) || (!$model->isNewRecord && $users != null)) {?>
 			<div class="clearfix">
 				<?php echo $form->labelEx($users,'displayname'); ?>
 				<div class="desc">
@@ -204,6 +204,18 @@
 				</div>
 			</div>
 			<?php }?>
+			
+		<?php } else {?>
+			<div class="clearfix">
+				<?php echo $form->labelEx($users,'displayname'); ?>
+				<div class="desc">
+					<strong><?php echo $users->displayname;?><span><?php echo $users->email;?></span></strong>
+					<?php if(Yii::app()->user->hasFlash('Users_displayname_em_')) {?>
+						<div class="errorMessage"><?php echo Yii::app()->user->getFlash('Users_displayname_em_'); ?></div>
+					<?php }?>
+					<?php /*<div class="small-px silent"></div>*/?>
+				</div>
+			</div>
 		<?php }?>
 				
 		<?php if(!$model->isNewRecord) {?>
@@ -250,7 +262,6 @@
 					<?php }
 					}?>
 				</div>
-				<?php if($model->isNewRecord) {?><span class="small-px">tambahkan tanda koma (,) jika ingin menambahkan keyword lebih dari satu</span><?php }?>
 			</div>
 		</div>
 		<?php }?>
