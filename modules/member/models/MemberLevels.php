@@ -93,6 +93,7 @@ class MemberLevels extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'view' => array(self::BELONGS_TO, 'ViewMemberLevels', 'level_id'),
 			'title' => array(self::BELONGS_TO, 'OmmuSystemPhrase', 'level_name'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
@@ -159,6 +160,9 @@ class MemberLevels extends CActiveRecord
 			$language = $defaultLang;
 		
 		$criteria->with = array(
+			'view' => array(
+				'alias'=>'view',
+			),
 			'title' => array(
 				'alias'=>'title',
 				'select'=>$language,
@@ -201,7 +205,7 @@ class MemberLevels extends CActiveRecord
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
 		$criteria->compare('title.'.$language,strtolower($this->title), true);
-		//$criteria->compare('view.users',$this->user_search);
+		$criteria->compare('view.users',$this->user_search);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
@@ -300,6 +304,14 @@ class MemberLevels extends CActiveRecord
 					),
 				), true),
 			);
+			$this->defaultColumns[] = array(
+				'name' => 'user_search',
+				'value' => 'CHtml::link($data->view->users, Yii::app()->controller->createUrl("o/user/manage",array(\'level\'=>$data->level_id,\'type\'=>\'publish\')))',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),	
+				'type' => 'raw',
+			);
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'default',
@@ -344,6 +356,33 @@ class MemberLevels extends CActiveRecord
 		} else {
 			$model = self::model()->findByPk($id);
 			return $model;			
+		}
+	}
+
+	/**
+	 * Get member profile
+	 * 0 = unpublish
+	 * 1 = publish
+	 */
+	public static function getLevel($publish=null, $type=null) 
+	{
+		$criteria=new CDbCriteria;
+		if($publish != null)
+			$criteria->compare('t.publish', $publish);
+		
+		$model = self::model()->findAll($criteria);
+
+		$items = array();
+		if($model != null) {
+			foreach($model as $key => $val) {
+				if($type == null)
+					$items[$val->level_id] = Phrase::trans($val->level_name);
+				else if($type != null && $type == 'id')
+					$items[] = $val->level_id;
+			}
+			return $items;
+		} else {
+			return false;
 		}
 	}
 

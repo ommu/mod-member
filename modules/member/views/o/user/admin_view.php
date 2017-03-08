@@ -37,6 +37,10 @@
 			'value'=>$model->member_id != 0 ? $model->member_id : '-',
 		),
 		array(
+			'name'=>'level_id',
+			'value'=>$model->level_id != 0 ? Phrase::trans($model->level->level_name) : '-',
+		),
+		array(
 			'name'=>'user_id',
 			'value'=>$model->user_id != 0 ? $model->user->displayname : '-',
 		),

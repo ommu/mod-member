@@ -26,6 +26,7 @@
  * @property string $id
  * @property integer $publish
  * @property string $member_id
+ * @property string $level_id
  * @property string $user_id
  * @property string $creation_date
  * @property string $creation_id
@@ -78,10 +79,11 @@ class MemberUser extends CActiveRecord
 			array('member_id, user_id', 'required'),
 			array('publish', 'numerical', 'integerOnly'=>true),
 			array('member_id, user_id, creation_id, modified_id', 'length', 'max'=>11),
-			array('', 'safe'),
+			array('level_id', 'length', 'max'=>5),
+			array('level_id', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, publish, member_id, user_id, creation_date, creation_id, modified_date, modified_id, updated_date, 
+			array('id, publish, member_id, level_id, user_id, creation_date, creation_id, modified_date, modified_id, updated_date, 
 				profile_search, member_search, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -95,6 +97,7 @@ class MemberUser extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'member' => array(self::BELONGS_TO, 'Members', 'member_id'),
+			'level' => array(self::BELONGS_TO, 'MemberLevels', 'level_id'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
@@ -111,6 +114,7 @@ class MemberUser extends CActiveRecord
 			'id' => Yii::t('attribute', 'ID'),
 			'publish' => Yii::t('attribute', 'Publish'),
 			'member_id' => Yii::t('attribute', 'Member'),
+			'level_id' => Yii::t('attribute', 'Level'),
 			'user_id' => Yii::t('attribute', 'User'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
@@ -194,6 +198,10 @@ class MemberUser extends CActiveRecord
 			$criteria->compare('t.member_id',$_GET['member']);
 		else
 			$criteria->compare('t.member_id',$this->member_id);
+		if(isset($_GET['level']))
+			$criteria->compare('t.level_id',$_GET['level']);
+		else
+			$criteria->compare('t.level_id',$this->level_id);
 		if(isset($_GET['user']))
 			$criteria->compare('t.user_id',$_GET['user']);
 		else
@@ -251,6 +259,7 @@ class MemberUser extends CActiveRecord
 			//$this->defaultColumns[] = 'id';
 			$this->defaultColumns[] = 'publish';
 			$this->defaultColumns[] = 'member_id';
+			$this->defaultColumns[] = 'level_id';
 			$this->defaultColumns[] = 'user_id';
 			$this->defaultColumns[] = 'creation_date';
 			$this->defaultColumns[] = 'creation_id';
@@ -288,6 +297,13 @@ class MemberUser extends CActiveRecord
 				$this->defaultColumns[] = array(
 					'name' => 'member_search',
 					'value' => '$data->member->view->member_name',
+				);
+			}
+			if(!isset($_GET['level'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'level_id',
+					'value' => '$data->level_id != null ? Phrase::trans($data->level_id) : \'-\'',
+					'filter'=>MemberLevels::getLevel(),
 				);
 			}
 			if(!isset($_GET['user'])) {
