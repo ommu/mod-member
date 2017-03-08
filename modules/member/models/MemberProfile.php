@@ -397,18 +397,23 @@ class MemberProfile extends CActiveRecord
 	 * 0 = unpublish
 	 * 1 = publish
 	 */
-	public static function getProfile($publish=null) 
+	public static function getProfile($publish=null, $multipleuser=null, $type=null) 
 	{
 		$criteria=new CDbCriteria;
 		if($publish != null)
 			$criteria->compare('t.publish', $publish);
+		if($multipleuser != null)
+			$criteria->compare('t.multiple_user', $multipleuser);
 		
 		$model = self::model()->findAll($criteria);
 
 		$items = array();
 		if($model != null) {
 			foreach($model as $key => $val) {
-				$items[$val->profile_id] = Phrase::trans($val->profile_name);
+				if($type == null)
+					$items[$val->profile_id] = Phrase::trans($val->profile_name);
+				else if($type != null && $type == 'id')
+					$items[] = $val->profile_id;
 			}
 			return $items;
 		} else {

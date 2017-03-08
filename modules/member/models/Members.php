@@ -191,6 +191,7 @@ class Members extends CActiveRecord
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
+		$controller = strtolower(Yii::app()->controller->id);
 
 		$criteria=new CDbCriteria;
 		
@@ -220,10 +221,19 @@ class Members extends CActiveRecord
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
-		if(isset($_GET['profile']))
-			$criteria->compare('t.profile_id',$_GET['profile']);
-		else
-			$criteria->compare('t.profile_id',$this->profile_id);
+		if($controller == 'o/admin') {
+			if(isset($_GET['profile']))
+				$criteria->compare('t.profile_id',$_GET['profile']);
+			else
+				$criteria->compare('t.profile_id',$this->profile_id);
+		} else {
+			if($controller == 'jobseeker/admin')
+				$id = '0';
+			else if($controller == 'company/admin')
+				$id = '1';
+			$profile = MemberProfile::getProfile(null, $id, 'id');
+			$criteria->addInCondition('t.profile_id', $profile);
+		}
 		$criteria->compare('t.member_header',strtolower($this->member_header),true);
 		$criteria->compare('t.member_photo',strtolower($this->member_photo),true);
 		$criteria->compare('t.short_biography',strtolower($this->short_biography),true);
@@ -293,6 +303,8 @@ class Members extends CActiveRecord
 	 * Set default columns to display
 	 */
 	protected function afterConstruct() {
+		$controller = strtolower(Yii::app()->controller->id);
+		
 		if(count($this->defaultColumns) == 0) {
 			/*
 			$this->defaultColumns[] = array(
@@ -306,7 +318,7 @@ class Members extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if(!isset($_GET['profile'])) {
+			if($controller == 'o/admin' && !isset($_GET['profile'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'profile_id',
 					'value' => 'Phrase::trans($data->profile->profile_name)',
