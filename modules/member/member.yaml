@@ -41,3 +41,7 @@ content_menu	:
 	- urlTitle: Add Profile
 		urlRules: {member, o/profile, manage, siteType: 0,1, userLevel: 1,2}
 		urlPath: {url: add, attr: -, icon: -}
+# controller o/level
+	- urlTitle: Add level
+		urlRules: {member, o/level, manage, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: add, attr: -, icon: -}
