@@ -302,7 +302,7 @@ class MemberUser extends CActiveRecord
 			if(!isset($_GET['level'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'level_id',
-					'value' => '$data->level_id != null ? Phrase::trans($data->level_id) : \'-\'',
+					'value' => '$data->level_id != null ? Phrase::trans($data->level->level_name) : \'-\'',
 					'filter'=>MemberLevels::getLevel(),
 				);
 			}

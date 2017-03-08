@@ -16,6 +16,7 @@
  *	RunAction
  *	Delete
  *	Publish
+ *	Default
  *
  *	LoadModel
  *	performAjaxValidation
@@ -84,7 +85,7 @@ class LevelController extends Controller
 				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('manage','view','add','edit','runaction','delete','publish'),
+				'actions'=>array('manage','view','add','edit','runaction','delete','publish','default'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level) && in_array(Yii::app()->user->level, array(1,2))',
 			),
@@ -366,6 +367,43 @@ class LevelController extends Controller
 				'title'=>$title,
 				'model'=>$model,
 			));
+		}
+	}
+
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionDefault($id) 
+	{
+		$model=$this->loadModel($id);
+
+		if(Yii::app()->request->isPostRequest) {
+			// we only allow deletion via POST request
+			if(isset($id)) {
+				//change value active or default
+				$model->default = 1;
+
+				if($model->update()) {
+					echo CJSON::encode(array(
+						'type' => 5,
+						'get' => Yii::app()->controller->createUrl('manage'),
+						'id' => 'partial-member-levels',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'MemberLevels success updated.').'</strong></div>',
+					));
+				}
+			}
+
+		} else {
+			$this->dialogDetail = true;
+			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+			$this->dialogWidth = 350;
+
+			$this->pageTitle = Yii::t('phrase', 'MemberLevels Default.');
+			$this->pageDescription = '';
+			$this->pageMeta = '';
+			$this->render('admin_default');
 		}
 	}
 

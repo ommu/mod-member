@@ -315,7 +315,7 @@ class MemberLevels extends CActiveRecord
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'default',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("default",array("id"=>$data->level_id)), $data->default, 1)',
+					'value' => '$data->default == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("default",array("id"=>$data->level_id)), $data->default, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
@@ -357,6 +357,13 @@ class MemberLevels extends CActiveRecord
 			$model = self::model()->findByPk($id);
 			return $model;			
 		}
+	}
+
+	//get Default
+	public static function getDefault() 
+	{
+		$model = self::model()->findByAttributes(array('default' => 1));
+		return $model->level_id;
 	}
 
 	/**
@@ -416,6 +423,14 @@ class MemberLevels extends CActiveRecord
 				$title = OmmuSystemPhrase::model()->findByPk($this->level_name);
 				$title->en_us = $this->title;
 				$title->save();
+			}
+
+			// set to default modules
+			if($this->default == 1) {
+				self::model()->updateAll(array(
+					'default' => 0,	
+				));
+				$this->default = 1;
 			}
 		}
 		return true;

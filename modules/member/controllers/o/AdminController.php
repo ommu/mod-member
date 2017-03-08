@@ -160,6 +160,7 @@ class AdminController extends Controller
 			);
 			
 		} else {
+			$level_id = MemberLevels::getDefault();
 			$profile = MemberProfile::getInfo($type);
 			$condition = 0;
 			if($profile->multiple_user == 1)
@@ -222,6 +223,7 @@ class AdminController extends Controller
 					if($model->validate() && $users->validate()) {
 						if($model->save() && $users->save()) {
 							$memberUser->member_id = $model->member_id;
+							$memberUser->level_id = $level_id;
 							$memberUser->user_id = $users->user_id;
 							$memberUser->validate();
 							if($memberUser->save()) {
@@ -236,6 +238,7 @@ class AdminController extends Controller
 					if($model->validate() && $users->validate() && $company->validate()) {
 						if($model->save() && $users->save() && $company->save()) {
 							$memberUser->member_id = $model->member_id;
+							$memberUser->level_id = $level_id;
 							$memberUser->user_id = $users->user_id;
 							$memberUser->validate();
 							
