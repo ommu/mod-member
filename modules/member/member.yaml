@@ -12,7 +12,7 @@ db_table_name	:
 db_sql_filename	: 
 
 plugin_menu		:
-	- urlTitle: Views
+	- urlTitle: Members
 		urlRules: {siteType: 0,1, userLevel: 1,2}
 		urlPath: {url: o/admin/manage, attr: -, icon: -}
 	- urlTitle: Datas
@@ -22,6 +22,9 @@ plugin_menu		:
 			- urlTitle: Profiles
 				urlRules: {siteType: 0,1, userLevel: 1,2}
 				urlPath: {url: o/profile/manage, attr: -, icon: -}
+			- urlTitle: Levels
+				urlRules: {siteType: 0,1, userLevel: 1,2}
+				urlPath: {url: o/level/manage, attr: -, icon: -}
 			- urlTitle: Users
 				urlRules: {siteType: 0,1, userLevel: 1,2}
 				urlPath: {url: o/user/manage, attr: -, icon: -}
@@ -34,7 +37,6 @@ content_menu	:
 	- urlTitle: Add Member
 		urlRules: {member, o/admin, manage, siteType: 0,1, userLevel: 1,2}
 		urlPath: {url: add, attr: -, icon: -}
-        
 # controller o/profile
 	- urlTitle: Add Profile
 		urlRules: {member, o/profile, manage, siteType: 0,1, userLevel: 1,2}
