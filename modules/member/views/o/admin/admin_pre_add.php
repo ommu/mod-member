@@ -1,0 +1,64 @@
+<?php
+/**
+ * Members (members)
+ * @var $this AdminController
+ * @var $model Members
+ * @var $form CActiveForm
+ * version: 0.0.1
+ *
+ * @author Putra Sudaryanto <putra@sudaryanto.id>
+ * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @created date 2 March 2017, 15:02 WIB
+ * @link https://github.com/ommu/Members
+ * @contect (+62)856-299-4114
+ *
+ */
+?>
+
+<?php $form=$this->beginWidget('application.components.system.OActiveForm', array(
+	'id'=>'members-form',
+	'enableAjaxValidation'=>true,
+	'htmlOptions' => array(
+		'enctype' => 'multipart/form-data',
+		'on_post' => true,
+	),
+)); ?>
+
+<div class="dialog-content">
+	<fieldset>
+		<?php //begin.Messages ?>
+		<?php /*
+		<div id="ajax-message">
+			<?php echo $form->errorSummary($model); ?>
+			<?php echo $form->errorSummary($users); ?>
+		</div>
+		*/?>
+		<?php //begin.Messages ?>
+
+		<div class="clearfix">
+			<?php echo $form->labelEx($model,'profile_id'); ?>
+			<div class="desc">
+				<?php if($model->isNewRecord) {?>
+					<?php //echo $form->textField($model,'profile_id');
+					$profile = MemberProfile::getProfile();
+					if(!empty($profile))
+						echo $form->dropDownList($model,'profile_id', $profile, array('prompt'=>Yii::t('phrase', 'Select Profile')));
+					else
+						echo $form->dropDownList($model,'profile_id', array('prompt'=>Yii::t('phrase', 'Select Profile')));?>
+				<?php } else {?>
+					<strong><?php echo Phrase::trans($model->profile->profile_name);?></strong>
+				<?php }?>
+				<?php echo $form->error($model,'profile_id'); ?>
+				<?php /*<div class="small-px silent"></div>*/?>
+			</div>
+		</div>
+
+	</fieldset>
+</div>
+<div class="dialog-submit">
+	<?php echo CHtml::submitButton(Yii::t('phrase', 'Next') ,array('onclick' => 'setEnableSave()')); ?>
+	<?php echo CHtml::button(Yii::t('phrase', 'Cancel'), array('id'=>'closed')); ?>
+</div>
+<?php $this->endWidget(); ?>
+
+

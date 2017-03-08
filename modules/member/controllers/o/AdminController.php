@@ -140,46 +140,116 @@ class AdminController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionAdd() 
+	public function actionAdd($type=null) 
 	{
 		$model=new Members;
-		$users=new Users;
-		$memberUser=new MemberUser;
-		$setting = OmmuSettings::model()->findByPk(1, array(
-			'select'=>'signup_username, signup_approve, signup_verifyemail, signup_photo, signup_random',
-		));
-		$memberSetting = MemberSetting::model()->findByPk(1, array(
-			'select'=>'default_level_id, form_custom_insert_field',
-		));
-		$form_custom_insert_field = unserialize($memberSetting->form_custom_insert_field);
-		if(empty($form_custom_insert_field))
-			$form_custom_insert_field = array();
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-		$this->performAjaxValidation($users);
-		$this->performAjaxValidation($memberUser);
-
-		if(isset($_POST['Members']) && isset($_POST['Users'])) {
-			$model->attributes=$_POST['Members'];
-			$users->attributes=$_POST['Users'];
-			$users->scenario = 'formAdd';
-			$memberUser->attributes=$_POST['MemberUser'];
+		
+		if($type == null) {
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
 			
-			$users->level_id = $memberSetting->default_level_id;
-			if($users->validate())
-				$model->publish = $users->enabled;
+			if(isset($_POST['Members'])) {				
+				$model->attributes=$_POST['Members'];
+				
+				if($model->validate()) {
+					$this->redirect(array('add','type'=>$model->profile_id));
+				}
+			}
+			$dataArray = array(
+				'model'=>$model,
+			);
 			
-			if($model->validate() && $users->validate()) {
-				if($model->save() && $users->save()) {
-					$memberUser->member_id = $model->member_id;
-					$memberUser->user_id = $users->user_id;
-					$memberUser->validate();
-					if($memberUser->save()) {
-						Yii::app()->user->setFlash('success', Yii::t('phrase', 'Members success created.'));
-						//$this->redirect(array('view','id'=>$model->member_id));
-						//$this->redirect(array('manage'));
-						$this->redirect(Yii::app()->controller->createUrl('manage'));						
+		} else {
+			$profile = MemberProfile::getInfo($type);
+			$condition = 0;
+			if($profile->multiple_user == 1)
+				$condition = 1;
+			
+			$users=new Users;
+			if($condition == 1)
+				$company=new IpediaCompanies;
+				$memberCompany=new MemberCompany;
+			$memberUser=new MemberUser;
+			$setting = OmmuSettings::model()->findByPk(1, array(
+				'select'=>'signup_username, signup_approve, signup_verifyemail, signup_photo, signup_random',
+			));
+			$memberSetting = MemberSetting::model()->findByPk(1, array(
+				'select'=>'default_level_id, form_custom_insert_field',
+			));
+			$form_custom_insert_field = unserialize($memberSetting->form_custom_insert_field);
+			if(empty($form_custom_insert_field))
+				$form_custom_insert_field = array();
+			
+			$dataArray = array(
+				'model'=>$model,
+				'users'=>$users,
+				'setting'=>$setting,
+				'form_custom'=>$form_custom_insert_field,
+			);
+			if($condition == 1)
+				$dataArray['company'] = $company;
+			
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
+			$this->performAjaxValidation($users);
+			if($condition == 1)
+				$this->performAjaxValidation($company);
+				$this->performAjaxValidation($memberCompany);
+			$this->performAjaxValidation($memberUser);
+			
+			$model->profile_id = $profile->profile_id;
+			
+			$issetPost = isset($_POST['Members']) && isset($_POST['Users']);
+			if($condition == 1)
+				$issetPost = isset($_POST['Members']) && isset($_POST['Users']) && isset($_POST['IpediaCompanies']);
+			
+			if($issetPost) {
+				$model->attributes=$_POST['Members'];
+				$users->attributes=$_POST['Users'];
+				$users->scenario = 'formAdd';
+				if($condition == 1)
+					$company->attributes=$_POST['IpediaCompanies'];
+					$memberCompany->attributes=$_POST['IpediaCompanies'];
+				$memberUser->attributes=$_POST['MemberUser'];
+				
+				$users->level_id = $memberSetting->default_level_id;
+				if($users->validate())
+					$model->publish = $users->enabled;
+				if($condition == 1)
+					$company->validate();
+				
+				if($condition == 0) {
+					if($model->validate() && $users->validate()) {
+						if($model->save() && $users->save()) {
+							$memberUser->member_id = $model->member_id;
+							$memberUser->user_id = $users->user_id;
+							$memberUser->validate();
+							if($memberUser->save()) {
+								Yii::app()->user->setFlash('success', Yii::t('phrase', 'Members success created.'));
+								//$this->redirect(array('view','id'=>$model->member_id));
+								//$this->redirect(array('manage'));
+								$this->redirect(Yii::app()->controller->createUrl('manage'));						
+							}
+						}
+					}
+				} else if($condition == 1) {
+					if($model->validate() && $users->validate() && $company->validate()) {
+						if($model->save() && $users->save() && $company->save()) {
+							$memberUser->member_id = $model->member_id;
+							$memberUser->user_id = $users->user_id;
+							$memberUser->validate();
+							
+							$memberCompany->member_id = $model->member_id;
+							$memberCompany->company_id = $company->company_id;
+							$memberCompany->validate();
+							
+							if($memberUser->save() && $memberCompany->save()) {
+								Yii::app()->user->setFlash('success', Yii::t('phrase', 'Members success created.'));
+								//$this->redirect(array('view','id'=>$model->member_id));
+								//$this->redirect(array('manage'));
+								$this->redirect(Yii::app()->controller->createUrl('manage'));						
+							}
+						}
 					}
 				}
 			}
@@ -187,17 +257,12 @@ class AdminController extends Controller
 		
 		$this->dialogDetail = true;
 		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-		$this->dialogWidth = 600;
+		$this->dialogWidth = $type == null ? 350 : 600;
 
 		$this->pageTitle = Yii::t('phrase', 'Create Members');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('admin_add',array(
-			'model'=>$model,
-			'users'=>$users,
-			'setting'=>$setting,
-			'form_custom'=>$form_custom_insert_field,
-		));
+		$this->render($type == null ? 'admin_pre_add' : 'admin_add', $type == null ? $dataArray : array('data'=>$dataArray));
 	}
 
 	/**
@@ -209,10 +274,8 @@ class AdminController extends Controller
 	{
 		$condition = 0;
 		$model=$this->loadModel($id);
-		if($model->profile->multiple_user == 0)
-			$condition = 1;
 		if($model->profile->multiple_user == 1)
-			$condition = 2;
+			$condition = 1;
 		
 		$memberSetting = MemberSetting::model()->findByPk(1, array(
 			'select'=>'default_level_id, form_custom_insert_field',
@@ -220,25 +283,51 @@ class AdminController extends Controller
 		$form_custom_insert_field = unserialize($memberSetting->form_custom_insert_field);
 		if(empty($form_custom_insert_field))
 			$form_custom_insert_field = array();
+			
+		$dataArray = array(
+			'model'=>$model,
+			'form_custom'=>$form_custom_insert_field,
+		);
 		
-		if($condition == 1) {
+		if($condition == 0) {
 			$users = Users::model()->findByPk($model->view->user_id);
 			$setting = OmmuSettings::model()->findByPk(1, array(
 				'select'=>'signup_username, signup_approve, signup_verifyemail, signup_photo, signup_random',
 			));
+			$dataArray['users'] = $users;
+			$dataArray['setting'] = $setting;
+		}
+		if($condition == 1) {
+			$company = IpediaCompanies::model()->findByPk($model->view->company_id);
+			$dataArray['company'] = $company;		
+		}
 
-			// Uncomment the following line if AJAX validation is needed
-			$this->performAjaxValidation($model);
+		// Uncomment the following line if AJAX validation is needed
+		$this->performAjaxValidation($model);
+		if($condition == 0)
 			$this->performAjaxValidation($users);
-
-			if(isset($_POST['Members']) && isset($_POST['Users'])) {
-				$model->attributes=$_POST['Members'];
+		if($condition == 1)
+			$this->performAjaxValidation($company);
+			
+		$issetPost = isset($_POST['Members']) && isset($_POST['Users']);
+		if($condition == 1)
+			$issetPost = isset($_POST['Members']) && isset($_POST['IpediaCompanies']);
+		
+		if($issetPost) {
+			$model->attributes=$_POST['Members'];
+			if($condition == 0) {
 				$users->attributes=$_POST['Users'];
-				$users->scenario = 'formEdit';
-				
-				if($users->validate())
-					$model->publish = $users->enabled;
-				
+				$users->scenario = 'formEdit';				
+			}
+			if($condition == 1)
+				$company->attributes=$_POST['IpediaCompanies'];
+			
+			if($condition == 0 && $users->validate())
+				$model->publish = $users->enabled;
+			if($condition == 1)
+				$company->validate();
+			
+			if($condition == 0) {
 				if($model->validate() && $users->validate()) {
 					if($model->save() && $users->save()) {
 						Yii::app()->user->setFlash('success', Yii::t('phrase', 'Members success updated.'));
@@ -246,10 +335,17 @@ class AdminController extends Controller
 						//$this->redirect(array('manage'));
 						$this->redirect(Yii::app()->controller->createUrl('manage'));
 					}
-				}
+				}				
+			} else if($condition == 1) {
+				if($model->validate() && $company->validate()) {
+					if($model->save() && $company->save()) {
+						Yii::app()->user->setFlash('success', Yii::t('phrase', 'Members success updated.'));
+						//$this->redirect(array('view','id'=>$model->member_id));
+						//$this->redirect(array('manage'));
+						$this->redirect(Yii::app()->controller->createUrl('manage'));
+					}
+				}				
 			}
-		} else if($condition == 2) {
-			
 		}
 		
 		$this->dialogDetail = true;
@@ -259,13 +355,7 @@ class AdminController extends Controller
 		$this->pageTitle = Yii::t('phrase', 'Update Members');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('admin_edit',array(
-			'model'=>$model,
-			'condition'=>$condition,
-			'users'=>$users,
-			'setting'=>$setting,
-			'form_custom'=>$form_custom_insert_field,
-		));
+		$this->render('admin_edit', array('data'=>$dataArray));
 	}
 	
 	/**

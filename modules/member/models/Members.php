@@ -362,14 +362,16 @@ class Members extends CActiveRecord
 					),
 				), true),
 			);
-			$this->defaultColumns[] = array(
-				'name' => 'user_search',
-				'value' => 'CHtml::link($data->view->users, Yii::app()->controller->createUrl("o/user/manage",array(\'member\'=>$data->member_id,\'type\'=>\'publish\')))',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),	
-				'type' => 'raw',
-			);
+			if($controller != 'jobseeker/admin') {
+				$this->defaultColumns[] = array(
+					'name' => 'user_search',
+					'value' => 'CHtml::link($data->view->users, Yii::app()->controller->createUrl("o/user/manage",array(\'member\'=>$data->member_id,\'type\'=>\'publish\')))',
+					'htmlOptions' => array(
+						'class' => 'center',
+					),	
+					'type' => 'raw',
+				);
+			}
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'publish',

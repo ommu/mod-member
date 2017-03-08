@@ -38,20 +38,41 @@
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'profile_id'); ?>
 			<div class="desc">
-				<?php if($model->isNewRecord) {?>
-					<?php //echo $form->textField($model,'profile_id');
-					$profile = MemberProfile::getProfile();
-					if(!empty($profile))
-						echo $form->dropDownList($model,'profile_id', $profile, array('prompt'=>Yii::t('phrase', 'Select Profile')));
-					else
-						echo $form->dropDownList($model,'profile_id', array('prompt'=>Yii::t('phrase', 'Select Profile')));?>
-				<?php } else {?>
-					<strong><?php echo Phrase::trans($model->profile->profile_name);?></strong>
-				<?php }?>
+				<?php echo $form->hiddenField($model,'profile_id');?>
+				<strong><?php echo Phrase::trans($model->profile->profile_name);?></strong>
 				<?php echo $form->error($model,'profile_id'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
+		
+		<?php if($company != null) {?>
+		<div class="clearfix">
+			<?php echo $form->labelEx($company,'company_name_i'); ?>
+			<div class="desc">
+				<?php if(!$model->isNewRecord && !$model->getErrors())
+					$company->company_name_i = $company->view->company_name;
+				//echo $form->textField($company,'company_name_i',array('class'=>'span-8'));
+				$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+					'model' => $company,
+					'attribute' => 'company_name_i',
+					'source' => Yii::app()->createUrl('ipedia/o/directory/suggest', array('data'=>'company')),
+					'options' => array(
+						//'delay '=> 50,
+						'minLength' => 1,
+						'showAnim' => 'fold',
+						'select' => "js:function(event, ui) {
+							$('#IpediaCompanies_company_name_i').val(ui.item.value);
+						}"
+					),
+					'htmlOptions' => array(
+						'class'	=> 'span-8',
+					),
+				));?>
+				<?php echo $form->error($company,'company_name_i'); ?>
+				<?php /*<div class="small-px silent"></div>*/?>
+			</div>
+		</div>
+		<?php }?>
 
 		<?php if(!$model->isNewRecord || ($model->isNewRecord && in_array('member_header', $form_custom))) {?>
 		<div class="clearfix">
@@ -102,7 +123,7 @@
 		</div>
 		<?php }?>
 
-		<?php if($model->isNewRecord || (!$model->isNewRecord && $condition == 1)) {?>
+		<?php if($users != null) {?>
 			<div class="clearfix">
 				<?php echo $form->labelEx($users,'displayname'); ?>
 				<div class="desc">

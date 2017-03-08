@@ -11,9 +11,12 @@ class MemberModule extends CWebModule
 		// import the module-level models and components
 		$this->setImport(array(
 			'member.models.*',
-			'member.models.company.*',
-			'member.models.jobseeker.*',
 			'member.components.*',
+			
+			'ipedia.models.IpediaCompanies',
+			'ipedia.models.IpediaDirectories',
+			'ipedia.models.ViewIpediaCompanies',
+			'ipedia.models.ViewIpediaDirectories',
 		));
 	}
 

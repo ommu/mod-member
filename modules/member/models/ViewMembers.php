@@ -26,6 +26,7 @@
  * @property string $member_id
  * @property string $member_name
  * @property integer $user_id
+ * @property integer $company_id
  * @property string $users
  * @property string $user_all
  */
@@ -68,14 +69,14 @@ class ViewMembers extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('member_id, user_id', 'numerical', 'integerOnly'=>true),
-			array('member_id, user_id', 'length', 'max'=>11),
+			array('member_id, user_id, company_id', 'numerical', 'integerOnly'=>true),
+			array('member_id, user_id, company_id', 'length', 'max'=>11),
 			array('users', 'length', 'max'=>23),
 			array('user_all', 'length', 'max'=>21),
 			array('member_name', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('member_id, member_name, user_id, users, user_all', 'safe', 'on'=>'search'),
+			array('member_id, member_name, user_id, company_id, users, user_all', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -100,6 +101,7 @@ class ViewMembers extends CActiveRecord
 			'member_id' => Yii::t('attribute', 'Member'),
 			'member_name' => Yii::t('attribute', 'Member Name'),
 			'user_id' => Yii::t('attribute', 'User'),
+			'company_id' => Yii::t('attribute', 'Company'),
 			'users' => Yii::t('attribute', 'Users'),
 			'user_all' => Yii::t('attribute', 'User All'),
 		);
@@ -132,6 +134,7 @@ class ViewMembers extends CActiveRecord
 		$criteria->compare('t.member_id',$this->member_id);
 		$criteria->compare('t.member_name',strtolower($this->member_name),true);
 		$criteria->compare('t.user_id',$this->user_id);
+		$criteria->compare('t.company_id',$this->company_id);
 		$criteria->compare('t.users',$this->users);
 		$criteria->compare('t.user_all',$this->user_all);
 
@@ -167,6 +170,7 @@ class ViewMembers extends CActiveRecord
 			$this->defaultColumns[] = 'member_id';
 			$this->defaultColumns[] = 'member_name';
 			$this->defaultColumns[] = 'user_id';
+			$this->defaultColumns[] = 'company_id';
 			$this->defaultColumns[] = 'users';
 			$this->defaultColumns[] = 'user_all';
 		}
@@ -186,6 +190,7 @@ class ViewMembers extends CActiveRecord
 			//$this->defaultColumns[] = 'member_id';
 			$this->defaultColumns[] = 'member_name';
 			$this->defaultColumns[] = 'user_id';
+			$this->defaultColumns[] = 'company_id';
 			$this->defaultColumns[] = 'users';
 			$this->defaultColumns[] = 'user_all';
 		}

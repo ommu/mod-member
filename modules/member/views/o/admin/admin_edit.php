@@ -21,10 +21,4 @@
 	);
 ?>
 
-<?php echo $this->renderPartial('_form', array(
-	'model'=>$model,
-	'condition'=>$condition,
-	'users'=>$users,
-	'setting'=>$setting,
-	'form_custom'=>$form_custom,
-)); ?>
+<?php echo $this->renderPartial('_form', $data); ?>

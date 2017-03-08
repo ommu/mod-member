@@ -15,13 +15,6 @@ plugin_menu		:
 	- urlTitle: Views
 		urlRules: {siteType: 0,1, userLevel: 1,2}
 		urlPath: {url: o/admin/manage, attr: -, icon: -}
-		submenu :
-			- urlTitle: Companies
-				urlRules: {siteType: 0,1, userLevel: 1,2}
-				urlPath: {url: company/admin/manage, attr: -, icon: -}
-			- urlTitle: Jobseekers
-				urlRules: {siteType: 0,1, userLevel: 1,2}
-				urlPath: {url: jobseeker/admin/manage, attr: -, icon: -}
 	- urlTitle: Datas
 		urlRules: {siteType: 0,1, userLevel: 1,2}
 		urlPath: {url: -, attr: -, icon: -}
@@ -37,9 +30,9 @@ plugin_menu		:
 		urlPath: {url: o/setting/edit, attr: -, icon: -}
 
 content_menu	:
-# controller jobseeker/admin
-	- urlTitle: Add Jobseeker
-		urlRules: {member, jobseeker/admin, manage, siteType: 0,1, userLevel: 1,2}
+# controller o/admin
+	- urlTitle: Add Member
+		urlRules: {member, o/admin, manage, siteType: 0,1, userLevel: 1,2}
 		urlPath: {url: add, attr: -, icon: -}
         
 # controller o/profile
