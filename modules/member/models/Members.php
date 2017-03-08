@@ -57,6 +57,8 @@
 class Members extends CActiveRecord
 {
 	public $defaultColumns = array();
+	public $old_member_header_i;
+	public $old_member_photo_i;
 	
 	// Variable Search
 	public $member_search;
@@ -95,7 +97,8 @@ class Members extends CActiveRecord
 			array('publish, profile_id', 'numerical', 'integerOnly'=>true),
 			array('creation_id, modified_id', 'length', 'max'=>11),
 			array('short_biography', 'length', 'max'=>160),
-			array('member_header, member_photo, short_biography', 'safe'),
+			array('member_header, member_photo, short_biography,
+				old_member_header_i, old_member_photo_i', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('member_id, publish, profile_id, member_header, member_photo, short_biography, creation_date, creation_id, modified_date, modified_id, 
@@ -151,6 +154,8 @@ class Members extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'old_member_header_i' => Yii::t('attribute', 'Old Member Header'),
+			'old_member_photo_i' => Yii::t('attribute', 'Old Member Photo'),
 			'member_search' => Yii::t('attribute', 'Member'),
 			'user_search' => Yii::t('attribute', 'Users'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
@@ -389,16 +394,179 @@ class Members extends CActiveRecord
 	}
 
 	/**
+	 * Resize Photo
+	 */
+	public static function resizePhoto($photo, $resize) {
+		Yii::import('ext.phpthumb.PhpThumbFactory');
+		$resizePhoto = PhpThumbFactory::create($photo, array('jpegQuality' => 90, 'correctPermissions' => true));
+		if($resize['height'] == 0)
+			$resizePhoto->resize($resize['width']);
+		else			
+			$resizePhoto->adaptiveResize($resize['width'], $resize['height']);
+		$resizePhoto->save($photo);
+		
+		return true;
+	}
+
+	/**
 	 * before validate attributes
 	 */
 	protected function beforeValidate() {
+		$setting = MemberSetting::model()->findByPk(1, array(
+			'select' => 'photo_file_type',
+		));
+		$photo_file_type = unserialize($setting->photo_file_type);
+		
 		if(parent::beforeValidate()) {		
 			if($this->isNewRecord)
 				$this->creation_id = Yii::app()->user->id;	
 			else
 				$this->modified_id = Yii::app()->user->id;
+			
+			$member_header = CUploadedFile::getInstance($this, 'member_header');
+			if($member_header != null) {
+				$extension = pathinfo($member_header->name, PATHINFO_EXTENSION);
+				if(!in_array(strtolower($extension), $photo_file_type))
+					$this->addError('member_header', Yii::t('phrase', 'The file {name} cannot be uploaded. Only files with these extensions are allowed: {extensions}.', array(
+						'{name}'=>$member_header->name,
+						'{extensions}'=>Utility::formatFileType($photo_file_type, false),
+					)));
+			}
+			
+			$member_photo = CUploadedFile::getInstance($this, 'member_photo');
+			if($member_photo != null) {
+				$extension = pathinfo($member_photo->name, PATHINFO_EXTENSION);
+				if(!in_array(strtolower($extension), $photo_file_type))
+					$this->addError('member_photo', Yii::t('phrase', 'The file {name} cannot be uploaded. Only files with these extensions are allowed: {extensions}.', array(
+						'{name}'=>$member_photo->name,
+						'{extensions}'=>Utility::formatFileType($photo_file_type, false),
+					)));
+			}
 		}
 		return true;
+	}
+	
+	/**
+	 * before save attributes
+	 */
+	protected function beforeSave() 
+	{		
+		$setting = MemberSetting::model()->findByPk(1, array(
+			'select' => 'photo_resize, photo_resize_size',
+		));
+		$photo_resize_size = unserialize($setting->photo_resize_size);
+		
+		if(parent::beforeSave()) {			
+			if(!$this->isNewRecord) {
+				$member_path = 'public/member/'.$this->member_id;
+				
+				// Add directory
+				if(!file_exists($member_path)) {
+					@mkdir($member_path, 0755, true);
+
+					// Add file in directory (index.php)
+					$newFile = $member_path.'/index.php';
+					$FileHandle = fopen($newFile, 'w');
+				} else
+					@chmod($member_path, 0755, true);
+				
+				$this->member_header = CUploadedFile::getInstance($this, 'member_header');
+				if($this->member_header != null) {
+					if($this->member_header instanceOf CUploadedFile) {
+						$fileName = time().'_header_'.Utility::getUrlTitle($this->view->member_name).'.'.strtolower($this->member_header->extensionName);
+						if($this->member_header->saveAs($member_path.'/'.$fileName)) {							
+							if($this->old_member_header_i != '' && file_exists($member_path.'/'.$this->old_member_header_i))
+								rename($member_path.'/'.$this->old_member_header_i, 'public/member/verwijderen/'.$this->member_id.'_'.$this->old_member_header_i);
+							$this->member_header = $fileName;
+						}
+					}
+				} else {
+					if($this->member_header == '')
+						$this->member_header = $this->old_member_header_i;
+				}
+				
+				$this->member_photo = CUploadedFile::getInstance($this, 'member_photo');
+				if($this->member_photo != null) {
+					if($this->member_photo instanceOf CUploadedFile) {
+						$fileName = time().'_header_'.Utility::getUrlTitle($this->view->member_name).'.'.strtolower($this->member_photo->extensionName);
+						if($this->member_photo->saveAs($member_path.'/'.$fileName)) {							
+							if($this->old_member_photo_i != '' && file_exists($member_path.'/'.$this->old_member_photo_i))
+								rename($member_path.'/'.$this->old_member_photo_i, 'public/member/verwijderen/'.$this->member_id.'_'.$this->old_member_photo_i);
+							$this->member_photo = $fileName;
+							
+							if($setting->photo_resize == 1)
+								self::resizePhoto($member_path.'/'.$fileName, $photo_resize_size);
+						}
+					}
+				} else {
+					if($this->member_photo == '')
+						$this->member_photo = $this->old_member_photo_i;
+				}
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * After save attributes
+	 */
+	protected function afterSave() {
+		parent::afterSave();
+		
+		$setting = MemberSetting::model()->findByPk(1, array(
+			'select' => 'photo_resize, photo_resize_size',
+		));
+		$photo_resize_size = unserialize($setting->photo_resize_size);
+		
+		if($this->isNewRecord) {
+			$member_path = 'public/member/'.$this->member_id;
+			
+			// Add directory
+			if(!file_exists($member_path)) {
+				@mkdir($member_path, 0755, true);
+
+				// Add file in directory (index.php)
+				$newFile = $member_path.'/index.php';
+				$FileHandle = fopen($newFile, 'w');
+			} else
+				@chmod($member_path, 0755, true);
+			
+			$this->member_header = CUploadedFile::getInstance($this, 'member_header');
+			if($this->member_header != null) {
+				if($this->member_header instanceOf CUploadedFile) {
+					$fileName = time().'_header_'.Utility::getUrlTitle($this->view->member_name).'.'.strtolower($this->member_header->extensionName);
+					if($this->member_header->saveAs($member_path.'/'.$fileName))
+						self::model()->updateByPk($this->member_id, array('member_header'=>$fileName));
+				}
+			}
+			
+			$this->member_photo = CUploadedFile::getInstance($this, 'member_photo');
+			if($this->member_photo != null) {
+				if($this->member_photo instanceOf CUploadedFile) {
+					$fileName = time().'_photo_'.Utility::getUrlTitle($this->view->member_name).'.'.strtolower($this->member_photo->extensionName);
+					if($this->member_photo->saveAs($member_path.'/'.$fileName)) {
+						if($setting->photo_resize == 1)
+							self::resizePhoto($member_path.'/'.$fileName, $photo_resize_size);
+						self::model()->updateByPk($this->member_id, array('member_photo'=>$fileName));
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * After delete attributes
+	 */
+	protected function afterDelete() {
+		parent::afterDelete();
+		//delete member photo
+		$member_path = 'public/member/'.$this->member_id;
+		
+		if($this->member_header != '' && file_exists($member_path.'/'.$this->member_header))
+			rename($member_path.'/'.$this->member_header, 'public/member/verwijderen/'.$this->member_id.'_'.$this->member_header);
+		
+		if($this->member_photo != '' && file_exists($member_path.'/'.$this->member_photo))
+			rename($member_path.'/'.$this->member_photo, 'public/member/verwijderen/'.$this->member_id.'_'.$this->member_photo);
 	}
 
 }

@@ -57,7 +57,15 @@
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'member_header'); ?>
 			<div class="desc">
-				<?php echo $form->fileField($model,'member_header'); ?>
+				<?php 
+				if(!$model->getErrors())
+					$model->old_member_header_i = $model->member_header;
+				if(!$model->isNewRecord && $model->old_member_header_i != '') {
+					echo $form->hiddenField($model,'old_member_header_i');
+					$headerPhoto = Yii::app()->request->baseUrl.'/public/member/'.$model->member_id.'/'.$model->old_member_header_i;?>
+						<img class="mb-10" src="<?php echo Utility::getTimThumb($headerPhoto, 400, 250, 1);?>" alt="">
+				<?php }
+				echo $form->fileField($model,'member_header'); ?>
 				<?php echo $form->error($model,'member_header'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
@@ -68,7 +76,15 @@
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'member_photo'); ?>
 			<div class="desc">
-				<?php echo $form->fileField($model,'member_photo'); ?>
+				<?php 
+				if(!$model->getErrors())
+					$model->old_member_photo_i = $model->member_photo;
+				if(!$model->isNewRecord && $model->old_member_photo_i != '') {
+					echo $form->hiddenField($model,'old_member_photo_i');
+					$photo = Yii::app()->request->baseUrl.'/public/member/'.$model->member_id.'/'.$model->old_member_photo_i;?>
+						<img class="mb-10" src="<?php echo Utility::getTimThumb($photo, 400, 250, 1);?>" alt="">
+				<?php }
+				echo $form->fileField($model,'member_photo'); ?>
 				<?php echo $form->error($model,'member_photo'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
@@ -86,85 +102,87 @@
 		</div>
 		<?php }?>
 
-		<div class="clearfix">
-			<?php echo $form->labelEx($users,'displayname'); ?>
-			<div class="desc">
-				<?php echo $form->textField($users,'displayname',array('maxlength'=>64,'class'=>'span-7')); ?>
-				<?php echo $form->error($users,'displayname'); ?>
-				<?php /*<div class="small-px silent"></div>*/?>
+		<?php if($model->isNewRecord || (!$model->isNewRecord && $condition == 1)) {?>
+			<div class="clearfix">
+				<?php echo $form->labelEx($users,'displayname'); ?>
+				<div class="desc">
+					<?php echo $form->textField($users,'displayname',array('maxlength'=>64,'class'=>'span-7')); ?>
+					<?php echo $form->error($users,'displayname'); ?>
+					<?php /*<div class="small-px silent"></div>*/?>
+				</div>
 			</div>
-		</div>
 
-		<?php if($setting->signup_username == 1) {?>
-		<div class="clearfix">
-			<label><?php echo $users->getAttributeLabel('username')?> <span class="required">*</span></label>
-			<div class="desc">
-				<?php echo $form->textField($users,'username',array('maxlength'=>32,'class'=>'span-7')); ?>
-				<?php echo $form->error($users,'username'); ?>
+			<?php if($setting->signup_username == 1) {?>
+			<div class="clearfix">
+				<label><?php echo $users->getAttributeLabel('username')?> <span class="required">*</span></label>
+				<div class="desc">
+					<?php echo $form->textField($users,'username',array('maxlength'=>32,'class'=>'span-7')); ?>
+					<?php echo $form->error($users,'username'); ?>
+				</div>
 			</div>
-		</div>
-		<?php }?>
+			<?php }?>
 
-		<div class="clearfix">
-			<?php echo $form->labelEx($users,'email'); ?>
-			<div class="desc">
-				<?php echo $form->textField($users,'email',array('maxlength'=>32,'class'=>'span-7')); ?>
-				<?php echo $form->error($users,'email'); ?>
-				<?php /*<div class="small-px silent"></div>*/?>
+			<div class="clearfix">
+				<?php echo $form->labelEx($users,'email'); ?>
+				<div class="desc">
+					<?php echo $form->textField($users,'email',array('maxlength'=>32,'class'=>'span-7')); ?>
+					<?php echo $form->error($users,'email'); ?>
+					<?php /*<div class="small-px silent"></div>*/?>
+				</div>
 			</div>
-		</div>
 
-		<?php if($setting->signup_photo == 1) {?>
-		<div class="clearfix">
-			<?php echo $form->labelEx($users,'photos'); ?>
-			<div class="desc">
-				<?php echo $form->textArea($users,'photos',array('rows'=>6, 'cols'=>50, 'class'=>'span-10 smaller')); ?>
-				<?php echo $form->error($users,'photos'); ?>
-				<div class="small-px silent"><?php echo Yii::t('phrase', 'Inputkan alamat url photo Anda.<br/>contoh: http://ommu.co/putrasudaryanto.jpg');?></div>
+			<?php if($setting->signup_photo == 1) {?>
+			<div class="clearfix">
+				<?php echo $form->labelEx($users,'photos'); ?>
+				<div class="desc">
+					<?php echo $form->textArea($users,'photos',array('rows'=>6, 'cols'=>50, 'class'=>'span-10 smaller')); ?>
+					<?php echo $form->error($users,'photos'); ?>
+					<div class="small-px silent"><?php echo Yii::t('phrase', 'Inputkan alamat url photo Anda.<br/>contoh: http://ommu.co/putrasudaryanto.jpg');?></div>
+				</div>
 			</div>
-		</div>
-		<?php }?>
-		
-		<?php if(($users->isNewRecord && $setting->signup_random == 0) || !$users->isNewRecord) {?>
-		<div class="clearfix">
-			<label><?php echo $users->getAttributeLabel('newPassword')?> <?php echo $users->isNewRecord ? '<span class="required">*</span>' : '';?></label>
-			<div class="desc">
-				<?php echo $form->passwordField($users,'newPassword',array('maxlength'=>32,'class'=>'span-7')); ?>
-				<?php echo $form->error($users,'newPassword'); ?>
+			<?php }?>
+			
+			<?php if(($users->isNewRecord && $setting->signup_random == 0) || !$users->isNewRecord) {?>
+			<div class="clearfix">
+				<label><?php echo $users->getAttributeLabel('newPassword')?> <?php echo $users->isNewRecord ? '<span class="required">*</span>' : '';?></label>
+				<div class="desc">
+					<?php echo $form->passwordField($users,'newPassword',array('maxlength'=>32,'class'=>'span-7')); ?>
+					<?php echo $form->error($users,'newPassword'); ?>
+				</div>
 			</div>
-		</div>
 
-		<div class="clearfix">
-			<label><?php echo $users->getAttributeLabel('confirmPassword')?> <?php echo $users->isNewRecord ? '<span class="required">*</span>' : '';?></label>
-			<div class="desc">
-				<?php echo $form->passwordField($users,'confirmPassword',array('maxlength'=>32,'class'=>'span-7')); ?>
-				<?php echo $form->error($users,'confirmPassword'); ?>
+			<div class="clearfix">
+				<label><?php echo $users->getAttributeLabel('confirmPassword')?> <?php echo $users->isNewRecord ? '<span class="required">*</span>' : '';?></label>
+				<div class="desc">
+					<?php echo $form->passwordField($users,'confirmPassword',array('maxlength'=>32,'class'=>'span-7')); ?>
+					<?php echo $form->error($users,'confirmPassword'); ?>
+				</div>
 			</div>
-		</div>
-		<?php }?>
+			<?php }?>
 
-		<?php if(($users->isNewRecord && $setting->signup_approve == 0) || !$users->isNewRecord) {?>
-		<div class="clearfix publish">
-			<?php echo $form->labelEx($users,'enabled'); ?>
-			<div class="desc">
-				<?php echo $form->checkBox($users,'enabled'); ?>
+			<?php if(($users->isNewRecord && $setting->signup_approve == 0) || !$users->isNewRecord) {?>
+			<div class="clearfix publish">
 				<?php echo $form->labelEx($users,'enabled'); ?>
-				<?php echo $form->error($users,'enabled'); ?>
-				<?php /*<div class="small-px silent"></div>*/?>
+				<div class="desc">
+					<?php echo $form->checkBox($users,'enabled'); ?>
+					<?php echo $form->labelEx($users,'enabled'); ?>
+					<?php echo $form->error($users,'enabled'); ?>
+					<?php /*<div class="small-px silent"></div>*/?>
+				</div>
 			</div>
-		</div>
-		<?php }?>
+			<?php }?>
 
-		<?php if(($users->isNewRecord && $setting->signup_verifyemail == 1) || !$users->isNewRecord) {?>
-		<div class="clearfix publish">
-			<?php echo $form->labelEx($users,'verified'); ?>
-			<div class="desc">
-				<?php echo $form->checkBox($users,'verified'); ?>
+			<?php if(($users->isNewRecord && $setting->signup_verifyemail == 1) || !$users->isNewRecord) {?>
+			<div class="clearfix publish">
 				<?php echo $form->labelEx($users,'verified'); ?>
-				<?php echo $form->error($users,'verified'); ?>
-				<?php /*<div class="small-px silent"></div>*/?>
+				<div class="desc">
+					<?php echo $form->checkBox($users,'verified'); ?>
+					<?php echo $form->labelEx($users,'verified'); ?>
+					<?php echo $form->error($users,'verified'); ?>
+					<?php /*<div class="small-px silent"></div>*/?>
+				</div>
 			</div>
-		</div>
+			<?php }?>
 		<?php }?>
 
 	</fieldset>
