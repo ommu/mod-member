@@ -9,6 +9,8 @@
  *
  * TOC :
  *	Index
+ *	Suggest
+ *	Add
  *	Manage
  *	View
  *	RunAction
@@ -76,13 +78,13 @@ class UserController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array(),
+				'actions'=>array('suggest'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level)',
 				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('manage','view','runaction','delete','publish'),
+				'actions'=>array('add','manage','view','runaction','delete','publish'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level) && in_array(Yii::app()->user->level, array(1,2))',
 			),
@@ -102,6 +104,89 @@ class UserController extends Controller
 	public function actionIndex() 
 	{
 		$this->redirect(array('manage'));
+	}
+	
+	/**
+	 * Updates a particular model.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id the ID of the model to be updated
+	 */
+	public function actionSuggest($data=null, $id=null, $limit=10) 
+	{
+		if(Yii::app()->request->isAjaxRequest) {
+			if(isset($_GET['term'])) {
+				$criteria = new CDbCriteria;
+				$items = array();
+				
+				if(isset($data) && $data == 'member') {	
+					if($id != null) {
+						$member = Members::getInfo($id);
+						$users = $member->users;
+						if(!empty($users)) {
+							foreach($users as $key => $val)
+								$items[] = $val->user_id;
+						}
+					}
+				}
+				$criteria->select = "t.user_id, t.displayname";
+				$criteria->compare('t.enabled',1);
+				$criteria->compare('t.displayname',strtolower(trim($_GET['term'])), true);
+				if($id != null)
+					$criteria->addNotInCondition('t.user_id',$items);
+				$criteria->limit = $limit;
+				$criteria->order = "t.user_id ASC";
+				$model = Users::model()->findAll($criteria);
+				/*
+				echo '<pre>';
+				print_r($criteria);
+				print_r($model);
+				echo '</pre>';
+				*/
+				
+				if($model) {
+					foreach($model as $items) {
+						$result[] = array('id' => $items->user_id, 'value' => $items->displayname);
+					}
+				} //else
+				//	$result[] = array('id' => 0, 'value' => $_GET['term']);
+			}
+			echo CJSON::encode($result);
+			Yii::app()->end();
+			
+		} else
+			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
+	}
+
+	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function actionAdd() 
+	{
+		$setting = MemberSetting::model()->findByPk(1, array(
+			'select' => 'default_member_level',
+		));
+		$model=new MemberUser;
+
+		// Uncomment the following line if AJAX validation is needed
+		$this->performAjaxValidation($model);
+
+		if(isset($_POST['member_id'], $_POST['user_id'])) {
+			$model->member_id = $_POST['member_id'];
+			$model->level_id = $setting->default_member_level;
+			$model->user_id = $_POST['user_id'];
+
+			if($model->save()) {
+				if(isset($_GET['type']) && $_GET['type'] == 'member')
+					$url = Yii::app()->controller->createUrl('delete',array('id'=>$model->id,'type'=>'member'));
+				else 
+					$url = Yii::app()->controller->createUrl('delete',array('id'=>$model->id));
+				$desc_name = $model->publish == 0 ? $model->user->displayname.' ('.Phrase::trans($model->level->level_name).') '.Yii::t('phrase', '(Unpublish)') : $model->user->displayname.' ('.Phrase::trans($model->level->level_name).')';
+				echo CJSON::encode(array(
+					'data' => '<div>'.$desc_name.'</div>',
+				));
+			}
+		}
 	}
 
 	/**

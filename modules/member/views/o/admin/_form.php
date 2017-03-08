@@ -205,6 +205,55 @@
 			</div>
 			<?php }?>
 		<?php }?>
+				
+		<?php if(!$model->isNewRecord) {?>
+		<div class="clearfix">
+			<?php echo $form->labelEx($model,'member_user_i'); ?>
+			<div class="desc">
+				<?php //echo $form->textField($model,'member_user_i',array('maxlength'=>32,'class'=>'span-6'));
+				$url = Yii::app()->controller->createUrl('o/user/add', array('type'=>'member'));
+				$member = $model->member_id;
+				$tagId = 'Members_member_user_i';
+				$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+					'model' => $model,
+					'attribute' => 'member_user_i',
+					'source' => Yii::app()->controller->createUrl('o/user/suggest', array('data'=>'member','id'=>$model->member_id)),
+					'options' => array(
+						//'delay '=> 50,
+						'minLength' => 1,
+						'showAnim' => 'fold',
+						'select' => "js:function(event, ui) {
+							$.ajax({
+								type: 'post',
+								url: '$url',
+								data: { member_id: '$member', user_id: ui.item.id, user: ui.item.value },
+								dataType: 'json',
+								success: function(response) {
+									$('form #$tagId').val('');
+									$('form #user-suggest').append(response.data);
+								}
+							});
+
+						}"
+					),
+					'htmlOptions' => array(
+						'class'	=> 'span-6',
+					),
+				));
+				echo $form->error($model,'member_user_i');?>
+				<div id="user-suggest" class="suggest clearfix">
+					<?php
+					$users = $model->users;
+					if(!empty($users)) {
+						foreach($users as $key => $val) {?>
+						<div><?php echo $val->user->displayname;?><?php echo $val->level_id != null ? ' ('.Phrase::trans($val->level->level_name).')' : ''?><?php echo $val->publish == 0 ? ' '.Yii::t('phrase', '(Unpublish)') : ''?></div>
+					<?php }
+					}?>
+				</div>
+				<?php if($model->isNewRecord) {?><span class="small-px">tambahkan tanda koma (,) jika ingin menambahkan keyword lebih dari satu</span><?php }?>
+			</div>
+		</div>
+		<?php }?>
 
 	</fieldset>
 </div>

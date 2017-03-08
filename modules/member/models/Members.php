@@ -59,6 +59,7 @@ class Members extends CActiveRecord
 	public $defaultColumns = array();
 	public $old_member_header_i;
 	public $old_member_photo_i;
+	public $member_user_i;
 	
 	// Variable Search
 	public $member_search;
@@ -98,7 +99,7 @@ class Members extends CActiveRecord
 			array('creation_id, modified_id', 'length', 'max'=>11),
 			array('short_biography', 'length', 'max'=>160),
 			array('member_header, member_photo, short_biography,
-				old_member_header_i, old_member_photo_i', 'safe'),
+				old_member_header_i, old_member_photo_i, member_user_i', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('member_id, publish, profile_id, member_header, member_photo, short_biography, creation_date, creation_id, modified_date, modified_id, 
@@ -156,6 +157,7 @@ class Members extends CActiveRecord
 			'modified_id' => Yii::t('attribute', 'Modified'),
 			'old_member_header_i' => Yii::t('attribute', 'Old Member Header'),
 			'old_member_photo_i' => Yii::t('attribute', 'Old Member Photo'),
+			'member_user_i' => Yii::t('attribute', 'Member User'),
 			'member_search' => Yii::t('attribute', 'Member'),
 			'user_search' => Yii::t('attribute', 'Users'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
