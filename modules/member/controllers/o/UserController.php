@@ -175,6 +175,8 @@ class UserController extends Controller
 
 		if(isset($_POST['member_id'], $_POST['user_id'])) {
 			$model->member_id = $_POST['member_id'];
+			if($model->member->member_private == 1)
+				$model->publish = 0;				
 			$model->level_id = $setting->default_member_level;
 			$model->user_id = $_POST['user_id'];
 

@@ -26,6 +26,7 @@
  * @property string $member_id
  * @property integer $publish
  * @property integer $profile_id
+ * @property integer $member_private
  * @property string $member_header
  * @property string $member_photo
  * @property string $short_biography
@@ -95,14 +96,14 @@ class Members extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('profile_id', 'required'),
-			array('publish, profile_id', 'numerical', 'integerOnly'=>true),
+			array('publish, profile_id, member_private', 'numerical', 'integerOnly'=>true),
 			array('creation_id, modified_id', 'length', 'max'=>11),
 			array('short_biography', 'length', 'max'=>160),
 			array('member_header, member_photo, short_biography,
 				old_member_header_i, old_member_photo_i, member_user_i', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('member_id, publish, profile_id, member_header, member_photo, short_biography, creation_date, creation_id, modified_date, modified_id, 
+			array('member_id, publish, profile_id, member_private, member_header, member_photo, short_biography, creation_date, creation_id, modified_date, modified_id, 
 				member_search, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -148,6 +149,7 @@ class Members extends CActiveRecord
 			'member_id' => Yii::t('attribute', 'Member'),
 			'publish' => Yii::t('attribute', 'Publish'),
 			'profile_id' => Yii::t('attribute', 'Profile'),
+			'member_private' => Yii::t('attribute', 'Private'),
 			'member_header' => Yii::t('attribute', 'Member Header'),
 			'member_photo' => Yii::t('attribute', 'Member Photo'),
 			'short_biography' => Yii::t('attribute', 'Short Biography'),
@@ -223,19 +225,11 @@ class Members extends CActiveRecord
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
-		if($controller == 'o/admin') {
-			if(isset($_GET['profile']))
-				$criteria->compare('t.profile_id',$_GET['profile']);
-			else
-				$criteria->compare('t.profile_id',$this->profile_id);
-		} else {
-			if($controller == 'jobseeker/admin')
-				$id = '0';
-			else if($controller == 'company/admin')
-				$id = '1';
-			$profile = MemberProfile::getProfile(null, $id, 'id');
-			$criteria->addInCondition('t.profile_id', $profile);
-		}
+		if(isset($_GET['profile']))
+			$criteria->compare('t.profile_id',$_GET['profile']);
+		else
+			$criteria->compare('t.profile_id',$this->profile_id);
+		$criteria->compare('t.member_private',$this->member_private);
 		$criteria->compare('t.member_header',strtolower($this->member_header),true);
 		$criteria->compare('t.member_photo',strtolower($this->member_photo),true);
 		$criteria->compare('t.short_biography',strtolower($this->short_biography),true);
@@ -289,6 +283,7 @@ class Members extends CActiveRecord
 			//$this->defaultColumns[] = 'member_id';
 			$this->defaultColumns[] = 'publish';
 			$this->defaultColumns[] = 'profile_id';
+			$this->defaultColumns[] = 'member_private';
 			$this->defaultColumns[] = 'member_header';
 			$this->defaultColumns[] = 'member_photo';
 			$this->defaultColumns[] = 'short_biography';
@@ -375,6 +370,18 @@ class Members extends CActiveRecord
 				);
 			}
 			if(!isset($_GET['type'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'member_private',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("private",array("id"=>$data->member_id)), $data->member_private, 1)',
+					'htmlOptions' => array(
+						'class' => 'center',
+					),
+					'filter'=>array(
+						1=>Yii::t('phrase', 'Yes'),
+						0=>Yii::t('phrase', 'No'),
+					),
+					'type' => 'raw',
+				);
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
 					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->member_id)), $data->publish, 1)',

@@ -16,6 +16,7 @@
  *	RunAction
  *	Delete
  *	Publish
+ *	Private
  *
  *	LoadModel
  *	performAjaxValidation
@@ -84,7 +85,7 @@ class AdminController extends Controller
 				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('manage','add','edit','view','runaction','delete','publish'),
+				'actions'=>array('manage','add','edit','view','runaction','delete','publish','private'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level) && in_array(Yii::app()->user->level, array(1,2))',
 			),
@@ -504,6 +505,54 @@ class AdminController extends Controller
 			$this->pageDescription = '';
 			$this->pageMeta = '';
 			$this->render('admin_publish',array(
+				'title'=>$title,
+				'model'=>$model,
+			));
+		}
+	}
+
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionPrivate($id) 
+	{
+		$model=$this->loadModel($id);
+		
+		if($model->member_private == 1) {
+			$title = Yii::t('phrase', 'Public Member');
+			$replace = 0;
+		} else {
+			$title = Yii::t('phrase', 'Private Member');
+			$replace = 1;
+		}
+
+		if(Yii::app()->request->isPostRequest) {
+			// we only allow deletion via POST request
+			if(isset($id)) {
+				//change value member_private
+				$model->member_private = $replace;
+
+				if($model->update()) {
+					echo CJSON::encode(array(
+						'type' => 5,
+						'get' => Yii::app()->controller->createUrl('manage'),
+						'id' => 'partial-members',
+						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'Members success updated.').'</strong></div>',
+					));
+				}
+			}
+
+		} else {
+			$this->dialogDetail = true;
+			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+			$this->dialogWidth = 350;
+
+			$this->pageTitle = $title;
+			$this->pageDescription = '';
+			$this->pageMeta = '';
+			$this->render('admin_private',array(
 				'title'=>$title,
 				'model'=>$model,
 			));
