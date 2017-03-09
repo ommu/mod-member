@@ -389,5 +389,30 @@ class MemberUser extends CActiveRecord
 		}
 		return true;
 	}
+	
+	/**
+	 * before save attributes
+	 */
+	protected function beforeSave() 
+	{
+		$setting = MemberSetting::model()->findByPk(1, array(
+			'select' => 'default_member_level',
+		));
+		$level_id = MemberLevels::getDefault();
+		
+		if(parent::beforeSave()) {			
+			if($this->isNewRecord) {
+				$users = $this->member->users;
+				if(empty($users)) {
+					$this->publish = 1;
+					$this->level_id = $level_id;
+				} else {
+					$this->publish = $this->member->member_private == 1 ? 0 : 1;
+					$this->level_id = $setting->default_member_level;					
+				}
+			}
+		}
+		return true;
+	}
 
 }

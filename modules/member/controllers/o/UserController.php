@@ -165,9 +165,6 @@ class UserController extends Controller
 	 */
 	public function actionAdd() 
 	{
-		$setting = MemberSetting::model()->findByPk(1, array(
-			'select' => 'default_member_level',
-		));
 		$model=new MemberUser;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -175,9 +172,6 @@ class UserController extends Controller
 
 		if(isset($_POST['member_id'], $_POST['user_id'])) {
 			$model->member_id = $_POST['member_id'];
-			if($model->member->member_private == 1)
-				$model->publish = 0;				
-			$model->level_id = $setting->default_member_level;
 			$model->user_id = $_POST['user_id'];
 
 			if($model->save()) {
