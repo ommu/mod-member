@@ -369,19 +369,19 @@ class Members extends CActiveRecord
 					'type' => 'raw',
 				);
 			}
+			$this->defaultColumns[] = array(
+				'name' => 'member_private',
+				'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("private",array("id"=>$data->member_id)), $data->member_private, 1)',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter'=>array(
+					1=>Yii::t('phrase', 'Yes'),
+					0=>Yii::t('phrase', 'No'),
+				),
+				'type' => 'raw',
+			);
 			if(!isset($_GET['type'])) {
-				$this->defaultColumns[] = array(
-					'name' => 'member_private',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("private",array("id"=>$data->member_id)), $data->member_private, 1)',
-					'htmlOptions' => array(
-						'class' => 'center',
-					),
-					'filter'=>array(
-						1=>Yii::t('phrase', 'Yes'),
-						0=>Yii::t('phrase', 'No'),
-					),
-					'type' => 'raw',
-				);
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
 					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->member_id)), $data->publish, 1)',
