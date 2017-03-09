@@ -123,7 +123,7 @@
 		</div>
 		<?php }?>
 
-		<?php if(($model->isNewRecord && $users->user_id == null) || (!$model->isNewRecord && $users != null)) {?>
+		<?php if(($model->isNewRecord && $users->user_id == null) || (!$model->isNewRecord && $model->profile->multiple_user != 1)) {?>
 			<div class="clearfix">
 				<?php echo $form->labelEx($users,'displayname'); ?>
 				<div class="desc">

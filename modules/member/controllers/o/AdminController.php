@@ -169,9 +169,10 @@ class AdminController extends Controller
 			$users = Users::model()->findByAttributes(array('email' => $_GET['email']));
 			if($users == null)
 				$users=new Users;
-			if($condition == 1)
+			if($condition == 1) {
 				$company=new IpediaCompanies;
-				$memberCompany=new MemberCompany;
+				$memberCompany=new MemberCompany;				
+			}
 			$memberUser=new MemberUser;
 			$setting = OmmuSettings::model()->findByPk(1, array(
 				'select'=>'signup_username, signup_approve, signup_verifyemail, signup_photo, signup_random',
@@ -195,9 +196,10 @@ class AdminController extends Controller
 			// Uncomment the following line if AJAX validation is needed
 			$this->performAjaxValidation($model);
 			$this->performAjaxValidation($users);
-			if($condition == 1)
+			if($condition == 1) {
 				$this->performAjaxValidation($company);
-				$this->performAjaxValidation($memberCompany);
+				$this->performAjaxValidation($memberCompany);				
+			}
 			$this->performAjaxValidation($memberUser);
 			
 			$model->profile_id = $profile->profile_id;
@@ -207,9 +209,10 @@ class AdminController extends Controller
 				$users->attributes=$_POST['Users'];
 				if($users->user_id == null)
 					$users->scenario = 'formAdd';
-				if($condition == 1)
+				if($condition == 1) {
 					$company->attributes=$_POST['IpediaCompanies'];
-					$memberCompany->attributes=$_POST['IpediaCompanies'];
+					$memberCompany->attributes=$_POST['IpediaCompanies'];					
+				}
 				$memberUser->attributes=$_POST['MemberUser'];
 				
 				if($users->user_id == null)
@@ -225,7 +228,7 @@ class AdminController extends Controller
 							'select'    => 't.id, t.member_id, t.level_id, t.user_id',
 							'condition' => 'member.profile_id = :profile AND level.default = :level AND t.user_id = :user',
 							'params'    => array(
-								':profile' => $type,
+								':profile' => $profile->profile_id,
 								':level' => 1,
 								':user' => $users->user_id,
 							),
@@ -293,6 +296,10 @@ class AdminController extends Controller
 		if($model->profile->multiple_user == 1)
 			$condition = 1;
 		
+		$users = Users::model()->findByPk($model->view->user_id);
+		$setting = OmmuSettings::model()->findByPk(1, array(
+			'select'=>'signup_username, signup_approve, signup_verifyemail, signup_photo, signup_random',
+		));
 		$memberSetting = MemberSetting::model()->findByPk(1, array(
 			'select'=>'default_user_level, form_custom_insert_field',
 		));
@@ -302,39 +309,30 @@ class AdminController extends Controller
 			
 		$dataArray = array(
 			'model'=>$model,
+			'users'=>$users,
+			'setting'=>$setting,
 			'form_custom'=>$form_custom_insert_field,
 		);
-		
-		if($condition == 0) {
-			$users = Users::model()->findByPk($model->view->user_id);
-			$setting = OmmuSettings::model()->findByPk(1, array(
-				'select'=>'signup_username, signup_approve, signup_verifyemail, signup_photo, signup_random',
-			));
-			$dataArray['users'] = $users;
-			$dataArray['setting'] = $setting;
-		}
 		if($condition == 1) {
 			$company = IpediaCompanies::model()->findByPk($model->view->company_id);
-			$dataArray['company'] = $company;		
+			$dataArray['company'] = $company;
 		}
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
-		if($condition == 0)
-			$this->performAjaxValidation($users);
+		$this->performAjaxValidation($users);
 		if($condition == 1)
 			$this->performAjaxValidation($company);
 			
 		if(isset($_POST['Members'])) {
 			$model->attributes=$_POST['Members'];
-			if($condition == 0) {
-				$users->attributes=$_POST['Users'];
-				$users->scenario = 'formEdit';				
-			}
+			$users->attributes=$_POST['Users'];
+			if($condition == 0)
+				$users->scenario = 'formEdit';
 			if($condition == 1)
 				$company->attributes=$_POST['IpediaCompanies'];
 			
-			if($condition == 0 && $users->validate())
+			if($users->validate())
 				$model->publish = $users->enabled;
 			if($condition == 1)
 				$company->validate();
@@ -349,8 +347,8 @@ class AdminController extends Controller
 					}
 				}				
 			} else if($condition == 1) {
-				if($model->validate() && $company->validate()) {
-					if($model->save() && $company->save()) {
+				if($model->validate() && $users->validate() && $company->validate()) {
+					if($model->save() && $users->save() && $company->save()) {
 						Yii::app()->user->setFlash('success', Yii::t('phrase', 'Members success updated.'));
 						//$this->redirect(array('view','id'=>$model->member_id));
 						//$this->redirect(array('manage'));
