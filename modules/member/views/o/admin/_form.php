@@ -49,7 +49,7 @@
 		<div class="clearfix">
 			<?php echo $form->labelEx($company,'company_name_i'); ?>
 			<div class="desc">
-				<?php if(!$model->isNewRecord && !$model->getErrors())
+				<?php if(!$company->isNewRecord && !$company->getErrors())
 					$company->company_name_i = $company->view->company_name;
 				//echo $form->textField($company,'company_name_i',array('class'=>'span-8'));
 				$this->widget('zii.widgets.jui.CJuiAutoComplete', array(

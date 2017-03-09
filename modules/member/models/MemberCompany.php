@@ -42,6 +42,7 @@ class MemberCompany extends CActiveRecord
 	
 	// Variable Search
 	public $member_search;
+	public $company_search;
 	public $creation_search;
 	public $modified_search;
 
@@ -79,7 +80,7 @@ class MemberCompany extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, publish, member_id, company_id, creation_date, creation_id, modified_date, modified_id, 
-				member_search, creation_search, modified_search', 'safe', 'on'=>'search'),
+				member_search, company_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -95,7 +96,7 @@ class MemberCompany extends CActiveRecord
 			'member' => array(self::BELONGS_TO, 'Members', 'member_id'),
 			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 			'members' => array(self::HAS_MANY, 'Members', 'profile_id'),
-			'company_relation' => array(self::BELONGS_TO, 'OmmuIpediaCompanies', 'company_id'),
+			'company' => array(self::BELONGS_TO, 'IpediaCompanies', 'company_id'),
 		);
 	}
 
@@ -114,6 +115,7 @@ class MemberCompany extends CActiveRecord
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
 			'member_search' => Yii::t('attribute', 'Member'),
+			'company_search' => Yii::t('attribute', 'Company'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
