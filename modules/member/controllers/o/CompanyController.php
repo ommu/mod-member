@@ -9,6 +9,7 @@
  *
  * TOC :
  *	Index
+ *	Suggest
  *	Manage
  *	View
  *	RunAction
@@ -76,7 +77,7 @@ class CompanyController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array(),
+				'actions'=>array('suggest'),
 				'users'=>array('@'),
 				'expression'=>'isset(Yii::app()->user->level)',
 				//'expression'=>'isset(Yii::app()->user->level) && (Yii::app()->user->level != 1)',
@@ -102,6 +103,56 @@ class CompanyController extends Controller
 	public function actionIndex() 
 	{
 		$this->redirect(array('manage'));
+	}
+	
+	/**
+	 * Updates a particular model.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id the ID of the model to be updated
+	 */
+	public function actionSuggest($limit=10) 
+	{
+		if(Yii::app()->request->isAjaxRequest) {
+			if(isset($_GET['term'])) {
+				$criteria = new CDbCriteria;
+				$criteria->with = array(
+					'companies' => array(
+						'alias'=>'companies',
+						'together' => true,
+					),
+					'companies.companies' => array(
+						'alias'=>'company_company',
+						'together' => true,
+					),
+				);
+				
+				$criteria->addCondition('company_company.member_id IS NULL');
+				$criteria->select = "t.directory_id, t.directory_name";
+				//$criteria->compare('t.publish',1);
+				$criteria->compare('t.directory_name',strtolower($_GET['term']), true);
+				$criteria->limit = $limit;
+				$criteria->order = "t.directory_id ASC";
+				$criteria->group = "t.directory_id";
+				$model = IpediaDirectories::model()->findAll($criteria);
+				/*
+				echo '<pre>';
+				print_r($criteria);
+				print_r($model);
+				echo '</pre>';
+				*/
+				
+				if($model) {
+					foreach($model as $items) {
+						$result[] = array('id' => $items->directory_id, 'value' => $items->directory_name);
+					}
+				} //else
+				//	$result[] = array('id' => 0, 'value' => $_GET['term']);
+			}
+			echo CJSON::encode($result);
+			Yii::app()->end();
+			
+		} else
+			throw new CHttpException(404, Yii::t('phrase', 'The requested page does not exist.'));
 	}
 
 	/**

@@ -55,7 +55,7 @@
 				$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
 					'model' => $company,
 					'attribute' => 'company_name_i',
-					'source' => Yii::app()->createUrl('ipedia/o/directory/suggest', array('data'=>'company')),
+					'source' => Yii::app()->controller->createUrl('o/company/suggest'),
 					'options' => array(
 						//'delay '=> 50,
 						'minLength' => 1,
