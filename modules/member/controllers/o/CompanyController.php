@@ -129,7 +129,7 @@ class CompanyController extends Controller
 				$criteria->addCondition('company_company.member_id IS NULL');
 				$criteria->select = "t.directory_id, t.directory_name";
 				//$criteria->compare('t.publish',1);
-				$criteria->compare('t.directory_name',strtolower($_GET['term']), true);
+				$criteria->compare('t.directory_name',strtolower(trim($_GET['term'])), true);
 				$criteria->limit = $limit;
 				$criteria->order = "t.directory_id ASC";
 				$criteria->group = "t.directory_id";

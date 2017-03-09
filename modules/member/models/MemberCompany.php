@@ -39,6 +39,7 @@
 class MemberCompany extends CActiveRecord
 {
 	public $defaultColumns = array();
+	public $company_name_i;
 	
 	// Variable Search
 	public $member_search;
@@ -73,10 +74,14 @@ class MemberCompany extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('member_id, company_id', 'required'),
+			array('company_id,
+				company_name_i', 'required'),
+			array('
+				company_name_i', 'vCompanyName'),
 			array('publish', 'numerical', 'integerOnly'=>true),
 			array('member_id, company_id, creation_id, modified_id', 'length', 'max'=>11),
-			array('', 'safe'),
+			array('member_id, 
+				company_name_i', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, publish, member_id, company_id, creation_date, creation_id, modified_date, modified_id, 
@@ -114,6 +119,7 @@ class MemberCompany extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'company_name_i' => Yii::t('attribute', 'Company'),
 			'member_search' => Yii::t('attribute', 'Member'),
 			'company_search' => Yii::t('attribute', 'Company'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
@@ -333,14 +339,66 @@ class MemberCompany extends CActiveRecord
 	}
 
 	/**
+	 * Get company name validation
+	 */
+	public function vCompanyName()
+	{
+		if($this->company_name_i != '') {
+			$criteria=new CDbCriteria;
+			$criteria->with = array(
+				'companies' => array(
+					'alias'=>'companies',
+					'together' => true,
+				),
+				'companies.companies' => array(
+					'alias'=>'company_company',
+					'together' => true,
+				),
+			);
+			$criteria->addCondition('company_company.member_id IS NOT NULL');
+			$criteria->select = "t.directory_id, t.directory_name";
+			//$criteria->compare('t.publish',1);
+			$criteria->compare('t.directory_name', strtolower(trim($this->company_name_i)));
+			$model = IpediaDirectories::model()->find($criteria);
+			
+			if($model != null)
+				$this->addError('company_name_i', Yii::t('phrase', 'Company sudah terdaftar'));
+		}
+	}
+
+	/**
 	 * before validate attributes
 	 */
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {
 			if($this->isNewRecord)
-				$this->creation_id = Yii::app()->user->id;	
+				$this->creation_id = Yii::app()->user->id;
 			else
 				$this->modified_id = Yii::app()->user->id;
+			
+			$company = IpediaCompanies::model()->with('view')->find(array(
+				'select' => 't.company_id',
+				'condition' => 'view.company_name = :company',
+				'params' => array(
+					':company' => strtolower(trim($this->company_name_i)),
+				),
+			));
+			$this->company_id = $company != null ? $company->company_id : 0;
+		}
+		return true;
+	}
+	
+	/**
+	 * before save attributes
+	 */
+	protected function beforeSave() {
+		if(parent::beforeSave()) {
+			if($this->company_id == 0) {
+				$company = new IpediaCompanies;
+				$company->company_name_i = $this->company_name_i;
+				if($company->save())
+					$this->company_id = $company->company_id;
+			}
 		}
 		return true;
 	}

@@ -27,10 +27,11 @@
 <div class="dialog-content">
 	<fieldset>
 		<?php //begin.Messages ?>
-		<?php /*
 		<div id="ajax-message">
 			<?php echo $form->errorSummary($model); ?>
 			<?php echo $form->errorSummary($users); ?>
+			<?php echo $form->errorSummary($memberCompany); ?>
+		<?php /*
 		</div>
 		*/?>
 		<?php //begin.Messages ?>
@@ -45,15 +46,15 @@
 			</div>
 		</div>
 		
-		<?php if($company != null) {?>
+		<?php if($memberCompany != null) {?>
 		<div class="clearfix">
-			<?php echo $form->labelEx($company,'company_name_i'); ?>
+			<?php echo $form->labelEx($memberCompany,'company_name_i'); ?>
 			<div class="desc">
-				<?php if(!$company->isNewRecord && !$company->getErrors())
-					$company->company_name_i = $company->view->company_name;
+				<?php if(!$memberCompany->isNewRecord && !$memberCompany->getErrors())
+					$memberCompany->company_name_i = $memberCompany->view->company_name;
 				//echo $form->textField($company,'company_name_i',array('class'=>'span-8'));
 				$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-					'model' => $company,
+					'model' => $memberCompany,
 					'attribute' => 'company_name_i',
 					'source' => Yii::app()->controller->createUrl('o/company/suggest'),
 					'options' => array(
@@ -68,7 +69,7 @@
 						'class'	=> 'span-8',
 					),
 				));?>
-				<?php echo $form->error($company,'company_name_i'); ?>
+				<?php echo $form->error($memberCompany,'company_name_i'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
