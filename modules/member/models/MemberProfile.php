@@ -206,8 +206,8 @@ class MemberProfile extends CActiveRecord
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
-		$criteria->compare('t.profile_name',strtolower($this->profile_name),true);
-		$criteria->compare('t.profile_desc',strtolower($this->profile_desc),true);
+		$criteria->compare('t.profile_name',$this->profile_name);
+		$criteria->compare('t.profile_desc',$this->profile_desc);
 		$criteria->compare('t.multiple_user',$this->multiple_user);
 		$criteria->compare('t.user_limit',$this->user_limit);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))

@@ -123,8 +123,8 @@ class ViewMemberLevels extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.level_id',$this->level_id);
-		$criteria->compare('t.users',strtolower($this->users),true);
-		$criteria->compare('t.user_all',strtolower($this->user_all),true);
+		$criteria->compare('t.users',$this->users);
+		$criteria->compare('t.user_all',$this->user_all);
 
 		if(!isset($_GET['ViewMemberLevels_sort']))
 			$criteria->order = 't.level_id DESC';

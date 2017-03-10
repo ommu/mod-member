@@ -123,8 +123,8 @@ class ViewMemberProfile extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.profile_id',$this->profile_id);
-		$criteria->compare('t.members',strtolower($this->members),true);
-		$criteria->compare('t.member_all',strtolower($this->member_all),true);
+		$criteria->compare('t.members',$this->members);
+		$criteria->compare('t.member_all',$this->member_all);
 
 		if(!isset($_GET['ViewMemberProfile_sort']))
 			$criteria->order = 't.profile_id DESC';

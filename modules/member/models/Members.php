@@ -218,7 +218,7 @@ class Members extends CActiveRecord
 			),
 		);
 
-		$criteria->compare('t.member_id',strtolower($this->member_id),true);
+		$criteria->compare('t.member_id',$this->member_id);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish')
 			$criteria->compare('t.publish',1);
 		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')

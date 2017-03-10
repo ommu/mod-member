@@ -189,8 +189,8 @@ class MemberLevels extends CActiveRecord
 			$criteria->compare('t.publish',$this->publish);
 		}
 		$criteria->compare('t.default',$this->default);
-		$criteria->compare('t.level_name',strtolower($this->level_name),true);
-		$criteria->compare('t.level_desc',strtolower($this->level_desc),true);
+		$criteria->compare('t.level_name',$this->level_name);
+		$criteria->compare('t.level_desc',strtolower($this->level_desc, true);
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
 		if(isset($_GET['creation']))

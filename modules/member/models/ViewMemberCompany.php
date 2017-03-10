@@ -122,9 +122,9 @@ class ViewMemberCompany extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.member_id',strtolower($this->member_id),true);
-		$criteria->compare('t.company_id',strtolower($this->company_id),true);
-		$criteria->compare('t.company_name',strtolower($this->company_name),true);
+		$criteria->compare('t.member_id',$this->member_id);
+		$criteria->compare('t.company_id',$this->company_id);
+		$criteria->compare('t.company_name',$this->company_name);
 
 		if(!isset($_GET['ViewMemberCompany_sort']))
 			$criteria->order = 't.member_id DESC';

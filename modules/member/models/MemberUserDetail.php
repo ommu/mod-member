@@ -162,7 +162,7 @@ class MemberUserDetail extends CActiveRecord
 			),
 		);
 
-		$criteria->compare('t.id',strtolower($this->id),true);
+		$criteria->compare('t.id',$this->id);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish')
 			$criteria->compare('t.publish',1);
 		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
@@ -179,7 +179,7 @@ class MemberUserDetail extends CActiveRecord
 			$criteria->compare('t.member_user_id',$this->member_user_id);
 		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
-		$criteria->compare('t.updated_id',strtolower($this->updated_id),true);
+		$criteria->compare('t.updated_id',$this->updated_id);
 		
 		$criteria->compare('member.profile_id',$this->profile_search);
 		if(isset($_GET['publish']))
