@@ -42,8 +42,8 @@ class MemberCompany extends CActiveRecord
 	public $company_name_i;
 	
 	// Variable Search
+	public $profile_search;
 	public $member_search;
-	public $company_search;
 	public $creation_search;
 	public $modified_search;
 
@@ -85,7 +85,7 @@ class MemberCompany extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, publish, member_id, company_id, creation_date, creation_id, modified_date, modified_id, 
-				member_search, company_search, creation_search, modified_search', 'safe', 'on'=>'search'),
+				profile_search, member_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -99,8 +99,9 @@ class MemberCompany extends CActiveRecord
 		return array(
 			'view' => array(self::BELONGS_TO, 'ViewMemberCompany', 'member_id'),
 			'member' => array(self::BELONGS_TO, 'Members', 'member_id'),
-			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 			'members' => array(self::HAS_MANY, 'Members', 'profile_id'),
+			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 			'company' => array(self::BELONGS_TO, 'IpediaCompanies', 'company_id'),
 		);
 	}
@@ -120,8 +121,8 @@ class MemberCompany extends CActiveRecord
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
 			'company_name_i' => Yii::t('attribute', 'Company'),
+			'profile_search' => Yii::t('attribute', 'Profile'),
 			'member_search' => Yii::t('attribute', 'Member'),
-			'company_search' => Yii::t('attribute', 'Company'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
@@ -167,6 +168,14 @@ class MemberCompany extends CActiveRecord
 			'view' => array(
 				'alias'=>'view',
 			),
+			'member' => array(
+				'alias'=>'member',
+				'select'=>'publish, profile_id'
+			),
+			'member.view' => array(
+				'alias'=>'member_v',
+				'select'=>'member_name'
+			),
 			'creation' => array(
 				'alias'=>'creation',
 				'select'=>'displayname'
@@ -209,6 +218,10 @@ class MemberCompany extends CActiveRecord
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
+		$criteria->compare('member.profile_id',$this->profile_search);
+		if(isset($_GET['publish']))
+			$criteria->compare('member.publish',$_GET['publish']);
+		$criteria->compare('member_v.member_name',strtolower($this->member_search), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
@@ -271,8 +284,18 @@ class MemberCompany extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			$this->defaultColumns[] = 'member_id';
-			$this->defaultColumns[] = 'company_id';
+			if(!isset($_GET['member'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'profile_search',
+					'value' => 'Phrase::trans($data->member->profile->profile_name)',
+					'filter'=>MemberProfile::getProfile(null, '1'),
+				);
+				$this->defaultColumns[] = array(
+					'name' => 'member_search',
+					'value' => '$data->member->view->member_name',
+				);
+			}
+			//$this->defaultColumns[] = 'company_id';
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
 				'value' => '$data->creation->displayname',

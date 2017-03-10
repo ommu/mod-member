@@ -37,6 +37,10 @@ class MemberUserDetail extends CActiveRecord
 	public $defaultColumns = array();
 	
 	// Variable Search
+	public $profile_search;
+	public $member_search;
+	public $level_search;
+	public $user_search;
 	public $updated_search;
 
 	/**
@@ -73,7 +77,7 @@ class MemberUserDetail extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, publish, member_user_id, updated_date, updated_id,
-				updated_search', 'safe', 'on'=>'search'),
+				profile_search, member_search, level_search, user_search, updated_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -101,6 +105,10 @@ class MemberUserDetail extends CActiveRecord
 			'member_user_id' => Yii::t('attribute', 'Member User'),
 			'updated_date' => Yii::t('attribute', 'Updated Date'),
 			'updated_id' => Yii::t('attribute', 'Updated'),
+			'profile_search' => Yii::t('attribute', 'Profile'),
+			'member_search' => Yii::t('attribute', 'Member'),
+			'level_search' => Yii::t('attribute', 'Level'),
+			'user_search' => Yii::t('attribute', 'User'),
 			'updated_search' => Yii::t('attribute', 'Updated'),
 		);
 		/*
@@ -133,6 +141,21 @@ class MemberUserDetail extends CActiveRecord
 		
 		// Custom Search
 		$criteria->with = array(
+			'user' => array(
+				'alias'=>'user',
+			),
+			'user.member' => array(
+				'alias'=>'member',
+				'select'=>'publish, profile_id'
+			),
+			'user.member.view' => array(
+				'alias'=>'member_v',
+				'select'=>'member_name'
+			),
+			'user.user' => array(
+				'alias'=>'user_user',
+				'select'=>'displayname',
+			),
 			'updated' => array(
 				'alias'=>'updated',
 				'select'=>'displayname'
@@ -150,14 +173,20 @@ class MemberUserDetail extends CActiveRecord
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
-		if(isset($_GET['member']))
-			$criteria->compare('t.member_user_id',$_GET['member']);
+		if(isset($_GET['memberuser']))
+			$criteria->compare('t.member_user_id',$_GET['memberuser']);
 		else
 			$criteria->compare('t.member_user_id',$this->member_user_id);
 		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		$criteria->compare('t.updated_id',strtolower($this->updated_id),true);
 		
+		$criteria->compare('member.profile_id',$this->profile_search);
+		if(isset($_GET['publish']))
+			$criteria->compare('member.publish',$_GET['publish']);
+		$criteria->compare('member_v.member_name',strtolower($this->member_search), true);
+		$criteria->compare('user.level_id',$this->level_search);
+		$criteria->compare('user_user.displayname',strtolower($this->user_search), true);
 		$criteria->compare('updated.displayname',strtolower($this->updated_search), true);
 
 		if(!isset($_GET['MemberUserDetail_sort']))
@@ -208,7 +237,26 @@ class MemberUserDetail extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			$this->defaultColumns[] = 'member_user_id';
+			if(!isset($_GET['memberuser'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'profile_search',
+					'value' => 'Phrase::trans($data->user->member->profile->profile_name)',
+					'filter'=>MemberProfile::getProfile(),
+				);
+				$this->defaultColumns[] = array(
+					'name' => 'member_search',
+					'value' => '$data->user->member->view->member_name',
+				);
+				$this->defaultColumns[] = array(
+					'name' => 'level_search',
+					'value' => '$data->user->level_id != null ? Phrase::trans($data->user->level->level_name) : \'-\'',
+					'filter'=>MemberLevels::getLevel(),
+				);
+				$this->defaultColumns[] = array(
+					'name' => 'user_search',
+					'value' => '$data->user->user_id != 0 ? $data->user->user->displayname : "-"',
+				);	
+			}
 			$this->defaultColumns[] = array(
 				'name' => 'updated_search',
 				'value' => '$data->updated->displayname',

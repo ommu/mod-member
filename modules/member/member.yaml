@@ -25,9 +25,18 @@ plugin_menu		:
 			- urlTitle: Levels
 				urlRules: {siteType: 0,1, userLevel: 1,2}
 				urlPath: {url: o/level/manage, attr: -, icon: -}
+			- urlTitle: Companies
+				urlRules: {siteType: 0,1, userLevel: 1,2}
+				urlPath: {url: o/company/manage, attr: -, icon: -}
 			- urlTitle: Users
 				urlRules: {siteType: 0,1, userLevel: 1,2}
 				urlPath: {url: o/user/manage, attr: -, icon: -}
+			- urlTitle: Likes
+				urlRules: {siteType: 0,1, userLevel: 1,2}
+				urlPath: {url: o/like/manage, attr: -, icon: -}
+			- urlTitle: Views
+				urlRules: {siteType: 0,1, userLevel: 1,2}
+				urlPath: {url: o/views/manage, attr: -, icon: -}
 	- urlTitle: Setting
 		urlRules: {siteType: 0,1, userLevel: 1,2}
 		urlPath: {url: o/setting/edit, attr: -, icon: -}
@@ -45,3 +54,15 @@ content_menu	:
 	- urlTitle: Add level
 		urlRules: {member, o/level, manage, siteType: 0,1, userLevel: 1,2}
 		urlPath: {url: add, attr: -, icon: -}
+# controller o/userhistory
+	- urlTitle: Back to users
+		urlRules: {member, o/userhistory, manage, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: o/user/manage, attr: -, icon: -}
+# controller o/likedetail
+	- urlTitle: Back to likes
+		urlRules: {member, o/likedetail, manage, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: o/like/manage, attr: -, icon: -}
+# controller o/viewdetail
+	- urlTitle: Back to views
+		urlRules: {member, o/viewdetail, manage, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: o/views/manage, attr: -, icon: -}

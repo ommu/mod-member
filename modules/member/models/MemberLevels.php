@@ -39,9 +39,9 @@ class MemberLevels extends CActiveRecord
 	public $title;
 	
 	// Variable Search
-	public $user_search;
 	public $creation_search;
 	public $modified_search;
+	public $user_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -81,7 +81,7 @@ class MemberLevels extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('level_id, publish, default, level_name, level_desc, creation_date, creation_id, modified_date, modified_id,
-				title, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
+				title, creation_search, modified_search, user_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -116,9 +116,9 @@ class MemberLevels extends CActiveRecord
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
 			'title' => Yii::t('attribute', 'Level'),
-			'user_search' => Yii::t('attribute', 'Users'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
+			'user_search' => Yii::t('attribute', 'Users'),
 		);
 		/*
 			'Level' => 'Level',
@@ -205,9 +205,9 @@ class MemberLevels extends CActiveRecord
 			$criteria->compare('t.modified_id',$this->modified_id);
 		
 		$criteria->compare('title.'.$language,strtolower($this->title), true);
-		$criteria->compare('view.users',$this->user_search);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('view.users',$this->user_search);
 
 		if(!isset($_GET['MemberLevels_sort']))
 			$criteria->order = 't.level_id DESC';

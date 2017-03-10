@@ -29,6 +29,10 @@
  * @property integer $company_id
  * @property string $users
  * @property string $user_all
+ * @property string $likes
+ * @property string $like_all
+ * @property string $views
+ * @property string $view_all
  */
 class ViewMembers extends CActiveRecord
 {
@@ -71,12 +75,12 @@ class ViewMembers extends CActiveRecord
 		return array(
 			array('member_id, user_id, company_id', 'numerical', 'integerOnly'=>true),
 			array('member_id, user_id, company_id', 'length', 'max'=>11),
-			array('users', 'length', 'max'=>23),
-			array('user_all', 'length', 'max'=>21),
+			array('users, likes, views', 'length', 'max'=>23),
+			array('user_all, like_all, view_all', 'length', 'max'=>21),
 			array('member_name', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('member_id, member_name, user_id, company_id, users, user_all', 'safe', 'on'=>'search'),
+			array('member_id, member_name, user_id, company_id, users, user_all, likes, like_all, views, view_all', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -104,6 +108,10 @@ class ViewMembers extends CActiveRecord
 			'company_id' => Yii::t('attribute', 'Company'),
 			'users' => Yii::t('attribute', 'Users'),
 			'user_all' => Yii::t('attribute', 'User All'),
+			'likes' => Yii::t('attribute', 'Likes'),
+			'like_all' => Yii::t('attribute', 'Like All'),
+			'views' => Yii::t('attribute', 'Views'),
+			'view_all' => Yii::t('attribute', 'View All'),
 		);
 		/*
 			'Member' => 'Member',
@@ -137,6 +145,10 @@ class ViewMembers extends CActiveRecord
 		$criteria->compare('t.company_id',$this->company_id);
 		$criteria->compare('t.users',$this->users);
 		$criteria->compare('t.user_all',$this->user_all);
+		$criteria->compare('t.likes',$this->likes);
+		$criteria->compare('t.like_all',$this->like_all);
+		$criteria->compare('t.views',$this->views);
+		$criteria->compare('t.view_all',$this->view_all);
 
 		if(!isset($_GET['ViewMembers_sort']))
 			$criteria->order = 't.member_id DESC';
@@ -173,6 +185,10 @@ class ViewMembers extends CActiveRecord
 			$this->defaultColumns[] = 'company_id';
 			$this->defaultColumns[] = 'users';
 			$this->defaultColumns[] = 'user_all';
+			$this->defaultColumns[] = 'likes';
+			$this->defaultColumns[] = 'like_all';
+			$this->defaultColumns[] = 'views';
+			$this->defaultColumns[] = 'view_all';
 		}
 
 		return $this->defaultColumns;
@@ -193,6 +209,10 @@ class ViewMembers extends CActiveRecord
 			$this->defaultColumns[] = 'company_id';
 			$this->defaultColumns[] = 'users';
 			$this->defaultColumns[] = 'user_all';
+			$this->defaultColumns[] = 'likes';
+			$this->defaultColumns[] = 'like_all';
+			$this->defaultColumns[] = 'views';
+			$this->defaultColumns[] = 'view_all';
 		}
 		parent::afterConstruct();
 	}

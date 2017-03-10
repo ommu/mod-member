@@ -49,7 +49,7 @@ class ViewMemberLikes extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'ommu_member_likes';
+		return '_view_member_likes';
 	}
 
 	/**

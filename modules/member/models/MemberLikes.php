@@ -38,12 +38,11 @@ class MemberLikes extends CActiveRecord
 	public $defaultColumns = array();
 	
 	// Variable Search
-	public $like_search;
-	public $unlike_search;
-	public $like_all_search;
 	public $profile_search;
 	public $member_search;
 	public $user_search;
+	public $like_search;
+	public $unlike_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -79,7 +78,7 @@ class MemberLikes extends CActiveRecord
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('like_id, publish, member_id, user_id, likes_date, likes_ip, updated_date,
-				like_search, unlike_search, like_all_search, profile_search, member_search, user_search', 'safe', 'on'=>'search'),
+				profile_search, member_search, user_search, like_search, unlike_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -110,12 +109,11 @@ class MemberLikes extends CActiveRecord
 			'likes_date' => Yii::t('attribute', 'Likes Date'),
 			'likes_ip' => Yii::t('attribute', 'Likes Ip'),
 			'updated_date' => Yii::t('attribute', 'Updated Date'),
-			'like_search' => Yii::t('attribute', 'Like'),
-			'unlike_search' => Yii::t('attribute', 'Unlike'),
-			'like_all_search' => Yii::t('attribute', 'Like All'),
 			'profile_search' => Yii::t('attribute', 'Profile'),
 			'member_search' => Yii::t('attribute', 'Member'),
 			'user_search' => Yii::t('attribute', 'User'),
+			'like_search' => Yii::t('attribute', 'Like'),
+			'unlike_search' => Yii::t('attribute', 'Unlike'),
 		);
 	}
 	
@@ -174,14 +172,13 @@ class MemberLikes extends CActiveRecord
 		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 
-		$criteria->compare('view.likes',$this->like_search);
-		$criteria->compare('view.unlikes',$this->unlike_search);
-		$criteria->compare('view.like_all',$this->like_all_search);
 		$criteria->compare('member.profile_id',$this->profile_search);
 		if(isset($_GET['publish']))
-			$criteria->compare('digital.publish',$_GET['publish']);
+			$criteria->compare('member.publish',$_GET['publish']);
 		$criteria->compare('member_v.member_name',strtolower($this->member_search), true);
 		$criteria->compare('user.displayname',strtolower($this->user_search), true);
+		$criteria->compare('view.likes',$this->like_search);
+		$criteria->compare('view.unlikes',$this->unlike_search);
 
 		if(!isset($_GET['MemberLikes_sort']))
 			$criteria->order = 't.like_id DESC';
@@ -291,6 +288,7 @@ class MemberLikes extends CActiveRecord
 					'class' => 'center',
 				),
 			);
+			/*
 			$this->defaultColumns[] = array(
 				'name' => 'updated_date',
 				'value' => 'Utility::dateFormat($data->updated_date)',
@@ -317,9 +315,10 @@ class MemberLikes extends CActiveRecord
 					),
 				), true),
 			);
+			*/
 			$this->defaultColumns[] = array(
 				'name' => 'like_search',
-				'value' => 'CHtml::link($data->view->likes != 0 ? $data->view->likes : \'0\', Yii::app()->controller->createUrl("o/likedetail/manage",array(\'like\'=>$data->like_id,\'type\'=>\'publish\')))',
+				'value' => 'CHtml::link($data->view->likes != \'0\' ? $data->view->likes : \'0\', Yii::app()->controller->createUrl("o/likedetail/manage",array(\'like\'=>$data->like_id,\'type\'=>\'publish\')))',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -327,15 +326,7 @@ class MemberLikes extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'unlike_search',
-				'value' => 'CHtml::link($data->view->unlikes != 0 ? $data->view->unlikes : \'0\', Yii::app()->controller->createUrl("o/likedetail/manage",array(\'like\'=>$data->like_id,\'type\'=>\'unpublish\')))',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'type' => 'raw',
-			);
-			$this->defaultColumns[] = array(
-				'name' => 'like_all_search',
-				'value' => 'CHtml::link($data->view->like_all != 0 ? $data->view->like_all : \'0\', Yii::app()->controller->createUrl("o/likedetail/manage",array(\'like\'=>$data->like_id)))',
+				'value' => 'CHtml::link($data->view->unlikes != \'0\' ? $data->view->unlikes : \'0\', Yii::app()->controller->createUrl("o/likedetail/manage",array(\'like\'=>$data->like_id,\'type\'=>\'unpublish\')))',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),

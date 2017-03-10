@@ -377,7 +377,7 @@ class AdminController extends Controller
 
 		$this->pageTitle = Yii::t('phrase', 'View Members');
 		$this->pageDescription = '';
-		$this->pageMeta = $setting->meta_keyword;
+		$this->pageMeta = '';
 		$this->render('admin_view',array(
 			'model'=>$model,
 		));

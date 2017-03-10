@@ -45,9 +45,9 @@ class MemberProfile extends CActiveRecord
 	public $user_unlimit_i;
 	
 	// Variable Search
-	public $member_search;
 	public $creation_search;
 	public $modified_search;
+	public $member_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -90,7 +90,7 @@ class MemberProfile extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('profile_id, publish, profile_name, profile_desc, multiple_user, user_limit, creation_date, creation_id, modified_date, modified_id,
-				title, description, member_search, creation_search, modified_search', 'safe', 'on'=>'search'),
+				title, description, creation_search, modified_search, member_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -130,9 +130,9 @@ class MemberProfile extends CActiveRecord
 			'title' => Yii::t('attribute', 'Profile'),
 			'description' => Yii::t('attribute', 'Description'),
 			'user_unlimit_i' => Yii::t('attribute', 'Unlimited User'),
-			'member_search' => Yii::t('attribute', 'Member'),
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
+			'member_search' => Yii::t('attribute', 'Member'),
 		);
 		/*
 			'Profile' => 'Profile',
@@ -225,9 +225,9 @@ class MemberProfile extends CActiveRecord
 		
 		$criteria->compare('title.'.$language,strtolower($this->title), true);
 		$criteria->compare('description.'.$language,strtolower($this->description), true);
-		$criteria->compare('view.members',$this->member_search);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
 		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('view.members',$this->member_search);
 
 		if(!isset($_GET['MemberProfile_sort']))
 			$criteria->order = 't.profile_id DESC';

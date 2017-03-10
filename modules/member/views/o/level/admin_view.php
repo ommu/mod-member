@@ -26,7 +26,6 @@
 		array(
 			'name'=>'level_id',
 			'value'=>$model->level_id,
-			//'value'=>$model->level_id != '' ? $model->level_id : '-',
 		),
 		array(
 			'name'=>'publish',

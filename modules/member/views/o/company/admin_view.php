@@ -34,12 +34,14 @@
 		),
 		array(
 			'name'=>'member_id',
-			'value'=>$model->member_id != 0 ? $model->member_id : '-',
+			'value'=>$model->member_id != 0 ? $model->member->view->member_name : '-',
 		),
+		/*
 		array(
 			'name'=>'company_id',
 			'value'=>$model->company_id != 0 ? $model->company_id : '-',
 		),
+		*/
 		array(
 			'name'=>'creation_date',
 			'value'=>!in_array($model->creation_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00')) ? Utility::dateFormat($model->creation_date, true) : '-',

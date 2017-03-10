@@ -163,7 +163,7 @@ class MemberUser extends CActiveRecord
 		$criteria->with = array(
 			'member' => array(
 				'alias'=>'member',
-				'select'=>'profile_id'
+				'select'=>'publish, profile_id'
 			),
 			'member.view' => array(
 				'alias'=>'member_v',
@@ -222,6 +222,8 @@ class MemberUser extends CActiveRecord
 			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
 		
 		$criteria->compare('member.profile_id',$this->profile_search);
+		if(isset($_GET['publish']))
+			$criteria->compare('member.publish',$_GET['publish']);
 		$criteria->compare('member_v.member_name',strtolower($this->member_search), true);
 		$criteria->compare('user.displayname',strtolower($this->user_search), true);
 		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
