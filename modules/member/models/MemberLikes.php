@@ -264,8 +264,8 @@ class MemberLikes extends CActiveRecord
 				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
 					'model'=>$this,
 					'attribute'=>'likes_date',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
+					'language' => 'en',
+					'i18nScriptFile' => 'jquery-ui-i18n.min.js'
 					//'mode'=>'datetime',
 					'htmlOptions' => array(
 						'id' => 'likes_date_filter',
@@ -298,8 +298,8 @@ class MemberLikes extends CActiveRecord
 				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
 					'model'=>$this,
 					'attribute'=>'updated_date',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
+					'language' => 'en',
+					'i18nScriptFile' => 'jquery-ui-i18n.min.js'
 					//'mode'=>'datetime',
 					'htmlOptions' => array(
 						'id' => 'updated_date_filter',
