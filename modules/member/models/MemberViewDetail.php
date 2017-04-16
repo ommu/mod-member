@@ -245,7 +245,7 @@ class MemberViewDetail extends CActiveRecord
 					'model'=>$this,
 					'attribute'=>'view_date',
 					'language' => 'en',
-					'i18nScriptFile' => 'jquery-ui-i18n.min.js'
+					'i18nScriptFile' => 'jquery-ui-i18n.min.js',
 					//'mode'=>'datetime',
 					'htmlOptions' => array(
 						'id' => 'view_date_filter',
