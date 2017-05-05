@@ -459,6 +459,8 @@ class Members extends CActiveRecord
 			'select' => 'photo_file_type',
 		));
 		$photo_file_type = unserialize($setting->photo_file_type);
+		if(empty($photo_file_type))
+			$photo_file_type = array();
 		
 		if(parent::beforeValidate()) {		
 			if($this->isNewRecord)

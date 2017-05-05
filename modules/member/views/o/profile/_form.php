@@ -16,7 +16,7 @@
 
 	$cs = Yii::app()->getClientScript();
 $js=<<<EOP
-	$('#MemberProfile_multiple_user').live('change', function() {
+	$('#MemberProfile_multiple_user').on('change', function() {
 		var id = $(this).prop('checked');		
 		if(id == true) {
 			$('div#multiple-user').slideDown();
@@ -24,7 +24,7 @@ $js=<<<EOP
 			$('div#multiple-user').slideUp();
 		}
 	});
-	$('#MemberProfile_user_unlimit_i').live('change', function() {
+	$('#MemberProfile_user_unlimit_i').on('change', function() {
 		var id = $(this).prop('checked');		
 		if(id == true) {
 			$('div#user-limit').slideUp();

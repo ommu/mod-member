@@ -16,7 +16,7 @@
 
 	$cs = Yii::app()->getClientScript();
 $js=<<<EOP
-	$('input[name="MemberSetting[photo_resize]"]').live('change', function() {
+	$('input[name="MemberSetting[photo_resize]"]').on('change', function() {
 		var id = $(this).val();
 		if(id == '1') {
 			$('div#resize_size').slideDown();
