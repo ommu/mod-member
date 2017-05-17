@@ -375,7 +375,7 @@ class MemberLevels extends CActiveRecord
 	{
 		$criteria=new CDbCriteria;
 		if($publish != null)
-			$criteria->compare('t.publish', $publish);
+			$criteria->compare('publish', $publish);
 		
 		$model = self::model()->findAll($criteria);
 
@@ -409,10 +409,13 @@ class MemberLevels extends CActiveRecord
 	/**
 	 * before save attributes
 	 */
-	protected function beforeSave() {
+	protected function beforeSave() 
+	{
+		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
+		$location = Utility::getUrlTitle($currentAction);
+		
 		if(parent::beforeSave()) {
-			if($this->isNewRecord) {
-				$location = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id);
+			if($this->isNewRecord || (!$this->isNewRecord && $this->name == 0)) {
 				$title=new OmmuSystemPhrase;
 				$title->location = $location.'_title';
 				$title->en_us = $this->title;

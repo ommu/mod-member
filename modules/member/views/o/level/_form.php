@@ -34,7 +34,8 @@
 			<?php echo $form->labelEx($model,'title'); ?>
 			<div class="desc">
 				<?php 
-				$model->title = Phrase::trans($model->level_name);
+				if(!$model->getErrors())
+					$model->title = Phrase::trans($model->level_name);
 				echo $form->textField($model,'title',array('maxlength'=>32,'class'=>'span-8')); ?>
 				<?php echo $form->error($model,'title'); ?>
 			</div>

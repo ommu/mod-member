@@ -401,9 +401,9 @@ class MemberProfile extends CActiveRecord
 	{
 		$criteria=new CDbCriteria;
 		if($publish != null)
-			$criteria->compare('t.publish', $publish);
+			$criteria->compare('publish', $publish);
 		if($multipleuser != null)
-			$criteria->compare('t.multiple_user', $multipleuser);
+			$criteria->compare('multiple_user', $multipleuser);
 		
 		$model = self::model()->findAll($criteria);
 
@@ -443,16 +443,26 @@ class MemberProfile extends CActiveRecord
 	/**
 	 * before save attributes
 	 */
-	protected function beforeSave() {
+	protected function beforeSave() 
+	{
+		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
+		$location = Utility::getUrlTitle($currentAction);
+		
 		if(parent::beforeSave()) {
-			if($this->isNewRecord) {
-				$location = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id);
+			if($this->isNewRecord || (!$this->isNewRecord && $this->profile_name == 0)) {
 				$title=new OmmuSystemPhrase;
 				$title->location = $location.'_title';
 				$title->en_us = $this->title;
 				if($title->save())
 					$this->profile_name = $title->phrase_id;
-
+				
+			} else {
+				$title = OmmuSystemPhrase::model()->findByPk($this->profile_name);
+				$title->en_us = $this->title;
+				$title->save();
+			}
+			
+			if($this->isNewRecord || (!$this->isNewRecord && $this->profile_desc == 0)) {
 				$desc=new OmmuSystemPhrase;
 				$desc->location = $location.'_description';
 				$desc->en_us = $this->description;
@@ -460,10 +470,6 @@ class MemberProfile extends CActiveRecord
 					$this->profile_desc = $desc->phrase_id;
 				
 			} else {
-				$title = OmmuSystemPhrase::model()->findByPk($this->profile_name);
-				$title->en_us = $this->title;
-				$title->save();
-
 				$desc = OmmuSystemPhrase::model()->findByPk($this->profile_desc);
 				$desc->en_us = $this->description;
 				$desc->save();

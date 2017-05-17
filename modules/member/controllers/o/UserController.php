@@ -128,15 +128,15 @@ class UserController extends Controller
 						}
 					}
 				}
-				$criteria->select = "t.user_id, t.displayname, t.email";
-				$criteria->compare('t.enabled',1);
+				$criteria->select = "user_id, displayname, email";
+				$criteria->compare('enabled',1);
 				if($id != null) {
-					$criteria->compare('t.displayname',strtolower(trim($_GET['term'])), true);
-					$criteria->addNotInCondition('t.user_id',$items);					
+					$criteria->compare('displayname',strtolower(trim($_GET['term'])), true);
+					$criteria->addNotInCondition('user_id',$items);					
 				} else
-					$criteria->compare('t.email',strtolower(trim($_GET['term'])), true);
+					$criteria->compare('email',strtolower(trim($_GET['term'])), true);
 				$criteria->limit = $limit;
-				$criteria->order = "t.user_id ASC";
+				$criteria->order = "user_id ASC";
 				$model = Users::model()->findAll($criteria);
 				/*
 				echo '<pre>';
