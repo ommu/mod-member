@@ -96,12 +96,6 @@ class ViewMemberProfile extends CActiveRecord
 			'members' => Yii::t('attribute', 'Members'),
 			'member_all' => Yii::t('attribute', 'Member All'),
 		);
-		/*
-			'Profile' => 'Profile',
-			'Members' => 'Members',
-			'Member All' => 'Member All',
-		
-		*/
 	}
 
 	/**

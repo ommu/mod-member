@@ -120,18 +120,6 @@ class MemberLevels extends CActiveRecord
 			'modified_search' => Yii::t('attribute', 'Modified'),
 			'user_search' => Yii::t('attribute', 'Users'),
 		);
-		/*
-			'Level' => 'Level',
-			'Publish' => 'Publish',
-			'Default' => 'Default',
-			'Level Name' => 'Level Name',
-			'Level Desc' => 'Level Desc',
-			'Creation Date' => 'Creation Date',
-			'Creation' => 'Creation',
-			'Modified Date' => 'Modified Date',
-			'Modified' => 'Modified',
-		
-		*/
 	}
 
 	/**
@@ -411,8 +399,8 @@ class MemberLevels extends CActiveRecord
 	 */
 	protected function beforeSave() 
 	{
-		$currentAction = strtolower(Yii::app()->controller->id.'/'.Yii::app()->controller->action->id);
-		$location = Utility::getUrlTitle($currentAction);
+		$currentModule = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id);
+		$location = Utility::getUrlTitle($currentModule);
 		
 		if(parent::beforeSave()) {
 			if($this->isNewRecord || (!$this->isNewRecord && $this->name == 0)) {

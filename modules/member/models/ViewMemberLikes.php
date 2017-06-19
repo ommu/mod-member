@@ -100,14 +100,6 @@ class ViewMemberLikes extends CActiveRecord
 			'unlikes' => Yii::t('attribute', 'Unlikes'),
 			'like_all' => Yii::t('attribute', 'Like All'),
 		);
-		/*
-			'Like' => 'Like',
-			'Member' => 'Member',
-			'Likes' => 'Likes',
-			'Unlikes' => 'Unlikes',
-			'Like All' => 'Like All',
-		
-		*/
 	}
 
 	/**

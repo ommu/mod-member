@@ -96,12 +96,6 @@ class ViewMemberCompany extends CActiveRecord
 			'company_id' => Yii::t('attribute', 'Company'),
 			'company_name' => Yii::t('attribute', 'Company Name'),
 		);
-		/*
-			'Member' => 'Member',
-			'Company' => 'Company',
-			'Company Name' => 'Company Name',
-		
-		*/
 	}
 
 	/**

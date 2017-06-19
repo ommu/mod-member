@@ -104,13 +104,6 @@ class MemberViewDetail extends CActiveRecord
 			'member_search' => Yii::t('attribute', 'Member'),
 			'user_search' => Yii::t('attribute', 'User'),
 		);
-		/*
-			'ID' => 'ID',
-			'View' => 'View',
-			'View Date' => 'View Date',
-			'View Ip' => 'View Ip',
-		
-		*/
 	}
 
 	/**

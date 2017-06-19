@@ -96,12 +96,6 @@ class ViewMemberLevels extends CActiveRecord
 			'users' => Yii::t('attribute', 'Users'),
 			'user_all' => Yii::t('attribute', 'User All'),
 		);
-		/*
-			'Level' => 'Level',
-			'Users' => 'Users',
-			'User All' => 'User All',
-		
-		*/
 	}
 
 	/**

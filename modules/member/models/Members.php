@@ -169,19 +169,6 @@ class Members extends CActiveRecord
 			'like_search' => Yii::t('attribute', 'Likes'),
 			'view_search' => Yii::t('attribute', 'Views'),
 		);
-		/*
-			'Member' => 'Member',
-			'Publish' => 'Publish',
-			'Profile' => 'Profile',
-			'Member Header' => 'Member Header',
-			'Member Photo' => 'Member Photo',
-			'Short Biography' => 'Short Biography',
-			'Creation Date' => 'Creation Date',
-			'Creation' => 'Creation',
-			'Modified Date' => 'Modified Date',
-			'Modified' => 'Modified',
-		
-		*/
 	}
 
 	/**

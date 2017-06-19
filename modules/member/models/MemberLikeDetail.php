@@ -107,14 +107,6 @@ class MemberLikeDetail extends CActiveRecord
 			'member_search' => Yii::t('attribute', 'Member'),
 			'user_search' => Yii::t('attribute', 'User'),
 		);
-		/*
-			'ID' => 'ID',
-			'Publish' => 'Publish',
-			'Like' => 'Like',
-			'Likes Date' => 'Likes Date',
-			'Likes Ip' => 'Likes Ip',
-		
-		*/
 	}
 
 	/**

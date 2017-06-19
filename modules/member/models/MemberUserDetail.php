@@ -111,14 +111,6 @@ class MemberUserDetail extends CActiveRecord
 			'user_search' => Yii::t('attribute', 'User'),
 			'updated_search' => Yii::t('attribute', 'Updated'),
 		);
-		/*
-			'ID' => 'ID',
-			'Publish' => 'Publish',
-			'Member User' => 'Member User',
-			'Updated Date' => 'Updated Date',
-			'Updated' => 'Updated',
-		
-		*/
 	}
 
 	/**

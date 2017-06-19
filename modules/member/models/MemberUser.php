@@ -127,18 +127,6 @@ class MemberUser extends CActiveRecord
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
-		/*
-			'ID' => 'ID',
-			'Publish' => 'Publish',
-			'Member' => 'Member',
-			'User' => 'User',
-			'Creation Date' => 'Creation Date',
-			'Creation' => 'Creation',
-			'Modified Date' => 'Modified Date',
-			'Modified' => 'Modified',
-			'Updated Date' => 'Updated Date',
-		
-		*/
 	}
 
 	/**

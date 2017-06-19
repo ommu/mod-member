@@ -113,12 +113,6 @@ class ViewMembers extends CActiveRecord
 			'views' => Yii::t('attribute', 'Views'),
 			'view_all' => Yii::t('attribute', 'View All'),
 		);
-		/*
-			'Member' => 'Member',
-			'Users' => 'Users',
-			'User All' => 'User All',
-		
-		*/
 	}
 
 	/**
