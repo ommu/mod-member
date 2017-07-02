@@ -35,7 +35,7 @@
  * @property string $modified_id
  *
  * The followings are the available model relations:
- * @property OmmuMembers[] $ommuMembers
+ * @property Members[] $Members
  */
 class MemberProfile extends CActiveRecord
 {

@@ -30,7 +30,7 @@
  * @property string $updated_id
  *
  * The followings are the available model relations:
- * @property OmmuMemberUser $memberUser
+ * @property MemberUser $memberUser
  */
 class MemberUserDetail extends CActiveRecord
 {

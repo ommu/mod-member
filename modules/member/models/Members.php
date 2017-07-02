@@ -36,24 +36,24 @@
  * @property string $modified_id
  *
  * The followings are the available model relations:
- * @property OmmuCvBio[] $ommuCvBios
- * @property OmmuCvEducationAssure[] $ommuCvEducationAssures
- * @property OmmuCvEducations[] $ommuCvEducations
- * @property OmmuCvExperienceAssure[] $ommuCvExperienceAssures
- * @property OmmuCvExperiences[] $ommuCvExperiences
- * @property OmmuCvOrganizations[] $ommuCvOrganizations
- * @property OmmuCvPortfolioAssure[] $ommuCvPortfolioAssures
- * @property OmmuCvPortfolios[] $ommuCvPortfolioses
- * @property OmmuCvPositiveNegative[] $ommuCvPositiveNegatives
- * @property OmmuCvReferences[] $ommuCvReferences
- * @property OmmuCvReferences[] $ommuCvReferences1
- * @property OmmuCvSkillAssure[] $ommuCvSkillAssures
- * @property OmmuCvSkills[] $ommuCvSkills
- * @property OmmuCvTrainings[] $ommuCvTrainings
- * @property OmmuMemberCompany[] $ommuMemberCompanies
- * @property OmmuMemberUser[] $ommuMemberUsers
- * @property OmmuMemberProfile $profile
- * @property OmmuVacancies[] $ommuVacancies
+ * @property CvBio[] $CvBios
+ * @property CvEducationAssure[] $CvEducationAssures
+ * @property CvEducations[] $CvEducations
+ * @property CvExperienceAssure[] $CvExperienceAssures
+ * @property CvExperiences[] $CvExperiences
+ * @property CvOrganizations[] $CvOrganizations
+ * @property CvPortfolioAssure[] $CvPortfolioAssures
+ * @property CvPortfolios[] $CvPortfolioses
+ * @property CvPositiveNegative[] $CvPositiveNegatives
+ * @property CvReferences[] $CvReferences
+ * @property CvReferences[] $CvReferences1
+ * @property CvSkillAssure[] $CvSkillAssures
+ * @property CvSkills[] $CvSkills
+ * @property CvTrainings[] $CvTrainings
+ * @property MemberCompany[] $MemberCompanies
+ * @property MemberUser[] $MemberUsers
+ * @property MemberProfile $profile
+ * @property Vacancies[] $Vacancies
  */
 class Members extends CActiveRecord
 {

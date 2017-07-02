@@ -33,8 +33,8 @@
  * @property string $modified_id
  *
  * The followings are the available model relations:
- * @property OmmuMembers $member
- * @property OmmuIpediaCompanies $company
+ * @property Members $member
+ * @property IpediaCompanies $company
  */
 class MemberCompany extends CActiveRecord
 {

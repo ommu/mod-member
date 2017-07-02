@@ -35,8 +35,8 @@
  * @property string $updated_date
  *
  * The followings are the available model relations:
- * @property OmmuMembers $member
- * @property OmmuMemberUserDetail[] $ommuMemberUserDetails
+ * @property Members $member
+ * @property MemberUserDetail[] $MemberUserDetails
  */
 class MemberUser extends CActiveRecord
 {

@@ -31,7 +31,7 @@
  * @property string $updated_date
  *
  * The followings are the available model relations:
- * @property OmmuMembers $member
+ * @property Members $member
  */
 class MemberLikes extends CActiveRecord
 {
