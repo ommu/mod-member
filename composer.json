@@ -1,6 +1,6 @@
 {
 	"name": "ommu/member",
-	"description": "Member Module for Ommu Platform",
+	"description": "Single User Module for Ommu Platform",
 	"keywords": [
 		"ommu",
 		"platform",
