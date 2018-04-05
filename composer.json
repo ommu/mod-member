@@ -1,24 +1,23 @@
 {
 	"name": "ommu/member",
-	"description": "Single User Module for Ommu Platform",
+	"description": "Single User Module from Ommu Platform",
 	"keywords": [
-		"ommu",
-		"platform",
-		"ommu platform",
 		"module",
-		"member"
+		"member",
+		"ommu",
+		"ommu platform"
 	],
-	"homepage": "https://github.com/ommu/ommu-member",
+	"homepage": "https://github.com/ommu/mod-member",
 	"type": "ommu-module",
 	"license": "Apache-2.0",
 	"support": {
-		"issues": "https://github.com/ommu/ommu-member/issues",
-		"wiki": "https://github.com/ommu/ommu-member/wiki",
-		"source": "https://github.com/ommu/ommu-member"
+		"issues": "https://github.com/ommu/mod-member/issues",
+		"wiki": "https://github.com/ommu/mod-member/wiki",
+		"source": "https://github.com/ommu/mod-member"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ommu/ommu-member.git"
+		"url": "https://github.com/ommu/mod-member.git"
 	},
 	"authors": [
 		{
