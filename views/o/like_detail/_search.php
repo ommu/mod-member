@@ -9,7 +9,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
  * @created date 7 February 2017, 02:35 WIB
- * @link https://github.com/ommu/ommu-member
+ * @link https://github.com/ommu/mod-member
  *
  */
 ?>
