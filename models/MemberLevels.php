@@ -165,11 +165,11 @@ class MemberLevels extends CActiveRecord
 		);
 
 		$criteria->compare('t.level_id',$this->level_id);
-		if(isset($_GET['type']) && $_GET['type'] == 'publish')
+		if(Yii::app()->getRequest()->getParam('type') == 'publish')
 			$criteria->compare('t.publish',1);
-		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
+		elseif(Yii::app()->getRequest()->getParam('type') == 'unpublish')
 			$criteria->compare('t.publish',0);
-		elseif(isset($_GET['type']) && $_GET['type'] == 'trash')
+		elseif(Yii::app()->getRequest()->getParam('type') == 'trash')
 			$criteria->compare('t.publish',2);
 		else {
 			$criteria->addInCondition('t.publish',array(0,1));
@@ -186,7 +186,7 @@ class MemberLevels extends CActiveRecord
 			$criteria->compare('t.creation_id',$this->creation_id);
 		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
-		if(isset($_GET['modified']))
+		if(Yii::app()->getRequest()->getParam('modified'))
 			$criteria->compare('t.modified_id',$_GET['modified']);
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
@@ -282,7 +282,7 @@ class MemberLevels extends CActiveRecord
 					),
 					'options'=>array(
 						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
+						'dateFormat' => 'yy-mm-dd',
 						'showOtherMonths' => true,
 						'selectOtherMonths' => true,
 						'changeMonth' => true,
@@ -311,7 +311,7 @@ class MemberLevels extends CActiveRecord
 				),
 				'type' => 'raw',
 			);
-			if(!isset($_GET['type'])) {
+			if(!Yii::app()->getRequest()->getParam('type')) {
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
 					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->level_id)), $data->publish, 1)',

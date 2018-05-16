@@ -147,11 +147,11 @@ class MemberLikes extends CActiveRecord
 		);
 
 		$criteria->compare('t.like_id',$this->like_id);
-		if(isset($_GET['type']) && $_GET['type'] == 'publish')
+		if(Yii::app()->getRequest()->getParam('type') == 'publish')
 			$criteria->compare('t.publish',1);
-		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
+		elseif(Yii::app()->getRequest()->getParam('type') == 'unpublish')
 			$criteria->compare('t.publish',0);
-		elseif(isset($_GET['type']) && $_GET['type'] == 'trash')
+		elseif(Yii::app()->getRequest()->getParam('type') == 'trash')
 			$criteria->compare('t.publish',2);
 		else {
 			$criteria->addInCondition('t.publish',array(0,1));
@@ -161,8 +161,8 @@ class MemberLikes extends CActiveRecord
 			$criteria->compare('t.member_id',$_GET['member']);
 		else
 			$criteria->compare('t.member_id',$this->member_id);
-		if(isset($_GET['user']))
-			$criteria->compare('t.user_id',$_GET['user']);
+		if(Yii::app()->getRequest()->getParam('user'))
+			$criteria->compare('t.user_id',Yii::app()->getRequest()->getParam('user'));
 		else
 			$criteria->compare('t.user_id',$this->user_id);
 		if($this->likes_date != null && !in_array($this->likes_date, array('0000-00-00 00:00:00', '0000-00-00')))
@@ -248,7 +248,7 @@ class MemberLikes extends CActiveRecord
 					'value' => '$data->member->view->member_name',
 				);
 			}
-			if(!isset($_GET['user'])) {
+			if(!Yii::app()->getRequest()->getParam('user')) {
 				$this->defaultColumns[] = array(
 					'name' => 'user_search',
 					'value' => '$data->user->displayname',
@@ -271,7 +271,7 @@ class MemberLikes extends CActiveRecord
 					),
 					'options'=>array(
 						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
+						'dateFormat' => 'yy-mm-dd',
 						'showOtherMonths' => true,
 						'selectOtherMonths' => true,
 						'changeMonth' => true,
@@ -305,7 +305,7 @@ class MemberLikes extends CActiveRecord
 					),
 					'options'=>array(
 						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
+						'dateFormat' => 'yy-mm-dd',
 						'showOtherMonths' => true,
 						'selectOtherMonths' => true,
 						'changeMonth' => true,
@@ -331,7 +331,7 @@ class MemberLikes extends CActiveRecord
 				),
 				'type' => 'raw',
 			);
-			if(!isset($_GET['type'])) {
+			if(!Yii::app()->getRequest()->getParam('type')) {
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
 					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->like_id)), $data->publish, 1)',

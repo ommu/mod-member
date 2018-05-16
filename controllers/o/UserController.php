@@ -173,7 +173,7 @@ class UserController extends Controller
 			$model->user_id = $_POST['user_id'];
 
 			if($model->save()) {
-				if(isset($_GET['type']) && $_GET['type'] == 'member')
+				if(Yii::app()->getRequest()->getParam('type') == 'member')
 					$url = Yii::app()->controller->createUrl('delete',array('id'=>$model->id,'type'=>'member'));
 				else 
 					$url = Yii::app()->controller->createUrl('delete',array('id'=>$model->id));
@@ -266,7 +266,7 @@ class UserController extends Controller
 		}
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax'])) {
+		if(!Yii::app()->getRequest()->getParam('ajax')) {
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('manage'));
 		}
 	}

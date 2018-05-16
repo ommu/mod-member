@@ -164,7 +164,7 @@ class AdminController extends Controller
 			if($profile->multiple_user == 1)
 				$condition = 1;
 			
-			$users = Users::model()->findByAttributes(array('email' => $_GET['email']));
+			$users = Users::model()->findByAttributes(array('email' => Yii::app()->getRequest()->getParam('email')));
 			if($users == null)
 				$users=new Users;
 			if($condition == 1)
@@ -412,7 +412,7 @@ class AdminController extends Controller
 		}
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax'])) {
+		if(!Yii::app()->getRequest()->getParam('ajax')) {
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('manage'));
 		}
 	}

@@ -146,11 +146,11 @@ class MemberLikeDetail extends CActiveRecord
 		);
 
 		$criteria->compare('t.id',$this->id);
-		if(isset($_GET['type']) && $_GET['type'] == 'publish')
+		if(Yii::app()->getRequest()->getParam('type') == 'publish')
 			$criteria->compare('t.publish',1);
-		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
+		elseif(Yii::app()->getRequest()->getParam('type') == 'unpublish')
 			$criteria->compare('t.publish',0);
-		elseif(isset($_GET['type']) && $_GET['type'] == 'trash')
+		elseif(Yii::app()->getRequest()->getParam('type') == 'trash')
 			$criteria->compare('t.publish',2);
 		else {
 			$criteria->addInCondition('t.publish',array(0,1));
@@ -250,7 +250,7 @@ class MemberLikeDetail extends CActiveRecord
 					),
 					'options'=>array(
 						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
+						'dateFormat' => 'yy-mm-dd',
 						'showOtherMonths' => true,
 						'selectOtherMonths' => true,
 						'changeMonth' => true,
