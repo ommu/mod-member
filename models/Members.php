@@ -33,7 +33,7 @@ namespace ommu\member\models;
 
 use Yii;
 use yii\helpers\Url;
-use app\modules\user\models\Users;
+use ommu\users\models\Users;
 use app\libraries\grid\GridView;
 
 class Members extends \app\components\ActiveRecord
