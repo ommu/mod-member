@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\member\models;
+namespace ommu\member\models;
 
 /**
  * This is the ActiveQuery class for [[Member]].

@@ -16,7 +16,7 @@
  *
  */
 
-namespace app\modules\member\controllers;
+namespace ommu\member\controllers;
 
 use app\components\Controller;
 

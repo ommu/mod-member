@@ -10,7 +10,7 @@
  *
  */
 
-namespace app\modules\member;
+namespace ommu\member;
 
 class Module extends \app\components\Module
 {
@@ -19,7 +19,7 @@ class Module extends \app\components\Module
 	/**
 	 * @inheritdoc
 	 */
-	public $controllerNamespace = 'app\modules\member\controllers';
+	public $controllerNamespace = 'ommu\member\controllers';
 
 	/**
 	 * @inheritdoc

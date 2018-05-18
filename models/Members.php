@@ -29,7 +29,7 @@
  *
  */
 
-namespace app\modules\member\models;
+namespace ommu\member\models;
 
 use Yii;
 use yii\helpers\Url;
