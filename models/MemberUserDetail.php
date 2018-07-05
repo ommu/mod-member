@@ -4,7 +4,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 2 March 2017, 09:36 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -153,34 +153,34 @@ class MemberUserDetail extends CActiveRecord
 			),
 		);
 
-		$criteria->compare('t.id',$this->id);
+		$criteria->compare('t.id', $this->id);
 		if(Yii::app()->getRequest()->getParam('type') == 'publish')
-			$criteria->compare('t.publish',1);
+			$criteria->compare('t.publish', 1);
 		elseif(Yii::app()->getRequest()->getParam('type') == 'unpublish')
-			$criteria->compare('t.publish',0);
+			$criteria->compare('t.publish', 0);
 		elseif(Yii::app()->getRequest()->getParam('type') == 'trash')
-			$criteria->compare('t.publish',2);
+			$criteria->compare('t.publish', 2);
 		else {
-			$criteria->addInCondition('t.publish',array(0,1));
-			$criteria->compare('t.publish',$this->publish);
+			$criteria->addInCondition('t.publish', array(0,1));
+			$criteria->compare('t.publish', $this->publish);
 		}
-		if(isset($_GET['memberuser']))
-			$criteria->compare('t.member_user_id',$_GET['memberuser']);
+		if(Yii::app()->getRequest()->getParam('memberuser'))
+			$criteria->compare('t.member_user_id', Yii::app()->getRequest()->getParam('memberuser'));
 		else
-			$criteria->compare('t.member_user_id',$this->member_user_id);
-		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.updated_date)',date('Y-m-d', strtotime($this->updated_date)));
-		$criteria->compare('t.updated_id',$this->updated_id);
+			$criteria->compare('t.member_user_id', $this->member_user_id);
+		if($this->updated_date != null && !in_array($this->updated_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00')))
+			$criteria->compare('date(t.updated_date)', date('Y-m-d', strtotime($this->updated_date)));
+		$criteria->compare('t.updated_id', $this->updated_id);
 		
-		$criteria->compare('member.profile_id',$this->profile_search);
-		if(isset($_GET['publish']))
-			$criteria->compare('member.publish',$_GET['publish']);
-		$criteria->compare('member_v.member_name',strtolower($this->member_search), true);
-		$criteria->compare('user.level_id',$this->level_search);
-		$criteria->compare('user_user.displayname',strtolower($this->user_search), true);
-		$criteria->compare('updated.displayname',strtolower($this->updated_search), true);
+		$criteria->compare('member.profile_id', $this->profile_search);
+		if(Yii::app()->getRequest()->getParam('publish'))
+			$criteria->compare('member.publish', Yii::app()->getRequest()->getParam('publish'));
+		$criteria->compare('member_v.member_name', strtolower($this->member_search), true);
+		$criteria->compare('user.level_id', $this->level_search);
+		$criteria->compare('user_user.displayname', strtolower($this->user_search), true);
+		$criteria->compare('updated.displayname', strtolower($this->updated_search), true);
 
-		if(!isset($_GET['MemberUserDetail_sort']))
+		if(!Yii::app()->getRequest()->getParam('MemberUserDetail_sort'))
 			$criteria->order = 't.id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -228,7 +228,7 @@ class MemberUserDetail extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if(!isset($_GET['memberuser'])) {
+			if(!Yii::app()->getRequest()->getParam('memberuser')) {
 				$this->defaultColumns[] = array(
 					'name' => 'profile_search',
 					'value' => 'Phrase::trans($data->user->member->profile->profile_name)',
@@ -300,7 +300,7 @@ class MemberUserDetail extends CActiveRecord
 	public static function getInfo($id, $column=null)
 	{
 		if($column != null) {
-			$model = self::model()->findByPk($id,array(
+			$model = self::model()->findByPk($id, array(
 				'select' => $column,
 			));
  			if(count(explode(',', $column)) == 1)

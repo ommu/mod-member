@@ -17,7 +17,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 7 March 2017, 23:01 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -124,7 +124,7 @@ class UserhistoryController extends Controller
 		$this->pageTitle = Yii::t('phrase', 'Member User Details Manage');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('/o/user_history/admin_manage',array(
+		$this->render('/o/user_history/admin_manage', array(
 			'model'=>$model,
 			'columns' => $columns,
 		));
@@ -145,7 +145,7 @@ class UserhistoryController extends Controller
 		$this->pageTitle = Yii::t('phrase', 'View Member User Details');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('/o/user_history/admin_view',array(
+		$this->render('/o/user_history/admin_view', array(
 			'model'=>$model,
 		));
 	}

@@ -7,7 +7,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2016 Ommu Platform (www.ommu.co)
  * @created date 7 November 2016, 06:29 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -21,7 +21,7 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('view_id'); ?><br/>
-			<?php echo $form->textField($model,'view_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'view_id', array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li>
@@ -31,12 +31,12 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('member_id'); ?><br/>
-			<?php echo $form->textField($model,'member_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'member_id', array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('user_id'); ?><br/>
-			<?php echo $form->textField($model,'user_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'user_id', array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li>
@@ -46,7 +46,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('view_ip'); ?><br/>
-			<?php echo $form->textField($model,'view_ip',array('size'=>20,'maxlength'=>20)); ?>
+			<?php echo $form->textField($model,'view_ip', array('size'=>20,'maxlength'=>20)); ?>
 		</li>
 
 		<li>

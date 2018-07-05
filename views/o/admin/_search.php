@@ -7,7 +7,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 2 March 2017, 15:02 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -21,7 +21,7 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('member_id'); ?><br/>
-			<?php echo $form->textField($model,'member_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'member_id', array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li>
@@ -36,17 +36,17 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('member_header'); ?><br/>
-			<?php echo $form->textArea($model,'member_header',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'member_header', array('rows'=>6, 'cols'=>50)); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('member_photo'); ?><br/>
-			<?php echo $form->textArea($model,'member_photo',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'member_photo', array('rows'=>6, 'cols'=>50)); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('short_biography'); ?><br/>
-			<?php echo $form->textArea($model,'short_biography',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'short_biography', array('rows'=>6, 'cols'=>50)); ?>
 		</li>
 
 		<li>
@@ -56,7 +56,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
-			<?php echo $form->textField($model,'creation_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'creation_id', array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li>
@@ -66,7 +66,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'modified_id', array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li class="submit">

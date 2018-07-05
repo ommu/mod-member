@@ -4,7 +4,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 7 March 2017, 22:46 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -132,18 +132,18 @@ class ViewMembers extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.member_id',$this->member_id);
-		$criteria->compare('t.member_name',strtolower($this->member_name),true);
-		$criteria->compare('t.user_id',$this->user_id);
-		$criteria->compare('t.company_id',$this->company_id);
-		$criteria->compare('t.users',$this->users);
-		$criteria->compare('t.user_all',$this->user_all);
-		$criteria->compare('t.likes',$this->likes);
-		$criteria->compare('t.like_all',$this->like_all);
-		$criteria->compare('t.views',$this->views);
-		$criteria->compare('t.view_all',$this->view_all);
+		$criteria->compare('t.member_id', $this->member_id);
+		$criteria->compare('t.member_name', strtolower($this->member_name), true);
+		$criteria->compare('t.user_id', $this->user_id);
+		$criteria->compare('t.company_id', $this->company_id);
+		$criteria->compare('t.users', $this->users);
+		$criteria->compare('t.user_all', $this->user_all);
+		$criteria->compare('t.likes', $this->likes);
+		$criteria->compare('t.like_all', $this->like_all);
+		$criteria->compare('t.views', $this->views);
+		$criteria->compare('t.view_all', $this->view_all);
 
-		if(!isset($_GET['ViewMembers_sort']))
+		if(!Yii::app()->getRequest()->getParam('ViewMembers_sort'))
 			$criteria->order = 't.member_id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -216,7 +216,7 @@ class ViewMembers extends CActiveRecord
 	public static function getInfo($id, $column=null)
 	{
 		if($column != null) {
-			$model = self::model()->findByPk($id,array(
+			$model = self::model()->findByPk($id, array(
 				'select' => $column,
 			));
  			if(count(explode(',', $column)) == 1)

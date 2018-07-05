@@ -7,7 +7,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 2 March 2017, 15:02 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -51,7 +51,7 @@
 			<div class="desc">
 				<?php if(!$memberCompany->isNewRecord && !$memberCompany->getErrors())
 					$memberCompany->company_name_i = $memberCompany->view->company_name;
-				//echo $form->textField($company,'company_name_i',array('class'=>'span-8'));
+				//echo $form->textField($company,'company_name_i', array('class'=>'span-8'));
 				$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
 					'model' => $memberCompany,
 					'attribute' => 'company_name_i',
@@ -116,7 +116,7 @@
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'short_biography'); ?>
 			<div class="desc">
-				<?php echo $form->textArea($model,'short_biography',array('maxlength'=>160, 'rows'=>6, 'cols'=>50, 'class'=>'span-10 smaller')); ?>
+				<?php echo $form->textArea($model,'short_biography', array('maxlength'=>160, 'rows'=>6, 'cols'=>50, 'class'=>'span-10 smaller')); ?>
 				<?php echo $form->error($model,'short_biography'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
@@ -127,7 +127,7 @@
 			<div class="clearfix">
 				<?php echo $form->labelEx($users,'displayname'); ?>
 				<div class="desc">
-					<?php echo $form->textField($users,'displayname',array('maxlength'=>64,'class'=>'span-7')); ?>
+					<?php echo $form->textField($users,'displayname', array('maxlength'=>64,'class'=>'span-7')); ?>
 					<?php echo $form->error($users,'displayname'); ?>
 					<?php /*<div class="small-px silent"></div>*/?>
 				</div>
@@ -137,7 +137,7 @@
 			<div class="clearfix">
 				<label><?php echo $users->getAttributeLabel('username')?> <span class="required">*</span></label>
 				<div class="desc">
-					<?php echo $form->textField($users,'username',array('maxlength'=>32,'class'=>'span-7')); ?>
+					<?php echo $form->textField($users,'username', array('maxlength'=>32,'class'=>'span-7')); ?>
 					<?php echo $form->error($users,'username'); ?>
 				</div>
 			</div>
@@ -146,7 +146,7 @@
 			<div class="clearfix">
 				<?php echo $form->labelEx($users,'email'); ?>
 				<div class="desc">
-					<?php echo $form->textField($users,'email',array('maxlength'=>32,'class'=>'span-7')); ?>
+					<?php echo $form->textField($users,'email', array('maxlength'=>32,'class'=>'span-7')); ?>
 					<?php echo $form->error($users,'email'); ?>
 					<?php /*<div class="small-px silent"></div>*/?>
 				</div>
@@ -156,7 +156,7 @@
 			<div class="clearfix">
 				<?php echo $form->labelEx($users,'photos'); ?>
 				<div class="desc">
-					<?php echo $form->textArea($users,'photos',array('rows'=>6, 'cols'=>50, 'class'=>'span-10 smaller')); ?>
+					<?php echo $form->textArea($users,'photos', array('rows'=>6, 'cols'=>50, 'class'=>'span-10 smaller')); ?>
 					<?php echo $form->error($users,'photos'); ?>
 					<div class="small-px silent"><?php echo Yii::t('phrase', 'Inputkan alamat url photo Anda.<br/>contoh: http://ommu.co/putrasudaryanto.jpg');?></div>
 				</div>
@@ -167,7 +167,7 @@
 			<div class="clearfix">
 				<label><?php echo $users->getAttributeLabel('newPassword')?> <?php echo $users->isNewRecord ? '<span class="required">*</span>' : '';?></label>
 				<div class="desc">
-					<?php echo $form->passwordField($users,'newPassword',array('maxlength'=>32,'class'=>'span-7')); ?>
+					<?php echo $form->passwordField($users,'newPassword', array('maxlength'=>32,'class'=>'span-7')); ?>
 					<?php echo $form->error($users,'newPassword'); ?>
 				</div>
 			</div>
@@ -175,7 +175,7 @@
 			<div class="clearfix">
 				<label><?php echo $users->getAttributeLabel('confirmPassword')?> <?php echo $users->isNewRecord ? '<span class="required">*</span>' : '';?></label>
 				<div class="desc">
-					<?php echo $form->passwordField($users,'confirmPassword',array('maxlength'=>32,'class'=>'span-7')); ?>
+					<?php echo $form->passwordField($users,'confirmPassword', array('maxlength'=>32,'class'=>'span-7')); ?>
 					<?php echo $form->error($users,'confirmPassword'); ?>
 				</div>
 			</div>
@@ -222,7 +222,7 @@
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'member_user_i'); ?>
 			<div class="desc">
-				<?php //echo $form->textField($model,'member_user_i',array('maxlength'=>32,'class'=>'span-6'));
+				<?php //echo $form->textField($model,'member_user_i', array('maxlength'=>32,'class'=>'span-6'));
 				$url = Yii::app()->controller->createUrl('o/user/add', array('type'=>'member'));
 				$member = $model->member_id;
 				$tagId = 'Members_member_user_i';
@@ -269,7 +269,7 @@
 	</fieldset>
 </div>
 <div class="dialog-submit">
-	<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('phrase', 'Create') : Yii::t('phrase', 'Save') ,array('onclick' => 'setEnableSave()')); ?>
+	<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('phrase', 'Create') : Yii::t('phrase', 'Save') , array('onclick' => 'setEnableSave()')); ?>
 	<?php echo CHtml::button(Yii::t('phrase', 'Cancel'), array('id'=>'closed')); ?>
 </div>
 <?php $this->endWidget(); ?>

@@ -4,7 +4,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 8 March 2017, 23:05 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -115,11 +115,11 @@ class ViewMemberLevels extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.level_id',$this->level_id);
-		$criteria->compare('t.users',$this->users);
-		$criteria->compare('t.user_all',$this->user_all);
+		$criteria->compare('t.level_id', $this->level_id);
+		$criteria->compare('t.users', $this->users);
+		$criteria->compare('t.user_all', $this->user_all);
 
-		if(!isset($_GET['ViewMemberLevels_sort']))
+		if(!Yii::app()->getRequest()->getParam('ViewMemberLevels_sort'))
 			$criteria->order = 't.level_id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -178,7 +178,7 @@ class ViewMemberLevels extends CActiveRecord
 	public static function getInfo($id, $column=null)
 	{
 		if($column != null) {
-			$model = self::model()->findByPk($id,array(
+			$model = self::model()->findByPk($id, array(
 				'select' => $column,
 			));
  			if(count(explode(',', $column)) == 1)

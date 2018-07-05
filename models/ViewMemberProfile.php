@@ -4,7 +4,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 7 March 2017, 22:45 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -115,11 +115,11 @@ class ViewMemberProfile extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.profile_id',$this->profile_id);
-		$criteria->compare('t.members',$this->members);
-		$criteria->compare('t.member_all',$this->member_all);
+		$criteria->compare('t.profile_id', $this->profile_id);
+		$criteria->compare('t.members', $this->members);
+		$criteria->compare('t.member_all', $this->member_all);
 
-		if(!isset($_GET['ViewMemberProfile_sort']))
+		if(!Yii::app()->getRequest()->getParam('ViewMemberProfile_sort'))
 			$criteria->order = 't.profile_id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -178,7 +178,7 @@ class ViewMemberProfile extends CActiveRecord
 	public static function getInfo($id, $column=null)
 	{
 		if($column != null) {
-			$model = self::model()->findByPk($id,array(
+			$model = self::model()->findByPk($id, array(
 				'select' => $column,
 			));
  			if(count(explode(',', $column)) == 1)

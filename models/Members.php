@@ -4,7 +4,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 2 March 2017, 09:36 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -204,46 +204,46 @@ class Members extends CActiveRecord
 			),
 		);
 
-		$criteria->compare('t.member_id',$this->member_id);
+		$criteria->compare('t.member_id', $this->member_id);
 		if(Yii::app()->getRequest()->getParam('type') == 'publish')
-			$criteria->compare('t.publish',1);
+			$criteria->compare('t.publish', 1);
 		elseif(Yii::app()->getRequest()->getParam('type') == 'unpublish')
-			$criteria->compare('t.publish',0);
+			$criteria->compare('t.publish', 0);
 		elseif(Yii::app()->getRequest()->getParam('type') == 'trash')
-			$criteria->compare('t.publish',2);
+			$criteria->compare('t.publish', 2);
 		else {
-			$criteria->addInCondition('t.publish',array(0,1));
-			$criteria->compare('t.publish',$this->publish);
+			$criteria->addInCondition('t.publish', array(0,1));
+			$criteria->compare('t.publish', $this->publish);
 		}
-		if(isset($_GET['profile']))
-			$criteria->compare('t.profile_id',$_GET['profile']);
+		if(Yii::app()->getRequest()->getParam('profile'))
+			$criteria->compare('t.profile_id', Yii::app()->getRequest()->getParam('profile'));
 		else
-			$criteria->compare('t.profile_id',$this->profile_id);
-		$criteria->compare('t.member_private',$this->member_private);
-		$criteria->compare('t.member_header',strtolower($this->member_header),true);
-		$criteria->compare('t.member_photo',strtolower($this->member_photo),true);
-		$criteria->compare('t.short_biography',strtolower($this->short_biography),true);
-		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
-		if(isset($_GET['creation']))
-			$criteria->compare('t.creation_id',$_GET['creation']);
+			$criteria->compare('t.profile_id', $this->profile_id);
+		$criteria->compare('t.member_private', $this->member_private);
+		$criteria->compare('t.member_header', strtolower($this->member_header), true);
+		$criteria->compare('t.member_photo', strtolower($this->member_photo), true);
+		$criteria->compare('t.short_biography', strtolower($this->short_biography), true);
+		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00')))
+			$criteria->compare('date(t.creation_date)', date('Y-m-d', strtotime($this->creation_date)));
+		if(Yii::app()->getRequest()->getParam('creation'))
+			$criteria->compare('t.creation_id', Yii::app()->getRequest()->getParam('creation'));
 		else
-			$criteria->compare('t.creation_id',$this->creation_id);
-		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
+			$criteria->compare('t.creation_id', $this->creation_id);
+		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00')))
+			$criteria->compare('date(t.modified_date)', date('Y-m-d', strtotime($this->modified_date)));
 		if(Yii::app()->getRequest()->getParam('modified'))
-			$criteria->compare('t.modified_id',$_GET['modified']);
+			$criteria->compare('t.modified_id', Yii::app()->getRequest()->getParam('modified'));
 		else
-			$criteria->compare('t.modified_id',$this->modified_id);
+			$criteria->compare('t.modified_id', $this->modified_id);
 		
-		$criteria->compare('view.member_name',strtolower($this->member_search), true);
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
-		$criteria->compare('view.users',$this->user_search);
-		$criteria->compare('view.likes',$this->like_search);
-		$criteria->compare('view.views',$this->view_search);
+		$criteria->compare('view.member_name', strtolower($this->member_search), true);
+		$criteria->compare('creation.displayname', strtolower($this->creation_search), true);
+		$criteria->compare('modified.displayname', strtolower($this->modified_search), true);
+		$criteria->compare('view.users', $this->user_search);
+		$criteria->compare('view.likes', $this->like_search);
+		$criteria->compare('view.views', $this->view_search);
 
-		if(!isset($_GET['Members_sort']))
+		if(!Yii::app()->getRequest()->getParam('Members_sort'))
 			$criteria->order = 't.member_id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -307,7 +307,7 @@ class Members extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if($controller == 'o/admin' && !isset($_GET['profile'])) {
+			if($controller == 'o/admin' && !Yii::app()->getRequest()->getParam('profile')) {
 				$this->defaultColumns[] = array(
 					'name' => 'profile_id',
 					'value' => 'Phrase::trans($data->profile->profile_name)',
@@ -353,7 +353,7 @@ class Members extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'user_search',
-				'value' => 'CHtml::link($data->view->users, Yii::app()->controller->createUrl("o/user/manage",array(\'member\'=>$data->member_id,\'type\'=>\'publish\')))',
+				'value' => 'CHtml::link($data->view->users, Yii::app()->controller->createUrl("o/user/manage", array(\'member\'=>$data->member_id,\'type\'=>\'publish\')))',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),	
@@ -361,7 +361,7 @@ class Members extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'like_search',
-				'value' => 'CHtml::link($data->view->likes != null ? $data->view->likes : \'0\', Yii::app()->controller->createUrl("o/like/manage",array(\'member\'=>$data->member_id,\'type\'=>\'publish\')))',
+				'value' => 'CHtml::link($data->view->likes != null ? $data->view->likes : \'0\', Yii::app()->controller->createUrl("o/like/manage", array(\'member\'=>$data->member_id,\'type\'=>\'publish\')))',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),	
@@ -369,7 +369,7 @@ class Members extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'view_search',
-				'value' => 'CHtml::link($data->view->views != null ? $data->view->views : \'0\', Yii::app()->controller->createUrl("o/views/manage",array(\'member\'=>$data->member_id,\'type\'=>\'publish\')))',
+				'value' => 'CHtml::link($data->view->views != null ? $data->view->views : \'0\', Yii::app()->controller->createUrl("o/views/manage", array(\'member\'=>$data->member_id,\'type\'=>\'publish\')))',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),	
@@ -377,7 +377,7 @@ class Members extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'member_private',
-				'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("private",array("id"=>$data->member_id)), $data->member_private, 1)',
+				'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("private", array("id"=>$data->member_id)), $data->member_private, 1)',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -390,7 +390,7 @@ class Members extends CActiveRecord
 			if(!Yii::app()->getRequest()->getParam('type')) {
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->member_id)), $data->publish, 1)',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish", array("id"=>$data->member_id)), $data->publish, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
@@ -411,7 +411,7 @@ class Members extends CActiveRecord
 	public static function getInfo($id, $column=null)
 	{
 		if($column != null) {
-			$model = self::model()->findByPk($id,array(
+			$model = self::model()->findByPk($id, array(
 				'select' => $column,
 			));
  			if(count(explode(',', $column)) == 1)

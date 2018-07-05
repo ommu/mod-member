@@ -21,7 +21,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 7 March 2017, 23:00 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -112,7 +112,7 @@ class UserController extends Controller
 	public function actionSuggest($data=null, $id=null, $limit=10) 
 	{
 		if(Yii::app()->request->isAjaxRequest) {
-			if(isset($_GET['term'])) {
+			if(Yii::app()->getRequest()->getParam('term')) {
 				$criteria = new CDbCriteria;
 				$items = array();
 				
@@ -129,10 +129,10 @@ class UserController extends Controller
 				$criteria->select = "user_id, displayname, email";
 				$criteria->compare('enabled',1);
 				if($id != null) {
-					$criteria->compare('displayname',strtolower(trim($_GET['term'])), true);
+					$criteria->compare('displayname', strtolower(trim(Yii::app()->getRequest()->getParam('term'))), true);
 					$criteria->addNotInCondition('user_id',$items);					
 				} else
-					$criteria->compare('email',strtolower(trim($_GET['term'])), true);
+					$criteria->compare('email', strtolower(trim(Yii::app()->getRequest()->getParam('term'))), true);
 				$criteria->limit = $limit;
 				$criteria->order = "user_id ASC";
 				$model = Users::model()->findAll($criteria);
@@ -148,7 +148,7 @@ class UserController extends Controller
 						$result[] = array('id' => $items->user_id, 'value' => $id != null ? $items->displayname : $items->email);
 					}
 				} //else
-				//	$result[] = array('id' => 0, 'value' => $_GET['term']);
+				//	$result[] = array('id' => 0, 'value' => Yii::app()->getRequest()->getParam('term'));
 			}
 			echo CJSON::encode($result);
 			Yii::app()->end();
@@ -174,9 +174,9 @@ class UserController extends Controller
 
 			if($model->save()) {
 				if(Yii::app()->getRequest()->getParam('type') == 'member')
-					$url = Yii::app()->controller->createUrl('delete',array('id'=>$model->id,'type'=>'member'));
+					$url = Yii::app()->controller->createUrl('delete', array('id'=>$model->id,'type'=>'member'));
 				else 
-					$url = Yii::app()->controller->createUrl('delete',array('id'=>$model->id));
+					$url = Yii::app()->controller->createUrl('delete', array('id'=>$model->id));
 				$desc_name = $model->publish == 0 ? $model->user->displayname.' ('.Phrase::trans($model->level->level_name).') '.Yii::t('phrase', '(Unpublish)') : $model->user->displayname.' ('.Phrase::trans($model->level->level_name).')';
 				echo CJSON::encode(array(
 					'data' => '<div>'.$desc_name.'</div>',
@@ -209,7 +209,7 @@ class UserController extends Controller
 		$this->pageTitle = Yii::t('phrase', 'Member Users Manage');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('admin_manage',array(
+		$this->render('admin_manage', array(
 			'model'=>$model,
 			'columns' => $columns,
 		));
@@ -230,7 +230,7 @@ class UserController extends Controller
 		$this->pageTitle = Yii::t('phrase', 'View Member Users');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('admin_view',array(
+		$this->render('admin_view', array(
 			'model'=>$model,
 		));
 	}
@@ -242,7 +242,7 @@ class UserController extends Controller
 	public function actionRunAction() {
 		$id       = $_POST['trash_id'];
 		$criteria = null;
-		$actions  = $_GET['action'];
+		$actions  = Yii::app()->getRequest()->getParam('action');
 
 		if(count($id) > 0) {
 			$criteria = new CDbCriteria;
@@ -346,7 +346,7 @@ class UserController extends Controller
 			$this->pageTitle = $title;
 			$this->pageDescription = '';
 			$this->pageMeta = '';
-			$this->render('admin_publish',array(
+			$this->render('admin_publish', array(
 				'title'=>$title,
 				'model'=>$model,
 			));

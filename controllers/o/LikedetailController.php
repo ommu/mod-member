@@ -15,7 +15,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 7 February 2017, 02:35 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -122,7 +122,7 @@ class LikedetailController extends Controller
 		$this->pageTitle = Yii::t('phrase', 'Member Like Details Manage');
 		$this->pageDescription = '';
 		$this->pageMeta = '';
-		$this->render('/o/like_detail/admin_manage',array(
+		$this->render('/o/like_detail/admin_manage', array(
 			'model'=>$model,
 			'columns' => $columns,
 		));

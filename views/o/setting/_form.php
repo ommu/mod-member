@@ -7,7 +7,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 2 March 2017, 10:26 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -48,13 +48,11 @@ EOP;
 		</label>
 		<div class="desc">
 			<?php 
-			if($model->isNewRecord || (!$model->isNewRecord && $model->license == ''))
-				$model->license = MemberSetting::getLicense();
-		
-			if($model->isNewRecord || (!$model->isNewRecord && $model->license == ''))
-				echo $form->textField($model,'license',array('maxlength'=>32,'class'=>'span-4'));
-			else
-				echo $form->textField($model,'license',array('maxlength'=>32,'class'=>'span-4','disabled'=>'disabled'));?>
+			if($model->isNewRecord || (!$model->isNewRecord && $model->license == '')) {
+				$model->license = $this->licenseCode();
+				echo $form->textField($model,'license', array('maxlength'=>32,'class'=>'span-4'));
+			} else
+				echo $form->textField($model,'license', array('maxlength'=>32,'class'=>'span-4','disabled'=>'disabled'));?>
 			<?php echo $form->error($model,'license'); ?>
 			<span class="small-px"><?php echo Yii::t('phrase', 'Format: XXXX-XXXX-XXXX-XXXX');?></span>
 		</div>
@@ -75,7 +73,7 @@ EOP;
 	<div class="clearfix">
 		<?php echo $form->labelEx($model,'meta_description'); ?>
 		<div class="desc">
-			<?php echo $form->textArea($model,'meta_description',array('rows'=>6, 'cols'=>50, 'class'=>'span-7 smaller')); ?>
+			<?php echo $form->textArea($model,'meta_description', array('rows'=>6, 'cols'=>50, 'class'=>'span-7 smaller')); ?>
 			<?php echo $form->error($model,'meta_description'); ?>
 		</div>
 	</div>
@@ -83,7 +81,7 @@ EOP;
 	<div class="clearfix">
 		<?php echo $form->labelEx($model,'meta_keyword'); ?>
 		<div class="desc">
-			<?php echo $form->textArea($model,'meta_keyword',array('rows'=>6, 'cols'=>50, 'class'=>'span-7 smaller')); ?>
+			<?php echo $form->textArea($model,'meta_keyword', array('rows'=>6, 'cols'=>50, 'class'=>'span-7 smaller')); ?>
 			<?php echo $form->error($model,'meta_keyword'); ?>
 		</div>
 	</div>
@@ -156,24 +154,24 @@ EOP;
 			}?>
 			
 			<div id="resize_size" class="mt-15 <?php echo $model->photo_resize == 0 ? 'hide' : '';?>">
-				<?php echo Yii::t('phrase', 'Width').': ';?><?php echo $form->textField($model,'photo_resize_size[width]',array('maxlength'=>4,'class'=>'span-2')); ?>&nbsp;&nbsp;&nbsp;
-				<?php echo Yii::t('phrase', 'Height').': ';?><?php echo $form->textField($model,'photo_resize_size[height]',array('maxlength'=>4,'class'=>'span-2')); ?>
+				<?php echo Yii::t('phrase', 'Width').': ';?><?php echo $form->textField($model,'photo_resize_size[width]', array('maxlength'=>4,'class'=>'span-2')); ?>&nbsp;&nbsp;&nbsp;
+				<?php echo Yii::t('phrase', 'Height').': ';?><?php echo $form->textField($model,'photo_resize_size[height]', array('maxlength'=>4,'class'=>'span-2')); ?>
 				<?php echo $form->error($model,'photo_resize_size'); ?>
 			</div>
 			
 			<p><?php echo Yii::t('phrase', 'Large Size');?></p>
-			<?php echo Yii::t('phrase', 'Width').': ';?><?php echo $form->textField($model,'photo_view_size[large][width]',array('maxlength'=>4,'class'=>'span-2')); ?>&nbsp;&nbsp;&nbsp;
-			<?php echo Yii::t('phrase', 'Height').': ';?><?php echo $form->textField($model,'photo_view_size[large][height]',array('maxlength'=>4,'class'=>'span-2')); ?>
+			<?php echo Yii::t('phrase', 'Width').': ';?><?php echo $form->textField($model,'photo_view_size[large][width]', array('maxlength'=>4,'class'=>'span-2')); ?>&nbsp;&nbsp;&nbsp;
+			<?php echo Yii::t('phrase', 'Height').': ';?><?php echo $form->textField($model,'photo_view_size[large][height]', array('maxlength'=>4,'class'=>'span-2')); ?>
 			<?php echo $form->error($model,'photo_view_size[large]'); ?>
 			
 			<p><?php echo Yii::t('phrase', 'Medium Size');?></p>
-			<?php echo Yii::t('phrase', 'Width').': ';?><?php echo $form->textField($model,'photo_view_size[medium][width]',array('maxlength'=>3,'class'=>'span-2')); ?>&nbsp;&nbsp;&nbsp;
-			<?php echo Yii::t('phrase', 'Height').': ';?><?php echo $form->textField($model,'photo_view_size[medium][height]',array('maxlength'=>3,'class'=>'span-2')); ?>
+			<?php echo Yii::t('phrase', 'Width').': ';?><?php echo $form->textField($model,'photo_view_size[medium][width]', array('maxlength'=>3,'class'=>'span-2')); ?>&nbsp;&nbsp;&nbsp;
+			<?php echo Yii::t('phrase', 'Height').': ';?><?php echo $form->textField($model,'photo_view_size[medium][height]', array('maxlength'=>3,'class'=>'span-2')); ?>
 			<?php echo $form->error($model,'photo_view_size[medium]'); ?>
 			
 			<p><?php echo Yii::t('phrase', 'Small Size');?></p>
-			<?php echo Yii::t('phrase', 'Width').': ';?><?php echo $form->textField($model,'photo_view_size[small][width]',array('maxlength'=>3,'class'=>'span-2')); ?>&nbsp;&nbsp;&nbsp;
-			<?php echo Yii::t('phrase', 'Height').': ';?><?php echo $form->textField($model,'photo_view_size[small][height]',array('maxlength'=>3,'class'=>'span-2')); ?>
+			<?php echo Yii::t('phrase', 'Width').': ';?><?php echo $form->textField($model,'photo_view_size[small][width]', array('maxlength'=>3,'class'=>'span-2')); ?>&nbsp;&nbsp;&nbsp;
+			<?php echo Yii::t('phrase', 'Height').': ';?><?php echo $form->textField($model,'photo_view_size[small][height]', array('maxlength'=>3,'class'=>'span-2')); ?>
 			<?php echo $form->error($model,'photo_view_size[small]'); ?>
 		</div>
 	</div>

@@ -7,7 +7,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 7 February 2017, 02:35 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -21,7 +21,7 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('id'); ?><br/>
-			<?php echo $form->textField($model,'id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'id', array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li>
@@ -31,7 +31,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('like_id'); ?><br/>
-			<?php echo $form->textField($model,'like_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'like_id', array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li>
@@ -41,7 +41,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('likes_ip'); ?><br/>
-			<?php echo $form->textField($model,'likes_ip',array('size'=>20,'maxlength'=>20)); ?>
+			<?php echo $form->textField($model,'likes_ip', array('size'=>20,'maxlength'=>20)); ?>
 		</li>
 
 		<li class="submit">

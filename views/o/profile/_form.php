@@ -7,7 +7,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 2 March 2017, 09:52 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -55,7 +55,7 @@ EOP;
 				<?php 
 				if(!$model->getErrors())
 					$model->title = Phrase::trans($model->profile_name);
-				echo $form->textField($model,'title',array('maxlength'=>32,'class'=>'span-8')); ?>
+				echo $form->textField($model,'title', array('maxlength'=>32,'class'=>'span-8')); ?>
 				<?php echo $form->error($model,'title'); ?>
 			</div>
 		</div>
@@ -66,7 +66,7 @@ EOP;
 				<?php 
 				if(!$model->getErrors())
 					$model->description = Phrase::trans($model->profile_desc);
-				echo $form->textArea($model,'description',array('maxlength'=>128,'class'=>'span-11 smaller')); ?>
+				echo $form->textArea($model,'description', array('maxlength'=>128,'class'=>'span-11 smaller')); ?>
 				<?php echo $form->error($model,'description'); ?>
 			</div>
 		</div>
@@ -96,7 +96,7 @@ EOP;
 			<div id="user-limit" class="clearfix <?php echo $model->user_limit == 0 ? 'hide' : '';?>">
 				<?php echo $form->labelEx($model,'user_limit'); ?>
 				<div class="desc">
-					<?php echo $form->textField($model,'user_limit',array('maxlength'=>5,'class'=>'span-4')); ?>
+					<?php echo $form->textField($model,'user_limit', array('maxlength'=>5,'class'=>'span-4')); ?>
 					<?php echo $form->error($model,'user_limit'); ?>
 				</div>
 			</div>
@@ -115,7 +115,7 @@ EOP;
 	</fieldset>
 </div>
 <div class="dialog-submit">
-	<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('phrase', 'Create') : Yii::t('phrase', 'Save') ,array('onclick' => 'setEnableSave()')); ?>
+	<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('phrase', 'Create') : Yii::t('phrase', 'Save') , array('onclick' => 'setEnableSave()')); ?>
 	<?php echo CHtml::button(Yii::t('phrase', 'Cancel'), array('id'=>'closed')); ?>
 </div>
 <?php $this->endWidget(); ?>

@@ -4,7 +4,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 8 February 2017, 11:40 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -119,13 +119,13 @@ class ViewMemberLikes extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.like_id',$this->like_id);
-		$criteria->compare('t.member_id',$this->member_id);
-		$criteria->compare('t.likes',$this->likes);
-		$criteria->compare('t.unlikes',$this->unlikes);
-		$criteria->compare('t.like_all',$this->like_all);
+		$criteria->compare('t.like_id', $this->like_id);
+		$criteria->compare('t.member_id', $this->member_id);
+		$criteria->compare('t.likes', $this->likes);
+		$criteria->compare('t.unlikes', $this->unlikes);
+		$criteria->compare('t.like_all', $this->like_all);
 
-		if(!isset($_GET['ViewMemberLikes_sort']))
+		if(!Yii::app()->getRequest()->getParam('ViewMemberLikes_sort'))
 			$criteria->order = 't.like_id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -188,7 +188,7 @@ class ViewMemberLikes extends CActiveRecord
 	public static function getInfo($id, $column=null)
 	{
 		if($column != null) {
-			$model = self::model()->findByPk($id,array(
+			$model = self::model()->findByPk($id, array(
 				'select' => $column,
 			));
  			if(count(explode(',', $column)) == 1)

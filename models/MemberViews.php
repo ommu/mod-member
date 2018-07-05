@@ -4,7 +4,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2016 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2016 Ommu Platform (www.ommu.co)
  * @created date 8 December 2016, 10:18 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -146,39 +146,39 @@ class MemberViews extends CActiveRecord
 			),
 		);
 
-		$criteria->compare('t.view_id',$this->view_id);
+		$criteria->compare('t.view_id', $this->view_id);
 		if(Yii::app()->getRequest()->getParam('type') == 'publish')
-			$criteria->compare('t.publish',1);
+			$criteria->compare('t.publish', 1);
 		elseif(Yii::app()->getRequest()->getParam('type') == 'unpublish')
-			$criteria->compare('t.publish',0);
+			$criteria->compare('t.publish', 0);
 		elseif(Yii::app()->getRequest()->getParam('type') == 'trash')
-			$criteria->compare('t.publish',2);
+			$criteria->compare('t.publish', 2);
 		else {
-			$criteria->addInCondition('t.publish',array(0,1));
-			$criteria->compare('t.publish',$this->publish);
+			$criteria->addInCondition('t.publish', array(0,1));
+			$criteria->compare('t.publish', $this->publish);
 		}
-		if(isset($_GET['member']))
-			$criteria->compare('t.member_id',$_GET['member']);
+		if(Yii::app()->getRequest()->getParam('member'))
+			$criteria->compare('t.member_id', Yii::app()->getRequest()->getParam('member'));
 		else
-			$criteria->compare('t.member_id',$this->member_id);
+			$criteria->compare('t.member_id', $this->member_id);
 		if(Yii::app()->getRequest()->getParam('user'))
 			$criteria->compare('t.user_id',Yii::app()->getRequest()->getParam('user'));
 		else
-			$criteria->compare('t.user_id',$this->user_id);
-		$criteria->compare('t.views',$this->views);
-		if($this->view_date != null && !in_array($this->view_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.view_date)',date('Y-m-d', strtotime($this->view_date)));
-		$criteria->compare('t.view_ip',strtolower($this->view_ip),true);
-		if($this->deleted_date != null && !in_array($this->deleted_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.deleted_date)',date('Y-m-d', strtotime($this->deleted_date)));
+			$criteria->compare('t.user_id', $this->user_id);
+		$criteria->compare('t.views', $this->views);
+		if($this->view_date != null && !in_array($this->view_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00')))
+			$criteria->compare('date(t.view_date)', date('Y-m-d', strtotime($this->view_date)));
+		$criteria->compare('t.view_ip', strtolower($this->view_ip), true);
+		if($this->deleted_date != null && !in_array($this->deleted_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00')))
+			$criteria->compare('date(t.deleted_date)', date('Y-m-d', strtotime($this->deleted_date)));
 		
-		$criteria->compare('member.profile_id',$this->profile_search);
-		if(isset($_GET['publish']))
-			$criteria->compare('member.publish',$_GET['publish']);
-		$criteria->compare('member_v.member_name',strtolower($this->member_search), true);
-		$criteria->compare('user.displayname',strtolower($this->user_search), true);
+		$criteria->compare('member.profile_id', $this->profile_search);
+		if(Yii::app()->getRequest()->getParam('publish'))
+			$criteria->compare('member.publish', Yii::app()->getRequest()->getParam('publish'));
+		$criteria->compare('member_v.member_name', strtolower($this->member_search), true);
+		$criteria->compare('user.displayname', strtolower($this->user_search), true);
 
-		if(!isset($_GET['MemberViews_sort']))
+		if(!Yii::app()->getRequest()->getParam('MemberViews_sort'))
 			$criteria->order = 't.view_id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -237,7 +237,7 @@ class MemberViews extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if(!isset($_GET['member'])) {
+			if(!Yii::app()->getRequest()->getParam('member')) {
 				$this->defaultColumns[] = array(
 					'name' => 'profile_search',
 					'value' => 'Phrase::trans($data->member->profile->profile_name)',
@@ -317,7 +317,7 @@ class MemberViews extends CActiveRecord
 			*/
 			$this->defaultColumns[] = array(
 				'name' => 'views',
-				'value' => 'CHtml::link($data->views != null ? $data->views : "0", Yii::app()->controller->createUrl("o/viewdetail/manage",array(\'view\'=>$data->view_id)))',
+				'value' => 'CHtml::link($data->views != null ? $data->views : "0", Yii::app()->controller->createUrl("o/viewdetail/manage", array(\'view\'=>$data->view_id)))',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -326,7 +326,7 @@ class MemberViews extends CActiveRecord
 			if(!Yii::app()->getRequest()->getParam('type')) {
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->view_id)), $data->publish, 1)',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish", array("id"=>$data->view_id)), $data->publish, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
@@ -347,7 +347,7 @@ class MemberViews extends CActiveRecord
 	public static function getInfo($id, $column=null)
 	{
 		if($column != null) {
-			$model = self::model()->findByPk($id,array(
+			$model = self::model()->findByPk($id, array(
 				'select' => $column,
 			));
  			if(count(explode(',', $column)) == 1)

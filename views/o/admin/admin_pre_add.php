@@ -7,7 +7,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 2 March 2017, 15:02 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -55,7 +55,7 @@
 		<div class="clearfix">
 			<?php echo $form->labelEx($model,'member_user_i'); ?>
 			<div class="desc">
-				<?php //echo $form->textField($model,'member_user_i',array('maxlength'=>32,'class'=>'span-6'));
+				<?php //echo $form->textField($model,'member_user_i', array('maxlength'=>32,'class'=>'span-6'));
 				$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
 					'model' => $model,
 					'attribute' => 'member_user_i',
@@ -79,7 +79,7 @@
 	</fieldset>
 </div>
 <div class="dialog-submit">
-	<?php echo CHtml::submitButton(Yii::t('phrase', 'Next') ,array('onclick' => 'setEnableSave()')); ?>
+	<?php echo CHtml::submitButton(Yii::t('phrase', 'Next') , array('onclick' => 'setEnableSave()')); ?>
 	<?php echo CHtml::button(Yii::t('phrase', 'Cancel'), array('id'=>'closed')); ?>
 </div>
 <?php $this->endWidget(); ?>

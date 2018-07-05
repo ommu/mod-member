@@ -4,7 +4,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 2 March 2017, 09:38 WIB
  * @link https://github.com/ommu/mod-member
  *
@@ -174,46 +174,46 @@ class MemberCompany extends CActiveRecord
 			),
 		);
 
-		$criteria->compare('t.id',$this->id);
+		$criteria->compare('t.id', $this->id);
 		if(Yii::app()->getRequest()->getParam('type') == 'publish')
-			$criteria->compare('t.publish',1);
+			$criteria->compare('t.publish', 1);
 		elseif(Yii::app()->getRequest()->getParam('type') == 'unpublish')
-			$criteria->compare('t.publish',0);
+			$criteria->compare('t.publish', 0);
 		elseif(Yii::app()->getRequest()->getParam('type') == 'trash')
-			$criteria->compare('t.publish',2);
+			$criteria->compare('t.publish', 2);
 		else {
-			$criteria->addInCondition('t.publish',array(0,1));
-			$criteria->compare('t.publish',$this->publish);
+			$criteria->addInCondition('t.publish', array(0,1));
+			$criteria->compare('t.publish', $this->publish);
 		}
-		if(isset($_GET['member']))
-			$criteria->compare('t.member_id',$_GET['member']);
+		if(Yii::app()->getRequest()->getParam('member'))
+			$criteria->compare('t.member_id', Yii::app()->getRequest()->getParam('member'));
 		else
-			$criteria->compare('t.member_id',$this->member_id);
-		if(isset($_GET['company']))
-			$criteria->compare('t.company_id',$_GET['company']);
+			$criteria->compare('t.member_id', $this->member_id);
+		if(Yii::app()->getRequest()->getParam('company'))
+			$criteria->compare('t.company_id', Yii::app()->getRequest()->getParam('company'));
 		else
-			$criteria->compare('t.company_id',$this->company_id);
-		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
-		if(isset($_GET['creation']))
-			$criteria->compare('t.creation_id',$_GET['creation']);
+			$criteria->compare('t.company_id', $this->company_id);
+		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00')))
+			$criteria->compare('date(t.creation_date)', date('Y-m-d', strtotime($this->creation_date)));
+		if(Yii::app()->getRequest()->getParam('creation'))
+			$criteria->compare('t.creation_id', Yii::app()->getRequest()->getParam('creation'));
 		else
-			$criteria->compare('t.creation_id',$this->creation_id);
-		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
+			$criteria->compare('t.creation_id', $this->creation_id);
+		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00')))
+			$criteria->compare('date(t.modified_date)', date('Y-m-d', strtotime($this->modified_date)));
 		if(Yii::app()->getRequest()->getParam('modified'))
-			$criteria->compare('t.modified_id',$_GET['modified']);
+			$criteria->compare('t.modified_id', Yii::app()->getRequest()->getParam('modified'));
 		else
-			$criteria->compare('t.modified_id',$this->modified_id);
+			$criteria->compare('t.modified_id', $this->modified_id);
 		
-		$criteria->compare('member.profile_id',$this->profile_search);
-		if(isset($_GET['publish']))
-			$criteria->compare('member.publish',$_GET['publish']);
-		$criteria->compare('member_v.member_name',strtolower($this->member_search), true);
-		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('member.profile_id', $this->profile_search);
+		if(Yii::app()->getRequest()->getParam('publish'))
+			$criteria->compare('member.publish', Yii::app()->getRequest()->getParam('publish'));
+		$criteria->compare('member_v.member_name', strtolower($this->member_search), true);
+		$criteria->compare('creation.displayname', strtolower($this->creation_search), true);
+		$criteria->compare('modified.displayname', strtolower($this->modified_search), true);
 
-		if(!isset($_GET['MemberCompany_sort']))
+		if(!Yii::app()->getRequest()->getParam('MemberCompany_sort'))
 			$criteria->order = 't.id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -272,7 +272,7 @@ class MemberCompany extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if(!isset($_GET['member'])) {
+			if(!Yii::app()->getRequest()->getParam('member')) {
 				$this->defaultColumns[] = array(
 					'name' => 'profile_search',
 					'value' => 'Phrase::trans($data->member->profile->profile_name)',
@@ -317,7 +317,7 @@ class MemberCompany extends CActiveRecord
 			if(!Yii::app()->getRequest()->getParam('type')) {
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->id)), $data->publish, 1)',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish", array("id"=>$data->id)), $data->publish, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
@@ -338,7 +338,7 @@ class MemberCompany extends CActiveRecord
 	public static function getInfo($id, $column=null)
 	{
 		if($column != null) {
-			$model = self::model()->findByPk($id,array(
+			$model = self::model()->findByPk($id, array(
 				'select' => $column,
 			));
  			if(count(explode(',', $column)) == 1)
@@ -371,7 +371,7 @@ class MemberCompany extends CActiveRecord
 			);
 			$criteria->addCondition('company_company.member_id IS NOT NULL');
 			$criteria->select = "t.directory_id, t.directory_name";
-			//$criteria->compare('t.publish',1);
+			//$criteria->compare('t.publish', 1);
 			$criteria->compare('t.directory_name', strtolower(trim($this->company_name_i)));
 			$model = IpediaDirectories::model()->find($criteria);
 			
