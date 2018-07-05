@@ -38,6 +38,8 @@
  */
 class MemberProfile extends CActiveRecord
 {
+	use UtilityTrait;
+
 	public $defaultColumns = array();
 	public $title;
 	public $description;
@@ -436,7 +438,7 @@ class MemberProfile extends CActiveRecord
 	protected function beforeSave() 
 	{
 		$currentModule = strtolower(Yii::app()->controller->module->id.'/'.Yii::app()->controller->id);
-		$location = Utility::getUrlTitle($currentModule);
+		$location = $this->urlTitle($currentModule);
 		
 		if(parent::beforeSave()) {
 			if($this->isNewRecord || (!$this->isNewRecord && $this->profile_name == 0)) {

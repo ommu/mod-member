@@ -151,7 +151,7 @@ class AdminController extends Controller
 				$model->attributes=$_POST['Members'];
 				
 				if($model->validate()) {
-					$this->redirect(array('add','type'=>$model->profile_id,'t'=>Utility::getUrlTitle(Phrase::trans($model->profile->profile_name)),'email'=>$model->member_user_i));
+					$this->redirect(array('add','type'=>$model->profile_id,'t'=>$this->urlTitle(Phrase::trans($model->profile->profile_name)),'email'=>$model->member_user_i));
 				}
 			}
 			$dataArray = array(

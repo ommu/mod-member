@@ -56,6 +56,8 @@
  */
 class Members extends CActiveRecord
 {
+	use UtilityTrait;
+
 	public $defaultColumns = array();
 	public $old_member_header_i;
 	public $old_member_photo_i;
@@ -507,7 +509,7 @@ class Members extends CActiveRecord
 				$this->member_header = CUploadedFile::getInstance($this, 'member_header');
 				if($this->member_header != null) {
 					if($this->member_header instanceOf CUploadedFile) {
-						$fileName = time().'_header_'.Utility::getUrlTitle($this->view->member_name).'.'.strtolower($this->member_header->extensionName);
+						$fileName = time().'_header_'.$this->urlTitle($this->view->member_name).'.'.strtolower($this->member_header->extensionName);
 						if($this->member_header->saveAs($member_path.'/'.$fileName)) {							
 							if($this->old_member_header_i != '' && file_exists($member_path.'/'.$this->old_member_header_i))
 								rename($member_path.'/'.$this->old_member_header_i, 'public/member/verwijderen/'.$this->member_id.'_'.$this->old_member_header_i);
@@ -522,7 +524,7 @@ class Members extends CActiveRecord
 				$this->member_photo = CUploadedFile::getInstance($this, 'member_photo');
 				if($this->member_photo != null) {
 					if($this->member_photo instanceOf CUploadedFile) {
-						$fileName = time().'_header_'.Utility::getUrlTitle($this->view->member_name).'.'.strtolower($this->member_photo->extensionName);
+						$fileName = time().'_header_'.$this->urlTitle($this->view->member_name).'.'.strtolower($this->member_photo->extensionName);
 						if($this->member_photo->saveAs($member_path.'/'.$fileName)) {							
 							if($this->old_member_photo_i != '' && file_exists($member_path.'/'.$this->old_member_photo_i))
 								rename($member_path.'/'.$this->old_member_photo_i, 'public/member/verwijderen/'.$this->member_id.'_'.$this->old_member_photo_i);
@@ -568,7 +570,7 @@ class Members extends CActiveRecord
 			$this->member_header = CUploadedFile::getInstance($this, 'member_header');
 			if($this->member_header != null) {
 				if($this->member_header instanceOf CUploadedFile) {
-					$fileName = time().'_header_'.Utility::getUrlTitle($this->view->member_name).'.'.strtolower($this->member_header->extensionName);
+					$fileName = time().'_header_'.$this->urlTitle($this->view->member_name).'.'.strtolower($this->member_header->extensionName);
 					if($this->member_header->saveAs($member_path.'/'.$fileName))
 						self::model()->updateByPk($this->member_id, array('member_header'=>$fileName));
 				}
@@ -577,7 +579,7 @@ class Members extends CActiveRecord
 			$this->member_photo = CUploadedFile::getInstance($this, 'member_photo');
 			if($this->member_photo != null) {
 				if($this->member_photo instanceOf CUploadedFile) {
-					$fileName = time().'_photo_'.Utility::getUrlTitle($this->view->member_name).'.'.strtolower($this->member_photo->extensionName);
+					$fileName = time().'_photo_'.$this->urlTitle($this->view->member_name).'.'.strtolower($this->member_photo->extensionName);
 					if($this->member_photo->saveAs($member_path.'/'.$fileName)) {
 						if($setting->photo_resize == 1)
 							self::resizePhoto($member_path.'/'.$fileName, $photo_resize_size);
