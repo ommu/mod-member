@@ -57,6 +57,7 @@
 class Members extends CActiveRecord
 {
 	use UtilityTrait;
+	use GridViewTrait;
 
 	public $defaultColumns = array();
 	public $old_member_header_i;
@@ -383,10 +384,7 @@ class Members extends CActiveRecord
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
-				'filter'=>array(
-					1=>Yii::t('phrase', 'Yes'),
-					0=>Yii::t('phrase', 'No'),
-				),
+				'filter' => $this->filterYesNo(),
 				'type' => 'raw',
 			);
 			if(!Yii::app()->getRequest()->getParam('type')) {
@@ -396,10 +394,7 @@ class Members extends CActiveRecord
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
-					'filter'=>array(
-						1=>Yii::t('phrase', 'Yes'),
-						0=>Yii::t('phrase', 'No'),
-					),
+					'filter' => $this->filterYesNo(),
 					'type' => 'raw',
 				);
 			}
