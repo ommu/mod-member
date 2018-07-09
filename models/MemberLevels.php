@@ -340,7 +340,7 @@ class MemberLevels extends CActiveRecord
 	 * 0 = unpublish
 	 * 1 = publish
 	 */
-	public static function getLevel($publish=null, $type=null) 
+	public static function getLevel($publish=null, $type=null, $array=true) 
 	{
 		$criteria=new CDbCriteria;
 		if($publish != null)
@@ -348,18 +348,20 @@ class MemberLevels extends CActiveRecord
 		
 		$model = self::model()->findAll($criteria);
 
-		$items = array();
-		if($model != null) {
-			foreach($model as $key => $val) {
-				if($type == null)
-					$items[$val->level_id] = Phrase::trans($val->level_name);
-				else if($type != null && $type == 'id')
-					$items[] = $val->level_id;
-			}
-			return $items;
-		} else {
-			return false;
-		}
+		if($array == true) {
+			$items = array();
+			if($model != null) {
+				foreach($model as $key => $val) {
+					if($type == null)
+						$items[$val->level_id] = Phrase::trans($val->level_name);
+					else if($type != null && $type == 'id')
+						$items[] = $val->level_id;
+				}
+				return $items;
+			} else
+				return false;
+		} else
+			return $model;
 	}
 
 	/**
