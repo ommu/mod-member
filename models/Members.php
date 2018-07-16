@@ -330,7 +330,7 @@ class Members extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',
-				'value' => 'Utility::dateFormat($data->creation_date)',
+				'value' => 'Yii::app()->dateFormatter->formatDateTime($data->creation_date, \'medium\', false)',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),

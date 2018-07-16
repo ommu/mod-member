@@ -258,7 +258,7 @@ class MemberViews extends CActiveRecord
 			}
 			$this->defaultColumns[] = array(
 				'name' => 'view_date',
-				'value' => 'Utility::dateFormat($data->view_date)',
+				'value' => 'Yii::app()->dateFormatter->formatDateTime($data->view_date, \'medium\', false)',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -274,7 +274,7 @@ class MemberViews extends CActiveRecord
 			/*
 			$this->defaultColumns[] = array(
 				'name' => 'deleted_date',
-				'value' => 'Utility::dateFormat($data->deleted_date)',
+				'value' => 'Yii::app()->dateFormatter->formatDateTime($data->deleted_date, \'medium\', false)',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
