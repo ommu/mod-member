@@ -111,7 +111,7 @@ class AdminController extends Controller
 	public function actionManage() 
 	{
 		$model=new Members('search');
-		$model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes();	// clear any default values
 		if(isset($_GET['Members'])) {
 			$model->attributes=$_GET['Members'];
 		}

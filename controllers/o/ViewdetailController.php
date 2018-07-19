@@ -104,7 +104,7 @@ class ViewdetailController extends Controller
 	public function actionManage() 
 	{
 		$model=new MemberViewDetail('search');
-		$model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes();	// clear any default values
 		if(isset($_GET['MemberViewDetail'])) {
 			$model->attributes=$_GET['MemberViewDetail'];
 		}

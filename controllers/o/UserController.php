@@ -191,7 +191,7 @@ class UserController extends Controller
 	public function actionManage() 
 	{
 		$model=new MemberUser('search');
-		$model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes();	// clear any default values
 		if(isset($_GET['MemberUser'])) {
 			$model->attributes=$_GET['MemberUser'];
 		}

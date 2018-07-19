@@ -115,7 +115,7 @@ class ViewsController extends Controller
 		}
 		
 		$model=new MemberViews('search');
-		$model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes();	// clear any default values
 		if(isset($_GET['MemberViews'])) {
 			$model->attributes=$_GET['MemberViews'];
 		}

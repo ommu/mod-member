@@ -106,7 +106,7 @@ class UserhistoryController extends Controller
 	public function actionManage() 
 	{
 		$model=new MemberUserDetail('search');
-		$model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes();	// clear any default values
 		if(isset($_GET['MemberUserDetail'])) {
 			$model->attributes=$_GET['MemberUserDetail'];
 		}

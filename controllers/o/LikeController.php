@@ -106,7 +106,7 @@ class LikeController extends Controller
 	public function actionManage() 
 	{
 		$model=new MemberLikes('search');
-		$model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes();	// clear any default values
 		if(isset($_GET['MemberLikes'])) {
 			$model->attributes=$_GET['MemberLikes'];
 		}

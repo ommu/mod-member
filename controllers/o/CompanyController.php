@@ -159,7 +159,7 @@ class CompanyController extends Controller
 	public function actionManage() 
 	{
 		$model=new MemberCompany('search');
-		$model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes();	// clear any default values
 		if(isset($_GET['MemberCompany'])) {
 			$model->attributes=$_GET['MemberCompany'];
 		}
