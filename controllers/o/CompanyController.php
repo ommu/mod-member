@@ -115,11 +115,11 @@ class CompanyController extends Controller
 				$criteria = new CDbCriteria;
 				$criteria->with = array(
 					'companies' => array(
-						'alias'=>'companies',
+						'alias' => 'companies',
 						'together' => true,
 					),
 					'companies.companies' => array(
-						'alias'=>'company_company',
+						'alias' => 'company_company',
 						'together' => true,
 					),
 				);

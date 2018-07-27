@@ -135,23 +135,23 @@ class MemberUserDetail extends CActiveRecord
 		// Custom Search
 		$criteria->with = array(
 			'user' => array(
-				'alias'=>'user',
+				'alias' => 'user',
 			),
 			'user.member' => array(
-				'alias'=>'member',
-				'select'=>'publish, profile_id'
+				'alias' => 'member',
+				'select' => 'publish, profile_id'
 			),
 			'user.member.view' => array(
-				'alias'=>'member_v',
-				'select'=>'member_name'
+				'alias' => 'member_v',
+				'select' => 'member_name'
 			),
 			'user.user' => array(
-				'alias'=>'user_user',
-				'select'=>'displayname',
+				'alias' => 'user_user',
+				'select' => 'displayname',
 			),
 			'updated' => array(
-				'alias'=>'updated',
-				'select'=>'displayname'
+				'alias' => 'updated',
+				'select' => 'displayname'
 			),
 		);
 
@@ -234,7 +234,7 @@ class MemberUserDetail extends CActiveRecord
 				$this->defaultColumns[] = array(
 					'name' => 'profile_search',
 					'value' => 'Phrase::trans($data->user->member->profile->profile_name)',
-					'filter'=>MemberProfile::getProfile(),
+					'filter' =>MemberProfile::getProfile(),
 				);
 				$this->defaultColumns[] = array(
 					'name' => 'member_search',
@@ -243,7 +243,7 @@ class MemberUserDetail extends CActiveRecord
 				$this->defaultColumns[] = array(
 					'name' => 'level_search',
 					'value' => '$data->user->level_id != null ? Phrase::trans($data->user->level->level_name) : \'-\'',
-					'filter'=>MemberLevels::getLevel(),
+					'filter' =>MemberLevels::getLevel(),
 				);
 				$this->defaultColumns[] = array(
 					'name' => 'user_search',

@@ -132,19 +132,19 @@ class MemberLikes extends CActiveRecord
 		// Custom Search
 		$criteria->with = array(
 			'view' => array(
-				'alias'=>'view',
+				'alias' => 'view',
 			),
 			'member' => array(
-				'alias'=>'member',
-				'select'=>'publish, profile_id'
+				'alias' => 'member',
+				'select' => 'publish, profile_id'
 			),
 			'member.view' => array(
-				'alias'=>'member_v',
-				'select'=>'member_name'
+				'alias' => 'member_v',
+				'select' => 'member_name'
 			),
 			'user' => array(
-				'alias'=>'user',
-				'select'=>'displayname',
+				'alias' => 'user',
+				'select' => 'displayname',
 			),
 		);
 
@@ -243,7 +243,7 @@ class MemberLikes extends CActiveRecord
 				$this->defaultColumns[] = array(
 					'name' => 'profile_search',
 					'value' => 'Phrase::trans($data->member->profile->profile_name)',
-					'filter'=>MemberProfile::getProfile(),
+					'filter' =>MemberProfile::getProfile(),
 				);
 				$this->defaultColumns[] = array(
 					'name' => 'member_search',

@@ -156,23 +156,23 @@ class MemberCompany extends CActiveRecord
 		
 		$criteria->with = array(
 			'view' => array(
-				'alias'=>'view',
+				'alias' => 'view',
 			),
 			'member' => array(
-				'alias'=>'member',
-				'select'=>'publish, profile_id'
+				'alias' => 'member',
+				'select' => 'publish, profile_id'
 			),
 			'member.view' => array(
-				'alias'=>'member_v',
-				'select'=>'member_name'
+				'alias' => 'member_v',
+				'select' => 'member_name'
 			),
 			'creation' => array(
-				'alias'=>'creation',
-				'select'=>'displayname'
+				'alias' => 'creation',
+				'select' => 'displayname'
 			),
 			'modified' => array(
-				'alias'=>'modified',
-				'select'=>'displayname'
+				'alias' => 'modified',
+				'select' => 'displayname'
 			),
 		);
 
@@ -278,7 +278,7 @@ class MemberCompany extends CActiveRecord
 				$this->defaultColumns[] = array(
 					'name' => 'profile_search',
 					'value' => 'Phrase::trans($data->member->profile->profile_name)',
-					'filter'=>MemberProfile::getProfile(null, '1'),
+					'filter' =>MemberProfile::getProfile(null, '1'),
 				);
 				$this->defaultColumns[] = array(
 					'name' => 'member_search',
@@ -342,11 +342,11 @@ class MemberCompany extends CActiveRecord
 			$criteria=new CDbCriteria;
 			$criteria->with = array(
 				'companies' => array(
-					'alias'=>'companies',
+					'alias' => 'companies',
 					'together' => true,
 				),
 				'companies.companies' => array(
-					'alias'=>'company_company',
+					'alias' => 'company_company',
 					'together' => true,
 				),
 			);

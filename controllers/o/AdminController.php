@@ -163,10 +163,10 @@ class AdminController extends Controller
 				$memberCompany=new MemberCompany;
 			$memberUser=new MemberUser;
 			$setting = OmmuSettings::model()->findByPk(1, array(
-				'select'=>'signup_username, signup_approve, signup_verifyemail, signup_photo, signup_random',
+				'select' => 'signup_username, signup_approve, signup_verifyemail, signup_photo, signup_random',
 			));
 			$memberSetting = MemberSetting::model()->findByPk(1, array(
-				'select'=>'default_user_level, form_custom_insert_field',
+				'select' => 'default_user_level, form_custom_insert_field',
 			));
 			$form_custom_insert_field = unserialize($memberSetting->form_custom_insert_field);
 			if(empty($form_custom_insert_field))
@@ -278,10 +278,10 @@ class AdminController extends Controller
 		
 		$users = Users::model()->findByPk($model->view->user_id);
 		$setting = OmmuSettings::model()->findByPk(1, array(
-			'select'=>'signup_username, signup_approve, signup_verifyemail, signup_photo, signup_random',
+			'select' => 'signup_username, signup_approve, signup_verifyemail, signup_photo, signup_random',
 		));
 		$memberSetting = MemberSetting::model()->findByPk(1, array(
-			'select'=>'default_user_level, form_custom_insert_field',
+			'select' => 'default_user_level, form_custom_insert_field',
 		));
 		$form_custom_insert_field = unserialize($memberSetting->form_custom_insert_field);
 		if(empty($form_custom_insert_field))
