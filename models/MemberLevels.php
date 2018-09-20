@@ -286,7 +286,7 @@ class MemberLevels extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'default',
-				'value' => '$data->default == 1 ? CHtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl("default", array("id"=>$data->level_id)), $data->default, 1)',
+				'value' => '$data->default == 1 ? CHtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Utility::getPublish(Yii::app()->controller->createUrl(\'default\', array(\'id\'=>$data->level_id)), $data->default, 1)',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
@@ -296,7 +296,7 @@ class MemberLevels extends CActiveRecord
 			if(!Yii::app()->getRequest()->getParam('type')) {
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish", array("id"=>$data->level_id)), $data->publish, 1)',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl(\'publish\', array(\'id\'=>$data->level_id)), $data->publish, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),

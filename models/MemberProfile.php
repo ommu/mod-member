@@ -311,7 +311,7 @@ class MemberProfile extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'member_search',
-				'value' => 'CHtml::link($data->view->members, Yii::app()->controller->createUrl("o/admin/manage", array(\'profile\'=>$data->profile_id,\'type\'=>\'publish\')))',
+				'value' => 'CHtml::link($data->view->members, Yii::app()->controller->createUrl(\'o/admin/manage\', array(\'profile\'=>$data->profile_id,\'type\'=>\'publish\')))',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),	
@@ -329,7 +329,7 @@ class MemberProfile extends CActiveRecord
 			if(!Yii::app()->getRequest()->getParam('type')) {
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish", array("id"=>$data->profile_id)), $data->publish, 1)',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl(\'publish\', array(\'id\'=>$data->profile_id)), $data->publish, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
