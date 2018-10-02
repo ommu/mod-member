@@ -20,7 +20,7 @@
  *
  * @author Agus Susilo <smartgdi@gmail.com>
  * @contact (+62) 857-297-29382
- * @copyright Copyright (c) 2018 ECC UGM (ecc.ft.ugm.ac.id)
+ * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 20 January 2018, 09:57 WIB
  * @modified date 16 May 2018, 14:13 WIB
  * @modified by Putra Sudaryanto <putra@sudaryanto.id>
