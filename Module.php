@@ -6,7 +6,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 16 May 2018, 14:13 WIB
- * @link http://ecc.ft.ugm.ac.id
+ * @link https://github.com/ommu/mod-member
  *
  */
 

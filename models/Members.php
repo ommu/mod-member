@@ -25,7 +25,7 @@
  * @modified date 16 May 2018, 14:13 WIB
  * @modified by Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @link http://ecc.ft.ugm.ac.id
+ * @link https://github.com/ommu/mod-member
  *
  */
 
