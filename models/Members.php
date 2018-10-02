@@ -41,7 +41,6 @@ class Members extends \app\components\ActiveRecord
     public $gridForbiddenColumn = [];
 
 	// Variable Search
-	public $profile_search;
 	public $creation_search;
 	public $modified_search;
 
@@ -109,7 +108,6 @@ class Members extends \app\components\ActiveRecord
 			'modified_date' => Yii::t('app', 'Modified Date'),
 			'modified_id' => Yii::t('app', 'Modified'),
 			'updated_date' => Yii::t('app', 'Updated Date'),
-			'profile_search' => Yii::t('app', 'Profile'),
 			'creation_search' => Yii::t('app', 'Creation'),
 			'modified_search' => Yii::t('app', 'Modified'),
         ];
@@ -137,11 +135,12 @@ class Members extends \app\components\ActiveRecord
             'contentOptions' => ['class'=>'center'],
         ];
         if(!isset($_GET['profile'])) {
-            $this->templateColumns['profile_search'] = [
-                'attribute' => 'profile_search',
+            $this->templateColumns['profile_id'] = [
+                'attribute' => 'profile_id',
                 'value' => function($model, $key, $index, $column) {
-                    return $model->profile->profile_name;
+					return isset($model->profile) ? $model->profile->title->message : '-';
                 },
+				'filter' => MemberProfile::getProfile(),
             ];
         }
         $this->templateColumns['member_header'] = 'member_header';
