@@ -16,6 +16,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use ommu\member\models\MemberProfile;
 ?>
 
 <div class="search-form">
@@ -23,10 +24,9 @@ use yii\widgets\ActiveForm;
 		'action' => ['index'],
 		'method' => 'get',
 	]); ?>
-		<?php echo $form->field($model, 'publish')
-			->checkbox();?>
-
-		<?php echo $form->field($model, 'profile_search');?>
+		<?php $profile_id = MemberProfile::getProfile();
+		echo $form->field($model, 'profile_id')
+			->dropDownList($profile_id, ['prompt'=>'']);?>
 
 		<?php echo $form->field($model, 'cat_name_i');?>
 
@@ -44,6 +44,9 @@ use yii\widgets\ActiveForm;
 
 		<?php echo $form->field($model, 'updated_date')
 			->input('date');?>
+
+		<?php echo $form->field($model, 'publish')
+			->checkbox();?>
 
 		<div class="form-group">
 			<?php echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

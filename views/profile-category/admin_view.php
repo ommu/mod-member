@@ -40,7 +40,7 @@ $this->params['menu']['content'] = [
 			'format' => 'raw',
 		],
 		[
-			'attribute' => 'profile_search',
+			'attribute' => 'profile_id',
 			'value' => isset($model->profile) ? $model->profile->title->message : '-',
 		],
 		[

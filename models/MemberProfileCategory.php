@@ -183,6 +183,7 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->profile) ? $model->profile->title->message : '-';
 				},
+				'filter' => MemberProfile::getProfile(),
 			];
 		}
 		$this->templateColumns['cat_name_i'] = [

@@ -82,7 +82,7 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 			'asc' => ['description.message' => SORT_ASC],
 			'desc' => ['description.message' => SORT_DESC],
 		];
-		$attributes['profile_search'] = [
+		$attributes['profile_id'] = [
 			'asc' => ['profile.message' => SORT_ASC],
 			'desc' => ['profile.message' => SORT_DESC],
 		];

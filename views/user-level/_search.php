@@ -23,9 +23,6 @@ use yii\widgets\ActiveForm;
 		'action' => ['index'],
 		'method' => 'get',
 	]); ?>
-		<?php echo $form->field($model, 'publish')
-			->checkbox();?>
-
 		<?php echo $form->field($model, 'default')
 			->checkbox();?>
 
@@ -45,6 +42,9 @@ use yii\widgets\ActiveForm;
 
 		<?php echo $form->field($model, 'updated_date')
 			->input('date');?>
+
+		<?php echo $form->field($model, 'publish')
+			->checkbox();?>
 
 		<div class="form-group">
 			<?php echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
