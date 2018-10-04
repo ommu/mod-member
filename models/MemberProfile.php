@@ -15,6 +15,7 @@
  * @property integer $publish
  * @property integer $profile_name
  * @property integer $profile_desc
+ * @property integer $profile_personal
  * @property integer $multiple_user
  * @property integer $user_limit
  * @property string $creation_date
@@ -78,7 +79,7 @@ class MemberProfile extends \app\components\ActiveRecord
 	{
 		return [
 			[['profile_name_i', 'profile_desc_i', 'user_limit'], 'required'],
-			[['publish', 'profile_name', 'profile_desc', 'multiple_user', 'user_limit', 'creation_id', 'modified_id'], 'integer'],
+			[['publish', 'profile_name', 'profile_desc', 'profile_personal', 'multiple_user', 'user_limit', 'creation_id', 'modified_id'], 'integer'],
 			[['profile_name_i', 'profile_desc_i'], 'string'],
 			[['creation_date', 'modified_date', 'updated_date'], 'safe'],
 			[['profile_name_i'], 'string', 'max' => 64],
@@ -94,8 +95,9 @@ class MemberProfile extends \app\components\ActiveRecord
 		return [
 			'profile_id' => Yii::t('app', 'Profile'),
 			'publish' => Yii::t('app', 'Publish'),
-			'profile_name' => Yii::t('app', 'Profile Name'),
-			'profile_desc' => Yii::t('app', 'Profile Desc'),
+			'profile_name' => Yii::t('app', 'profile'),
+			'profile_desc' => Yii::t('app', 'Description'),
+			'profile_personal' => Yii::t('app', 'Personal'),
 			'multiple_user' => Yii::t('app', 'Multiple User'),
 			'user_limit' => Yii::t('app', 'User Limit'),
 			'creation_date' => Yii::t('app', 'Creation Date'),
@@ -103,8 +105,8 @@ class MemberProfile extends \app\components\ActiveRecord
 			'modified_date' => Yii::t('app', 'Modified Date'),
 			'modified_id' => Yii::t('app', 'Modified'),
 			'updated_date' => Yii::t('app', 'Updated Date'),
-			'profile_name_i' => Yii::t('app', 'Profile Name'),
-			'profile_desc_i' => Yii::t('app', 'Profile Desc'),
+			'profile_name_i' => Yii::t('app', 'profile'),
+			'profile_desc_i' => Yii::t('app', 'Description'),
 			'creation_search' => Yii::t('app', 'Creation'),
 			'modified_search' => Yii::t('app', 'Modified'),
 		];
@@ -244,6 +246,14 @@ class MemberProfile extends \app\components\ActiveRecord
 				return !in_array($model->updated_date, ['0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00']) ? Yii::$app->formatter->format($model->updated_date, 'datetime') : '-';
 			},
 			'format' => 'html',
+		];
+		$this->templateColumns['profile_personal'] = [
+			'attribute' => 'profile_personal',
+			'filter' => $this->filterYesNo(),
+			'value' => function($model, $key, $index, $column) {
+				return $model->profile_personal ? Yii::t('app', 'Yes') : Yii::t('app', 'No');
+			},
+			'contentOptions' => ['class'=>'center'],
 		];
 		$this->templateColumns['multiple_user'] = [
 			'attribute' => 'multiple_user',

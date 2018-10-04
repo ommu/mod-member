@@ -27,9 +27,6 @@ use yii\widgets\ActiveForm;
 
 		<?php echo $form->field($model, 'profile_desc_i');?>
 
-		<?php echo $form->field($model, 'multiple_user')
-			->checkbox();?>
-
 		<?php echo $form->field($model, 'user_limit');?>
 
 		<?php echo $form->field($model, 'creation_date')
@@ -44,6 +41,12 @@ use yii\widgets\ActiveForm;
 
 		<?php echo $form->field($model, 'updated_date')
 			->input('date');?>
+
+		<?php echo $form->field($model, 'profile_personal')
+			->checkbox();?>
+
+		<?php echo $form->field($model, 'multiple_user')
+			->checkbox();?>
 
 		<?php echo $form->field($model, 'publish')
 			->checkbox();?>

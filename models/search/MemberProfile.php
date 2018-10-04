@@ -27,7 +27,7 @@ class MemberProfile extends MemberProfileModel
 	public function rules()
 	{
 		return [
-			[['profile_id', 'publish', 'profile_name', 'profile_desc', 'multiple_user', 'user_limit', 'creation_id', 'modified_id'], 'integer'],
+			[['profile_id', 'publish', 'profile_name', 'profile_desc', 'profile_personal', 'multiple_user', 'user_limit', 'creation_id', 'modified_id'], 'integer'],
 			[['creation_date', 'modified_date', 'updated_date', 'profile_name_i', 'profile_desc_i', 'creation_search', 'modified_search'], 'safe'],
 		];
 	}
@@ -107,6 +107,7 @@ class MemberProfile extends MemberProfileModel
 			't.profile_id' => $this->profile_id,
 			't.profile_name' => $this->profile_name,
 			't.profile_desc' => $this->profile_desc,
+			't.profile_personal' => $this->profile_personal,
 			't.multiple_user' => $this->multiple_user,
 			't.user_limit' => $this->user_limit,
 			'cast(t.creation_date as date)' => $this->creation_date,

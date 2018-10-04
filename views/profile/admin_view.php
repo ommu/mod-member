@@ -48,6 +48,10 @@ $this->params['menu']['content'] = [
 			'value' => isset($model->description) ? $model->description->message : '-',
 		],
 		[
+			'attribute' => 'profile_personal',
+			'value' => $model->profile_personal == 1 ? Yii::t('app', 'Yes') : Yii::t('app', 'No'),
+		],
+		[
 			'attribute' => 'multiple_user',
 			'value' => $model->multiple_user == 1 ? Yii::t('app', 'Yes') : Yii::t('app', 'No'),
 		],

@@ -42,6 +42,10 @@ use yii\widgets\ActiveForm;
 	->textInput(['type' => 'number', 'min' => '1'])
 	->label($model->getAttributeLabel('user_limit'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
+<?php echo $form->field($model, 'profile_personal', ['template' => '{label}<div class="col-md-9 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
+	->checkbox(['label'=>''])
+	->label($model->getAttributeLabel('profile_personal'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+
 <?php echo $form->field($model, 'multiple_user', ['template' => '{label}<div class="col-md-9 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
 	->checkbox(['label'=>''])
 	->label($model->getAttributeLabel('multiple_user'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
