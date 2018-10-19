@@ -281,7 +281,7 @@ class MemberLevels extends CActiveRecord
 				'value' => 'CHtml::link($data->view->users, Yii::app()->controller->createUrl("o/user/manage", array(\'level\'=>$data->level_id,\'type\'=>\'publish\')))',
 				'htmlOptions' => array(
 					'class' => 'center',
-				),	
+				),
 				'type' => 'raw',
 			);
 			$this->defaultColumns[] = array(
@@ -402,7 +402,7 @@ class MemberLevels extends CActiveRecord
 			// set to default modules
 			if($this->default == 1) {
 				self::model()->updateAll(array(
-					'default' => 0,	
+					'default' => 0,
 				));
 				$this->default = 1;
 			}

@@ -314,7 +314,7 @@ class MemberProfile extends CActiveRecord
 				'value' => 'CHtml::link($data->view->members, Yii::app()->controller->createUrl(\'o/admin/manage\', array(\'profile\'=>$data->profile_id,\'type\'=>\'publish\')))',
 				'htmlOptions' => array(
 					'class' => 'center',
-				),	
+				),
 				'type' => 'raw',
 			);
 			$this->defaultColumns[] = array(

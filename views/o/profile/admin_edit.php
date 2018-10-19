@@ -16,7 +16,7 @@
 	$this->breadcrumbs=array(
 		'Member Profiles'=>array('manage'),
 		$model->profile_id=>array('view','id'=>$model->profile_id),
-		'Update',
+		Yii::t('phrase', 'Update'),
 	);
 ?>
 

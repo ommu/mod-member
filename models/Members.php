@@ -341,7 +341,7 @@ class Members extends CActiveRecord
 				'value' => 'CHtml::link($data->view->users, Yii::app()->controller->createUrl("o/user/manage", array(\'member\'=>$data->member_id,\'type\'=>\'publish\')))',
 				'htmlOptions' => array(
 					'class' => 'center',
-				),	
+				),
 				'type' => 'raw',
 			);
 			$this->defaultColumns[] = array(
@@ -349,7 +349,7 @@ class Members extends CActiveRecord
 				'value' => 'CHtml::link($data->view->likes != null ? $data->view->likes : \'0\', Yii::app()->controller->createUrl("o/like/manage", array(\'member\'=>$data->member_id,\'type\'=>\'publish\')))',
 				'htmlOptions' => array(
 					'class' => 'center',
-				),	
+				),
 				'type' => 'raw',
 			);
 			$this->defaultColumns[] = array(
@@ -357,7 +357,7 @@ class Members extends CActiveRecord
 				'value' => 'CHtml::link($data->view->views != null ? $data->view->views : \'0\', Yii::app()->controller->createUrl("o/views/manage", array(\'member\'=>$data->member_id,\'type\'=>\'publish\')))',
 				'htmlOptions' => array(
 					'class' => 'center',
-				),	
+				),
 				'type' => 'raw',
 			);
 			$this->defaultColumns[] = array(

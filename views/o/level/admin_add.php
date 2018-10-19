@@ -15,7 +15,7 @@
 
 	$this->breadcrumbs=array(
 		'Member Levels'=>array('manage'),
-		'Create',
+		Yii::t('phrase', 'Create'),
 	);
 ?>
 

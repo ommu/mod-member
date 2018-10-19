@@ -226,7 +226,7 @@ class MemberViewDetail extends CActiveRecord
 				);
 				$this->defaultColumns[] = array(
 					'name' => 'user_search',
-					'value' => '$data->view->user_id != 0 ? $data->view->user->displayname : "-"',
+					'value' => '$data->view->user_id != 0 ? $data->view->user->displayname : \'-\'',
 				);
 			}
 			$this->defaultColumns[] = array(

@@ -232,7 +232,7 @@ class MemberLikeDetail extends CActiveRecord
 				);
 				$this->defaultColumns[] = array(
 					'name' => 'user_search',
-					'value' => '$data->like->user_id != 0 ? $data->like->user->displayname : "-"',
+					'value' => '$data->like->user_id != 0 ? $data->like->user->displayname : \'-\'',
 				);		
 			}
 			$this->defaultColumns[] = array(

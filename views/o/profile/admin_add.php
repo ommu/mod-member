@@ -15,7 +15,7 @@
 
 	$this->breadcrumbs=array(
 		'Member Profiles'=>array('manage'),
-		'Create',
+		Yii::t('phrase', 'Create'),
 	);
 ?>
 
