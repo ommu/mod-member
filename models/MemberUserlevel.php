@@ -148,11 +148,11 @@ class MemberUserlevel extends \app\components\ActiveRecord
 
 	/**
 	 * @inheritdoc
-	 * @return \ommu\member\models\query\MemberUserlevelQuery the active query used by this AR class.
+	 * @return \ommu\member\models\query\MemberUserlevel the active query used by this AR class.
 	 */
 	public static function find()
 	{
-		return new \ommu\member\models\query\MemberUserlevelQuery(get_called_class());
+		return new \ommu\member\models\query\MemberUserlevel(get_called_class());
 	}
 
 	/**

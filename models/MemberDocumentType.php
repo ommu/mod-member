@@ -146,11 +146,11 @@ class MemberDocumentType extends \app\components\ActiveRecord
 
 	/**
 	 * @inheritdoc
-	 * @return \ommu\member\models\query\MemberDocumentTypeQuery the active query used by this AR class.
+	 * @return \ommu\member\models\query\MemberDocumentType the active query used by this AR class.
 	 */
 	public static function find()
 	{
-		return new \ommu\member\models\query\MemberDocumentTypeQuery(get_called_class());
+		return new \ommu\member\models\query\MemberDocumentType(get_called_class());
 	}
 
 	/**

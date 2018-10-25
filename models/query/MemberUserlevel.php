@@ -1,6 +1,6 @@
 <?php
 /**
- * MemberUserlevelQuery
+ * MemberUserlevel
  *
  * This is the ActiveQuery class for [[\ommu\member\models\MemberUserlevel]].
  * @see \ommu\member\models\MemberUserlevel
@@ -15,7 +15,7 @@
 
 namespace ommu\member\models\query;
 
-class MemberUserlevelQuery extends \yii\db\ActiveQuery
+class MemberUserlevel extends \yii\db\ActiveQuery
 {
 	/*
 	public function active()

@@ -1,6 +1,6 @@
 <?php
 /**
- * MemberDocumentTypeQuery
+ * MemberDocumentType
  *
  * This is the ActiveQuery class for [[\ommu\member\models\MemberDocumentType]].
  * @see \ommu\member\models\MemberDocumentType
@@ -15,7 +15,7 @@
 
 namespace ommu\member\models\query;
 
-class MemberDocumentTypeQuery extends \yii\db\ActiveQuery
+class MemberDocumentType extends \yii\db\ActiveQuery
 {
 	/*
 	public function active()

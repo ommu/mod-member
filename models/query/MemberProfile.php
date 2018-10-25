@@ -1,24 +1,21 @@
 <?php
 /**
- * MemberContactCategoryQuery
+ * MemberProfile
  *
- * This is the ActiveQuery class for [[\ommu\member\models\MemberContactCategory]].
- * @see \ommu\member\models\MemberContactCategory
+ * This is the ActiveQuery class for [[\ommu\member\models\MemberProfile]].
+ * @see \ommu\member\models\MemberProfile
  * 
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2018 ECC UGM (ecc.ft.ugm.ac.id)
- * @created date 4 October 2018, 14:35 WIB
- * @modified date 4 October 2018, 14:35 WIB
- * @modified by Putra Sudaryanto <putra@sudaryanto.id>
- * @contact (+62)856-299-4114
+ * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
+ * @created date 2 October 2018, 09:48 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
 namespace ommu\member\models\query;
 
-class MemberContactCategoryQuery extends \yii\db\ActiveQuery
+class MemberProfile extends \yii\db\ActiveQuery
 {
 	/*
 	public function active()
@@ -45,7 +42,7 @@ class MemberContactCategoryQuery extends \yii\db\ActiveQuery
 
 	/**
 	 * @inheritdoc
-	 * @return \ommu\member\models\MemberContactCategory[]|array
+	 * @return \ommu\member\models\MemberProfile[]|array
 	 */
 	public function all($db = null)
 	{
@@ -54,7 +51,7 @@ class MemberContactCategoryQuery extends \yii\db\ActiveQuery
 
 	/**
 	 * @inheritdoc
-	 * @return \ommu\member\models\MemberContactCategory|array|null
+	 * @return \ommu\member\models\MemberProfile|array|null
 	 */
 	public function one($db = null)
 	{

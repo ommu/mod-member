@@ -1,21 +1,21 @@
 <?php
 /**
- * MemberProfileCategoryQuery
+ * MemberProfileDocument
  *
- * This is the ActiveQuery class for [[\ommu\member\models\MemberProfileCategory]].
- * @see \ommu\member\models\MemberProfileCategory
+ * This is the ActiveQuery class for [[\ommu\member\models\MemberProfileDocument]].
+ * @see \ommu\member\models\MemberProfileDocument
  * 
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
- * @created date 2 October 2018, 09:57 WIB
+ * @created date 2 October 2018, 11:34 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
 namespace ommu\member\models\query;
 
-class MemberProfileCategoryQuery extends \yii\db\ActiveQuery
+class MemberProfileDocument extends \yii\db\ActiveQuery
 {
 	/*
 	public function active()
@@ -42,7 +42,7 @@ class MemberProfileCategoryQuery extends \yii\db\ActiveQuery
 
 	/**
 	 * @inheritdoc
-	 * @return \ommu\member\models\MemberProfileCategory[]|array
+	 * @return \ommu\member\models\MemberProfileDocument[]|array
 	 */
 	public function all($db = null)
 	{
@@ -51,7 +51,7 @@ class MemberProfileCategoryQuery extends \yii\db\ActiveQuery
 
 	/**
 	 * @inheritdoc
-	 * @return \ommu\member\models\MemberProfileCategory|array|null
+	 * @return \ommu\member\models\MemberProfileDocument|array|null
 	 */
 	public function one($db = null)
 	{

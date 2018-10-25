@@ -135,11 +135,11 @@ class MemberContactCategory extends \app\components\ActiveRecord
 
 	/**
 	 * @inheritdoc
-	 * @return \ommu\member\models\query\MemberContactCategoryQuery the active query used by this AR class.
+	 * @return \ommu\member\models\query\MemberContactCategory the active query used by this AR class.
 	 */
 	public static function find()
 	{
-		return new \ommu\member\models\query\MemberContactCategoryQuery(get_called_class());
+		return new \ommu\member\models\query\MemberContactCategory(get_called_class());
 	}
 
 	/**
