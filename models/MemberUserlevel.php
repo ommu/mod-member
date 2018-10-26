@@ -222,7 +222,7 @@ class MemberUserlevel extends \app\components\ActiveRecord
 			'attribute' => 'default',
 			'filter' => $this->filterYesNo(),
 			'value' => function($model, $key, $index, $column) {
-				return $model->default ? Yii::t('app', 'Yes') : Yii::t('app', 'No');
+				return $this->filterYesNo($model->default);
 			},
 			'contentOptions' => ['class'=>'center'],
 		];

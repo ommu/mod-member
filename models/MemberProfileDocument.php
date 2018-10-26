@@ -222,7 +222,7 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 			'attribute' => 'required',
 			'filter' => $this->filterYesNo(),
 			'value' => function($model, $key, $index, $column) {
-				return $model->required ? Yii::t('app', 'Yes') : Yii::t('app', 'No');
+				return $this->filterYesNo($model->required);
 			},
 			'contentOptions' => ['class'=>'center'],
 		];

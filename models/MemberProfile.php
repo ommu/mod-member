@@ -250,8 +250,7 @@ class MemberProfile extends \app\components\ActiveRecord
 			'attribute' => 'profile_personal',
 			'filter' => $this->filterYesNo(),
 			'value' => function($model, $key, $index, $column) {
-				//return $this->filterYesNo($model->profile_personal);
-				return $model->profile_personal ? Yii::t('app', 'Yes') : Yii::t('app', 'No');
+				return $this->filterYesNo($model->profile_personal);
 			},
 			'contentOptions' => ['class'=>'center'],
 		];
@@ -259,8 +258,7 @@ class MemberProfile extends \app\components\ActiveRecord
 			'attribute' => 'multiple_user',
 			'filter' => $this->filterYesNo(),
 			'value' => function($model, $key, $index, $column) {
-				//return $this->filterYesNo($model->multiple_user);
-				return $model->multiple_user ? Yii::t('app', 'Yes') : Yii::t('app', 'No');
+				return $this->filterYesNo($model->multiple_user);
 			},
 			'contentOptions' => ['class'=>'center'],
 		];
