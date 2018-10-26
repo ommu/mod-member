@@ -46,7 +46,6 @@ use ommu\users\models\Users;
 class MemberProfile extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
-	use \ommu\traits\GridViewTrait;
 
 	public $gridForbiddenColumn = ['modified_date','modified_search','updated_date'];
 	public $profile_name_i;
@@ -251,6 +250,7 @@ class MemberProfile extends \app\components\ActiveRecord
 			'attribute' => 'profile_personal',
 			'filter' => $this->filterYesNo(),
 			'value' => function($model, $key, $index, $column) {
+				//return $this->filterYesNo($model->profile_personal);
 				return $model->profile_personal ? Yii::t('app', 'Yes') : Yii::t('app', 'No');
 			},
 			'contentOptions' => ['class'=>'center'],
@@ -259,6 +259,7 @@ class MemberProfile extends \app\components\ActiveRecord
 			'attribute' => 'multiple_user',
 			'filter' => $this->filterYesNo(),
 			'value' => function($model, $key, $index, $column) {
+				//return $this->filterYesNo($model->multiple_user);
 				return $model->multiple_user ? Yii::t('app', 'Yes') : Yii::t('app', 'No');
 			},
 			'contentOptions' => ['class'=>'center'],

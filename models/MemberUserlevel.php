@@ -42,7 +42,6 @@ use ommu\users\models\Users;
 class MemberUserlevel extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
-	use \ommu\traits\GridViewTrait;
 
 	public $gridForbiddenColumn = ['modified_date','modified_search','updated_date'];
 	public $level_name_i;

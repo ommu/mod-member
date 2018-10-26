@@ -42,7 +42,6 @@ use ommu\users\models\Users;
 class MemberContactCategory extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
-	use \ommu\traits\GridViewTrait;
 
 	public $gridForbiddenColumn = ['modified_date','modified_search','updated_date'];
 	public $cat_name_i;

@@ -41,7 +41,6 @@ use ommu\users\models\Users;
 class MemberDocumentType extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
-	use \ommu\traits\GridViewTrait;
 
 	public $gridForbiddenColumn = ['modified_date','modified_search','updated_date'];
 	public $document_name_i;

@@ -38,6 +38,8 @@ use app\libraries\grid\GridView;
 
 class Members extends \app\components\ActiveRecord
 {
+	use \ommu\traits\UtilityTrait;
+
     public $gridForbiddenColumn = [];
 
 	// Variable Search
@@ -223,10 +225,10 @@ class Members extends \app\components\ActiveRecord
         if(!Yii::$app->request->get('trash')) {
             $this->templateColumns['publish'] = [
                 'attribute' => 'publish',
-                'filter' => GridView::getFilterYesNo(),
+                'filter' => $this->filterYesNo(),
                 'value' => function($model, $key, $index, $column) {
                     $url = Url::to(['publish', 'id'=>$model->primaryKey]);
-                    return GridView::getPublish($url, $model->publish);
+                    return $this->quickAction($url, $model->publish);
                 },
                 'contentOptions' => ['class'=>'center'],
                 'format'    => 'raw',
