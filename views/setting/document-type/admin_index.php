@@ -9,10 +9,12 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:07 WIB
+ * @modified date 27 October 2018, 22:44 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
+use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\libraries\grid\GridView;
@@ -21,7 +23,7 @@ use yii\widgets\Pjax;
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['menu']['content'] = [
-	['label' => Yii::t('app', 'Add Member Document Type'), 'url' => Url::to(['create']), 'icon' => 'plus-square'],
+	['label' => Yii::t('app', 'Add Document Type'), 'url' => Url::to(['create']), 'icon' => 'plus-square'],
 ];
 $this->params['menu']['option'] = [
 	//['label' => Yii::t('app', 'Search'), 'url' => 'javascript:void(0);'],
@@ -46,16 +48,16 @@ array_push($columnData, [
 	'buttons' => [
 		'view' => function ($url, $model, $key) {
 			$url = Url::to(['view', 'id'=>$model->primaryKey]);
-			return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, ['title' => Yii::t('app', 'Detail Member Document Type')]);
+			return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, ['title' => Yii::t('app', 'Detail Document Type')]);
 		},
 		'update' => function ($url, $model, $key) {
 			$url = Url::to(['update', 'id'=>$model->primaryKey]);
-			return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['title' => Yii::t('app', 'Update Member Document Type')]);
+			return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['title' => Yii::t('app', 'Update Document Type')]);
 		},
 		'delete' => function ($url, $model, $key) {
 			$url = Url::to(['delete', 'id'=>$model->primaryKey]);
 			return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
-				'title' => Yii::t('app', 'Delete Member Document Type'),
+				'title' => Yii::t('app', 'Delete Document Type'),
 				'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
 				'data-method'  => 'post',
 			]);

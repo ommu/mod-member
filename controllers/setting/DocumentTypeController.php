@@ -21,6 +21,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:07 WIB
+ * @modified date 27 October 2018, 22:44 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -71,7 +72,7 @@ class DocumentTypeController extends Controller
 		}
 		$columns = $searchModel->getGridColumn($cols);
 
-		$this->view->title = Yii::t('app', 'Member Document Types');
+		$this->view->title = Yii::t('app', 'Document Types');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_index', [
@@ -99,7 +100,7 @@ class DocumentTypeController extends Controller
 			} 
 		}
 
-		$this->view->title = Yii::t('app', 'Create Member Document Type');
+		$this->view->title = Yii::t('app', 'Create Document Type');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_create', [
@@ -126,7 +127,7 @@ class DocumentTypeController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {document-name}', ['model-class' => 'Member Document Type', 'document-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Update {model-class}: {document-name}', ['model-class' => 'Document Type', 'document-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_update', [
@@ -143,7 +144,7 @@ class DocumentTypeController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {document-name}', ['model-class' => 'Member Document Type', 'document-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Detail {model-class}: {document-name}', ['model-class' => 'Document Type', 'document-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_view', [

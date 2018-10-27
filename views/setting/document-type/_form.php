@@ -10,10 +10,12 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:07 WIB
+ * @modified date 27 October 2018, 22:44 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
+use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
@@ -35,7 +37,7 @@ use yii\widgets\ActiveForm;
 	->label($model->getAttributeLabel('document_name_i'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'document_desc_i', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->textarea(['rows'=>2,'rows'=>6,'maxlength'=>true])
+	->textarea(['rows'=>2, 'rows'=>6, 'maxlength'=>true])
 	->label($model->getAttributeLabel('document_desc_i'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'publish', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])

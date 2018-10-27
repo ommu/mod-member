@@ -10,10 +10,12 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:07 WIB
+ * @modified date 27 October 2018, 22:44 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
+use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
@@ -41,7 +43,7 @@ use yii\widgets\ActiveForm;
 			->input('date');?>
 
 		<?php echo $form->field($model, 'publish')
-			->checkbox();?>
+			->dropDownList($this->filterYesNo(), ['prompt'=>'']);?>
 
 		<div class="form-group">
 			<?php echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
