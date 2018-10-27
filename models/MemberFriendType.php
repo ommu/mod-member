@@ -1,21 +1,21 @@
 <?php
 /**
- * MemberUserlevel
+ * MemberFriendType
  * 
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
- * @created date 2 October 2018, 09:24 WIB
+ * @created date 27 October 2018, 23:08 WIB
  * @link https://github.com/ommu/mod-member
  *
- * This is the model class for table "ommu_member_userlevel".
+ * This is the model class for table "ommu_member_friend_type".
  *
- * The followings are the available columns in table "ommu_member_userlevel":
- * @property integer $level_id
+ * The followings are the available columns in table "ommu_member_friend_type":
+ * @property integer $id
  * @property integer $publish
  * @property integer $default
- * @property integer $level_name
- * @property integer $level_desc
+ * @property integer $type_name
+ * @property integer $type_desc
  * @property string $creation_date
  * @property integer $creation_id
  * @property string $modified_date
@@ -23,7 +23,8 @@
  * @property string $updated_date
  *
  * The followings are the available model relations:
- * @property MemberUser[] $users
+ * @property MemberFriendHistory[] $histories
+ * @property MemberFriends[] $friends
  * @property SourceMessage $title
  * @property SourceMessage $description
  * @property Users $creation
@@ -39,13 +40,13 @@ use yii\helpers\Html;
 use app\models\SourceMessage;
 use ommu\users\models\Users;
 
-class MemberUserlevel extends \app\components\ActiveRecord
+class MemberFriendType extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
 	public $gridForbiddenColumn = ['modified_date','modified_search','updated_date'];
-	public $level_name_i;
-	public $level_desc_i;
+	public $type_name_i;
+	public $type_desc_i;
 
 	// Variable Search
 	public $creation_search;
@@ -56,7 +57,7 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	 */
 	public static function tableName()
 	{
-		return 'ommu_member_userlevel';
+		return 'ommu_member_friend_type';
 	}
 
 	/**
@@ -73,12 +74,12 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['level_name_i', 'level_desc_i'], 'required'],
-			[['publish', 'default', 'level_name', 'level_desc', 'creation_id', 'modified_id'], 'integer'],
-			[['level_name_i', 'level_desc_i'], 'string'],
+			[['type_name_i', 'type_desc_i'], 'required'],
+			[['publish', 'default', 'type_name', 'type_desc', 'creation_id', 'modified_id'], 'integer'],
+			[['type_name_i', 'type_desc_i'], 'string'],
 			[['creation_date', 'modified_date', 'updated_date'], 'safe'],
-			[['level_name_i'], 'string', 'max' => 64],
-			[['level_desc_i'], 'string', 'max' => 128],
+			[['type_name_i'], 'string', 'max' => 64],
+			[['type_desc_i'], 'string', 'max' => 128],
 		];
 	}
 
@@ -88,18 +89,18 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	public function attributeLabels()
 	{
 		return [
-			'level_id' => Yii::t('app', 'Level'),
+			'id' => Yii::t('app', 'ID'),
 			'publish' => Yii::t('app', 'Publish'),
 			'default' => Yii::t('app', 'Default'),
-			'level_name' => Yii::t('app', 'Level Name'),
-			'level_desc' => Yii::t('app', 'Level Desc'),
+			'type_name' => Yii::t('app', 'Type Name'),
+			'type_desc' => Yii::t('app', 'Type Desc'),
 			'creation_date' => Yii::t('app', 'Creation Date'),
 			'creation_id' => Yii::t('app', 'Creation'),
 			'modified_date' => Yii::t('app', 'Modified Date'),
 			'modified_id' => Yii::t('app', 'Modified'),
 			'updated_date' => Yii::t('app', 'Updated Date'),
-			'level_name_i' => Yii::t('app', 'Level Name'),
-			'level_desc_i' => Yii::t('app', 'Level Desc'),
+			'type_name_i' => Yii::t('app', 'Type Name'),
+			'type_desc_i' => Yii::t('app', 'Type Desc'),
 			'creation_search' => Yii::t('app', 'Creation'),
 			'modified_search' => Yii::t('app', 'Modified'),
 		];
@@ -108,9 +109,17 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getUsers()
+	public function getHistories()
 	{
-		return $this->hasMany(MemberUser::className(), ['level_id' => 'level_id']);
+		return $this->hasMany(MemberFriendHistory::className(), ['type_id' => 'id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getFriends()
+	{
+		return $this->hasMany(MemberFriends::className(), ['type_id' => 'id']);
 	}
 
 	/**
@@ -118,7 +127,7 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	 */
 	public function getTitle()
 	{
-		return $this->hasOne(SourceMessage::className(), ['id' => 'level_name']);
+		return $this->hasOne(SourceMessage::className(), ['id' => 'type_name']);
 	}
 
 	/**
@@ -126,7 +135,7 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	 */
 	public function getDescription()
 	{
-		return $this->hasOne(SourceMessage::className(), ['id' => 'level_desc']);
+		return $this->hasOne(SourceMessage::className(), ['id' => 'type_desc']);
 	}
 
 	/**
@@ -147,11 +156,11 @@ class MemberUserlevel extends \app\components\ActiveRecord
 
 	/**
 	 * @inheritdoc
-	 * @return \ommu\member\models\query\MemberUserlevel the active query used by this AR class.
+	 * @return \ommu\member\models\query\MemberFriendType the active query used by this AR class.
 	 */
 	public static function find()
 	{
-		return new \ommu\member\models\query\MemberUserlevel(get_called_class());
+		return new \ommu\member\models\query\MemberFriendType(get_called_class());
 	}
 
 	/**
@@ -166,14 +175,14 @@ class MemberUserlevel extends \app\components\ActiveRecord
 			'class'  => 'yii\grid\SerialColumn',
 			'contentOptions' => ['class'=>'center'],
 		];
-		$this->templateColumns['level_name_i'] = [
-			'attribute' => 'level_name_i',
+		$this->templateColumns['type_name_i'] = [
+			'attribute' => 'type_name_i',
 			'value' => function($model, $key, $index, $column) {
 				return isset($model->title) ? $model->title->message : '-';
 			},
 		];
-		$this->templateColumns['level_desc_i'] = [
-			'attribute' => 'level_desc_i',
+		$this->templateColumns['type_desc_i'] = [
+			'attribute' => 'type_desc_i',
 			'value' => function($model, $key, $index, $column) {
 				return isset($model->description) ? $model->description->message : '-';
 			},
@@ -232,7 +241,7 @@ class MemberUserlevel extends \app\components\ActiveRecord
 				'filter' => $this->filterYesNo(),
 				'value' => function($model, $key, $index, $column) {
 					$url = Url::to(['publish', 'id'=>$model->primaryKey]);
-					return $this->quickAction($url, $model->publish, 'Enable,Disable');
+					return $this->quickAction($url, $model->publish);
 				},
 				'contentOptions' => ['class'=>'center'],
 				'format' => 'raw',
@@ -248,7 +257,7 @@ class MemberUserlevel extends \app\components\ActiveRecord
 		if($column != null) {
 			$model = self::find()
 				->select([$column])
-				->where(['level_id' => $id])
+				->where(['id' => $id])
 				->one();
 			return $model->$column;
 			
@@ -259,12 +268,12 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	}
 
 	/**
-	 * function getUserlevel
+	 * function getType
 	 */
-	public static function getUserlevel($publish=null, $array=true) 
+	public static function getType($publish=null, $array=true) 
 	{
 		$model = self::find()->alias('t');
-		$model->leftJoin(sprintf('%s title', SourceMessage::tableName()), 't.level_name=title.id');
+		$model->leftJoin(sprintf('%s title', SourceMessage::tableName()), 't.type_name=title.id');
 		if($publish != null)
 			$model->andWhere(['t.publish' => $publish]);
 
@@ -274,7 +283,7 @@ class MemberUserlevel extends \app\components\ActiveRecord
 			$items = [];
 			if($model !== null) {
 				foreach($model as $val) {
-					$items[$val->level_id] = $val->title->message;
+					$items[$val->id] = $val->title->message;
 				}
 				return $items;
 			} else
@@ -288,8 +297,8 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	 */
 	public function afterFind()
 	{
-		$this->level_name_i = isset($this->title) ? $this->title->message : '';
-		$this->level_desc_i = isset($this->description) ? $this->description->message : '';
+		$this->type_name_i = isset($this->title) ? $this->title->message : '';
+		$this->type_desc_i = isset($this->description) ? $this->description->message : '';
 	}
 
 	/**
@@ -318,30 +327,30 @@ class MemberUserlevel extends \app\components\ActiveRecord
 		$location = $this->urlTitle($module.' '.$controller);
 
 		if(parent::beforeSave($insert)) {
-			if($insert || (!$insert && !$this->level_name)) {
-				$level_name = new SourceMessage();
-				$level_name->location = $location.'_title';
-				$level_name->message = $this->level_name_i;
-				if($level_name->save())
-					$this->level_name = $level_name->id;
+			if($insert || (!$insert && !$this->type_name)) {
+				$type_name = new SourceMessage();
+				$type_name->location = $location.'_title';
+				$type_name->message = $this->type_name_i;
+				if($type_name->save())
+					$this->type_name = $type_name->id;
 				
 			} else {
-				$level_name = SourceMessage::findOne($this->level_name);
-				$level_name->message = $this->level_name_i;
-				$level_name->save();
+				$type_name = SourceMessage::findOne($this->type_name);
+				$type_name->message = $this->type_name_i;
+				$type_name->save();
 			}
 
-			if($insert || (!$insert && !$this->level_desc)) {
-				$level_desc = new SourceMessage();
-				$level_desc->location = $location.'_description';
-				$level_desc->message = $this->level_desc_i;
-				if($level_desc->save())
-					$this->level_desc = $level_desc->id;
+			if($insert || (!$insert && !$this->type_desc)) {
+				$type_desc = new SourceMessage();
+				$type_desc->location = $location.'_description';
+				$type_desc->message = $this->type_desc_i;
+				if($type_desc->save())
+					$this->type_desc = $type_desc->id;
 				
 			} else {
-				$level_desc = SourceMessage::findOne($this->level_desc);
-				$level_desc->message = $this->level_desc_i;
-				$level_desc->save();
+				$type_desc = SourceMessage::findOne($this->type_desc);
+				$type_desc->message = $this->type_desc_i;
+				$type_desc->save();
 			}
 
 			// set to default
