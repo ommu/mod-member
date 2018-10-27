@@ -13,12 +13,12 @@
  *
  */
 
-use yii\helpers\Html;
+use Yii;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Member Profiles'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Profiles'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $model->title->message;
 
 $this->params['menu']['content'] = [
 	['label' => Yii::t('app', 'Back To Manage'), 'url' => Url::to(['index']), 'icon' => 'table'],
@@ -49,11 +49,11 @@ $this->params['menu']['content'] = [
 		],
 		[
 			'attribute' => 'profile_personal',
-			'value' => $model->profile_personal == 1 ? Yii::t('app', 'Yes') : Yii::t('app', 'No'),
+			'value' => $this->filterYesNo($model->profile_personal),
 		],
 		[
 			'attribute' => 'multiple_user',
-			'value' => $model->multiple_user == 1 ? Yii::t('app', 'Yes') : Yii::t('app', 'No'),
+			'value' => $this->filterYesNo($model->multiple_user),
 		],
 		'user_limit',
 		[
