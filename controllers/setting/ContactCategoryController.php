@@ -21,9 +21,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 4 October 2018, 14:36 WIB
- * @modified date 4 October 2018, 14:36 WIB
- * @modified by Putra Sudaryanto <putra@sudaryanto.id>
- * @contact (+62)856-299-4114
+ * @modified date 27 October 2018, 22:50 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -74,7 +72,7 @@ class ContactCategoryController extends Controller
 		}
 		$columns = $searchModel->getGridColumn($cols);
 
-		$this->view->title = Yii::t('app', 'Member Contact Categories');
+		$this->view->title = Yii::t('app', 'Contact Categories');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_index', [
@@ -102,7 +100,7 @@ class ContactCategoryController extends Controller
 			} 
 		}
 
-		$this->view->title = Yii::t('app', 'Create Member Contact Category');
+		$this->view->title = Yii::t('app', 'Create Contact Category');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_create', [
@@ -129,7 +127,7 @@ class ContactCategoryController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {cat-name}', ['model-class' => 'Member Contact Category', 'cat-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Update {model-class}: {cat-name}', ['model-class' => 'Contact Category', 'cat-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_update', [
@@ -146,7 +144,7 @@ class ContactCategoryController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {cat-name}', ['model-class' => 'Member Contact Category', 'cat-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Detail {model-class}: {cat-name}', ['model-class' => 'Contact Category', 'cat-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_view', [

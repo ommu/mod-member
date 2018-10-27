@@ -10,17 +10,15 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 4 October 2018, 14:36 WIB
- * @modified date 4 October 2018, 14:36 WIB
- * @modified by Putra Sudaryanto <putra@sudaryanto.id>
- * @contact (+62)856-299-4114
+ * @modified date 27 October 2018, 22:50 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
-use yii\helpers\Html;
+use Yii;
 use yii\helpers\Url;
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Member Contact Categories'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contact Categories'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title->message, 'url' => ['view', 'id' => $model->cat_id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
