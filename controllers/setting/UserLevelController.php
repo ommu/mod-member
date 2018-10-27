@@ -21,6 +21,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:25 WIB
+ * @modified date 27 October 2018, 22:28 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -71,7 +72,7 @@ class UserLevelController extends Controller
 		}
 		$columns = $searchModel->getGridColumn($cols);
 
-		$this->view->title = Yii::t('app', 'Member Userlevels');
+		$this->view->title = Yii::t('app', 'Userlevels');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_index', [
@@ -99,7 +100,7 @@ class UserLevelController extends Controller
 			} 
 		}
 
-		$this->view->title = Yii::t('app', 'Create Member Userlevel');
+		$this->view->title = Yii::t('app', 'Create Userlevel');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_create', [
@@ -126,7 +127,7 @@ class UserLevelController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {level-name}', ['model-class' => 'Member Userlevel', 'level-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Update {model-class}: {level-name}', ['model-class' => 'Userlevel', 'level-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_update', [
@@ -143,7 +144,7 @@ class UserLevelController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {level-name}', ['model-class' => 'Member Userlevel', 'level-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Detail {model-class}: {level-name}', ['model-class' => 'Userlevel', 'level-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_view', [
