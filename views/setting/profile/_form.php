@@ -2,7 +2,7 @@
 /**
  * Member Profiles (member-profile)
  * @var $this yii\web\View
- * @var $this ommu\member\controllers\ProfileController
+ * @var $this ommu\member\controllers\setting\ProfileController
  * @var $model ommu\member\models\MemberProfile
  * @var $form yii\widgets\ActiveForm
  *
@@ -48,41 +48,41 @@ JS;
 
 <?php //echo $form->errorSummary($model);?>
 
-<?php echo $form->field($model, 'profile_name_i', ['template' => '{label}<div class="col-md-9 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->textInput(['maxlength' => true])
+<?php echo $form->field($model, 'profile_name_i', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+	->textInput(['maxlength'=>true])
 	->label($model->getAttributeLabel('profile_name_i'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
-<?php echo $form->field($model, 'profile_desc_i', ['template' => '{label}<div class="col-md-9 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->textarea(['rows'=>2,'rows'=>6,'maxlength' => true])
+<?php echo $form->field($model, 'profile_desc_i', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+	->textarea(['rows'=>2, 'rows'=>6, 'maxlength'=>true])
 	->label($model->getAttributeLabel('profile_desc_i'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php if($model->isNewRecord && !$model->getErrors())
 	$model->profile_personal = 1;
-echo $form->field($model, 'profile_personal', ['template' => '{label}<div class="col-md-9 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
+echo $form->field($model, 'profile_personal', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
 	->checkbox(['label'=>''])
 	->label($model->getAttributeLabel('profile_personal'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <div id="not-personal" <?php echo $model->profile_personal == 1 ? 'style="display: none;"' : ''; ?>>
 	<?php if($model->isNewRecord && !$model->getErrors())
 		$model->multiple_user = 0;
-	echo $form->field($model, 'multiple_user', ['template' => '{label}<div class="col-md-9 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
+	echo $form->field($model, 'multiple_user', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
 		->checkbox(['label'=>''])
 		->label($model->getAttributeLabel('multiple_user'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 	<div id="user-limit" <?php echo $model->multiple_user == 0 ? 'style="display: none;"' : ''; ?>>
-		<?php echo $form->field($model, 'user_limit', ['template' => '{label}<div class="col-md-9 col-sm-9 col-xs-12">{input}{error}</div>'])
-			->textInput(['type' => 'number', 'min' => '1'])
+		<?php echo $form->field($model, 'user_limit', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+			->textInput(['type'=>'number', 'min'=>'1'])
 			->label($model->getAttributeLabel('user_limit'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 	</div>
 </div>
 
-<?php echo $form->field($model, 'publish', ['template' => '{label}<div class="col-md-9 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
+<?php echo $form->field($model, 'publish', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
 	->checkbox(['label'=>''])
 	->label($model->getAttributeLabel('publish'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <div class="ln_solid"></div>
 <div class="form-group">
-	<div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+	<div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
 		<?php echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']); ?>
 	</div>
 </div>

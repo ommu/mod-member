@@ -2,7 +2,7 @@
 /**
  * Member Profiles (member-profile)
  * @var $this yii\web\View
- * @var $this ommu\member\controllers\ProfileController
+ * @var $this ommu\member\controllers\setting\ProfileController
  * @var $model ommu\member\models\MemberProfile
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>

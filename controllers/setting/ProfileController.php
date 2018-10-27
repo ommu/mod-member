@@ -25,7 +25,7 @@
  *
  */
  
-namespace ommu\member\controllers;
+namespace ommu\member\controllers\setting;
 
 use Yii;
 use yii\filters\VerbFilter;
@@ -71,7 +71,7 @@ class ProfileController extends Controller
 		}
 		$columns = $searchModel->getGridColumn($cols);
 
-		$this->view->title = Yii::t('app', 'Member Profiles');
+		$this->view->title = Yii::t('app', 'Profiles');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_index', [
@@ -99,7 +99,7 @@ class ProfileController extends Controller
 			} 
 		}
 
-		$this->view->title = Yii::t('app', 'Create Member Profile');
+		$this->view->title = Yii::t('app', 'Create Profile');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_create', [
@@ -126,7 +126,7 @@ class ProfileController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {profile-name}', ['model-class' => 'Member Profile', 'profile-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Update {model-class}: {profile-name}', ['model-class' => 'Profile', 'profile-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_update', [
@@ -143,7 +143,7 @@ class ProfileController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {profile-name}', ['model-class' => 'Member Profile', 'profile-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Detail {model-class}: {profile-name}', ['model-class' => 'Profile', 'profile-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_view', [
