@@ -1,10 +1,10 @@
 <?php
 /**
- * ContactCategoryController
+ * DocumentTypeController
  * @var $this yii\web\View
- * @var $model ommu\member\models\MemberContactCategory
+ * @var $model ommu\member\models\MemberDocumentType
  *
- * ContactCategoryController implements the CRUD actions for MemberContactCategory model.
+ * DocumentTypeController implements the CRUD actions for MemberDocumentType model.
  * Reference start
  * TOC :
  *	Index
@@ -20,24 +20,21 @@
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
- * @created date 4 October 2018, 14:36 WIB
- * @modified date 4 October 2018, 14:36 WIB
- * @modified by Putra Sudaryanto <putra@sudaryanto.id>
- * @contact (+62)856-299-4114
+ * @created date 2 October 2018, 11:07 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
  
-namespace ommu\member\controllers;
+namespace ommu\member\controllers\setting;
 
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use app\components\Controller;
-use ommu\member\models\MemberContactCategory;
-use ommu\member\models\search\MemberContactCategory as MemberContactCategorySearch;
+use ommu\member\models\MemberDocumentType;
+use ommu\member\models\search\MemberDocumentType as MemberDocumentTypeSearch;
 
-class ContactCategoryController extends Controller
+class DocumentTypeController extends Controller
 {
 	/**
 	 * @inheritdoc
@@ -56,12 +53,12 @@ class ContactCategoryController extends Controller
 	}
 
 	/**
-	 * Lists all MemberContactCategory models.
+	 * Lists all MemberDocumentType models.
 	 * @return mixed
 	 */
 	public function actionIndex()
 	{
-		$searchModel = new MemberContactCategorySearch();
+		$searchModel = new MemberDocumentTypeSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 		$gridColumn = Yii::$app->request->get('GridColumn', null);
@@ -74,7 +71,7 @@ class ContactCategoryController extends Controller
 		}
 		$columns = $searchModel->getGridColumn($cols);
 
-		$this->view->title = Yii::t('app', 'Member Contact Categories');
+		$this->view->title = Yii::t('app', 'Member Document Types');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_index', [
@@ -85,24 +82,24 @@ class ContactCategoryController extends Controller
 	}
 
 	/**
-	 * Creates a new MemberContactCategory model.
+	 * Creates a new MemberDocumentType model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 * @return mixed
 	 */
 	public function actionCreate()
 	{
-		$model = new MemberContactCategory();
+		$model = new MemberDocumentType();
 
 		if(Yii::$app->request->isPost) {
 			$model->load(Yii::$app->request->post());
 			if($model->save()) {
-				Yii::$app->session->setFlash('success', Yii::t('app', 'Member contact category success created.'));
+				Yii::$app->session->setFlash('success', Yii::t('app', 'Member document type success created.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->cat_id]);
+				//return $this->redirect(['view', 'id' => $model->document_id]);
 			} 
 		}
 
-		$this->view->title = Yii::t('app', 'Create Member Contact Category');
+		$this->view->title = Yii::t('app', 'Create Member Document Type');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_create', [
@@ -111,7 +108,7 @@ class ContactCategoryController extends Controller
 	}
 
 	/**
-	 * Updates an existing MemberContactCategory model.
+	 * Updates an existing MemberDocumentType model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id
 	 * @return mixed
@@ -123,13 +120,13 @@ class ContactCategoryController extends Controller
 			$model->load(Yii::$app->request->post());
 
 			if($model->save()) {
-				Yii::$app->session->setFlash('success', Yii::t('app', 'Member contact category success updated.'));
+				Yii::$app->session->setFlash('success', Yii::t('app', 'Member document type success updated.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->cat_id]);
+				//return $this->redirect(['view', 'id' => $model->document_id]);
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {cat-name}', ['model-class' => 'Member Contact Category', 'cat-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Update {model-class}: {document-name}', ['model-class' => 'Member Document Type', 'document-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_update', [
@@ -138,7 +135,7 @@ class ContactCategoryController extends Controller
 	}
 
 	/**
-	 * Displays a single MemberContactCategory model.
+	 * Displays a single MemberDocumentType model.
 	 * @param integer $id
 	 * @return mixed
 	 */
@@ -146,7 +143,7 @@ class ContactCategoryController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {cat-name}', ['model-class' => 'Member Contact Category', 'cat-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Detail {model-class}: {document-name}', ['model-class' => 'Member Document Type', 'document-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_view', [
@@ -155,7 +152,7 @@ class ContactCategoryController extends Controller
 	}
 
 	/**
-	 * Deletes an existing MemberContactCategory model.
+	 * Deletes an existing MemberDocumentType model.
 	 * If deletion is successful, the browser will be redirected to the 'index' page.
 	 * @param integer $id
 	 * @return mixed
@@ -166,14 +163,14 @@ class ContactCategoryController extends Controller
 		$model->publish = 2;
 
 		if($model->save(false, ['publish'])) {
-			Yii::$app->session->setFlash('success', Yii::t('app', 'Member contact category success deleted.'));
+			Yii::$app->session->setFlash('success', Yii::t('app', 'Member document type success deleted.'));
 			return $this->redirect(['index']);
-			//return $this->redirect(['view', 'id' => $model->cat_id]);
+			//return $this->redirect(['view', 'id' => $model->document_id]);
 		}
 	}
 
 	/**
-	 * actionPublish an existing MemberContactCategory model.
+	 * actionPublish an existing MemberDocumentType model.
 	 * If publish is successful, the browser will be redirected to the 'index' page.
 	 * @param integer $id
 	 * @return mixed
@@ -185,21 +182,21 @@ class ContactCategoryController extends Controller
 		$model->publish = $replace;
 
 		if($model->save(false, ['publish'])) {
-			Yii::$app->session->setFlash('success', Yii::t('app', 'Member contact category success updated.'));
+			Yii::$app->session->setFlash('success', Yii::t('app', 'Member document type success updated.'));
 			return $this->redirect(['index']);
 		}
 	}
 
 	/**
-	 * Finds the MemberContactCategory model based on its primary key value.
+	 * Finds the MemberDocumentType model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.
 	 * @param integer $id
-	 * @return MemberContactCategory the loaded model
+	 * @return MemberDocumentType the loaded model
 	 * @throws NotFoundHttpException if the model cannot be found
 	 */
 	protected function findModel($id)
 	{
-		if(($model = MemberContactCategory::findOne($id)) !== null) 
+		if(($model = MemberDocumentType::findOne($id)) !== null) 
 			return $model;
 		else
 			throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));

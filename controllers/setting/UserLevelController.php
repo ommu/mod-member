@@ -25,7 +25,7 @@
  *
  */
  
-namespace ommu\member\controllers;
+namespace ommu\member\controllers\setting;
 
 use Yii;
 use yii\filters\VerbFilter;

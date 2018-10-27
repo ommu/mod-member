@@ -2,7 +2,7 @@
 /**
  * Member Document Types (member-document-type)
  * @var $this yii\web\View
- * @var $this ommu\member\controllers\DocumentTypeController
+ * @var $this ommu\member\controllers\setting\DocumentTypeController
  * @var $model ommu\member\models\MemberDocumentType
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>

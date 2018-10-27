@@ -1,22 +1,21 @@
 <?php
 /**
- * Member Contact Categories (member-contact-category)
+ * Member Userlevels (member-userlevel)
  * @var $this yii\web\View
- * @var $this ommu\member\controllers\ContactCategoryController
- * @var $model ommu\member\models\MemberContactCategory
+ * @var $this ommu\member\controllers\setting\UserLevelController
+ * @var $model ommu\member\models\MemberUserlevel
  * @var $form yii\widgets\ActiveForm
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
- * @created date 4 October 2018, 14:36 WIB
- * @modified date 4 October 2018, 14:36 WIB
- * @modified by Putra Sudaryanto <putra@sudaryanto.id>
- * @contact (+62)856-299-4114
+ * @created date 2 October 2018, 09:25 WIB
+ * @modified date 27 October 2018, 22:28 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
+use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
@@ -33,9 +32,17 @@ use yii\widgets\ActiveForm;
 
 <?php //echo $form->errorSummary($model);?>
 
-<?php echo $form->field($model, 'cat_name_i', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+<?php echo $form->field($model, 'level_name_i', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
 	->textInput(['maxlength'=>true])
-	->label($model->getAttributeLabel('cat_name_i'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('level_name_i'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+
+<?php echo $form->field($model, 'level_desc_i', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+	->textarea(['rows'=>2, 'rows'=>6, 'maxlength'=>true])
+	->label($model->getAttributeLabel('level_desc_i'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+
+<?php echo $form->field($model, 'default', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
+	->checkbox(['label'=>''])
+	->label($model->getAttributeLabel('default'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'publish', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
 	->checkbox(['label'=>''])

@@ -1,21 +1,20 @@
 <?php
 /**
- * Member Contact Categories (member-contact-category)
+ * Member Userlevels (member-userlevel)
  * @var $this yii\web\View
- * @var $this ommu\member\controllers\ContactCategoryController
- * @var $model ommu\member\models\MemberContactCategory
+ * @var $this ommu\member\controllers\setting\UserLevelController
+ * @var $model ommu\member\models\MemberUserlevel
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
- * @created date 4 October 2018, 14:36 WIB
- * @modified date 4 October 2018, 14:36 WIB
- * @modified by Putra Sudaryanto <putra@sudaryanto.id>
- * @contact (+62)856-299-4114
+ * @created date 2 October 2018, 09:25 WIB
+ * @modified date 27 October 2018, 22:28 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
+use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\libraries\grid\GridView;
@@ -24,7 +23,7 @@ use yii\widgets\Pjax;
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['menu']['content'] = [
-	['label' => Yii::t('app', 'Add Member Contact Category'), 'url' => Url::to(['create']), 'icon' => 'plus-square'],
+	['label' => Yii::t('app', 'Add Userlevel'), 'url' => Url::to(['create']), 'icon' => 'plus-square'],
 ];
 $this->params['menu']['option'] = [
 	//['label' => Yii::t('app', 'Search'), 'url' => 'javascript:void(0);'],
@@ -49,16 +48,16 @@ array_push($columnData, [
 	'buttons' => [
 		'view' => function ($url, $model, $key) {
 			$url = Url::to(['view', 'id'=>$model->primaryKey]);
-			return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, ['title' => Yii::t('app', 'Detail Member Contact Category')]);
+			return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, ['title' => Yii::t('app', 'Detail Userlevel')]);
 		},
 		'update' => function ($url, $model, $key) {
 			$url = Url::to(['update', 'id'=>$model->primaryKey]);
-			return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['title' => Yii::t('app', 'Update Member Contact Category')]);
+			return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['title' => Yii::t('app', 'Update Userlevel')]);
 		},
 		'delete' => function ($url, $model, $key) {
 			$url = Url::to(['delete', 'id'=>$model->primaryKey]);
 			return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
-				'title' => Yii::t('app', 'Delete Member Contact Category'),
+				'title' => Yii::t('app', 'Delete Userlevel'),
 				'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
 				'data-method'  => 'post',
 			]);

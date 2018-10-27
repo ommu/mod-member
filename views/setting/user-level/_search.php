@@ -2,7 +2,7 @@
 /**
  * Member Userlevels (member-userlevel)
  * @var $this yii\web\View
- * @var $this ommu\member\controllers\UserLevelController
+ * @var $this ommu\member\controllers\setting\UserLevelController
  * @var $model ommu\member\models\search\MemberUserlevel
  * @var $form yii\widgets\ActiveForm
  *
@@ -10,10 +10,12 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:25 WIB
+ * @modified date 27 October 2018, 22:28 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
+use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
@@ -23,9 +25,6 @@ use yii\widgets\ActiveForm;
 		'action' => ['index'],
 		'method' => 'get',
 	]); ?>
-		<?php echo $form->field($model, 'default')
-			->checkbox();?>
-
 		<?php echo $form->field($model, 'level_name_i');?>
 
 		<?php echo $form->field($model, 'level_desc_i');?>
@@ -43,8 +42,11 @@ use yii\widgets\ActiveForm;
 		<?php echo $form->field($model, 'updated_date')
 			->input('date');?>
 
+		<?php echo $form->field($model, 'default')
+			->dropDownList($this->filterYesNo(), ['prompt'=>'']);?>
+
 		<?php echo $form->field($model, 'publish')
-			->checkbox();?>
+			->dropDownList($this->filterYesNo(), ['prompt'=>'']);?>
 
 		<div class="form-group">
 			<?php echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

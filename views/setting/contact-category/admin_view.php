@@ -1,14 +1,17 @@
 <?php
 /**
- * Member Userlevels (member-userlevel)
+ * Member Contact Categories (member-contact-category)
  * @var $this yii\web\View
- * @var $this ommu\member\controllers\UserLevelController
- * @var $model ommu\member\models\MemberUserlevel
+ * @var $this ommu\member\controllers\setting\ContactCategoryController
+ * @var $model ommu\member\models\MemberContactCategory
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
- * @created date 2 October 2018, 09:25 WIB
+ * @created date 4 October 2018, 14:36 WIB
+ * @modified date 4 October 2018, 14:36 WIB
+ * @modified by Putra Sudaryanto <putra@sudaryanto.id>
+ * @contact (+62)856-299-4114
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -17,13 +20,13 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Member Userlevels'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Member Contact Categories'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['menu']['content'] = [
 	['label' => Yii::t('app', 'Back To Manage'), 'url' => Url::to(['index']), 'icon' => 'table'],
-	['label' => Yii::t('app', 'Update'), 'url' => Url::to(['update', 'id' => $model->level_id]), 'icon' => 'pencil'],
-	['label' => Yii::t('app', 'Delete'), 'url' => Url::to(['delete', 'id' => $model->level_id]), 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'), 'method' => 'post', 'icon' => 'trash'],
+	['label' => Yii::t('app', 'Update'), 'url' => Url::to(['update', 'id' => $model->cat_id]), 'icon' => 'pencil'],
+	['label' => Yii::t('app', 'Delete'), 'url' => Url::to(['delete', 'id' => $model->cat_id]), 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'), 'method' => 'post', 'icon' => 'trash'],
 ];
 ?>
 
@@ -33,23 +36,15 @@ $this->params['menu']['content'] = [
 		'class'=>'table table-striped detail-view',
 	],
 	'attributes' => [
-		'level_id',
+		'cat_id',
 		[
 			'attribute' => 'publish',
-			'value' => $this->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish, 'Enable,Disable'),
-			'format' => 'raw',
+			'value' => $this->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish),
+					'format' => 'raw',
 		],
 		[
-			'attribute' => 'default',
-			'value' => $model->default == 1 ? Yii::t('app', 'Yes') : Yii::t('app', 'No'),
-		],
-		[
-			'attribute' => 'level_name_i',
+			'attribute' => 'cat_name_i',
 			'value' => isset($model->title) ? $model->title->message : '-',
-		],
-		[
-			'attribute' => 'level_desc_i',
-			'value' => isset($model->description) ? $model->description->message : '-',
 		],
 		[
 			'attribute' => 'creation_date',
