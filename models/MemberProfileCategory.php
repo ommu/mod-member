@@ -6,7 +6,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:57 WIB
- * @modified date 28 October 2018, 15:56 WIB
+ * @modified date 28 October 2018, 21:29 WIB
  * @link https://github.com/ommu/mod-member
  *
  * This is the model class for table "ommu_member_profile_category".
