@@ -6,6 +6,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:57 WIB
+ * @modified date 28 October 2018, 15:56 WIB
  * @link https://github.com/ommu/mod-member
  *
  * This is the model class for table "ommu_member_profile_category".
@@ -13,6 +14,7 @@
  * The followings are the available columns in table "ommu_member_profile_category":
  * @property integer $cat_id
  * @property integer $publish
+ * @property integer $parent_id
  * @property integer $profile_id
  * @property integer $cat_name
  * @property integer $cat_desc
@@ -75,7 +77,7 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 	{
 		return [
 			[['profile_id', 'cat_name_i', 'cat_desc_i'], 'required'],
-			[['publish', 'profile_id', 'cat_name', 'cat_desc', 'creation_id', 'modified_id'], 'integer'],
+			[['publish', 'parent_id', 'profile_id', 'cat_name', 'cat_desc', 'creation_id', 'modified_id'], 'integer'],
 			[['cat_name_i', 'cat_desc_i'], 'string'],
 			[['creation_date', 'modified_date', 'updated_date'], 'safe'],
 			[['cat_name_i'], 'string', 'max' => 64],
@@ -92,6 +94,7 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 		return [
 			'cat_id' => Yii::t('app', 'Category'),
 			'publish' => Yii::t('app', 'Publish'),
+			'parent_id' => Yii::t('app', 'Parent'),
 			'profile_id' => Yii::t('app', 'Profile'),
 			'cat_name' => Yii::t('app', 'Cat Name'),
 			'cat_desc' => Yii::t('app', 'Cat Desc'),
@@ -175,6 +178,12 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 			'header' => Yii::t('app', 'No'),
 			'class'  => 'yii\grid\SerialColumn',
 			'contentOptions' => ['class'=>'center'],
+		];
+		$this->templateColumns['parent_id'] = [
+			'attribute' => 'parent_id',
+			'value' => function($model, $key, $index, $column) {
+				return $model->parent_id;
+			},
 		];
 		if(!Yii::$app->request->get('profile')) {
 			$this->templateColumns['profile_id'] = [
@@ -335,7 +344,7 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 				$cat_name->message = $this->cat_name_i;
 				if($cat_name->save())
 					$this->cat_name = $cat_name->id;
-				
+
 			} else {
 				$cat_name = SourceMessage::findOne($this->cat_name);
 				$cat_name->message = $this->cat_name_i;
@@ -348,7 +357,7 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 				$cat_desc->message = $this->cat_desc_i;
 				if($cat_desc->save())
 					$this->cat_desc = $cat_desc->id;
-				
+
 			} else {
 				$cat_desc = SourceMessage::findOne($this->cat_desc);
 				$cat_desc->message = $this->cat_desc_i;
