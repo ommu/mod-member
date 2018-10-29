@@ -30,6 +30,8 @@ $this->params['menu']['option'] = [
 ];
 ?>
 
+<div class="member-friend-type-index">
+
 <?php Pjax::begin(); ?>
 
 <?php //echo $this->render('_search', ['model'=>$searchModel]); ?>
@@ -73,3 +75,4 @@ echo GridView::widget([
 ]); ?>
 
 <?php Pjax::end(); ?>
+</div>
