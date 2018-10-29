@@ -21,11 +21,12 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:58 WIB
+ * @modified date 28 October 2018, 21:38 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
  
-namespace ommu\member\controllers;
+namespace ommu\member\controllers\setting;
 
 use Yii;
 use yii\filters\VerbFilter;
@@ -71,7 +72,7 @@ class ProfileCategoryController extends Controller
 		}
 		$columns = $searchModel->getGridColumn($cols);
 
-		$this->view->title = Yii::t('app', 'Member Profile Categories');
+		$this->view->title = Yii::t('app', 'Profile Categories');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_index', [
@@ -99,7 +100,7 @@ class ProfileCategoryController extends Controller
 			} 
 		}
 
-		$this->view->title = Yii::t('app', 'Create Member Profile Category');
+		$this->view->title = Yii::t('app', 'Create Profile Category');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_create', [
@@ -126,7 +127,7 @@ class ProfileCategoryController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {cat-name}', ['model-class' => 'Member Profile Category', 'cat-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Update {model-class}: {cat-name}', ['model-class' => 'Profile Category', 'cat-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_update', [
@@ -143,7 +144,7 @@ class ProfileCategoryController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {cat-name}', ['model-class' => 'Member Profile Category', 'cat-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Detail {model-class}: {cat-name}', ['model-class' => 'Profile Category', 'cat-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_view', [

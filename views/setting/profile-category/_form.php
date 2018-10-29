@@ -2,7 +2,7 @@
 /**
  * Member Profile Categories (member-profile-category)
  * @var $this yii\web\View
- * @var $this ommu\member\controllers\ProfileCategoryController
+ * @var $this ommu\member\controllers\setting\ProfileCategoryController
  * @var $model ommu\member\models\MemberProfileCategory
  * @var $form yii\widgets\ActiveForm
  *
@@ -10,14 +10,18 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:58 WIB
+ * @modified date 29 October 2018, 09:25 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
+use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use ommu\member\models\MemberProfile;
 ?>
+
+<div class="member-profile-category-form">
 
 <?php $form = ActiveForm::begin([
 	'options' => [
@@ -31,6 +35,10 @@ use ommu\member\models\MemberProfile;
 
 <?php //echo $form->errorSummary($model);?>
 
+<?php echo $form->field($model, 'parent_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+	->textInput(['type'=>'number', 'min'=>'1'])
+	->label($model->getAttributeLabel('parent_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+
 <?php $profile_id = MemberProfile::getProfile();
 echo $form->field($model, 'profile_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
 	->dropDownList($profile_id, ['prompt'=>''])
@@ -41,7 +49,7 @@ echo $form->field($model, 'profile_id', ['template' => '{label}<div class="col-m
 	->label($model->getAttributeLabel('cat_name_i'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'cat_desc_i', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->textarea(['rows'=>2,'rows'=>6,'maxlength'=>true])
+	->textarea(['rows'=>2, 'rows'=>6, 'maxlength'=>true])
 	->label($model->getAttributeLabel('cat_desc_i'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'publish', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
@@ -56,3 +64,5 @@ echo $form->field($model, 'profile_id', ['template' => '{label}<div class="col-m
 </div>
 
 <?php ActiveForm::end(); ?>
+
+</div>

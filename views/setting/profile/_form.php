@@ -37,6 +37,8 @@ JS;
 	$this->registerJs($js, \yii\web\View::POS_READY);
 ?>
 
+<div class="member-profile-form">
+
 <?php $form = ActiveForm::begin([
 	'options' => [
 		'class' => 'form-horizontal form-label-left',
@@ -89,3 +91,5 @@ echo $form->field($model, 'profile_personal', ['template' => '{label}<div class=
 </div>
 
 <?php ActiveForm::end(); ?>
+
+</div>

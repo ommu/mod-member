@@ -20,7 +20,7 @@ use ommu\member\models\MemberProfile;
 use ommu\member\models\MemberDocumentType;
 ?>
 
-<div class="search-form">
+<div class="member-profile-document-search search-form">
 	<?php $form = ActiveForm::begin([
 		'action' => ['index'],
 		'method' => 'get',

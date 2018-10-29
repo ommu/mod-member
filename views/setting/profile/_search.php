@@ -19,10 +19,13 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
 
-<div class="search-form">
+<div class="member-profile-search search-form">
 	<?php $form = ActiveForm::begin([
 		'action' => ['index'],
 		'method' => 'get',
+		'options' => [
+			'data-pjax' => 1
+		],
 	]); ?>
 		<?php echo $form->field($model, 'profile_name_i');?>
 

@@ -19,6 +19,8 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
 
+<div class="member-company-type-form">
+
 <?php $form = ActiveForm::begin([
 	'options' => [
 		'class' => 'form-horizontal form-label-left',
@@ -51,3 +53,5 @@ use yii\widgets\ActiveForm;
 </div>
 
 <?php ActiveForm::end(); ?>
+
+</div>

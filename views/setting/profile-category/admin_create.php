@@ -2,7 +2,7 @@
 /**
  * Member Profile Categories (member-profile-category)
  * @var $this yii\web\View
- * @var $this ommu\member\controllers\ProfileCategoryController
+ * @var $this ommu\member\controllers\setting\ProfileCategoryController
  * @var $model ommu\member\models\MemberProfileCategory
  * @var $form yii\widgets\ActiveForm
  *
@@ -10,14 +10,15 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:58 WIB
+ * @modified date 28 October 2018, 21:38 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
-use yii\helpers\Html;
+use Yii;
 use yii\helpers\Url;
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Member Profile Categories'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Profile Categories'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Create');
 
 $this->params['menu']['content'] = [
