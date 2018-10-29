@@ -28,6 +28,10 @@ $this->params['menu']['content'] = [
 ];
 ?>
 
+<div class="member-profile-update">
+
 <?php echo $this->render('_form', [
 	'model' => $model,
 ]); ?>
+
+</div>

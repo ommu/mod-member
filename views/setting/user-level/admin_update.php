@@ -29,6 +29,10 @@ $this->params['menu']['content'] = [
 ];
 ?>
 
+<div class="member-userlevel-update">
+
 <?php echo $this->render('_form', [
 	'model' => $model,
 ]); ?>
+
+</div>

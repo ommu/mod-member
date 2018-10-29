@@ -28,6 +28,8 @@ $this->params['menu']['content'] = [
 ];
 ?>
 
+<div class="member-document-type-view">
+
 <?php echo DetailView::widget([
 	'model' => $model,
 	'options' => [
@@ -70,3 +72,5 @@ $this->params['menu']['content'] = [
 		],
 	],
 ]) ?>
+
+</div>

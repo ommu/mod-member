@@ -25,6 +25,10 @@ $this->params['menu']['content'] = [
 ];
 ?>
 
+<div class="member-company-type-create">
+
 <?php echo $this->render('_form', [
 	'model' => $model,
 ]); ?>
+
+</div>

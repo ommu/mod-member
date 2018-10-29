@@ -26,6 +26,10 @@ $this->params['menu']['content'] = [
 ];
 ?>
 
+<div class="member-document-type-create">
+
 <?php echo $this->render('_form', [
 	'model' => $model,
 ]); ?>
+
+</div>

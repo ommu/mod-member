@@ -29,6 +29,10 @@ $this->params['menu']['content'] = [
 ];
 ?>
 
+<div class="member-contact-category-update">
+
 <?php echo $this->render('_form', [
 	'model' => $model,
 ]); ?>
+
+</div>
