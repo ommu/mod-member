@@ -1,21 +1,21 @@
 <?php
 /**
- * MemberFollowers
+ * MemberFollowerHistory
  *
- * This is the ActiveQuery class for [[\ommu\member\models\MemberFollowers]].
- * @see \ommu\member\models\MemberFollowers
+ * This is the ActiveQuery class for [[\ommu\member\models\MemberFollowerHistory]].
+ * @see \ommu\member\models\MemberFollowerHistory
  * 
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
- * @created date 31 October 2018, 06:10 WIB
+ * @created date 31 October 2018, 06:18 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
 namespace ommu\member\models\query;
 
-class MemberFollowers extends \yii\db\ActiveQuery
+class MemberFollowerHistory extends \yii\db\ActiveQuery
 {
 	/*
 	public function active()
@@ -42,7 +42,7 @@ class MemberFollowers extends \yii\db\ActiveQuery
 
 	/**
 	 * @inheritdoc
-	 * @return \ommu\member\models\MemberFollowers[]|array
+	 * @return \ommu\member\models\MemberFollowerHistory[]|array
 	 */
 	public function all($db = null)
 	{
@@ -51,7 +51,7 @@ class MemberFollowers extends \yii\db\ActiveQuery
 
 	/**
 	 * @inheritdoc
-	 * @return \ommu\member\models\MemberFollowers|array|null
+	 * @return \ommu\member\models\MemberFollowerHistory|array|null
 	 */
 	public function one($db = null)
 	{
