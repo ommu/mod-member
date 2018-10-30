@@ -6,6 +6,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 30 October 2018, 15:22 WIB
+ * @modified date 30 October 2018, 22:24 WIB
  * @link https://github.com/ommu/mod-member
  *
  * This is the model class for table "ommu_members".
@@ -42,11 +43,10 @@
  * @property MemberUser[] $users
  * @property MemberViews[] $views
  * @property MemberProfile $profile
- * @property Users $approved0
  * @property TestimonialOption[] $options
  * @property Testimonials[] $testimonials
  * @property VacancyPackageMember[] $members
- * @property Members $member
+ * @property Users $approvedRltn
  * @property Users $creation
  * @property Users $modified
  *
@@ -59,7 +59,6 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\web\UploadedFile;
 use ommu\users\models\Users;
-use ommu\member\models\Members;
 
 class Members extends \app\components\ActiveRecord
 {
@@ -104,7 +103,6 @@ class Members extends \app\components\ActiveRecord
 			[['username'], 'string', 'max' => 32],
 			[['displayname'], 'string', 'max' => 64],
 			[['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberProfile::className(), 'targetAttribute' => ['profile_id' => 'profile_id']],
-			[['approved_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['approved_id' => 'user_id']],
 		];
 	}
 
@@ -131,8 +129,8 @@ class Members extends \app\components\ActiveRecord
 			'modified_date' => Yii::t('app', 'Modified Date'),
 			'modified_id' => Yii::t('app', 'Modified'),
 			'updated_date' => Yii::t('app', 'Updated Date'),
-			'old_photo_header_i' => Yii::t('app', 'Old  Photo Header'),
-			'old_photo_profile_i' => Yii::t('app', 'Old  Photo Profile'),
+			'old_photo_header_i' => Yii::t('app', 'Old Photo Header'),
+			'old_photo_profile_i' => Yii::t('app', 'Old Photo Profile'),
 			'approved_search' => Yii::t('app', 'Approved'),
 			'creation_search' => Yii::t('app', 'Creation'),
 			'modified_search' => Yii::t('app', 'Modified'),
@@ -238,14 +236,6 @@ class Members extends \app\components\ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getApproved0()
-	{
-		return $this->hasOne(Users::className(), ['user_id' => 'approved_id']);
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
 	public function getOptions()
 	{
 		return $this->hasMany(TestimonialOption::className(), ['member_id' => 'member_id']);
@@ -265,6 +255,14 @@ class Members extends \app\components\ActiveRecord
 	public function getMembers()
 	{
 		return $this->hasMany(VacancyPackageMember::className(), ['member_id' => 'member_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getApprovedRltn()
+	{
+		return $this->hasOne(Users::className(), ['user_id' => 'approved_id']);
 	}
 
 	/**
@@ -359,7 +357,7 @@ class Members extends \app\components\ActiveRecord
 			$this->templateColumns['approved_search'] = [
 				'attribute' => 'approved_search',
 				'value' => function($model, $key, $index, $column) {
-					return isset($model->approved) ? $model->approved->displayname : '-';
+					return isset($model->approvedRltn) ? $model->approvedRltn->displayname : '-';
 				},
 			];
 		}
