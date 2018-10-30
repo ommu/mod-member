@@ -8,6 +8,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:58 WIB
+ * @modified date 30 October 2018, 10:27 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -22,18 +23,18 @@ use ommu\member\models\MemberProfileCategory as MemberProfileCategoryModel;
 class MemberProfileCategory extends MemberProfileCategoryModel
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function rules()
 	{
 		return [
-			[['cat_id', 'publish', 'profile_id', 'cat_name', 'cat_desc', 'creation_id', 'modified_id'], 'integer'],
+			[['cat_id', 'publish', 'parent_id', 'profile_id', 'cat_name', 'cat_desc', 'creation_id', 'modified_id'], 'integer'],
 			[['creation_date', 'modified_date', 'updated_date', 'cat_name_i', 'cat_desc_i', 'creation_search', 'modified_search'], 'safe'],
 		];
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function scenarios()
 	{
@@ -55,6 +56,7 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 	 * Creates data provider instance with search query applied
 	 *
 	 * @param array $params
+	 *
 	 * @return ActiveDataProvider
 	 */
 	public function search($params)
@@ -110,6 +112,7 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 		// grid filtering conditions
 		$query->andFilterWhere([
 			't.cat_id' => $this->cat_id,
+			't.parent_id' => $this->parent_id,
 			't.profile_id' => isset($params['profile']) ? $params['profile'] : $this->profile_id,
 			't.cat_name' => $this->cat_name,
 			't.cat_desc' => $this->cat_desc,
