@@ -6,6 +6,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 30 October 2018, 23:04 WIB
+ * @modified date 30 October 2018, 23:44 WIB
  * @link https://github.com/ommu/mod-member
  *
  * This is the model class for table "ommu_member_history_username".
@@ -19,6 +20,7 @@
  *
  * The followings are the available model relations:
  * @property Members $member
+ * @property Users $updated
  *
  */
 
@@ -27,6 +29,7 @@ namespace ommu\member\models;
 use Yii;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use ommu\users\models\Users;
 
 class MemberHistoryUsername extends \app\components\ActiveRecord
 {
@@ -36,6 +39,7 @@ class MemberHistoryUsername extends \app\components\ActiveRecord
 
 	// Variable Search
 	public $member_search;
+	public $updated_search;
 	public $profile_search;
 
 	/**
@@ -78,8 +82,10 @@ class MemberHistoryUsername extends \app\components\ActiveRecord
 			'member_id' => Yii::t('app', 'Member'),
 			'username' => Yii::t('app', 'Old Username'),
 			'updated_date' => Yii::t('app', 'Updated Date'),
-			'updated_id' => Yii::t('app', 'Updated'), 
+			'updated_id' => Yii::t('app', 'Updated'),
 			'member_search' => Yii::t('app', 'Member'),
+			'updated_search' => Yii::t('app', 'Updated'),
+			'profile_search' => Yii::t('app', 'Profile'),
 		];
 	}
 
@@ -89,6 +95,14 @@ class MemberHistoryUsername extends \app\components\ActiveRecord
 	public function getMember()
 	{
 		return $this->hasOne(Members::className(), ['member_id' => 'member_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getUpdated()
+	{
+		return $this->hasOne(Users::className(), ['user_id' => 'updated_id']);
 	}
 
 	/**
@@ -141,12 +155,14 @@ class MemberHistoryUsername extends \app\components\ActiveRecord
 			'filter' => $this->filterDatepicker($this, 'updated_date'),
 			'format' => 'html',
 		];
-		$this->templateColumns['updated_id'] = [
-			'attribute' => 'updated_id',
-			'value' => function($model, $key, $index, $column) {
-				return $model->updated_id;
-			},
-		];
+		if(!Yii::$app->request->get('updated')) {
+			$this->templateColumns['updated_search'] = [
+				'attribute' => 'updated_search',
+				'value' => function($model, $key, $index, $column) {
+					return isset($model->updated) ? $model->updated->displayname : '-';
+				},
+			];
+		}
 	}
 
 	/**
@@ -165,5 +181,17 @@ class MemberHistoryUsername extends \app\components\ActiveRecord
 			$model = self::findOne($id);
 			return $model;
 		}
+	}
+
+	/**
+	 * before validate attributes
+	 */
+	public function beforeValidate()
+	{
+		if(parent::beforeValidate()) {
+			if(!$this->isNewRecord)
+				$this->updated_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+		}
+		return true;
 	}
 }
