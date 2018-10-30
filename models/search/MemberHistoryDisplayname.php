@@ -73,7 +73,7 @@ class MemberHistoryDisplayname extends MemberHistoryDisplaynameModel
 		]);
 
 		$attributes = array_keys($this->getTableSchema()->columns);
-		$attributes['member_id'] = [
+		$attributes['member_search'] = [
 			'asc' => ['member.displayname' => SORT_ASC],
 			'desc' => ['member.displayname' => SORT_DESC],
 		];
