@@ -130,7 +130,7 @@ class MemberHistoryDisplayname extends \app\components\ActiveRecord
 			$this->templateColumns['profile_search'] = [
 				'attribute' => 'profile_search',
 				'value' => function($model, $key, $index, $column) {
-					return isset($model->member) ? $model->member->profile_id : '-';
+					return isset($model->member) ? $model->member->profile->title->message : '-';
 				},
 				'filter' => MemberProfile::getProfile(),
 			];

@@ -62,7 +62,9 @@ class MemberHistoryDisplayname extends MemberHistoryDisplaynameModel
 	{
 		$query = MemberHistoryDisplaynameModel::find()->alias('t');
 		$query->joinWith([
-			'member member'
+			'member member', 
+			'updated updated', 
+			'member.profile.title profile'
 		]);
 
 		// add conditions that should always apply here
@@ -74,6 +76,14 @@ class MemberHistoryDisplayname extends MemberHistoryDisplaynameModel
 		$attributes['member_id'] = [
 			'asc' => ['member.displayname' => SORT_ASC],
 			'desc' => ['member.displayname' => SORT_DESC],
+		];
+		$attributes['updated_search'] = [
+			'asc' => ['updated.displayname' => SORT_ASC],
+			'desc' => ['updated.displayname' => SORT_DESC],
+		];
+		$attributes['profile_search'] = [
+			'asc' => ['profile.message' => SORT_ASC],
+			'desc' => ['profile.message' => SORT_DESC],
 		];
 		$dataProvider->setSort([
 			'attributes' => $attributes,
@@ -93,11 +103,13 @@ class MemberHistoryDisplayname extends MemberHistoryDisplaynameModel
 			't.id' => $this->id,
 			't.member_id' => isset($params['member']) ? $params['member'] : $this->member_id,
 			'cast(t.updated_date as date)' => $this->updated_date,
-			't.updated_id' => $this->updated_id,
+			't.updated_id' => isset($params['updated']) ? $params['updated'] : $this->updated_id,
+			'member.profile_id' => isset($params['profile']) ? $params['profile'] : $this->profile_search,
 		]);
 
 		$query->andFilterWhere(['like', 't.displayname', $this->displayname])
-			->andFilterWhere(['like', 'member.displayname', $this->member_search]);
+			->andFilterWhere(['like', 'member.displayname', $this->member_search])
+			->andFilterWhere(['like', 'updated.displayname', $this->updated_search]);
 
 		return $dataProvider;
 	}
