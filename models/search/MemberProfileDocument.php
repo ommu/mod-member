@@ -8,6 +8,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:36 WIB
+ * @modified date 30 October 2018, 11:08 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -22,7 +23,7 @@ use ommu\member\models\MemberProfileDocument as MemberProfileDocumentModel;
 class MemberProfileDocument extends MemberProfileDocumentModel
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function rules()
 	{
@@ -33,7 +34,7 @@ class MemberProfileDocument extends MemberProfileDocumentModel
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function scenarios()
 	{
@@ -55,6 +56,7 @@ class MemberProfileDocument extends MemberProfileDocumentModel
 	 * Creates data provider instance with search query applied
 	 *
 	 * @param array $params
+	 *
 	 * @return ActiveDataProvider
 	 */
 	public function search($params)

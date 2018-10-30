@@ -21,11 +21,12 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:36 WIB
+ * @modified date 30 October 2018, 11:26 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
  
-namespace ommu\member\controllers;
+namespace ommu\member\controllers\setting;
 
 use Yii;
 use yii\filters\VerbFilter;
@@ -71,7 +72,7 @@ class ProfileDocumentController extends Controller
 		}
 		$columns = $searchModel->getGridColumn($cols);
 
-		$this->view->title = Yii::t('app', 'Member Profile Documents');
+		$this->view->title = Yii::t('app', 'Profile Documents');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_index', [
@@ -99,7 +100,7 @@ class ProfileDocumentController extends Controller
 			} 
 		}
 
-		$this->view->title = Yii::t('app', 'Create Member Profile Document');
+		$this->view->title = Yii::t('app', 'Create Profile Document');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_create', [
@@ -126,7 +127,7 @@ class ProfileDocumentController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {profile-id}', ['model-class' => 'Member Profile Document', 'profile-id' => $model->profile->title->message]);
+		$this->view->title = Yii::t('app', 'Update {model-class}: {profile-id}', ['model-class' => 'Profile Document', 'profile-id' => $model->profile->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_update', [
@@ -143,7 +144,7 @@ class ProfileDocumentController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {profile-id}', ['model-class' => 'Member Profile Document', 'profile-id' => $model->profile->title->message]);
+		$this->view->title = Yii::t('app', 'Detail {model-class}: {profile-id}', ['model-class' => 'Profile Document', 'profile-id' => $model->profile->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_view', [
@@ -196,9 +197,10 @@ class ProfileDocumentController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if(($model = MemberProfileDocument::findOne($id)) !== null) 
+		if (($model = MemberProfileDocument::findOne($id)) !== null) {
 			return $model;
-		else
-			throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+		}
+
+		throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}
 }

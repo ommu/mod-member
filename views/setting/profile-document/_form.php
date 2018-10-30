@@ -2,7 +2,7 @@
 /**
  * Member Profile Documents (member-profile-document)
  * @var $this yii\web\View
- * @var $this ommu\member\controllers\ProfileDocumentController
+ * @var $this ommu\member\controllers\setting\ProfileDocumentController
  * @var $model ommu\member\models\MemberProfileDocument
  * @var $form yii\widgets\ActiveForm
  *
@@ -10,15 +10,19 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:36 WIB
+ * @modified date 30 October 2018, 11:08 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
+use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use ommu\member\models\MemberProfile;
 use ommu\member\models\MemberDocumentType;
 ?>
+
+<div class="member-profile-document-form">
 
 <?php $form = ActiveForm::begin([
 	'options' => [
@@ -58,3 +62,5 @@ echo $form->field($model, 'document_id', ['template' => '{label}<div class="col-
 </div>
 
 <?php ActiveForm::end(); ?>
+
+</div>

@@ -2,23 +2,24 @@
 /**
  * Member Profile Documents (member-profile-document)
  * @var $this yii\web\View
- * @var $this ommu\member\controllers\ProfileDocumentController
+ * @var $this ommu\member\controllers\setting\ProfileDocumentController
  * @var $model ommu\member\models\MemberProfileDocument
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:36 WIB
+ * @modified date 30 October 2018, 11:08 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
-use yii\helpers\Html;
+use Yii;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Member Profile Documents'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Profile Documents'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $model->profile->title->message;
 
 $this->params['menu']['content'] = [
 	['label' => Yii::t('app', 'Back To Manage'), 'url' => Url::to(['index']), 'icon' => 'table'],
@@ -26,6 +27,8 @@ $this->params['menu']['content'] = [
 	['label' => Yii::t('app', 'Delete'), 'url' => Url::to(['delete', 'id' => $model->id]), 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'), 'method' => 'post', 'icon' => 'trash'],
 ];
 ?>
+
+<div class="member-profile-document-view">
 
 <?php echo DetailView::widget([
 	'model' => $model,
@@ -49,7 +52,7 @@ $this->params['menu']['content'] = [
 		],
 		[
 			'attribute' => 'required',
-			'value' => $model->required == 1 ? Yii::t('app', 'Yes') : Yii::t('app', 'No'),
+			'value' => $this->filterYesNo($model->required),
 		],
 		[
 			'attribute' => 'creation_date',
@@ -73,3 +76,5 @@ $this->params['menu']['content'] = [
 		],
 	],
 ]) ?>
+
+</div>
