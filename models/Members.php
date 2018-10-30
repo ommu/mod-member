@@ -140,10 +140,10 @@ class Members extends \app\components\ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getCompanies()
-	{
-		return $this->hasMany(IpediaCompanies::className(), ['member_id' => 'member_id']);
-	}
+	// public function getCompanies()
+	// {
+	// 	return $this->hasMany(\app\modules\ipedia\models\IpediaCompanies::className(), ['member_id' => 'member_id']);
+	// }
 
 	/**
 	 * @return \yii\db\ActiveQuery
@@ -327,7 +327,7 @@ class Members extends \app\components\ActiveRecord
 			'attribute' => 'photo_header',
 			'value' => function($model, $key, $index, $column) {
 				$uploadPath = join('/', [self::getUploadPath(false), $model->member_id]);
-				return $model->photo_header ? Html::img(join('/', [$uploadPath, $model->photo_header]), ['alt' => $model->photo_header]) : '-'
+				return $model->photo_header ? Html::img(join('/', [$uploadPath, $model->photo_header]), ['alt' => $model->photo_header]) : '-';
 			},
 			'format' => 'html',
 		];
@@ -335,7 +335,7 @@ class Members extends \app\components\ActiveRecord
 			'attribute' => 'photo_profile',
 			'value' => function($model, $key, $index, $column) {
 				$uploadPath = join('/', [self::getUploadPath(false), $model->member_id]);
-				return $model->photo_profile ? Html::img(join('/', [$uploadPath, $model->photo_profile]), ['alt' => $model->photo_profile]) : '-'
+				return $model->photo_profile ? Html::img(join('/', [$uploadPath, $model->photo_profile]), ['alt' => $model->photo_profile]) : '-';
 			},
 			'format' => 'html',
 		];
