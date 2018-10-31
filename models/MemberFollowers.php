@@ -39,7 +39,7 @@ class MemberFollowers extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
-	public $gridForbiddenColumn = [];
+	public $gridForbiddenColumn = ['modified_date','modified_search','updated_date'];
 
 	// Variable Search
 	public $member_search;
@@ -82,7 +82,7 @@ class MemberFollowers extends \app\components\ActiveRecord
 	{
 		return [
 			'id' => Yii::t('app', 'ID'),
-			'publish' => Yii::t('app', 'Publish'),
+			'publish' => Yii::t('app', 'Follow'),
 			'member_id' => Yii::t('app', 'Member'),
 			'user_id' => Yii::t('app', 'User'),
 			'creation_date' => Yii::t('app', 'Creation Date'),

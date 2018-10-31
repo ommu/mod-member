@@ -37,8 +37,7 @@ $this->params['menu']['content'] = [
 		'id',
 		[
 			'attribute' => 'publish',
-			'value' => $this->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish),
-			'format' => 'raw',
+			'value' => $model->publish ? Yii::t('app', 'Yes') : Yii::t('app', 'No'),
 		],
 		[
 			'attribute' => 'member_search',
