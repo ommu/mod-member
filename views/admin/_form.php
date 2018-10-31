@@ -2,7 +2,7 @@
 /**
  * Members (members)
  * @var $this yii\web\View
- * @var $this ommu\member\controllers\setting\AdminController
+ * @var $this ommu\member\controllers\AdminController
  * @var $model ommu\member\models\Members
  * @var $form yii\widgets\ActiveForm
  *
