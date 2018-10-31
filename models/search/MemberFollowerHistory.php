@@ -28,7 +28,7 @@ class MemberFollowerHistory extends MemberFollowerHistoryModel
 	{
 		return [
 			[['id', 'publish', 'follower_id', 'creation_id'], 'integer'],
-			[['creation_date', 'creation_search', 'member_search', 'user_search'], 'safe'],
+			[['creation_date', 'creation_search', 'profile_search', 'member_search', 'user_search'], 'safe'],
 		];
 	}
 
@@ -63,6 +63,7 @@ class MemberFollowerHistory extends MemberFollowerHistoryModel
 		$query = MemberFollowerHistoryModel::find()->alias('t');
 		$query->joinWith([
 			'creation creation',
+			'follower.member.profile.title profile',
 			'follower.member member', 
 			'follower.user user'
 		]);
@@ -76,6 +77,10 @@ class MemberFollowerHistory extends MemberFollowerHistoryModel
 		$attributes['creation_search'] = [
 			'asc' => ['creation.displayname' => SORT_ASC],
 			'desc' => ['creation.displayname' => SORT_DESC],
+		];
+		$attributes['profile_search'] = [
+			'asc' => ['profile.message' => SORT_ASC],
+			'desc' => ['profile.message' => SORT_DESC],
 		];
 		$attributes['member_search'] = [
 			'asc' => ['member.displayname' => SORT_ASC],
@@ -104,6 +109,7 @@ class MemberFollowerHistory extends MemberFollowerHistoryModel
 			't.follower_id' => isset($params['follower']) ? $params['follower'] : $this->follower_id,
 			'cast(t.creation_date as date)' => $this->creation_date,
 			't.creation_id' => isset($params['creation']) ? $params['creation'] : $this->creation_id,
+			'member.profile_id' => isset($params['profile']) ? $params['profile'] : $this->profile_search,
 		]);
 
 		if(isset($params['trash']))

@@ -154,18 +154,18 @@ class MemberCategories extends \app\components\ActiveRecord
 			'contentOptions' => ['class'=>'center'],
 		];
 		if(!Yii::$app->request->get('member')) {
+			$this->templateColumns['member_search'] = [
+				'attribute' => 'member_search',
+				'value' => function($model, $key, $index, $column) {
+					return isset($model->member) ? $model->member->displayname : '-';
+				},
+			];
 			$this->templateColumns['profile_search'] = [
 				'attribute' => 'profile_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->member) ? $model->member->profile->title->message : '-';
 				},
 				'filter' => MemberProfile::getProfile(),
-			];
-			$this->templateColumns['member_search'] = [
-				'attribute' => 'member_search',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->member) ? $model->member->displayname : '-';
-				},
 			];
 		}
 		if(!Yii::$app->request->get('category')) {

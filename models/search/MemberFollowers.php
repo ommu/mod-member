@@ -28,7 +28,7 @@ class MemberFollowers extends MemberFollowersModel
 	{
 		return [
 			[['id', 'publish', 'member_id', 'user_id', 'modified_id'], 'integer'],
-			[['creation_date', 'modified_date', 'updated_date', 'member_search', 'user_search', 'modified_search'], 'safe'],
+			[['creation_date', 'modified_date', 'updated_date', 'member_search', 'user_search', 'modified_search', 'profile_search'], 'safe'],
 		];
 	}
 
@@ -64,7 +64,8 @@ class MemberFollowers extends MemberFollowersModel
 		$query->joinWith([
 			'member member', 
 			'user user', 
-			'modified modified'
+			'modified modified',
+			'member.profile.title profile'
 		]);
 
 		// add conditions that should always apply here
@@ -84,6 +85,10 @@ class MemberFollowers extends MemberFollowersModel
 		$attributes['modified_search'] = [
 			'asc' => ['modified.displayname' => SORT_ASC],
 			'desc' => ['modified.displayname' => SORT_DESC],
+		];
+		$attributes['profile_search'] = [
+			'asc' => ['profile.message' => SORT_ASC],
+			'desc' => ['profile.message' => SORT_DESC],
 		];
 		$dataProvider->setSort([
 			'attributes' => $attributes,
@@ -107,6 +112,7 @@ class MemberFollowers extends MemberFollowersModel
 			'cast(t.modified_date as date)' => $this->modified_date,
 			't.modified_id' => isset($params['modified']) ? $params['modified'] : $this->modified_id,
 			'cast(t.updated_date as date)' => $this->updated_date,
+			'member.profile_id' => isset($params['profile']) ? $params['profile'] : $this->profile_search,
 		]);
 
 		if(isset($params['trash']))

@@ -49,6 +49,7 @@ class MemberUser extends \app\components\ActiveRecord
 	public $user_search;
 	public $creation_search;
 	public $modified_search;
+	public $profile_search;
 
 	/**
 	 * @return string the associated database table name
@@ -101,6 +102,7 @@ class MemberUser extends \app\components\ActiveRecord
 			'user_search' => Yii::t('app', 'User'),
 			'creation_search' => Yii::t('app', 'Creation'),
 			'modified_search' => Yii::t('app', 'Modified'),
+			'profile_search' => Yii::t('app', 'Profile'),
 		];
 	}
 
@@ -171,6 +173,13 @@ class MemberUser extends \app\components\ActiveRecord
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->member) ? $model->member->displayname : '-';
 				},
+			];
+			$this->templateColumns['profile_search'] = [
+				'attribute' => 'profile_search',
+				'value' => function($model, $key, $index, $column) {
+					return isset($model->member) ? $model->member->profile->title->message : '-';
+				},
+				'filter' => MemberProfile::getProfile(),
 			];
 		}
 		if(!Yii::$app->request->get('level')) {

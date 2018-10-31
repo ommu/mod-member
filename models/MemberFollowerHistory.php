@@ -38,6 +38,7 @@ class MemberFollowerHistory extends \app\components\ActiveRecord
 
 	// Variable Search
 	public $creation_search;
+	public $profile_search;
 	public $member_search;
 	public $user_search;
 
@@ -82,6 +83,7 @@ class MemberFollowerHistory extends \app\components\ActiveRecord
 			'creation_date' => Yii::t('app', 'Creation Date'),
 			'creation_id' => Yii::t('app', 'Creation'),
 			'creation_search' => Yii::t('app', 'Creation'),
+			'profile_search' => Yii::t('app', 'Profile'),
 			'member_search' => Yii::t('app', 'Member'),
 			'user_search' => Yii::t('app', 'User'),
 		];
@@ -125,6 +127,13 @@ class MemberFollowerHistory extends \app\components\ActiveRecord
 			'contentOptions' => ['class'=>'center'],
 		];
 		if(!Yii::$app->request->get('follower')) {
+			$this->templateColumns['profile_search'] = [
+				'attribute' => 'profile_search',
+				'value' => function($model, $key, $index, $column) {
+					return isset($model->follower) ? $model->follower->member->profile->title->message : '-';
+				},
+				'filter' => MemberProfile::getProfile(),
+			];
 			$this->templateColumns['member_search'] = [
 				'attribute' => 'member_search',
 				'value' => function($model, $key, $index, $column) {

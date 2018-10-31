@@ -28,7 +28,7 @@ class MemberViewHistory extends MemberViewHistoryModel
 	{
 		return [
 			[['id', 'view_id'], 'integer'],
-			[['view_date', 'view_ip', 'member_search', 'user_search'], 'safe'],
+			[['view_date', 'view_ip', 'profile_search', 'member_search', 'user_search'], 'safe'],
 		];
 	}
 
@@ -62,6 +62,7 @@ class MemberViewHistory extends MemberViewHistoryModel
 	{
 		$query = MemberViewHistoryModel::find()->alias('t');
 		$query->joinWith([
+			'view.member.profile.title profile',
 			'view.member member', 
 			'view.user user'
 		]);
@@ -72,6 +73,10 @@ class MemberViewHistory extends MemberViewHistoryModel
 		]);
 
 		$attributes = array_keys($this->getTableSchema()->columns);
+		$attributes['profile_search'] = [
+			'asc' => ['profile.message' => SORT_ASC],
+			'desc' => ['profile.message' => SORT_DESC],
+		];
 		$attributes['member_search'] = [
 			'asc' => ['member.displayname' => SORT_ASC],
 			'desc' => ['member.displayname' => SORT_DESC],
@@ -98,6 +103,7 @@ class MemberViewHistory extends MemberViewHistoryModel
 			't.id' => $this->id,
 			't.view_id' => isset($params['view']) ? $params['view'] : $this->view_id,
 			'cast(t.view_date as date)' => $this->view_date,
+			'member.profile_id' => isset($params['profile']) ? $params['profile'] : $this->profile_search,
 		]);
 
 		$query->andFilterWhere(['like', 't.view_ip', $this->view_ip])

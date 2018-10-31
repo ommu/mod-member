@@ -28,7 +28,7 @@ class MemberViews extends MemberViewsModel
 	{
 		return [
 			[['view_id', 'publish', 'member_id', 'user_id', 'views', 'modified_id'], 'integer'],
-			[['view_date', 'view_ip', 'modified_date', 'deleted_date', 'member_search', 'user_search', 'modified_search'], 'safe'],
+			[['view_date', 'view_ip', 'modified_date', 'deleted_date', 'member_search', 'user_search', 'modified_search', 'profile_search'], 'safe'],
 		];
 	}
 
@@ -64,7 +64,8 @@ class MemberViews extends MemberViewsModel
 		$query->joinWith([
 			'member member', 
 			'user user', 
-			'modified modified'
+			'modified modified',
+			'member.profile.title profile'
 		]);
 
 		// add conditions that should always apply here
@@ -84,6 +85,10 @@ class MemberViews extends MemberViewsModel
 		$attributes['modified_search'] = [
 			'asc' => ['modified.displayname' => SORT_ASC],
 			'desc' => ['modified.displayname' => SORT_DESC],
+		];
+		$attributes['profile_search'] = [
+			'asc' => ['profile.message' => SORT_ASC],
+			'desc' => ['profile.message' => SORT_DESC],
 		];
 		$dataProvider->setSort([
 			'attributes' => $attributes,
@@ -108,6 +113,7 @@ class MemberViews extends MemberViewsModel
 			'cast(t.modified_date as date)' => $this->modified_date,
 			't.modified_id' => isset($params['modified']) ? $params['modified'] : $this->modified_id,
 			'cast(t.deleted_date as date)' => $this->deleted_date,
+			'member.profile_id' => isset($params['profile']) ? $params['profile'] : $this->profile_search,
 		]);
 
 		if(isset($params['trash']))

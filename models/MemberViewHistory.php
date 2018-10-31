@@ -34,6 +34,7 @@ class MemberViewHistory extends \app\components\ActiveRecord
 	public $gridForbiddenColumn = [];
 
 	// Variable Search
+	public $profile_search;
 	public $member_search;
 	public $user_search;
 
@@ -77,6 +78,7 @@ class MemberViewHistory extends \app\components\ActiveRecord
 			'view_id' => Yii::t('app', 'View'),
 			'view_date' => Yii::t('app', 'View Date'),
 			'view_ip' => Yii::t('app', 'View Ip'),
+			'profile_search' => Yii::t('app', 'Profile'),
 			'member_search' => Yii::t('app', 'Member'),
 			'user_search' => Yii::t('app', 'User'),
 		];
@@ -112,6 +114,13 @@ class MemberViewHistory extends \app\components\ActiveRecord
 			'contentOptions' => ['class'=>'center'],
 		];
 		if(!Yii::$app->request->get('view')) {
+			$this->templateColumns['profile_search'] = [
+				'attribute' => 'profile_search',
+				'value' => function($model, $key, $index, $column) {
+					return isset($model->view) ? $model->view->member->profile->title->message : '-';
+				},
+				'filter' => MemberProfile::getProfile(),
+			];
 			$this->templateColumns['member_search'] = [
 				'attribute' => 'member_search',
 				'value' => function($model, $key, $index, $column) {

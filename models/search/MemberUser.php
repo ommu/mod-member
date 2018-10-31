@@ -28,7 +28,7 @@ class MemberUser extends MemberUserModel
 	{
 		return [
 			[['id', 'publish', 'member_id', 'level_id', 'user_id', 'creation_id', 'modified_id'], 'integer'],
-			[['creation_date', 'modified_date', 'updated_date', 'member_search', 'user_search', 'creation_search', 'modified_search'], 'safe'],
+			[['creation_date', 'modified_date', 'updated_date', 'member_search', 'user_search', 'creation_search', 'modified_search', 'profile_search'], 'safe'],
 		];
 	}
 
@@ -66,7 +66,8 @@ class MemberUser extends MemberUserModel
 			'level.title level', 
 			'user user', 
 			'creation creation', 
-			'modified modified'
+			'modified modified',
+			'member.profile.title profile'
 		]);
 
 		// add conditions that should always apply here
@@ -95,6 +96,10 @@ class MemberUser extends MemberUserModel
 			'asc' => ['modified.displayname' => SORT_ASC],
 			'desc' => ['modified.displayname' => SORT_DESC],
 		];
+		$attributes['profile_search'] = [
+			'asc' => ['profile.message' => SORT_ASC],
+			'desc' => ['profile.message' => SORT_DESC],
+		];
 		$dataProvider->setSort([
 			'attributes' => $attributes,
 			'defaultOrder' => ['id' => SORT_DESC],
@@ -119,6 +124,7 @@ class MemberUser extends MemberUserModel
 			'cast(t.modified_date as date)' => $this->modified_date,
 			't.modified_id' => isset($params['modified']) ? $params['modified'] : $this->modified_id,
 			'cast(t.updated_date as date)' => $this->updated_date,
+			'member.profile_id' => isset($params['profile']) ? $params['profile'] : $this->profile_search,
 		]);
 
 		if(isset($params['trash']))
