@@ -108,7 +108,7 @@ class MemberFriends extends MemberFriendsModel
 			't.id' => $this->id,
 			't.type_id' => isset($params['type']) ? $params['type'] : $this->type_id,
 			't.user_id' => isset($params['user']) ? $params['user'] : $this->user_id,
-			't.request_id' => $this->request_id,
+			't.request_id' => isset($params['request']) ? $params['request'] : $this->request_id,
 			'cast(t.request_date as date)' => $this->request_date,
 			'cast(t.modified_date as date)' => $this->modified_date,
 			't.modified_id' => isset($params['modified']) ? $params['modified'] : $this->modified_id,
