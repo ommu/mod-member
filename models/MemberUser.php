@@ -1,29 +1,32 @@
 <?php
 /**
- * MemberFollowers
+ * MemberUser
  * 
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
- * @created date 31 October 2018, 06:10 WIB
+ * @created date 31 October 2018, 13:13 WIB
  * @link https://github.com/ommu/mod-member
  *
- * This is the model class for table "ommu_member_followers".
+ * This is the model class for table "ommu_member_user".
  *
- * The followings are the available columns in table "ommu_member_followers":
+ * The followings are the available columns in table "ommu_member_user":
  * @property integer $id
  * @property integer $publish
  * @property integer $member_id
+ * @property integer $level_id
  * @property integer $user_id
  * @property string $creation_date
+ * @property integer $creation_id
  * @property string $modified_date
  * @property integer $modified_id
  * @property string $updated_date
  *
  * The followings are the available model relations:
- * @property MemberFollowerHistory[] $histories
  * @property Members $member
+ * @property MemberUserlevel $level
  * @property Users $user
+ * @property Users $creation
  * @property Users $modified
  *
  */
@@ -35,7 +38,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use ommu\users\models\Users;
 
-class MemberFollowers extends \app\components\ActiveRecord
+class MemberUser extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
@@ -44,6 +47,7 @@ class MemberFollowers extends \app\components\ActiveRecord
 	// Variable Search
 	public $member_search;
 	public $user_search;
+	public $creation_search;
 	public $modified_search;
 
 	/**
@@ -51,7 +55,7 @@ class MemberFollowers extends \app\components\ActiveRecord
 	 */
 	public static function tableName()
 	{
-		return 'ommu_member_followers';
+		return 'ommu_member_user';
 	}
 
 	/**
@@ -68,10 +72,12 @@ class MemberFollowers extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['member_id', 'user_id'], 'required'],
-			[['publish', 'member_id', 'user_id', 'modified_id'], 'integer'],
+			[['member_id', 'level_id', 'user_id'], 'required'],
+			[['publish', 'member_id', 'level_id', 'user_id', 'creation_id', 'modified_id'], 'integer'],
 			[['creation_date', 'modified_date', 'updated_date'], 'safe'],
 			[['member_id'], 'exist', 'skipOnError' => true, 'targetClass' => Members::className(), 'targetAttribute' => ['member_id' => 'member_id']],
+			[['level_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberUserlevel::className(), 'targetAttribute' => ['level_id' => 'level_id']],
+			[['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'user_id']],
 		];
 	}
 
@@ -82,25 +88,20 @@ class MemberFollowers extends \app\components\ActiveRecord
 	{
 		return [
 			'id' => Yii::t('app', 'ID'),
-			'publish' => Yii::t('app', 'Follow'),
+			'publish' => Yii::t('app', 'Active'),
 			'member_id' => Yii::t('app', 'Member'),
+			'level_id' => Yii::t('app', 'Level'),
 			'user_id' => Yii::t('app', 'User'),
 			'creation_date' => Yii::t('app', 'Creation Date'),
+			'creation_id' => Yii::t('app', 'Creation'),
 			'modified_date' => Yii::t('app', 'Modified Date'),
 			'modified_id' => Yii::t('app', 'Modified'),
 			'updated_date' => Yii::t('app', 'Updated Date'),
 			'member_search' => Yii::t('app', 'Member'),
 			'user_search' => Yii::t('app', 'User'),
+			'creation_search' => Yii::t('app', 'Creation'),
 			'modified_search' => Yii::t('app', 'Modified'),
 		];
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getHistories()
-	{
-		return $this->hasMany(MemberFollowerHistory::className(), ['follower_id' => 'id']);
 	}
 
 	/**
@@ -114,9 +115,25 @@ class MemberFollowers extends \app\components\ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
+	public function getLevel()
+	{
+		return $this->hasOne(MemberUserlevel::className(), ['level_id' => 'level_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
 	public function getUser()
 	{
 		return $this->hasOne(Users::className(), ['user_id' => 'user_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getCreation()
+	{
+		return $this->hasOne(Users::className(), ['user_id' => 'creation_id']);
 	}
 
 	/**
@@ -129,11 +146,11 @@ class MemberFollowers extends \app\components\ActiveRecord
 
 	/**
 	 * @inheritdoc
-	 * @return \ommu\member\models\query\MemberFollowers the active query used by this AR class.
+	 * @return \ommu\member\models\query\MemberUser the active query used by this AR class.
 	 */
 	public static function find()
 	{
-		return new \ommu\member\models\query\MemberFollowers(get_called_class());
+		return new \ommu\member\models\query\MemberUser(get_called_class());
 	}
 
 	/**
@@ -156,6 +173,15 @@ class MemberFollowers extends \app\components\ActiveRecord
 				},
 			];
 		}
+		if(!Yii::$app->request->get('level')) {
+			$this->templateColumns['level_id'] = [
+				'attribute' => 'level_id',
+				'value' => function($model, $key, $index, $column) {
+					return isset($model->level) ? $model->level->title->message : '-';
+				},
+				'filter' => MemberUserlevel::getUserlevel(),
+			];
+		}
 		if(!Yii::$app->request->get('user')) {
 			$this->templateColumns['user_search'] = [
 				'attribute' => 'user_search',
@@ -172,6 +198,14 @@ class MemberFollowers extends \app\components\ActiveRecord
 			'filter' => $this->filterDatepicker($this, 'creation_date'),
 			'format' => 'html',
 		];
+		if(!Yii::$app->request->get('creation')) {
+			$this->templateColumns['creation_search'] = [
+				'attribute' => 'creation_search',
+				'value' => function($model, $key, $index, $column) {
+					return isset($model->creation) ? $model->creation->displayname : '-';
+				},
+			];
+		}
 		$this->templateColumns['modified_date'] = [
 			'attribute' => 'modified_date',
 			'value' => function($model, $key, $index, $column) {
@@ -202,7 +236,7 @@ class MemberFollowers extends \app\components\ActiveRecord
 				'filter' => $this->filterYesNo(),
 				'value' => function($model, $key, $index, $column) {
 					$url = Url::to(['publish', 'id'=>$model->primaryKey]);
-					return $this->quickAction($url, $model->publish, 'Follow,Unfollow');
+					return $this->quickAction($url, $model->publish, 'Active,Deactive');
 				},
 				'contentOptions' => ['class'=>'center'],
 				'format' => 'raw',
@@ -234,7 +268,9 @@ class MemberFollowers extends \app\components\ActiveRecord
 	public function beforeValidate()
 	{
 		if(parent::beforeValidate()) {
-			if(!$this->isNewRecord)
+			if($this->isNewRecord)
+				$this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+			else
 				$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
 		}
 		return true;

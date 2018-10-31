@@ -37,7 +37,7 @@ $this->params['menu']['content'] = [
 		'id',
 		[
 			'attribute' => 'publish',
-			'value' => $model->publish ? Yii::t('app', 'Yes') : Yii::t('app', 'No'),
+			'value' => $model->publish ? Yii::t('app', 'Follow') : Yii::t('app', 'Unfollow'),
 		],
 		[
 			'attribute' => 'member_search',

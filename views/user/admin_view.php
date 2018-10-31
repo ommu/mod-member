@@ -1,14 +1,14 @@
 <?php
 /**
- * Member Followers (member-followers)
+ * Member Users (member-user)
  * @var $this yii\web\View
- * @var $this ommu\member\controllers\FollowerController
- * @var $model ommu\member\models\MemberFollowers
+ * @var $this ommu\member\controllers\UserController
+ * @var $model ommu\member\models\MemberUser
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
- * @created date 31 October 2018, 07:02 WIB
+ * @created date 31 October 2018, 13:38 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -17,7 +17,7 @@ use Yii;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Followers'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->member->displayname;
 
 $this->params['menu']['content'] = [
@@ -27,7 +27,7 @@ $this->params['menu']['content'] = [
 ];
 ?>
 
-<div class="member-followers-view">
+<div class="member-user-view">
 
 <?php echo DetailView::widget([
 	'model' => $model,
@@ -38,12 +38,16 @@ $this->params['menu']['content'] = [
 		'id',
 		[
 			'attribute' => 'publish',
-			'value' => $this->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish, 'Follow,Unfollow'),
+			'value' => $this->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish, 'Active,Deactive'),
 			'format' => 'raw',
 		],
 		[
 			'attribute' => 'member_search',
 			'value' => isset($model->member) ? $model->member->displayname : '-',
+		],
+		[
+			'attribute' => 'level_id',
+			'value' => isset($model->level) ? $model->level->title->message : '-',
 		],
 		[
 			'attribute' => 'user_search',
@@ -52,6 +56,10 @@ $this->params['menu']['content'] = [
 		[
 			'attribute' => 'creation_date',
 			'value' => !in_array($model->creation_date, ['0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00']) ? Yii::$app->formatter->format($model->creation_date, 'datetime') : '-',
+		],
+		[
+			'attribute' => 'creation_search',
+			'value' => isset($model->creation) ? $model->creation->displayname : '-',
 		],
 		[
 			'attribute' => 'modified_date',
