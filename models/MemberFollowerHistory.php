@@ -128,13 +128,13 @@ class MemberFollowerHistory extends \app\components\ActiveRecord
 			$this->templateColumns['member_search'] = [
 				'attribute' => 'member_search',
 				'value' => function($model, $key, $index, $column) {
-					return isset($model->member) ? $model->follower->member->displayname : '-';
+					return isset($model->follower) ? $model->follower->member->displayname : '-';
 				},
 			];
 			$this->templateColumns['user_search'] = [
 				'attribute' => 'user_search',
 				'value' => function($model, $key, $index, $column) {
-					return isset($model->user) ? $model->follower->user->displayname : '-';
+					return isset($model->follower) ? $model->follower->user->displayname : '-';
 				},
 			];
 		}
