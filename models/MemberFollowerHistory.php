@@ -160,7 +160,7 @@ class MemberFollowerHistory extends \app\components\ActiveRecord
 				'filter' => $this->filterYesNo(),
 				'value' => function($model, $key, $index, $column) {
 					$url = Url::to(['publish', 'id'=>$model->primaryKey]);
-					return $this->quickAction($url, $model->publish);
+					return $this->filterYesNo($model->publish);
 				},
 				'contentOptions' => ['class'=>'center'],
 				'format' => 'raw',
