@@ -64,7 +64,7 @@ class MemberHistoryDisplayname extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['member_id', 'displayname', 'updated_id'], 'required'],
+			[['member_id', 'displayname'], 'required'],
 			[['member_id', 'updated_id'], 'integer'],
 			[['updated_date'], 'safe'],
 			[['displayname'], 'string', 'max' => 64],

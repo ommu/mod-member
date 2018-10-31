@@ -59,9 +59,9 @@ class MemberViewHistory extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['view_id', 'view_ip'], 'required'],
+			[['view_id'], 'required'],
 			[['view_id'], 'integer'],
-			[['view_date'], 'safe'],
+			[['view_date', 'view_ip'], 'safe'],
 			[['view_ip'], 'string', 'max' => 20],
 			[['view_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberViews::className(), 'targetAttribute' => ['view_id' => 'view_id']],
 		];
