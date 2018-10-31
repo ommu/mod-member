@@ -39,7 +39,7 @@ class MemberFriends extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
-	public $gridForbiddenColumn = [];
+	public $gridForbiddenColumn = ['modified_date','modified_search'];
 
 	// Variable Search
 	public $user_search;
