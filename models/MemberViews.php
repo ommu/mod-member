@@ -70,9 +70,9 @@ class MemberViews extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['member_id', 'user_id'], 'required'],
+			[['member_id'], 'required'],
 			[['publish', 'member_id', 'user_id', 'views', 'modified_id'], 'integer'],
-			[['view_date', 'modified_date', 'deleted_date'], 'safe'],
+			[['user_id', 'view_date', 'modified_date', 'deleted_date'], 'safe'],
 			[['view_ip'], 'string', 'max' => 20],
 			[['member_id'], 'exist', 'skipOnError' => true, 'targetClass' => Members::className(), 'targetAttribute' => ['member_id' => 'member_id']],
 		];
@@ -242,6 +242,31 @@ class MemberViews extends \app\components\ActiveRecord
 		} else {
 			$model = self::findOne($id);
 			return $model;
+		}
+	}
+
+	public function insertView($member_id)
+	{
+		$user_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+		
+		$model = self::find()
+			->select(['view_id','views'])
+			->where(['publish' => 1])
+			->andWhere(['member_id' => $member_id]);
+		if($user_id != null)
+			$model->andWhere(['user_id' => $user_id]);
+		else
+			$model->andWhere(['is', 'user_id', null]);
+		$model = $model->one();
+			
+		if($model !== null)
+			$model->updateAttributes(['views'=>$model->views+1, 'view_ip'=>$_SERVER['REMOTE_ADDR']]);
+
+		else {
+			$view = new MemberViews();
+			$view->member_id = $member_id;
+			$view->member_id = $user_id;
+			$view->save();
 		}
 	}
 
