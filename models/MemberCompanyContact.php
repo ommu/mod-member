@@ -50,6 +50,7 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 	public $verified_search;
 	public $creation_search;
 	public $modified_search;
+	public $profile_search;
 	public $member_search;
 
 	/**
@@ -105,6 +106,7 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 			'creation_search' => Yii::t('app', 'Creation'),
 			'verified_search' => Yii::t('app', 'Verified'),
 			'modified_search' => Yii::t('app', 'Modified'),
+			'profile_search' => Yii::t('app', 'Profile'),
 			'member_search' => Yii::t('app', 'Member'),
 		];
 	}
@@ -176,6 +178,13 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->memberCompany) ? $model->memberCompany->member->displayname : '-';
 				},
+			];
+			$this->templateColumns['profile_search'] = [
+				'attribute' => 'profile_search',
+				'value' => function($model, $key, $index, $column) {
+					return isset($model->memberCompany) ? $model->memberCompany->member->profile->title->message : '-';
+				},
+				'filter' => MemberProfile::getProfile(),
 			];
 		}
 		if(!Yii::$app->request->get('contact')) {
