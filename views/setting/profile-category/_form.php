@@ -18,7 +18,6 @@
 use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use ommu\member\models\MemberProfile;
 use ommu\member\models\MemberProfileCategory;
 ?>
 
@@ -36,12 +35,7 @@ use ommu\member\models\MemberProfileCategory;
 
 <?php //echo $form->errorSummary($model);?>
 
-<?php $profile = MemberProfile::getProfile();
-echo $form->field($model, 'profile_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->dropDownList($profile, ['prompt'=>''])
-	->label($model->getAttributeLabel('profile_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
-
-<?php $parent = MemberProfileCategory::getCategory();
+<?php $parent = MemberProfileCategory::getCategory($profile, 1);
 echo $form->field($model, 'parent_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
 	->dropDownList($parent, ['prompt'=>''])
 	->label($model->getAttributeLabel('parent_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>

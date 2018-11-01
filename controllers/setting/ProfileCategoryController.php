@@ -88,10 +88,16 @@ class ProfileCategoryController extends Controller
 	 */
 	public function actionCreate()
 	{
+		$profile = Yii::$app->request->get('profile');
+		if(!$profile)
+			throw new \yii\web\NotAcceptableHttpException(Yii::t('app', 'The requested page does not exist.'));
+
 		$model = new MemberProfileCategory();
 
 		if(Yii::$app->request->isPost) {
 			$model->load(Yii::$app->request->post());
+			$model->profile_id = $profile;
+
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success created.'));
 				return $this->redirect(['index']);
@@ -104,6 +110,7 @@ class ProfileCategoryController extends Controller
 		$this->view->keywords = '';
 		return $this->render('admin_create', [
 			'model' => $model,
+			'profile' => $profile,
 		]);
 	}
 
@@ -131,6 +138,7 @@ class ProfileCategoryController extends Controller
 		$this->view->keywords = '';
 		return $this->render('admin_update', [
 			'model' => $model,
+			'profile' => $model->profile_id,
 		]);
 	}
 

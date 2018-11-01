@@ -192,6 +192,7 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 			'value' => function($model, $key, $index, $column) {
 				return isset($model->parent) ? $model->parent->title->message : '-';
 			},
+			'filter' => false,
 			//'filter' => self::getCategory(),
 		];
 		$this->templateColumns['cat_name_i'] = [
@@ -281,14 +282,14 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 	/**
 	 * function getCategory
 	 */
-	public static function getCategory($profile=null, $publish=null, $array=true) 
+	public static function getCategory($profile=null, $publish=null, $array=true)
 	{
 		$model = self::find()->alias('t');
 		$model->leftJoin(sprintf('%s title', SourceMessage::tableName()), 't.cat_name=title.id');
 		if($publish != null)
 			$model->andWhere(['t.publish' => $publish]);
 		if($profile != null)
-			$model->andWhere(['t.parent_id' => $profile]);
+			$model->andWhere(['t.profile_id' => $profile]);
 
 		$model = $model->orderBy('title.message ASC')->all();
 
