@@ -18,6 +18,7 @@ use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use ommu\member\models\MemberUserlevel;
+use ommu\member\models\MemberProfile;
 ?>
 
 <div class="member-user-search search-form">
@@ -29,6 +30,10 @@ use ommu\member\models\MemberUserlevel;
 			'data-pjax' => 1
 		],
 	]); ?>
+
+		<?php $profile = MemberProfile::getProfile();
+		echo $form->field($model, 'profile_search')
+			->dropDownList($profile, ['prompt'=>'']);?>
 
 		<?php echo $form->field($model, 'member_search');?>
 

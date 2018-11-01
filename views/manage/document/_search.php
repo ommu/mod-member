@@ -31,11 +31,11 @@ use ommu\member\models\MemberDocumentType;
 		],
 	]); ?>
 
-		<?php echo $form->field($model, 'member_search');?>
-
 		<?php $profile = MemberProfile::getProfile();
 		echo $form->field($model, 'profile_search')
 			->dropDownList($profile, ['prompt'=>'']);?>
+
+		<?php echo $form->field($model, 'member_search');?>
 
 		<?php $document = MemberDocumentType::getType();
 		echo $form->field($model, 'document_search')

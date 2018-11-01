@@ -87,13 +87,19 @@ class FollowerController extends Controller
 	 */
 	public function actionCreate()
 	{
+		$member = Yii::$app->request->get('member');
+		if(!$member)
+			throw new \yii\web\NotAcceptableHttpException(Yii::t('app', 'The requested page does not exist.'));
+
 		$model = new MemberFollowers();
 
 		if(Yii::$app->request->isPost) {
 			$model->load(Yii::$app->request->post());
+			$model->member_id = $member;
+
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member follower success created.'));
-				return $this->redirect(['index']);
+				return $this->redirect(['index', 'member'=>$model->member_id]);
 				//return $this->redirect(['view', 'id' => $model->id]);
 			} 
 		}
@@ -120,7 +126,7 @@ class FollowerController extends Controller
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member follower success updated.'));
-				return $this->redirect(['index']);
+				return $this->redirect(['index', 'member'=>$model->member_id]);
 				//return $this->redirect(['view', 'id' => $model->id]);
 			}
 		}
@@ -163,7 +169,7 @@ class FollowerController extends Controller
 
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member follower success deleted.'));
-			return $this->redirect(['index']);
+			return $this->redirect(['index', 'member'=>$model->member_id]);
 			//return $this->redirect(['view', 'id' => $model->id]);
 		}
 	}
@@ -182,7 +188,7 @@ class FollowerController extends Controller
 
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member follower success updated.'));
-			return $this->redirect(['index']);
+			return $this->redirect(['index', 'member'=>$model->member_id]);
 		}
 	}
 

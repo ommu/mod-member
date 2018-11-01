@@ -34,10 +34,6 @@ use ommu\member\models\MemberUserlevel;
 
 <?php //echo $form->errorSummary($model);?>
 
-<?php echo $form->field($model, 'member_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->textInput(['type'=>'number', 'min'=>'1'])
-	->label($model->getAttributeLabel('member_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
-
 <?php $level = MemberUserlevel::getUserlevel();
 echo $form->field($model, 'level_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
 	->dropDownList($level, ['prompt'=>''])
