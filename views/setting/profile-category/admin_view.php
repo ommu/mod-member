@@ -42,10 +42,13 @@ $this->params['menu']['content'] = [
 			'value' => $this->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish, 'Enable,Disable'),
 			'format' => 'raw',
 		],
-		'parent_id',
 		[
 			'attribute' => 'profile_id',
 			'value' => isset($model->profile) ? $model->profile->title->message : '-',
+		],
+		[
+			'attribute' => 'parent_id',
+			'value' => isset($model->parent) ? $model->parent->title->message : '-',
 		],
 		[
 			'attribute' => 'cat_name_i',

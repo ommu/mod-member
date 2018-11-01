@@ -63,6 +63,7 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 	{
 		$query = MemberProfileCategoryModel::find()->alias('t');
 		$query->joinWith([
+			'parent.title parent', 
 			'title title', 
 			'description description', 
 			'profile.title profile', 
@@ -76,6 +77,10 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 		]);
 
 		$attributes = array_keys($this->getTableSchema()->columns);
+		$attributes['parent_id'] = [
+			'asc' => ['parent.message' => SORT_ASC],
+			'desc' => ['parent.message' => SORT_DESC],
+		];
 		$attributes['cat_name_i'] = [
 			'asc' => ['title.message' => SORT_ASC],
 			'desc' => ['title.message' => SORT_DESC],
@@ -112,7 +117,7 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 		// grid filtering conditions
 		$query->andFilterWhere([
 			't.cat_id' => $this->cat_id,
-			't.parent_id' => $this->parent_id,
+			't.parent_id' => isset($params['parent']) ? $params['parent'] : $this->parent_id,
 			't.profile_id' => isset($params['profile']) ? $params['profile'] : $this->profile_id,
 			't.cat_name' => $this->cat_name,
 			't.cat_desc' => $this->cat_desc,

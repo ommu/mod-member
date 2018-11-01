@@ -112,6 +112,14 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
+	public function getParent()
+	{
+		return $this->hasOne(MemberProfileCategory::className(), ['cat_id' => 'parent_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
 	public function getProfile()
 	{
 		return $this->hasOne(MemberProfile::className(), ['profile_id' => 'profile_id']);
@@ -170,12 +178,6 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 			'class'  => 'yii\grid\SerialColumn',
 			'contentOptions' => ['class'=>'center'],
 		];
-		$this->templateColumns['parent_id'] = [
-			'attribute' => 'parent_id',
-			'value' => function($model, $key, $index, $column) {
-				return $model->parent_id;
-			},
-		];
 		if(!Yii::$app->request->get('profile')) {
 			$this->templateColumns['profile_id'] = [
 				'attribute' => 'profile_id',
@@ -185,6 +187,13 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 				'filter' => MemberProfile::getProfile(),
 			];
 		}
+		$this->templateColumns['parent_id'] = [
+			'attribute' => 'parent_id',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->parent) ? $model->parent->title->message : '-';
+			},
+			//'filter' => MemberProfileCategory::getCategory(),
+		];
 		$this->templateColumns['cat_name_i'] = [
 			'attribute' => 'cat_name_i',
 			'value' => function($model, $key, $index, $column) {
