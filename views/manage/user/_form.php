@@ -38,9 +38,9 @@ use ommu\member\models\MemberUserlevel;
 	->textInput(['type'=>'number', 'min'=>'1'])
 	->label($model->getAttributeLabel('member_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
-<?php $level_id = MemberUserlevel::getUserlevel();
+<?php $level = MemberUserlevel::getUserlevel();
 echo $form->field($model, 'level_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->dropDownList($level_id, ['prompt'=>''])
+	->dropDownList($level, ['prompt'=>''])
 	->label($model->getAttributeLabel('level_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'user_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])

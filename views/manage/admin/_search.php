@@ -30,9 +30,9 @@ use ommu\member\models\MemberProfile;
 		],
 	]); ?>
 
-		<?php $profile_id = MemberProfile::getProfile();
+		<?php $profile = MemberProfile::getProfile();
 		echo $form->field($model, 'profile_id')
-			->dropDownList($profile_id, ['prompt'=>'']);?>
+			->dropDownList($profile, ['prompt'=>'']);?>
 
 		<?php echo $form->field($model, 'username');?>
 

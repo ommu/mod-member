@@ -32,13 +32,13 @@ use ommu\member\models\MemberDocumentType;
 		],
 	]); ?>
 
-		<?php $profile_id = MemberProfile::getProfile();
+		<?php $profile = MemberProfile::getProfile();
 		echo $form->field($model, 'profile_id')
-			->dropDownList($profile_id, ['prompt'=>'']);?>
+			->dropDownList($profile, ['prompt'=>'']);?>
 
-		<?php $document_id = MemberDocumentType::getType();
+		<?php $document = MemberDocumentType::getType();
 		echo $form->field($model, 'document_id')
-			->dropDownList($document_id, ['prompt'=>'']);?>
+			->dropDownList($document, ['prompt'=>'']);?>
 
 		<?php echo $form->field($model, 'creation_date')
 			->input('date');?>

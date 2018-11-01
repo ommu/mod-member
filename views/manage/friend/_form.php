@@ -34,9 +34,9 @@ use ommu\member\models\MemberFriendType;
 
 <?php //echo $form->errorSummary($model);?>
 
-<?php $type_id = MemberFriendType::getType();
+<?php $type = MemberFriendType::getType();
 echo $form->field($model, 'type_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->dropDownList($type_id, ['prompt'=>''])
+	->dropDownList($type, ['prompt'=>''])
 	->label($model->getAttributeLabel('type_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'user_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])

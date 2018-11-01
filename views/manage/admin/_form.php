@@ -36,9 +36,9 @@ use ommu\member\models\MemberProfile;
 
 <?php //echo $form->errorSummary($model);?>
 
-<?php $profile_id = MemberProfile::getProfile();
+<?php $profile = MemberProfile::getProfile();
 echo $form->field($model, 'profile_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->dropDownList($profile_id, ['prompt'=>''])
+	->dropDownList($profile, ['prompt'=>''])
 	->label($model->getAttributeLabel('profile_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'username', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])

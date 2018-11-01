@@ -312,7 +312,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 					)));
 				}
 			} else {
-				if($this->isNewRecord)
+				if($this->isNewRecord || (!$this->isNewRecord && $this->old_document_filename_i == ''))
 					$this->addError('document_filename', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}'=>$this->getAttributeLabel('document_filename'))));
 			}
 

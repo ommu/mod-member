@@ -33,13 +33,13 @@ use ommu\member\models\MemberDocumentType;
 
 		<?php echo $form->field($model, 'member_search');?>
 
-		<?php $profile_search = MemberProfile::getProfile();
+		<?php $profile = MemberProfile::getProfile();
 		echo $form->field($model, 'profile_search')
-			->dropDownList($profile_search, ['prompt'=>'']);?>
+			->dropDownList($profile, ['prompt'=>'']);?>
 
-		<?php $document_search = MemberDocumentType::getType();
+		<?php $document = MemberDocumentType::getType();
 		echo $form->field($model, 'document_search')
-			->dropDownList($document_search, ['prompt'=>'']);?>
+			->dropDownList($document, ['prompt'=>'']);?>
 
 		<?php echo $form->field($model, 'document_filename');?>
 

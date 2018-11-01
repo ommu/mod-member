@@ -38,9 +38,9 @@ use ommu\member\models\MemberProfileCategory;
 	->textInput(['type'=>'number', 'min'=>'1'])
 	->label($model->getAttributeLabel('member_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
-<?php $profile_cat_id = MemberProfileCategory::getCategory();
+<?php $profileCategory = MemberProfileCategory::getCategory();
 echo $form->field($model, 'profile_cat_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->dropDownList($profile_cat_id, ['prompt'=>''])
+	->dropDownList($profileCategory, ['prompt'=>''])
 	->label($model->getAttributeLabel('profile_cat_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'publish', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])

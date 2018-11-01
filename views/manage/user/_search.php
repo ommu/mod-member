@@ -32,9 +32,9 @@ use ommu\member\models\MemberUserlevel;
 
 		<?php echo $form->field($model, 'member_search');?>
 
-		<?php $level_id = MemberUserlevel::getUserlevel();
+		<?php $level = MemberUserlevel::getUserlevel();
 		echo $form->field($model, 'level_id')
-			->dropDownList($level_id, ['prompt'=>'']);?>
+			->dropDownList($level, ['prompt'=>'']);?>
 
 		<?php echo $form->field($model, 'user_search');?>
 

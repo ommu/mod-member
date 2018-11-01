@@ -30,9 +30,9 @@ use ommu\member\models\MemberFriendType;
 		],
 	]); ?>
 
-		<?php $type_id = MemberFriendType::getType();
+		<?php $type = MemberFriendType::getType();
 		echo $form->field($model, 'type_id')
-			->dropDownList($type_id, ['prompt'=>'']);?>
+			->dropDownList($type, ['prompt'=>'']);?>
 
 		<?php echo $form->field($model, 'st_user_search');?>
 

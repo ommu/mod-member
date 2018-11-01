@@ -44,6 +44,8 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 	use \ommu\traits\UtilityTrait;
 
 	public $gridForbiddenColumn = ['modified_date','modified_search','updated_date'];
+	public $document_name_i;
+	public $document_desc_i;
 
 	// Variable Search
 	public $creation_search;
@@ -97,6 +99,8 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 			'updated_date' => Yii::t('app', 'Updated Date'),
 			'creation_search' => Yii::t('app', 'Creation'),
 			'modified_search' => Yii::t('app', 'Modified'),
+			'document_name_i' => Yii::t('app', 'Document Name'),
+			'document_desc_i' => Yii::t('app', 'Document Desc'),
 		];
 	}
 
@@ -257,6 +261,15 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 			$model = self::findOne($id);
 			return $model;
 		}
+	}
+
+	/**
+	 * after find attributes
+	 */
+	public function afterFind()
+	{
+		$this->document_name_i = isset($this->document->title) ? $this->document->title->message : '';
+		$this->document_desc_i = isset($this->document->description) ? $this->document->description->message : '';
 	}
 
 	/**
