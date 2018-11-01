@@ -30,7 +30,6 @@ namespace ommu\member\controllers\setting;
 
 use Yii;
 use yii\filters\VerbFilter;
-use yii\web\NotFoundHttpException;
 use app\components\Controller;
 use ommu\member\models\MemberProfileCategory;
 use ommu\member\models\search\MemberProfileCategory as MemberProfileCategorySearch;
@@ -200,6 +199,6 @@ class ProfileCategoryController extends Controller
 		if(($model = MemberProfileCategory::findOne($id)) !== null) 
 			return $model;
 		else
-			throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+			throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}
 }

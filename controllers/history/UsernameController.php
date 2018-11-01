@@ -25,7 +25,6 @@ namespace ommu\member\controllers\history;
 
 use Yii;
 use yii\filters\VerbFilter;
-use yii\web\NotFoundHttpException;
 use app\components\Controller;
 use ommu\member\models\MemberHistoryUsername;
 use ommu\member\models\search\MemberHistoryUsername as MemberHistoryUsernameSearch;
@@ -120,6 +119,6 @@ class UsernameController extends Controller
 			return $model;
 		}
 
-		throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}
 }

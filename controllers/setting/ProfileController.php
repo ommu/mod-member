@@ -29,7 +29,6 @@ namespace ommu\member\controllers\setting;
 
 use Yii;
 use yii\filters\VerbFilter;
-use yii\web\NotFoundHttpException;
 use app\components\Controller;
 use ommu\member\models\MemberProfile;
 use ommu\member\models\search\MemberProfile as MemberProfileSearch;
@@ -199,6 +198,6 @@ class ProfileController extends Controller
 		if(($model = MemberProfile::findOne($id)) !== null) 
 			return $model;
 		else
-			throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+			throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}
 }
