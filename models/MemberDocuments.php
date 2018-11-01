@@ -44,13 +44,14 @@ class MemberDocuments extends \app\components\ActiveRecord
 	use \ommu\traits\UtilityTrait;
 	use \ommu\traits\FileTrait;
 
-	public $gridForbiddenColumn = [];
+	public $gridForbiddenColumn = ['modified_date','modified_search','updated_date'];
 	public $old_document_filename_i;
 
 	// Variable Search
 	public $member_search;
 	public $creation_search;
 	public $modified_search;
+	public $profile_search;
 	public $document_search;
 
 	/**
@@ -105,6 +106,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 			'member_search' => Yii::t('app', 'Member'),
 			'creation_search' => Yii::t('app', 'Creation'),
 			'modified_search' => Yii::t('app', 'Modified'),
+			'profile_search' => Yii::t('app', 'Profile'),
 			'document_search' => Yii::t('app', 'Document'),
 		];
 	}
@@ -120,7 +122,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getDocument()
+	public function getProfileDocument()
 	{
 		return $this->hasOne(MemberProfileDocument::className(), ['id' => 'profile_document_id']);
 	}
@@ -169,13 +171,21 @@ class MemberDocuments extends \app\components\ActiveRecord
 					return isset($model->member) ? $model->member->displayname : '-';
 				},
 			];
+			$this->templateColumns['profile_search'] = [
+				'attribute' => 'profile_search',
+				'value' => function($model, $key, $index, $column) {
+					return isset($model->member) ? $model->member->profile->title->message : '-';
+				},
+				'filter' => MemberProfile::getProfile(),
+			];
 		}
 		if(!Yii::$app->request->get('document')) {
 			$this->templateColumns['document_search'] = [
 				'attribute' => 'document_search',
 				'value' => function($model, $key, $index, $column) {
-					return isset($model->document) ? $model->document->title->message : '-';
+					return isset($model->profileDocument) ? $model->profileDocument->document->title->message : '-';
 				},
+				'filter' => MemberDocumentType::getType(),
 			];
 		}
 		$this->templateColumns['document_filename'] = [
