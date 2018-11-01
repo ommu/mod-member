@@ -37,9 +37,9 @@ use ommu\member\models\MemberProfile;
 
 		<?php echo $form->field($model, 'member_search');?>
 
-		<?php $contact = MemberContactCategory::getCategory();
+		<?php $category = MemberContactCategory::getCategory();
 		echo $form->field($model, 'contact_cat_id')
-			->dropDownList($contact, ['prompt'=>'']);?>
+			->dropDownList($category, ['prompt'=>'']);?>
 
 		<?php echo $form->field($model, 'contact_value');?>
 

@@ -56,7 +56,7 @@ $this->params['menu']['content'] = [
 		],
 		[
 			'attribute' => 'contact_cat_id',
-			'value' => isset($model->contact) ? $model->contact->title->message : '-',
+			'value' => isset($model->category) ? $model->category->title->message : '-',
 		],
 		[
 			'attribute' => 'contact_value',

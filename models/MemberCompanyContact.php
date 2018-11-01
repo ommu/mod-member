@@ -26,7 +26,7 @@
  * @property string $updated_date
  *
  * The followings are the available model relations:
- * @property MemberContactCategory $contact
+ * @property MemberContactCategory $category
  * @property MemberCompany $memberCompany
  * @property Users $creation
  * @property Users $modified
@@ -44,7 +44,7 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
-	public $gridForbiddenColumn = [];
+	public $gridForbiddenColumn = ['verified_search','creation_date','creation_search','modified_date','modified_search','updated_date'];
 
 	// Variable Search
 	public $verified_search;
@@ -94,8 +94,8 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 			'publish' => Yii::t('app', 'Publish'),
 			'status' => Yii::t('app', 'Status'),
 			'member_company_id' => Yii::t('app', 'Member Company'),
-			'contact_cat_id' => Yii::t('app', 'Contact Cat'),
-			'contact_value' => Yii::t('app', 'Contact Value'),
+			'contact_cat_id' => Yii::t('app', 'Category'),
+			'contact_value' => Yii::t('app', 'Contact'),
 			'verified_date' => Yii::t('app', 'Verified Date'),
 			'verified_id' => Yii::t('app', 'Verified'),
 			'creation_date' => Yii::t('app', 'Creation Date'),
@@ -114,7 +114,7 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getContact()
+	public function getCategory()
 	{
 		return $this->hasOne(MemberContactCategory::className(), ['cat_id' => 'contact_cat_id']);
 	}
@@ -187,11 +187,11 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 				'filter' => MemberProfile::getProfile(),
 			];
 		}
-		if(!Yii::$app->request->get('contact')) {
+		if(!Yii::$app->request->get('category')) {
 			$this->templateColumns['contact_cat_id'] = [
 				'attribute' => 'contact_cat_id',
 				'value' => function($model, $key, $index, $column) {
-					return isset($model->contact) ? $model->contact->title->message : '-';
+					return isset($model->category) ? $model->category->title->message : '-';
 				},
 				'filter' => MemberContactCategory::getCategory(),
 			];

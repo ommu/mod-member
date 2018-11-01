@@ -38,9 +38,9 @@ use ommu\member\models\MemberContactCategory;
 	->textInput(['type'=>'number', 'min'=>'1'])
 	->label($model->getAttributeLabel('member_company_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
-<?php $contact = MemberContactCategory::getCategory();
+<?php $category = MemberContactCategory::getCategory();
 echo $form->field($model, 'contact_cat_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->dropDownList($contact, ['prompt'=>''])
+	->dropDownList($category, ['prompt'=>''])
 	->label($model->getAttributeLabel('contact_cat_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'contact_value', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
