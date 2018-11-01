@@ -18,7 +18,7 @@ use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Friend Histories'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $model->type->title->message;
+$this->params['breadcrumbs'][] = $model->friend->request->displayname;
 
 $this->params['menu']['content'] = [
 	['label' => Yii::t('app', 'Back To Manage'), 'url' => Url::to(['index']), 'icon' => 'table'],
