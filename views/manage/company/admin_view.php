@@ -37,11 +37,6 @@ $this->params['menu']['content'] = [
 	'attributes' => [
 		'id',
 		[
-			'attribute' => 'publish',
-			'value' => $this->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish),
-			'format' => 'raw',
-		],
-		[
 			'attribute' => 'member_search',
 			'value' => isset($model->member) ? $model->member->displayname : '-',
 		],

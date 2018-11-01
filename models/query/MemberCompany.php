@@ -26,22 +26,6 @@ class MemberCompany extends \yii\db\ActiveQuery
 
 	/**
 	 * @inheritdoc
-	 */
-	public function published() 
-	{
-		return $this->andWhere(['publish' => 1]);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function unpublish() 
-	{
-		return $this->andWhere(['publish' => 0]);
-	}
-
-	/**
-	 * @inheritdoc
 	 * @return \ommu\member\models\MemberCompany[]|array
 	 */
 	public function all($db = null)

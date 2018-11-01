@@ -74,9 +74,6 @@ use ommu\member\models\MemberProfileCategory;
 		<?php echo $form->field($model, 'updated_date')
 			->input('date');?>
 
-		<?php echo $form->field($model, 'publish')
-			->dropDownList($this->filterYesNo(), ['prompt'=>'']);?>
-
 		<div class="form-group">
 			<?php echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
 			<?php echo Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>

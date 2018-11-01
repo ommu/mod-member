@@ -12,7 +12,6 @@
  *
  * The followings are the available columns in table "ommu_member_company":
  * @property integer $id
- * @property integer $publish
  * @property integer $member_id
  * @property integer $company_id
  * @property integer $company_type_id
@@ -86,7 +85,7 @@ class MemberCompany extends \app\components\ActiveRecord
 	{
 		return [
 			[['member_id', 'company_id', 'company_type_id', 'company_cat_id', 'info_intro', 'info_article', 'company_address', 'company_country_id', 'company_province_id', 'company_city_id', 'company_district', 'company_village', 'company_zipcode'], 'required'],
-			[['publish', 'member_id', 'company_id', 'company_type_id', 'company_cat_id', 'company_country_id', 'company_province_id', 'company_city_id', 'company_zipcode', 'creation_id', 'modified_id'], 'integer'],
+			[['member_id', 'company_id', 'company_type_id', 'company_cat_id', 'company_country_id', 'company_province_id', 'company_city_id', 'company_zipcode', 'creation_id', 'modified_id'], 'integer'],
 			[['info_intro', 'info_article', 'company_address'], 'string'],
 			[['creation_date', 'modified_date', 'updated_date'], 'safe'],
 			[['company_district', 'company_village'], 'string', 'max' => 64],
@@ -104,7 +103,6 @@ class MemberCompany extends \app\components\ActiveRecord
 	{
 		return [
 			'id' => Yii::t('app', 'ID'),
-			'publish' => Yii::t('app', 'Publish'),
 			'member_id' => Yii::t('app', 'Member'),
 			'company_id' => Yii::t('app', 'Company'),
 			'company_type_id' => Yii::t('app', 'Company Type'),
@@ -343,18 +341,6 @@ class MemberCompany extends \app\components\ActiveRecord
 			'filter' => $this->filterDatepicker($this, 'updated_date'),
 			'format' => 'html',
 		];
-		if(!Yii::$app->request->get('trash')) {
-			$this->templateColumns['publish'] = [
-				'attribute' => 'publish',
-				'filter' => $this->filterYesNo(),
-				'value' => function($model, $key, $index, $column) {
-					$url = Url::to(['publish', 'id'=>$model->primaryKey]);
-					return $this->quickAction($url, $model->publish);
-				},
-				'contentOptions' => ['class'=>'center'],
-				'format' => 'raw',
-			];
-		}
 	}
 
 	/**

@@ -13,7 +13,6 @@
  *	View
  *	Delete
  *	RunAction
- *	Publish
  *
  *	findModel
  *
@@ -45,7 +44,6 @@ class CompanyController extends Controller
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['POST'],
-					'publish' => ['POST'],
 				],
 			],
 		];
@@ -158,32 +156,10 @@ class CompanyController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$model = $this->findModel($id);
-		$model->publish = 2;
-
-		if($model->save(false, ['publish'])) {
-			Yii::$app->session->setFlash('success', Yii::t('app', 'Member company success deleted.'));
-			return $this->redirect(['index']);
-			//return $this->redirect(['view', 'id' => $model->id]);
-		}
-	}
-
-	/**
-	 * actionPublish an existing MemberCompany model.
-	 * If publish is successful, the browser will be redirected to the 'index' page.
-	 * @param integer $id
-	 * @return mixed
-	 */
-	public function actionPublish($id)
-	{
-		$model = $this->findModel($id);
-		$replace = $model->publish == 1 ? 0 : 1;
-		$model->publish = $replace;
-
-		if($model->save(false, ['publish'])) {
-			Yii::$app->session->setFlash('success', Yii::t('app', 'Member company success updated.'));
-			return $this->redirect(['index']);
-		}
+		$this->findModel($id)->delete();
+		
+		Yii::$app->session->setFlash('success', Yii::t('app', 'Member company success deleted.'));
+		return $this->redirect(['index']);
 	}
 
 	/**

@@ -27,7 +27,7 @@ class MemberCompany extends MemberCompanyModel
 	public function rules()
 	{
 		return [
-			[['id', 'publish', 'member_id', 'company_id', 'company_type_id', 'company_cat_id', 'company_country_id', 'company_province_id', 'company_city_id', 'company_zipcode', 'creation_id', 'modified_id'], 'integer'],
+			[['id', 'member_id', 'company_id', 'company_type_id', 'company_cat_id', 'company_country_id', 'company_province_id', 'company_city_id', 'company_zipcode', 'creation_id', 'modified_id'], 'integer'],
 			[['info_intro', 'info_article', 'company_address', 'company_district', 'company_village', 'creation_date', 'modified_date', 'updated_date', 'member_search', 'company_search', 'creation_search', 'modified_search', 'profile_search'], 'safe'],
 		];
 	}
@@ -136,15 +136,6 @@ class MemberCompany extends MemberCompanyModel
 			'cast(t.updated_date as date)' => $this->updated_date,
 			'member.profile_id' => isset($params['profile']) ? $params['profile'] : $this->profile_search,
 		]);
-
-		if(isset($params['trash']))
-			$query->andFilterWhere(['NOT IN', 't.publish', [0,1]]);
-		else {
-			if(!isset($params['publish']) || (isset($params['publish']) && $params['publish'] == ''))
-				$query->andFilterWhere(['IN', 't.publish', [0,1]]);
-			else
-				$query->andFilterWhere(['t.publish' => $this->publish]);
-		}
 
 		$query->andFilterWhere(['like', 't.info_intro', $this->info_intro])
 			->andFilterWhere(['like', 't.info_article', $this->info_article])
