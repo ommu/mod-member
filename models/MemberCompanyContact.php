@@ -45,6 +45,7 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 	use \ommu\traits\UtilityTrait;
 
 	public $gridForbiddenColumn = ['verified_search','creation_date','creation_search','modified_date','modified_search','updated_date'];
+	public $old_status_i;
 
 	// Variable Search
 	public $verified_search;
@@ -75,7 +76,7 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['member_company_id', 'contact_cat_id', 'contact_value', 'verified_id'], 'required'],
+			[['member_company_id', 'contact_cat_id', 'contact_value'], 'required'],
 			[['publish', 'status', 'member_company_id', 'contact_cat_id', 'verified_id', 'creation_id', 'modified_id'], 'integer'],
 			[['contact_value'], 'string'],
 			[['verified_date', 'creation_date', 'modified_date', 'updated_date'], 'safe'],
@@ -172,7 +173,7 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 			'class'  => 'yii\grid\SerialColumn',
 			'contentOptions' => ['class'=>'center'],
 		];
-		if(!Yii::$app->request->get('member')) {
+		if(!Yii::$app->request->get('member') && !Yii::$app->request->get('company')) {
 			$this->templateColumns['member_search'] = [
 				'attribute' => 'member_search',
 				'value' => function($model, $key, $index, $column) {
@@ -301,11 +302,24 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 	}
 
 	/**
+	 * after find attributes
+	 */
+	public function afterFind()
+	{
+		$this->old_status_i = $this->status;
+	}
+
+	/**
 	 * before validate attributes
 	 */
 	public function beforeValidate()
 	{
+		$action = strtolower(Yii::$app->controller->action->id);
+
 		if(parent::beforeValidate()) {
+			if($action == 'status' && $this->old_status_i != $this->status)
+				$this->verified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+
 			if($this->isNewRecord)
 				$this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
 			else

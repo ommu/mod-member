@@ -22,9 +22,12 @@ use yii\widgets\Pjax;
 
 $this->params['breadcrumbs'][] = $this->title;
 
-$this->params['menu']['content'] = [
-	['label' => Yii::t('app', 'Add Company Contact'), 'url' => Url::to(['create']), 'icon' => 'plus-square'],
-];
+$company = Yii::$app->request->get('company');
+if($company) {
+	$this->params['menu']['content'] = [
+		['label' => Yii::t('app', 'Add Company Contact'), 'url' => Url::to(['create', 'company'=>$company]), 'icon' => 'plus-square'],
+	];
+}
 $this->params['menu']['option'] = [
 	//['label' => Yii::t('app', 'Search'), 'url' => 'javascript:void(0);'],
 	['label' => Yii::t('app', 'Grid Option'), 'url' => 'javascript:void(0);'],

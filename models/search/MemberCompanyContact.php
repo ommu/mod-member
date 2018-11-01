@@ -117,7 +117,7 @@ class MemberCompanyContact extends MemberCompanyContactModel
 		$query->andFilterWhere([
 			't.id' => $this->id,
 			't.status' => $this->status,
-			't.member_company_id' => isset($params['memberCompany']) ? $params['memberCompany'] : $this->member_company_id,
+			't.member_company_id' => isset($params['company']) ? $params['company'] : $this->member_company_id,
 			't.contact_cat_id' => isset($params['category']) ? $params['category'] : $this->contact_cat_id,
 			'cast(t.verified_date as date)' => $this->verified_date,
 			't.verified_id' => isset($params['verified']) ? $params['verified'] : $this->verified_id,

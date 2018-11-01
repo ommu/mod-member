@@ -34,10 +34,6 @@ use ommu\member\models\MemberContactCategory;
 
 <?php //echo $form->errorSummary($model);?>
 
-<?php echo $form->field($model, 'member_company_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->textInput(['type'=>'number', 'min'=>'1'])
-	->label($model->getAttributeLabel('member_company_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
-
 <?php $category = MemberContactCategory::getCategory();
 echo $form->field($model, 'contact_cat_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
 	->dropDownList($category, ['prompt'=>''])
@@ -46,10 +42,6 @@ echo $form->field($model, 'contact_cat_id', ['template' => '{label}<div class="c
 <?php echo $form->field($model, 'contact_value', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
 	->textarea(['rows'=>2, 'rows'=>6])
 	->label($model->getAttributeLabel('contact_value'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
-
-<?php echo $form->field($model, 'verified_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->textInput(['type'=>'number', 'min'=>'1'])
-	->label($model->getAttributeLabel('verified_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'status', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
 	->checkbox(['label'=>''])
