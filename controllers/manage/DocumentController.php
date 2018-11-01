@@ -178,7 +178,7 @@ class DocumentController extends Controller
 
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member document success deleted.'));
-			return $this->redirect(['index']);
+			return $this->redirect(['index', 'member'=>$model->member_id]);
 			//return $this->redirect(['view', 'id' => $model->id]);
 		}
 	}
@@ -197,7 +197,7 @@ class DocumentController extends Controller
 
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member document success updated.'));
-			return $this->redirect(['index']);
+			return $this->redirect(['index', 'member'=>$model->member_id]);
 		}
 	}
 

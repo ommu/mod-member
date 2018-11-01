@@ -100,7 +100,7 @@ class ProfileDocumentController extends Controller
 			
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success created.'));
-				return $this->redirect(['index']);
+				return $this->redirect(['index', 'profile'=>$model->profile_id]);
 				//return $this->redirect(['view', 'id' => $model->id]);
 			} 
 		}
@@ -127,7 +127,7 @@ class ProfileDocumentController extends Controller
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success updated.'));
-				return $this->redirect(['index']);
+				return $this->redirect(['index', 'profile'=>$model->profile_id]);
 				//return $this->redirect(['view', 'id' => $model->id]);
 			}
 		}
@@ -170,7 +170,7 @@ class ProfileDocumentController extends Controller
 
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success deleted.'));
-			return $this->redirect(['index']);
+			return $this->redirect(['index', 'profile'=>$model->profile_id]);
 			//return $this->redirect(['view', 'id' => $model->id]);
 		}
 	}
@@ -189,7 +189,7 @@ class ProfileDocumentController extends Controller
 
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success updated.'));
-			return $this->redirect(['index']);
+			return $this->redirect(['index', 'profile'=>$model->profile_id]);
 		}
 	}
 
