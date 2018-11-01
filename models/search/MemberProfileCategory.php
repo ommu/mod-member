@@ -28,7 +28,7 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 	public function rules()
 	{
 		return [
-			[['cat_id', 'publish', 'parent_id', 'profile_id', 'cat_name', 'cat_desc', 'creation_id', 'modified_id'], 'integer'],
+			[['cat_id', 'publish', 'profile_id', 'parent_id', 'cat_name', 'cat_desc', 'creation_id', 'modified_id'], 'integer'],
 			[['creation_date', 'modified_date', 'updated_date', 'cat_name_i', 'cat_desc_i', 'creation_search', 'modified_search'], 'safe'],
 		];
 	}
@@ -63,10 +63,10 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 	{
 		$query = MemberProfileCategoryModel::find()->alias('t');
 		$query->joinWith([
-			'parent.title parent', 
 			'title title', 
 			'description description', 
 			'profile.title profile', 
+			'parent.title parent', 
 			'creation creation', 
 			'modified modified'
 		]);
@@ -77,10 +77,6 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 		]);
 
 		$attributes = array_keys($this->getTableSchema()->columns);
-		$attributes['parent_id'] = [
-			'asc' => ['parent.message' => SORT_ASC],
-			'desc' => ['parent.message' => SORT_DESC],
-		];
 		$attributes['cat_name_i'] = [
 			'asc' => ['title.message' => SORT_ASC],
 			'desc' => ['title.message' => SORT_DESC],
@@ -92,6 +88,10 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 		$attributes['profile_id'] = [
 			'asc' => ['profile.message' => SORT_ASC],
 			'desc' => ['profile.message' => SORT_DESC],
+		];
+		$attributes['parent_id'] = [
+			'asc' => ['parent.message' => SORT_ASC],
+			'desc' => ['parent.message' => SORT_DESC],
 		];
 		$attributes['creation_search'] = [
 			'asc' => ['creation.displayname' => SORT_ASC],
@@ -117,8 +117,8 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 		// grid filtering conditions
 		$query->andFilterWhere([
 			't.cat_id' => $this->cat_id,
-			't.parent_id' => isset($params['parent']) ? $params['parent'] : $this->parent_id,
 			't.profile_id' => isset($params['profile']) ? $params['profile'] : $this->profile_id,
+			't.parent_id' => isset($params['parent']) ? $params['parent'] : $this->parent_id,
 			't.cat_name' => $this->cat_name,
 			't.cat_desc' => $this->cat_desc,
 			'cast(t.creation_date as date)' => $this->creation_date,

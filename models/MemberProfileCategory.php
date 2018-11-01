@@ -14,8 +14,8 @@
  * The followings are the available columns in table "ommu_member_profile_category":
  * @property integer $cat_id
  * @property integer $publish
- * @property integer $parent_id
  * @property integer $profile_id
+ * @property integer $parent_id
  * @property integer $cat_name
  * @property integer $cat_desc
  * @property string $creation_date
@@ -76,7 +76,7 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 	{
 		return [
 			[['profile_id', 'cat_name_i', 'cat_desc_i'], 'required'],
-			[['publish', 'parent_id', 'profile_id', 'cat_name', 'cat_desc', 'creation_id', 'modified_id'], 'integer'],
+			[['publish', 'profile_id', 'parent_id', 'cat_name', 'cat_desc', 'creation_id', 'modified_id'], 'integer'],
 			[['cat_name_i', 'cat_desc_i'], 'string'],
 			[['creation_date', 'modified_date', 'updated_date'], 'safe'],
 			[['cat_name_i'], 'string', 'max' => 64],
@@ -93,8 +93,8 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 		return [
 			'cat_id' => Yii::t('app', 'Category'),
 			'publish' => Yii::t('app', 'Publish'),
-			'parent_id' => Yii::t('app', 'Parent'),
 			'profile_id' => Yii::t('app', 'Profile'),
+			'parent_id' => Yii::t('app', 'Parent'),
 			'cat_name' => Yii::t('app', 'Cat Name'),
 			'cat_desc' => Yii::t('app', 'Cat Desc'),
 			'creation_date' => Yii::t('app', 'Creation Date'),
@@ -112,17 +112,17 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getParent()
+	public function getProfile()
 	{
-		return $this->hasOne(MemberProfileCategory::className(), ['cat_id' => 'parent_id']);
+		return $this->hasOne(MemberProfile::className(), ['profile_id' => 'profile_id']);
 	}
 
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getProfile()
+	public function getParent()
 	{
-		return $this->hasOne(MemberProfile::className(), ['profile_id' => 'profile_id']);
+		return $this->hasOne(self::className(), ['cat_id' => 'parent_id']);
 	}
 
 	/**
@@ -192,7 +192,7 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 			'value' => function($model, $key, $index, $column) {
 				return isset($model->parent) ? $model->parent->title->message : '-';
 			},
-			//'filter' => MemberProfileCategory::getCategory(),
+			//'filter' => self::getCategory(),
 		];
 		$this->templateColumns['cat_name_i'] = [
 			'attribute' => 'cat_name_i',
@@ -281,12 +281,14 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 	/**
 	 * function getCategory
 	 */
-	public static function getCategory($publish=null, $array=true) 
+	public static function getCategory($profile=null, $publish=null, $array=true) 
 	{
 		$model = self::find()->alias('t');
 		$model->leftJoin(sprintf('%s title', SourceMessage::tableName()), 't.cat_name=title.id');
 		if($publish != null)
 			$model->andWhere(['t.publish' => $publish]);
+		if($profile != null)
+			$model->andWhere(['t.parent_id' => $profile]);
 
 		$model = $model->orderBy('title.message ASC')->all();
 

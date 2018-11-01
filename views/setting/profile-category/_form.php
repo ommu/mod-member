@@ -19,6 +19,7 @@ use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use ommu\member\models\MemberProfile;
+use ommu\member\models\MemberProfileCategory;
 ?>
 
 <div class="member-profile-category-form">
@@ -35,14 +36,15 @@ use ommu\member\models\MemberProfile;
 
 <?php //echo $form->errorSummary($model);?>
 
-<?php echo $form->field($model, 'parent_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->textInput(['type'=>'number', 'min'=>'1'])
-	->label($model->getAttributeLabel('parent_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
-
 <?php $profile = MemberProfile::getProfile();
 echo $form->field($model, 'profile_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
 	->dropDownList($profile, ['prompt'=>''])
 	->label($model->getAttributeLabel('profile_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+
+<?php $parent = MemberProfileCategory::getCategory();
+echo $form->field($model, 'parent_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+	->dropDownList($parent, ['prompt'=>''])
+	->label($model->getAttributeLabel('parent_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'cat_name_i', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
 	->textInput(['maxlength'=>true])

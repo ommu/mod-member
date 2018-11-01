@@ -19,6 +19,7 @@ use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use ommu\member\models\MemberProfile;
+use ommu\member\models\MemberProfileCategory;
 ?>
 
 <div class="member-profile-category-search search-form">
@@ -30,11 +31,14 @@ use ommu\member\models\MemberProfile;
 			'data-pjax' => 1
 		],
 	]); ?>
-		<?php echo $form->field($model, 'parent_id');?>
 
 		<?php $profile = MemberProfile::getProfile();
 		echo $form->field($model, 'profile_id')
 			->dropDownList($profile, ['prompt'=>'']);?>
+
+		<?php $parent = MemberProfileCategory::getCategory();
+		echo $form->field($model, 'parent_id')
+			->dropDownList($parent, ['prompt'=>'']);?>
 
 		<?php echo $form->field($model, 'cat_name_i');?>
 
