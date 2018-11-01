@@ -475,14 +475,14 @@ class Members extends \app\components\ActiveRecord
 	public function beforeValidate()
 	{
 		if(parent::beforeValidate()) {
-			$PhotoHeaderFileTypeFileType = ['bmp','gif','jpg','png'];
+			$photoHeaderFileType = ['bmp','gif','jpg','png'];
 			$photo_header = UploadedFile::getInstance($this, 'photo_header');
 
 			if($photo_header instanceof UploadedFile && !$photo_header->getHasError()) {
-				if(!in_array(strtolower($photo_header->getExtension()), $photo_headerFileType)) {
+				if(!in_array(strtolower($photo_header->getExtension()), $photoHeaderFileType)) {
 					$this->addError('photo_header', Yii::t('app', 'The file {name} cannot be uploaded. Only files with these extensions are allowed: {extensions}', array(
 						'{name}'=>$photo_header->name,
-						'{extensions}'=>$this->formatFileType($photo_headerFileType, false),
+						'{extensions}'=>$this->formatFileType($photoHeaderFileType, false),
 					)));
 				}
 			} /* else {
@@ -490,14 +490,14 @@ class Members extends \app\components\ActiveRecord
 					$this->addError('photo_header', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}'=>$this->getAttributeLabel('photo_header'))));
 			} */
 
-			$PhotoProfileFileTypeFileType = ['bmp','gif','jpg','png'];
+			$photoProfileFileType = ['bmp','gif','jpg','png'];
 			$photo_profile = UploadedFile::getInstance($this, 'photo_profile');
 
 			if($photo_profile instanceof UploadedFile && !$photo_profile->getHasError()) {
-				if(!in_array(strtolower($photo_profile->getExtension()), $photo_profileFileType)) {
+				if(!in_array(strtolower($photo_profile->getExtension()), $photoProfileFileType)) {
 					$this->addError('photo_profile', Yii::t('app', 'The file {name} cannot be uploaded. Only files with these extensions are allowed: {extensions}', array(
 						'{name}'=>$photo_profile->name,
-						'{extensions}'=>$this->formatFileType($photo_profileFileType, false),
+						'{extensions}'=>$this->formatFileType($photoProfileFileType, false),
 					)));
 				}
 			} /* else {

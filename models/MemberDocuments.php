@@ -291,20 +291,20 @@ class MemberDocuments extends \app\components\ActiveRecord
 	public function beforeValidate()
 	{
 		if(parent::beforeValidate()) {
-			$DocumentFilenameFileTypeFileType = ['bmp','gif','jpg','png'];
+			$documentFilenameFileType = ['bmp','gif','jpg','png','pdf'];
 			$document_filename = UploadedFile::getInstance($this, 'document_filename');
 
 			if($document_filename instanceof UploadedFile && !$document_filename->getHasError()) {
-				if(!in_array(strtolower($document_filename->getExtension()), $document_filenameFileType)) {
+				if(!in_array(strtolower($document_filename->getExtension()), $documentFilenameFileType)) {
 					$this->addError('document_filename', Yii::t('app', 'The file {name} cannot be uploaded. Only files with these extensions are allowed: {extensions}', array(
 						'{name}'=>$document_filename->name,
-						'{extensions}'=>$this->formatFileType($document_filenameFileType, false),
+						'{extensions}'=>$this->formatFileType($documentFilenameFileType, false),
 					)));
 				}
-			} /* else {
-				//if($this->isNewRecord)
+			} else {
+				if($this->isNewRecord)
 					$this->addError('document_filename', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}'=>$this->getAttributeLabel('document_filename'))));
-			} */
+			}
 
 			if($this->isNewRecord)
 				$this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
@@ -321,13 +321,13 @@ class MemberDocuments extends \app\components\ActiveRecord
 	{
 		if(parent::beforeSave($insert)) {
 			if(!$insert) {
-				$uploadPath = join('/', [self::getUploadPath(), $this->id]);
+				$uploadPath = join('/', [self::getUploadPath(), $this->member_id]);
 				$verwijderenPath = join('/', [self::getUploadPath(), 'verwijderen']);
-				$this->createUploadDirectory(self::getUploadPath(), $this->id);
+				$this->createUploadDirectory(self::getUploadPath(), $this->member_id);
 
 				$this->document_filename = UploadedFile::getInstance($this, 'document_filename');
 				if($this->document_filename instanceof UploadedFile && !$this->document_filename->getHasError()) {
-					$fileName = time().'_'.$this->id.'.'.strtolower($this->document_filename->getExtension()); 
+					$fileName = time().'_'.$this->member_id.'.'.strtolower($this->document_filename->getExtension()); 
 					if($this->document_filename->saveAs(join('/', [$uploadPath, $fileName]))) {
 						if($this->old_document_filename_i != '' && file_exists(join('/', [$uploadPath, $this->old_document_filename_i])))
 							rename(join('/', [$uploadPath, $this->old_document_filename_i]), join('/', [$verwijderenPath, time().'_change_'.$this->old_document_filename_i]));
@@ -350,14 +350,14 @@ class MemberDocuments extends \app\components\ActiveRecord
 	{
 		parent::afterSave($insert, $changedAttributes);
 
-		$uploadPath = join('/', [self::getUploadPath(), $this->id]);
+		$uploadPath = join('/', [self::getUploadPath(), $this->member_id]);
 		$verwijderenPath = join('/', [self::getUploadPath(), 'verwijderen']);
-		$this->createUploadDirectory(self::getUploadPath(), $this->id);
+		$this->createUploadDirectory(self::getUploadPath(), $this->member_id);
 
 		if($insert) {
 			$this->document_filename = UploadedFile::getInstance($this, 'document_filename');
 			if($this->document_filename instanceof UploadedFile && !$this->document_filename->getHasError()) {
-				$fileName = time().'_'.$this->id.'.'.strtolower($this->document_filename->getExtension()); 
+				$fileName = time().'_'.$this->member_id.'.'.strtolower($this->document_filename->getExtension()); 
 				if($this->document_filename->saveAs(join('/', [$uploadPath, $fileName])))
 					self::updateAll(['document_filename' => $fileName], ['id' => $this->id]);
 			}
@@ -372,7 +372,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 	{
 		parent::afterDelete();
 
-		$uploadPath = join('/', [self::getUploadPath(), $this->id]);
+		$uploadPath = join('/', [self::getUploadPath(), $this->member_id]);
 		$verwijderenPath = join('/', [self::getUploadPath(), 'verwijderen']);
 
 		if($this->document_filename != '' && file_exists(join('/', [$uploadPath, $this->document_filename])))
