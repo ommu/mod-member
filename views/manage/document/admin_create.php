@@ -20,8 +20,9 @@ use yii\helpers\Url;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Documents'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Create');
 
+$member = Yii::$app->request->get('member');
 $this->params['menu']['content'] = [
-	['label' => Yii::t('app', 'Back To Manage'), 'url' => Url::to(['index']), 'icon' => 'table'],
+	['label' => Yii::t('app', 'Back To Manage'), 'url' => Url::to(['index', 'member'=>$member]), 'icon' => 'table'],
 ];
 ?>
 
