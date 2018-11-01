@@ -88,10 +88,16 @@ class ProfileDocumentController extends Controller
 	 */
 	public function actionCreate()
 	{
+		$profile = Yii::$app->request->get('profile');
+		if(!$profile)
+			throw new \yii\web\NotAcceptableHttpException(Yii::t('app', 'The requested page does not exist.'));
+
 		$model = new MemberProfileDocument();
 
 		if(Yii::$app->request->isPost) {
 			$model->load(Yii::$app->request->post());
+			$model->profile_id = $profile;
+			
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success created.'));
 				return $this->redirect(['index']);
