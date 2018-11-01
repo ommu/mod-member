@@ -25,7 +25,6 @@
  * @property string $updated_date
  *
  * The followings are the available model relations:
- * @property MemberCategories[] $categories
  * @property MemberProfile $profile
  * @property SourceMessage $title
  * @property SourceMessage $description
@@ -108,14 +107,6 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 			'creation_search' => Yii::t('app', 'Creation'),
 			'modified_search' => Yii::t('app', 'Modified'),
 		];
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getCategories()
-	{
-		return $this->hasMany(MemberCategories::className(), ['profile_cat_id' => 'cat_id']);
 	}
 
 	/**

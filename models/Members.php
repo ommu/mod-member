@@ -32,7 +32,6 @@
  *
  * The followings are the available model relations:
  * @property IpediaCompanies[] $companies
- * @property MemberCategories[] $categories
  * @property MemberCompany[] $companies
  * @property MemberDocuments[] $documents
  * @property MemberFollowers[] $followers
@@ -144,14 +143,6 @@ class Members extends \app\components\ActiveRecord
 	// {
 	// 	return $this->hasMany(\app\modules\ipedia\models\IpediaCompanies::className(), ['member_id' => 'member_id']);
 	// }
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getCategories()
-	{
-		return $this->hasMany(MemberCategories::className(), ['member_id' => 'member_id']);
-	}
 
 	/**
 	 * @return \yii\db\ActiveQuery
