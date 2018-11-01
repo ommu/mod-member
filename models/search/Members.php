@@ -28,7 +28,7 @@ class Members extends MembersModel
 	{
 		return [
 			[['member_id', 'publish', 'approved', 'profile_id', 'member_private', 'approved_id', 'creation_id', 'modified_id'], 'integer'],
-			[['username', 'displayname', 'photo_header', 'photo_profile', 'short_biography', 'approved_date', 'creation_date', 'modified_date', 'updated_date', 'creation_search', 'modified_search'], 'safe'],
+			[['username', 'displayname', 'photo_header', 'photo_profile', 'short_biography', 'approved_date', 'creation_date', 'modified_date', 'updated_date', 'approved_search', 'creation_search', 'modified_search'], 'safe'],
 		];
 	}
 
@@ -63,6 +63,7 @@ class Members extends MembersModel
 		$query = MembersModel::find()->alias('t');
 		$query->joinWith([
 			'profile.title profile', 
+			'approved approved', 
 			'creation creation', 
 			'modified modified'
 		]);
@@ -76,6 +77,10 @@ class Members extends MembersModel
 		$attributes['profile_id'] = [
 			'asc' => ['profile.message' => SORT_ASC],
 			'desc' => ['profile.message' => SORT_DESC],
+		];
+		$attributes['approved_search'] = [ 
+			'asc' => ['approved.displayname' => SORT_ASC], 
+			'desc' => ['approved.displayname' => SORT_DESC], 
 		];
 		$attributes['creation_search'] = [
 			'asc' => ['creation.displayname' => SORT_ASC],
@@ -105,7 +110,7 @@ class Members extends MembersModel
 			't.profile_id' => isset($params['profile']) ? $params['profile'] : $this->profile_id,
 			't.member_private' => $this->member_private,
 			'cast(t.approved_date as date)' => $this->approved_date,
-			't.approved_id' => $this->approved_id,
+			't.approved_id' => isset($params['approved']) ? $params['approved'] : $this->approved_id,
 			'cast(t.creation_date as date)' => $this->creation_date,
 			't.creation_id' => isset($params['creation']) ? $params['creation'] : $this->creation_id,
 			'cast(t.modified_date as date)' => $this->modified_date,
@@ -127,6 +132,7 @@ class Members extends MembersModel
 			->andFilterWhere(['like', 't.photo_header', $this->photo_header])
 			->andFilterWhere(['like', 't.photo_profile', $this->photo_profile])
 			->andFilterWhere(['like', 't.short_biography', $this->short_biography])
+			->andFilterWhere(['like', 'approved.displayname', $this->approved_search]) 
 			->andFilterWhere(['like', 'creation.displayname', $this->creation_search])
 			->andFilterWhere(['like', 'modified.displayname', $this->modified_search]);
 
