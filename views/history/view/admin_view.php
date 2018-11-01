@@ -36,6 +36,10 @@ $this->params['menu']['content'] = [
 	'attributes' => [
 		'id',
 		[
+			'attribute' => 'profile_search',
+			'value' => isset($model->member) ? $model->member->profile->title->message : '-',
+		],
+		[
 			'attribute' => 'member_search',
 			'value' => isset($model->view) ? $model->view->member->displayname : '-',
 		],

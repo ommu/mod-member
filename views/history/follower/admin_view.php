@@ -40,6 +40,10 @@ $this->params['menu']['content'] = [
 			'value' => $model->publish ? Yii::t('app', 'Follow') : Yii::t('app', 'Unfollow'),
 		],
 		[
+			'attribute' => 'profile_search',
+			'value' => isset($model->member) ? $model->member->profile->title->message : '-',
+		],
+		[
 			'attribute' => 'member_search',
 			'value' => isset($model->follower) ? $model->follower->member->displayname : '-',
 		],
