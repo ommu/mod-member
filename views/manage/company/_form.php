@@ -18,6 +18,7 @@ use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use ommu\member\models\MemberCompanyType;
+use ommu\member\models\MemberProfileCategory;
 ?>
 
 <div class="member-company-form">
@@ -46,6 +47,11 @@ use ommu\member\models\MemberCompanyType;
 echo $form->field($model, 'company_type_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
 	->dropDownList($companyType, ['prompt'=>''])
 	->label($model->getAttributeLabel('company_type_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+
+<?php $companyCategory = MemberProfileCategory::getCategory();
+echo $form->field($model, 'company_cat_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+	->dropDownList($companyCategory, ['prompt'=>''])
+	->label($model->getAttributeLabel('company_cat_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'info_intro', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
 	->textarea(['rows'=>2, 'rows'=>6])

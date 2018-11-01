@@ -18,6 +18,7 @@ use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use ommu\member\models\MemberCompanyType;
+use ommu\member\models\MemberProfileCategory;
 ?>
 
 <div class="member-company-search search-form">
@@ -37,6 +38,10 @@ use ommu\member\models\MemberCompanyType;
 		<?php $companyType = MemberCompanyType::getType();
 		echo $form->field($model, 'company_type_id')
 			->dropDownList($companyType, ['prompt'=>'']);?>
+
+		<?php $companyCategory = MemberProfileCategory::getCategory();
+		echo $form->field($model, 'company_cat_id')
+			->dropDownList($companyCategory, ['prompt'=>'']);?>
 
 		<?php echo $form->field($model, 'info_intro');?>
 

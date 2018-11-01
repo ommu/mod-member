@@ -54,6 +54,10 @@ $this->params['menu']['content'] = [
 			'value' => isset($model->companyType) ? $model->companyType->title->message : '-',
 		],
 		[
+			'attribute' => 'company_cat_id',
+			'value' => isset($model->companyCategory) ? $model->companyCategory->title->message : '-',
+		],
+		[
 			'attribute' => 'info_intro',
 			'value' => $model->info_intro ? $model->info_intro : '-',
 		],

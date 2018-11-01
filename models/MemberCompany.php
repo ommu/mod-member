@@ -16,6 +16,7 @@
  * @property integer $member_id
  * @property integer $company_id
  * @property integer $company_type_id
+ * @property integer $company_cat_id
  * @property string $info_intro
  * @property string $info_article
  * @property string $company_address
@@ -84,14 +85,15 @@ class MemberCompany extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['member_id', 'company_id', 'company_type_id', 'info_intro', 'info_article', 'company_address', 'company_country_id', 'company_province_id', 'company_city_id', 'company_district', 'company_village', 'company_zipcode'], 'required'],
-			[['publish', 'member_id', 'company_id', 'company_type_id', 'company_country_id', 'company_province_id', 'company_city_id', 'company_zipcode', 'creation_id', 'modified_id'], 'integer'],
+			[['member_id', 'company_id', 'company_type_id', 'company_cat_id', 'info_intro', 'info_article', 'company_address', 'company_country_id', 'company_province_id', 'company_city_id', 'company_district', 'company_village', 'company_zipcode'], 'required'],
+			[['publish', 'member_id', 'company_id', 'company_type_id', 'company_cat_id', 'company_country_id', 'company_province_id', 'company_city_id', 'company_zipcode', 'creation_id', 'modified_id'], 'integer'],
 			[['info_intro', 'info_article', 'company_address'], 'string'],
 			[['creation_date', 'modified_date', 'updated_date'], 'safe'],
 			[['company_district', 'company_village'], 'string', 'max' => 64],
 			[['member_id'], 'exist', 'skipOnError' => true, 'targetClass' => Members::className(), 'targetAttribute' => ['member_id' => 'member_id']],
 			[['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => IpediaCompanies::className(), 'targetAttribute' => ['company_id' => 'company_id']],
 			[['company_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberCompanyType::className(), 'targetAttribute' => ['company_type_id' => 'type_id']],
+			[['company_cat_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberProfileCategory::className(), 'targetAttribute' => ['company_cat_id' => 'cat_id']],
 		];
 	}
 
@@ -106,6 +108,7 @@ class MemberCompany extends \app\components\ActiveRecord
 			'member_id' => Yii::t('app', 'Member'),
 			'company_id' => Yii::t('app', 'Company'),
 			'company_type_id' => Yii::t('app', 'Company Type'),
+			'company_cat_id' => Yii::t('app', 'Company Category'),
 			'info_intro' => Yii::t('app', 'Info Intro'),
 			'info_article' => Yii::t('app', 'Info Article'),
 			'company_address' => Yii::t('app', 'Company Address'),
@@ -150,6 +153,14 @@ class MemberCompany extends \app\components\ActiveRecord
 	public function getCompanyType()
 	{
 		return $this->hasOne(MemberCompanyType::className(), ['type_id' => 'company_type_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getCompanyCategory()
+	{
+		return $this->hasOne(MemberCompanyType::className(), ['cat_id' => 'company_cat_id']);
 	}
 
 	/**
@@ -225,6 +236,15 @@ class MemberCompany extends \app\components\ActiveRecord
 				'attribute' => 'company_type_id',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->companyType) ? $model->companyType->title->message : '-';
+				},
+				'filter' => MemberCompanyType::getType(),
+			];
+		}
+		if(!Yii::$app->request->get('companyCategory')) {
+			$this->templateColumns['company_cat_id'] = [
+				'attribute' => 'company_cat_id',
+				'value' => function($model, $key, $index, $column) {
+					return isset($model->companyCategory) ? $model->companyCategory->title->message : '-';
 				},
 				'filter' => MemberCompanyType::getType(),
 			];

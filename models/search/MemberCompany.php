@@ -27,7 +27,7 @@ class MemberCompany extends MemberCompanyModel
 	public function rules()
 	{
 		return [
-			[['id', 'publish', 'member_id', 'company_id', 'company_type_id', 'company_country_id', 'company_province_id', 'company_city_id', 'company_zipcode', 'creation_id', 'modified_id'], 'integer'],
+			[['id', 'publish', 'member_id', 'company_id', 'company_type_id', 'company_cat_id', 'company_country_id', 'company_province_id', 'company_city_id', 'company_zipcode', 'creation_id', 'modified_id'], 'integer'],
 			[['info_intro', 'info_article', 'company_address', 'company_district', 'company_village', 'creation_date', 'modified_date', 'updated_date', 'member_search', 'company_search', 'creation_search', 'modified_search', 'profile_search'], 'safe'],
 		];
 	}
@@ -65,6 +65,7 @@ class MemberCompany extends MemberCompanyModel
 			'member member', 
 			'company.directory company', 
 			'companyType.title companyType', 
+			'companyCategory.title companyCategory', 
 			'creation creation', 
 			'modified modified',
 			'member.profile.title profile'
@@ -87,6 +88,10 @@ class MemberCompany extends MemberCompanyModel
 		$attributes['company_type_id'] = [
 			'asc' => ['companyType.message' => SORT_ASC],
 			'desc' => ['companyType.message' => SORT_DESC],
+		];
+		$attributes['company_cat_id'] = [
+			'asc' => ['companyCategory.message' => SORT_ASC],
+			'desc' => ['companyCategory.message' => SORT_DESC],
 		];
 		$attributes['creation_search'] = [
 			'asc' => ['creation.displayname' => SORT_ASC],
@@ -119,6 +124,7 @@ class MemberCompany extends MemberCompanyModel
 			't.member_id' => isset($params['member']) ? $params['member'] : $this->member_id,
 			't.company_id' => isset($params['company']) ? $params['company'] : $this->company_id,
 			't.company_type_id' => isset($params['companyType']) ? $params['companyType'] : $this->company_type_id,
+			't.company_cat_id' => isset($params['companyCategory']) ? $params['companyCategory'] : $this->company_cat_id,
 			't.company_country_id' => $this->company_country_id,
 			't.company_province_id' => $this->company_province_id,
 			't.company_city_id' => $this->company_city_id,
