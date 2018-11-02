@@ -6,7 +6,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 30 October 2018, 15:22 WIB
- * @modified date 30 October 2018, 22:24 WIB
+ * @created date 2 November 2018, 06:46 WIB
  * @link https://github.com/ommu/mod-member
  *
  * This is the model class for table "ommu_members".
@@ -67,6 +67,7 @@ class Members extends \app\components\ActiveRecord
 	public $gridForbiddenColumn = [];
 	public $old_photo_header_i;
 	public $old_photo_profile_i;
+	public $old_approved_i;
 
 	// Variable Search
 	public $approved_search;
@@ -95,10 +96,10 @@ class Members extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['profile_id', 'username', 'displayname', 'short_biography'], 'required'],
+			[['profile_id', 'displayname'], 'required'],
 			[['publish', 'approved', 'profile_id', 'member_private', 'approved_id', 'creation_id', 'modified_id'], 'integer'],
 			[['photo_header', 'photo_profile', 'short_biography'], 'string'],
-			[['photo_header', 'photo_profile', 'approved_date', 'creation_date', 'modified_date', 'updated_date'], 'safe'],
+			[['username', 'photo_header', 'photo_profile', 'short_biography', 'approved_date', 'creation_date', 'modified_date', 'updated_date'], 'safe'],
 			[['username'], 'string', 'max' => 32],
 			[['displayname'], 'string', 'max' => 64],
 			[['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberProfile::className(), 'targetAttribute' => ['profile_id' => 'profile_id']],
@@ -458,6 +459,7 @@ class Members extends \app\components\ActiveRecord
 	{
 		$this->old_photo_header_i = $this->photo_header;
 		$this->old_photo_profile_i = $this->photo_profile;
+		$this->old_approved_i = $this->approved;
 	}
 
 	/**
@@ -465,6 +467,8 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public function beforeValidate()
 	{
+		$action = strtolower(Yii::$app->controller->action->id);
+
 		if(parent::beforeValidate()) {
 			$photoHeaderFileType = ['bmp','gif','jpg','png'];
 			$photo_header = UploadedFile::getInstance($this, 'photo_header');
@@ -477,7 +481,7 @@ class Members extends \app\components\ActiveRecord
 					)));
 				}
 			} /* else {
-				//if($this->isNewRecord)
+				if($this->isNewRecord || (!$this->isNewRecord && $this->old_photo_header_i == ''))
 					$this->addError('photo_header', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}'=>$this->getAttributeLabel('photo_header'))));
 			} */
 
@@ -492,9 +496,12 @@ class Members extends \app\components\ActiveRecord
 					)));
 				}
 			} /* else {
-				//if($this->isNewRecord)
+				if($this->isNewRecord || (!$this->isNewRecord && $this->old_photo_profile_i == ''))
 					$this->addError('photo_profile', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}'=>$this->getAttributeLabel('photo_profile'))));
 			} */
+
+			if($action == 'approved' && $this->old_approved_i != $this->approved)
+				$this->approved_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
 
 			if($this->isNewRecord)
 				$this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;

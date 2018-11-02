@@ -206,7 +206,7 @@ class CompanyContactController extends Controller
 		$replace = $model->status == 1 ? 0 : 1;
 		$model->status = $replace;
 		
-		if($model->save(false, ['status'])) {
+		if($model->save(false, ['status','verified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member company contact success updated.'));
 			return $this->redirect(['index', 'company'=>$model->member_company_id]);
 		}

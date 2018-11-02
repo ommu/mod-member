@@ -14,6 +14,7 @@
  *	Delete
  *	RunAction
  *	Publish
+ *	Approved
  *	MemberPrivate
  *
  *	findModel
@@ -47,6 +48,7 @@ class AdminController extends Controller
 				'actions' => [
 					'delete' => ['POST'],
 					'publish' => ['POST'],
+					'approved' => ['POST'],
 					'member-private' => ['POST'],
 				],
 			],
@@ -183,6 +185,24 @@ class AdminController extends Controller
 		$model->publish = $replace;
 
 		if($model->save(false, ['publish'])) {
+			Yii::$app->session->setFlash('success', Yii::t('app', 'Member success updated.'));
+			return $this->redirect(['index']);
+		}
+	}
+
+	/**
+	 * actionApproved an existing Members model.
+	 * If approved is successful, the browser will be redirected to the 'index' page.
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionApproved($id)
+	{
+		$model = $this->findModel($id);
+		$replace = $model->approved == 1 ? 0 : 1;
+		$model->approved = $replace;
+
+		if($model->save(false, ['approved','approved_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member success updated.'));
 			return $this->redirect(['index']);
 		}
