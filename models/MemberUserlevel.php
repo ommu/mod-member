@@ -169,13 +169,13 @@ class MemberUserlevel extends \app\components\ActiveRecord
 		$this->templateColumns['level_name_i'] = [
 			'attribute' => 'level_name_i',
 			'value' => function($model, $key, $index, $column) {
-				return isset($model->title) ? $model->title->message : '-';
+				return $model->level_name_i;
 			},
 		];
 		$this->templateColumns['level_desc_i'] = [
 			'attribute' => 'level_desc_i',
 			'value' => function($model, $key, $index, $column) {
-				return isset($model->description) ? $model->description->message : '-';
+				return$model->level_desc_i;
 			},
 		];
 		$this->templateColumns['creation_date'] = [
@@ -270,17 +270,10 @@ class MemberUserlevel extends \app\components\ActiveRecord
 
 		$model = $model->orderBy('title.message ASC')->all();
 
-		if($array == true) {
-			$items = [];
-			if($model !== null) {
-				foreach($model as $val) {
-					$items[$val->level_id] = $val->title->message;
-				}
-				return $items;
-			} else
-				return false;
-		} else 
-			return $model;
+		if($array == true)
+			return \yii\helpers\ArrayHelper::map($model, 'level_id', 'level_name_i');
+
+		return $model;
 	}
 
 	/**
@@ -324,7 +317,7 @@ class MemberUserlevel extends \app\components\ActiveRecord
 				$level_name->message = $this->level_name_i;
 				if($level_name->save())
 					$this->level_name = $level_name->id;
-				
+
 			} else {
 				$level_name = SourceMessage::findOne($this->level_name);
 				$level_name->message = $this->level_name_i;
@@ -337,7 +330,7 @@ class MemberUserlevel extends \app\components\ActiveRecord
 				$level_desc->message = $this->level_desc_i;
 				if($level_desc->save())
 					$this->level_desc = $level_desc->id;
-				
+
 			} else {
 				$level_desc = SourceMessage::findOne($this->level_desc);
 				$level_desc->message = $this->level_desc_i;

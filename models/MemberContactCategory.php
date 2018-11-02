@@ -156,7 +156,7 @@ class MemberContactCategory extends \app\components\ActiveRecord
 		$this->templateColumns['cat_name_i'] = [
 			'attribute' => 'cat_name_i',
 			'value' => function($model, $key, $index, $column) {
-				return isset($model->title) ? $model->title->message : '-';
+				return $model->cat_name_i;
 			},
 		];
 		$this->templateColumns['creation_date'] = [
@@ -243,17 +243,10 @@ class MemberContactCategory extends \app\components\ActiveRecord
 
 		$model = $model->orderBy('title.message ASC')->all();
 
-		if($array == true) {
-			$items = [];
-			if($model !== null) {
-				foreach($model as $val) {
-					$items[$val->cat_id] = $val->title->message;
-				}
-				return $items;
-			} else
-				return false;
-		} else 
-			return $model;
+		if($array == true)
+			return \yii\helpers\ArrayHelper::map($model, 'cat_id', 'cat_name_i');
+
+		return $model;
 	}
 
 	/**
@@ -296,7 +289,7 @@ class MemberContactCategory extends \app\components\ActiveRecord
 				$cat_name->message = $this->cat_name_i;
 				if($cat_name->save())
 					$this->cat_name = $cat_name->id;
-				
+
 			} else {
 				$cat_name = SourceMessage::findOne($this->cat_name);
 				$cat_name->message = $this->cat_name_i;

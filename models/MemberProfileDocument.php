@@ -178,7 +178,7 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 			$this->templateColumns['document_id'] = [
 				'attribute' => 'document_id',
 				'value' => function($model, $key, $index, $column) {
-					return isset($model->document) ? $model->document->title->message : '-';
+					return isset($model->document->title) ? $model->document->title->message : '-';
 				},
 				'filter' => MemberDocumentType::getType(),
 			];

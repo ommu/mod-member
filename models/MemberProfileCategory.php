@@ -198,13 +198,13 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 		$this->templateColumns['cat_name_i'] = [
 			'attribute' => 'cat_name_i',
 			'value' => function($model, $key, $index, $column) {
-				return isset($model->title) ? $model->title->message : '-';
+				return $model->cat_name_i;
 			},
 		];
 		$this->templateColumns['cat_desc_i'] = [
 			'attribute' => 'cat_desc_i',
 			'value' => function($model, $key, $index, $column) {
-				return isset($model->description) ? $model->description->message : '-';
+				return $model->cat_desc_i;
 			},
 		];
 		$this->templateColumns['creation_date'] = [
@@ -293,17 +293,10 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 
 		$model = $model->orderBy('title.message ASC')->all();
 
-		if($array == true) {
-			$items = [];
-			if($model !== null) {
-				foreach($model as $val) {
-					$items[$val->cat_id] = $val->title->message;
-				}
-				return $items;
-			} else
-				return false;
-		} else 
-			return $model;
+		if($array == true)
+			return \yii\helpers\ArrayHelper::map($model, 'cat_id', 'cat_name_i');
+
+		return $model;
 	}
 
 	/**

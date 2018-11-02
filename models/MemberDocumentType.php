@@ -167,13 +167,13 @@ class MemberDocumentType extends \app\components\ActiveRecord
 		$this->templateColumns['document_name_i'] = [
 			'attribute' => 'document_name_i',
 			'value' => function($model, $key, $index, $column) {
-				return isset($model->title) ? $model->title->message : '-';
+				return $model->document_name_i;
 			},
 		];
 		$this->templateColumns['document_desc_i'] = [
 			'attribute' => 'document_desc_i',
 			'value' => function($model, $key, $index, $column) {
-				return isset($model->description) ? $model->description->message : '-';
+				return $model->document_desc_i;
 			},
 		];
 		$this->templateColumns['creation_date'] = [
@@ -260,17 +260,10 @@ class MemberDocumentType extends \app\components\ActiveRecord
 
 		$model = $model->orderBy('title.message ASC')->all();
 
-		if($array == true) {
-			$items = [];
-			if($model !== null) {
-				foreach($model as $val) {
-					$items[$val->document_id] = $val->title->message;
-				}
-				return $items;
-			} else
-				return false;
-		} else 
-			return $model;
+		if($array == true)
+			return \yii\helpers\ArrayHelper::map($model, 'document_id', 'document_name_i');
+
+		return $model;
 	}
 
 	/**
@@ -314,7 +307,7 @@ class MemberDocumentType extends \app\components\ActiveRecord
 				$document_name->message = $this->document_name_i;
 				if($document_name->save())
 					$this->document_name = $document_name->id;
-				
+
 			} else {
 				$document_name = SourceMessage::findOne($this->document_name);
 				$document_name->message = $this->document_name_i;
@@ -327,7 +320,7 @@ class MemberDocumentType extends \app\components\ActiveRecord
 				$document_desc->message = $this->document_desc_i;
 				if($document_desc->save())
 					$this->document_desc = $document_desc->id;
-				
+
 			} else {
 				$document_desc = SourceMessage::findOne($this->document_desc);
 				$document_desc->message = $this->document_desc_i;

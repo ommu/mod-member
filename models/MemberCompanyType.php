@@ -167,13 +167,13 @@ class MemberCompanyType extends \app\components\ActiveRecord
 		$this->templateColumns['type_name_i'] = [
 			'attribute' => 'type_name_i',
 			'value' => function($model, $key, $index, $column) {
-				return isset($model->title) ? $model->title->message : '-';
+				return $model->type_name_i;
 			},
 		];
 		$this->templateColumns['type_desc_i'] = [
 			'attribute' => 'type_desc_i',
 			'value' => function($model, $key, $index, $column) {
-				return isset($model->description) ? $model->description->message : '-';
+				return $model->type_desc_i;
 			},
 		];
 		$this->templateColumns['creation_date'] = [
@@ -260,17 +260,10 @@ class MemberCompanyType extends \app\components\ActiveRecord
 
 		$model = $model->orderBy('title.message ASC')->all();
 
-		if($array == true) {
-			$items = [];
-			if($model !== null) {
-				foreach($model as $val) {
-					$items[$val->type_id] = $val->title->message;
-				}
-				return $items;
-			} else
-				return false;
-		} else 
-			return $model;
+		if($array == true)
+			return \yii\helpers\ArrayHelper::map($model, 'type_id', 'type_name_i');
+
+		return $model;
 	}
 
 	/**
@@ -314,7 +307,7 @@ class MemberCompanyType extends \app\components\ActiveRecord
 				$type_name->message = $this->type_name_i;
 				if($type_name->save())
 					$this->type_name = $type_name->id;
-				
+
 			} else {
 				$type_name = SourceMessage::findOne($this->type_name);
 				$type_name->message = $this->type_name_i;
@@ -327,7 +320,7 @@ class MemberCompanyType extends \app\components\ActiveRecord
 				$type_desc->message = $this->type_desc_i;
 				if($type_desc->save())
 					$this->type_desc = $type_desc->id;
-				
+
 			} else {
 				$type_desc = SourceMessage::findOne($this->type_desc);
 				$type_desc->message = $this->type_desc_i;

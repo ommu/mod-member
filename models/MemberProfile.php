@@ -191,13 +191,13 @@ class MemberProfile extends \app\components\ActiveRecord
 		$this->templateColumns['profile_name_i'] = [
 			'attribute' => 'profile_name_i',
 			'value' => function($model, $key, $index, $column) {
-				return isset($model->title) ? $model->title->message : '-';
+				return $model->profile_name_i;
 			},
 		];
 		$this->templateColumns['profile_desc_i'] = [
 			'attribute' => 'profile_desc_i',
 			'value' => function($model, $key, $index, $column) {
-				return isset($model->description) ? $model->description->message : '-';
+				return $model->profile_desc_i;
 			},
 		];
 		$this->templateColumns['user_limit'] = [
@@ -306,17 +306,10 @@ class MemberProfile extends \app\components\ActiveRecord
 
 		$model = $model->orderBy('title.message ASC')->all();
 
-		if($array == true) {
-			$items = [];
-			if($model !== null) {
-				foreach($model as $val) {
-					$items[$val->profile_id] = $val->title->message;
-				}
-				return $items;
-			} else
-				return false;
-		} else 
-			return $model;
+		if($array == true)
+			return \yii\helpers\ArrayHelper::map($model, 'profile_id', 'profile_name_i');
+
+		return $model;
 	}
 
 	/**
@@ -360,7 +353,7 @@ class MemberProfile extends \app\components\ActiveRecord
 				$profile_name->message = $this->profile_name_i;
 				if($profile_name->save())
 					$this->profile_name = $profile_name->id;
-				
+
 			} else {
 				$profile_name = SourceMessage::findOne($this->profile_name);
 				$profile_name->message = $this->profile_name_i;
@@ -373,7 +366,7 @@ class MemberProfile extends \app\components\ActiveRecord
 				$profile_desc->message = $this->profile_desc_i;
 				if($profile_desc->save())
 					$this->profile_desc = $profile_desc->id;
-				
+
 			} else {
 				$profile_desc = SourceMessage::findOne($this->profile_desc);
 				$profile_desc->message = $this->profile_desc_i;
