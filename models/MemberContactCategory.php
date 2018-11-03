@@ -105,7 +105,8 @@ class MemberContactCategory extends \app\components\ActiveRecord
 	 */
 	public function getContacts()
 	{
-		return $this->hasMany(MemberCompanyContact::className(), ['contact_cat_id' => 'cat_id']);
+		return $this->hasMany(MemberCompanyContact::className(), ['contact_cat_id' => 'cat_id'])
+			->andOnCondition(['publish' => 1]);
 	}
 
 	/**

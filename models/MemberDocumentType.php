@@ -108,7 +108,8 @@ class MemberDocumentType extends \app\components\ActiveRecord
 	 */
 	public function getDocuments()
 	{
-		return $this->hasMany(MemberProfileDocument::className(), ['document_id' => 'document_id']);
+		return $this->hasMany(MemberProfileDocument::className(), ['document_id' => 'document_id'])
+			->andOnCondition(['publish' => 1]);
 	}
 
 	/**

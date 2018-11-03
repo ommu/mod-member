@@ -142,7 +142,8 @@ class Members extends \app\components\ActiveRecord
 	 */
 	// public function getCompanies()
 	// {
-	// 	return $this->hasMany(\app\modules\ipedia\models\IpediaCompanies::className(), ['member_id' => 'member_id']);
+	// 	return $this->hasMany(\app\modules\ipedia\models\IpediaCompanies::className(), ['member_id' => 'member_id'])
+	// 		->andOnCondition(['publish' => 1]);
 	// }
 
 	/**
@@ -158,7 +159,8 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public function getDocuments()
 	{
-		return $this->hasMany(MemberDocuments::className(), ['member_id' => 'member_id']);
+		return $this->hasMany(MemberDocuments::className(), ['member_id' => 'member_id'])
+			->andOnCondition(['publish' => 1]);
 	}
 
 	/**
@@ -166,7 +168,8 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public function getFollowers()
 	{
-		return $this->hasMany(MemberFollowers::className(), ['member_id' => 'member_id']);
+		return $this->hasMany(MemberFollowers::className(), ['member_id' => 'member_id'])
+			->andOnCondition(['publish' => 1]);
 	}
 
 	/**
@@ -190,7 +193,8 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public function getRecruiters()
 	{
-		return $this->hasMany(MemberRecruiter::className(), ['member_id' => 'member_id']);
+		return $this->hasMany(MemberRecruiter::className(), ['member_id' => 'member_id'])
+			->andOnCondition(['publish' => 1]);
 	}
 
 	/**
@@ -198,7 +202,8 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public function getRecruiters0()
 	{
-		return $this->hasMany(MemberRecruiter::className(), ['recruiter_id' => 'member_id']);
+		return $this->hasMany(MemberRecruiter::className(), ['recruiter_id' => 'member_id'])
+			->andOnCondition(['publish' => 1]);
 	}
 
 	/**
@@ -206,7 +211,8 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public function getUsers()
 	{
-		return $this->hasMany(MemberUser::className(), ['member_id' => 'member_id']);
+		return $this->hasMany(MemberUser::className(), ['member_id' => 'member_id'])
+			->andOnCondition(['publish' => 1]);
 	}
 
 	/**
@@ -214,7 +220,8 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public function getViews()
 	{
-		return $this->hasMany(MemberViews::className(), ['member_id' => 'member_id']);
+		return $this->hasMany(MemberViews::className(), ['member_id' => 'member_id'])
+			->andOnCondition(['publish' => 1]);
 	}
 
 	/**
@@ -238,7 +245,8 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public function getTestimonials()
 	{
-		return $this->hasMany(Testimonials::className(), ['member_id' => 'member_id']);
+		return $this->hasMany(Testimonials::className(), ['member_id' => 'member_id'])
+			->andOnCondition(['publish' => 1]);
 	}
 
 	/**
@@ -246,7 +254,8 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public function getMembers()
 	{
-		return $this->hasMany(VacancyPackageMember::className(), ['member_id' => 'member_id']);
+		return $this->hasMany(VacancyPackageMember::className(), ['member_id' => 'member_id'])
+			->andOnCondition(['publish' => 1]);
 	}
 
 	/**
