@@ -21,6 +21,7 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="member-contact-category-search search-form">
+
 	<?php $form = ActiveForm::begin([
 		'action' => ['index'],
 		'method' => 'get',
@@ -28,6 +29,7 @@ use yii\widgets\ActiveForm;
 			'data-pjax' => 1
 		],
 	]); ?>
+
 		<?php echo $form->field($model, 'cat_name_i');?>
 
 		<?php echo $form->field($model, 'creation_date')
@@ -50,5 +52,7 @@ use yii\widgets\ActiveForm;
 			<?php echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
 			<?php echo Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
 		</div>
+
 	<?php ActiveForm::end(); ?>
+
 </div>

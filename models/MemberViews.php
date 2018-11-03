@@ -135,7 +135,7 @@ class MemberViews extends \app\components\ActiveRecord
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\query\MemberViews the active query used by this AR class.
 	 */
 	public static function find()

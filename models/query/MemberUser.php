@@ -25,7 +25,7 @@ class MemberUser extends \yii\db\ActiveQuery
 	*/
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function active() 
 	{
@@ -33,7 +33,7 @@ class MemberUser extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function deactive() 
 	{
@@ -41,7 +41,7 @@ class MemberUser extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\MemberUser[]|array
 	 */
 	public function all($db = null)
@@ -50,7 +50,7 @@ class MemberUser extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\MemberUser|array|null
 	 */
 	public function one($db = null)

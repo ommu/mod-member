@@ -32,7 +32,7 @@ use ommu\member\models\search\MemberFriendHistory as MemberFriendHistorySearch;
 class FriendController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -115,9 +115,8 @@ class FriendController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if (($model = MemberFriendHistory::findOne($id)) !== null) {
+		if(($model = MemberFriendHistory::findOne($id)) !== null)
 			return $model;
-		}
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}

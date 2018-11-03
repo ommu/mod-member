@@ -147,7 +147,7 @@ class MemberUser extends \app\components\ActiveRecord
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\query\MemberUser the active query used by this AR class.
 	 */
 	public static function find()

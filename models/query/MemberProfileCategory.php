@@ -25,7 +25,7 @@ class MemberProfileCategory extends \yii\db\ActiveQuery
 	*/
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function published() 
 	{
@@ -33,7 +33,7 @@ class MemberProfileCategory extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function unpublish() 
 	{
@@ -41,7 +41,7 @@ class MemberProfileCategory extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\MemberProfileCategory[]|array
 	 */
 	public function all($db = null)
@@ -50,7 +50,7 @@ class MemberProfileCategory extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\MemberProfileCategory|array|null
 	 */
 	public function one($db = null)

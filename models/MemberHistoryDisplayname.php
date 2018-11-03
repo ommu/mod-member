@@ -106,7 +106,7 @@ class MemberHistoryDisplayname extends \app\components\ActiveRecord
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\query\MemberHistoryDisplayname the active query used by this AR class.
 	 */
 	public static function find()

@@ -38,7 +38,7 @@ use ommu\member\models\Members;
 class DocumentController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -105,7 +105,7 @@ class DocumentController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member document success created.'));
 				return $this->redirect(['index', 'member'=>$model->member_id]);
-				//return $this->redirect(['view', 'id' => $model->id]);
+				//return $this->redirect(['view', 'id'=>$model->id]);
 			} 
 		}
 
@@ -135,7 +135,7 @@ class DocumentController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member document success updated.'));
 				return $this->redirect(['index', 'member'=>$model->member_id]);
-				//return $this->redirect(['view', 'id' => $model->id]);
+				//return $this->redirect(['view', 'id'=>$model->id]);
 			}
 		}
 
@@ -179,7 +179,6 @@ class DocumentController extends Controller
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member document success deleted.'));
 			return $this->redirect(['index', 'member'=>$model->member_id]);
-			//return $this->redirect(['view', 'id' => $model->id]);
 		}
 	}
 
@@ -210,9 +209,8 @@ class DocumentController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if (($model = MemberDocuments::findOne($id)) !== null) {
+		if(($model = MemberDocuments::findOne($id)) !== null)
 			return $model;
-		}
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}

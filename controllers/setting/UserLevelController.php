@@ -37,7 +37,7 @@ use ommu\member\models\search\MemberUserlevel as MemberUserlevelSearch;
 class UserLevelController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -95,7 +95,7 @@ class UserLevelController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member userlevel success created.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->level_id]);
+				//return $this->redirect(['view', 'id'=>$model->level_id]);
 			} 
 		}
 
@@ -122,7 +122,7 @@ class UserLevelController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member userlevel success updated.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->level_id]);
+				//return $this->redirect(['view', 'id'=>$model->level_id]);
 			}
 		}
 
@@ -165,7 +165,6 @@ class UserLevelController extends Controller
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member userlevel success deleted.'));
 			return $this->redirect(['index']);
-			//return $this->redirect(['view', 'id' => $model->level_id]);
 		}
 	}
 
@@ -196,9 +195,9 @@ class UserLevelController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if(($model = MemberUserlevel::findOne($id)) !== null) 
+		if(($model = MemberUserlevel::findOne($id)) !== null)
 			return $model;
-		else
-			throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+
+		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}
 }

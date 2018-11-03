@@ -25,7 +25,7 @@ use ommu\member\models\MemberContactCategory as MemberContactCategoryModel;
 class MemberContactCategory extends MemberContactCategoryModel
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function rules()
 	{
@@ -36,7 +36,7 @@ class MemberContactCategory extends MemberContactCategoryModel
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function scenarios()
 	{
@@ -58,6 +58,7 @@ class MemberContactCategory extends MemberContactCategoryModel
 	 * Creates data provider instance with search query applied
 	 *
 	 * @param array $params
+	 *
 	 * @return ActiveDataProvider
 	 */
 	public function search($params)

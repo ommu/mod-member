@@ -36,7 +36,7 @@ use ommu\member\models\search\MemberProfile as MemberProfileSearch;
 class ProfileController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -94,7 +94,7 @@ class ProfileController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success created.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->profile_id]);
+				//return $this->redirect(['view', 'id'=>$model->profile_id]);
 			} 
 		}
 
@@ -121,7 +121,7 @@ class ProfileController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success updated.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->profile_id]);
+				//return $this->redirect(['view', 'id'=>$model->profile_id]);
 			}
 		}
 
@@ -164,7 +164,6 @@ class ProfileController extends Controller
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success deleted.'));
 			return $this->redirect(['index']);
-			//return $this->redirect(['view', 'id' => $model->profile_id]);
 		}
 	}
 
@@ -195,9 +194,9 @@ class ProfileController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if(($model = MemberProfile::findOne($id)) !== null) 
+		if(($model = MemberProfile::findOne($id)) !== null)
 			return $model;
-		else
-			throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+
+		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}
 }

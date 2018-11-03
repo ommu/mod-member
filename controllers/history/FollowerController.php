@@ -33,7 +33,7 @@ use ommu\member\models\search\MemberFollowerHistory as MemberFollowerHistorySear
 class FollowerController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -107,7 +107,6 @@ class FollowerController extends Controller
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member follower history success deleted.'));
 			return $this->redirect(['index']);
-			//return $this->redirect(['view', 'id' => $model->id]);
 		}
 	}
 
@@ -120,9 +119,8 @@ class FollowerController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if (($model = MemberFollowerHistory::findOne($id)) !== null) {
+		if(($model = MemberFollowerHistory::findOne($id)) !== null)
 			return $model;
-		}
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}

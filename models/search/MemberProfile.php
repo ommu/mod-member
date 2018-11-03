@@ -22,7 +22,7 @@ use ommu\member\models\MemberProfile as MemberProfileModel;
 class MemberProfile extends MemberProfileModel
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function rules()
 	{
@@ -33,7 +33,7 @@ class MemberProfile extends MemberProfileModel
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function scenarios()
 	{
@@ -55,6 +55,7 @@ class MemberProfile extends MemberProfileModel
 	 * Creates data provider instance with search query applied
 	 *
 	 * @param array $params
+	 *
 	 * @return ActiveDataProvider
 	 */
 	public function search($params)

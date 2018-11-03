@@ -37,7 +37,7 @@ use ommu\member\models\search\MemberCompanyContact as MemberCompanyContactSearch
 class CompanyContactController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -172,7 +172,6 @@ class CompanyContactController extends Controller
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member company contact success deleted.'));
 			return $this->redirect(['index', 'company'=>$model->member_company_id]);
-			//return $this->redirect(['view', 'id'=>$model->id]);
 		}
 	}
 
@@ -221,9 +220,8 @@ class CompanyContactController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if (($model = MemberCompanyContact::findOne($id)) !== null) {
+		if(($model = MemberCompanyContact::findOne($id)) !== null)
 			return $model;
-		}
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}

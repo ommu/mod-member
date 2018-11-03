@@ -25,7 +25,7 @@ class MemberFollowerHistory extends \yii\db\ActiveQuery
 	*/
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function follow() 
 	{
@@ -33,7 +33,7 @@ class MemberFollowerHistory extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function unfollow() 
 	{
@@ -41,7 +41,7 @@ class MemberFollowerHistory extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\MemberFollowerHistory[]|array
 	 */
 	public function all($db = null)
@@ -50,7 +50,7 @@ class MemberFollowerHistory extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\MemberFollowerHistory|array|null
 	 */
 	public function one($db = null)

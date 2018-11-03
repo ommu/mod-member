@@ -144,7 +144,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\query\MemberDocuments the active query used by this AR class.
 	 */
 	public static function find()
@@ -369,7 +369,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 			if($this->document_filename instanceof UploadedFile && !$this->document_filename->getHasError()) {
 				$fileName = time().'_'.$this->member_id.'.'.strtolower($this->document_filename->getExtension()); 
 				if($this->document_filename->saveAs(join('/', [$uploadPath, $fileName])))
-					self::updateAll(['document_filename' => $fileName], ['id' => $this->id]);
+					self::updateAll(['document_filename' => $fileName], ['id'=>$this->id]);
 			}
 
 		}

@@ -32,7 +32,7 @@ use ommu\member\models\search\MemberHistoryDisplayname as MemberHistoryDisplayna
 class DisplaynameController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -115,9 +115,8 @@ class DisplaynameController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if (($model = MemberHistoryDisplayname::findOne($id)) !== null) {
+		if(($model = MemberHistoryDisplayname::findOne($id)) !== null)
 			return $model;
-		}
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}

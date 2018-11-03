@@ -35,7 +35,7 @@ use ommu\member\models\search\MemberCompany as MemberCompanySearch;
 class CompanyController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -92,7 +92,7 @@ class CompanyController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member company success created.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->id]);
+				//return $this->redirect(['view', 'id'=>$model->id]);
 			} 
 		}
 
@@ -119,7 +119,7 @@ class CompanyController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member company success updated.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->id]);
+				//return $this->redirect(['view', 'id'=>$model->id]);
 			}
 		}
 
@@ -171,9 +171,8 @@ class CompanyController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if (($model = MemberCompany::findOne($id)) !== null) {
+		if(($model = MemberCompany::findOne($id)) !== null)
 			return $model;
-		}
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}

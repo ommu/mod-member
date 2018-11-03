@@ -25,7 +25,7 @@ class MemberViewHistory extends \yii\db\ActiveQuery
 	*/
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\MemberViewHistory[]|array
 	 */
 	public function all($db = null)
@@ -34,7 +34,7 @@ class MemberViewHistory extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\MemberViewHistory|array|null
 	 */
 	public function one($db = null)

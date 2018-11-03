@@ -25,7 +25,7 @@ class MemberFriends extends \yii\db\ActiveQuery
 	*/
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\MemberFriends[]|array
 	 */
 	public function all($db = null)
@@ -34,7 +34,7 @@ class MemberFriends extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\MemberFriends|array|null
 	 */
 	public function one($db = null)

@@ -32,7 +32,7 @@ use ommu\member\models\search\MemberViewHistory as MemberViewHistorySearch;
 class ViewController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -115,9 +115,8 @@ class ViewController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if (($model = MemberViewHistory::findOne($id)) !== null) {
+		if(($model = MemberViewHistory::findOne($id)) !== null)
 			return $model;
-		}
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}

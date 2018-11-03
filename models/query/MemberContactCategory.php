@@ -28,7 +28,7 @@ class MemberContactCategory extends \yii\db\ActiveQuery
 	*/
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function published() 
 	{
@@ -36,7 +36,7 @@ class MemberContactCategory extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function unpublish() 
 	{
@@ -44,7 +44,7 @@ class MemberContactCategory extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\MemberContactCategory[]|array
 	 */
 	public function all($db = null)
@@ -53,7 +53,7 @@ class MemberContactCategory extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\MemberContactCategory|array|null
 	 */
 	public function one($db = null)

@@ -25,7 +25,7 @@ class MemberFriendHistory extends \yii\db\ActiveQuery
 	*/
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\MemberFriendHistory[]|array
 	 */
 	public function all($db = null)
@@ -34,7 +34,7 @@ class MemberFriendHistory extends \yii\db\ActiveQuery
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\MemberFriendHistory|array|null
 	 */
 	public function one($db = null)

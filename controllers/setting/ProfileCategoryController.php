@@ -37,7 +37,7 @@ use ommu\member\models\search\MemberProfileCategory as MemberProfileCategorySear
 class ProfileCategoryController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -101,7 +101,7 @@ class ProfileCategoryController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success created.'));
 				return $this->redirect(['index', 'profile'=>$model->profile_id]);
-				//return $this->redirect(['view', 'id' => $model->cat_id]);
+				//return $this->redirect(['view', 'id'=>$model->cat_id]);
 			} 
 		}
 
@@ -129,7 +129,7 @@ class ProfileCategoryController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success updated.'));
 				return $this->redirect(['index', 'profile'=>$model->profile_id]);
-				//return $this->redirect(['view', 'id' => $model->cat_id]);
+				//return $this->redirect(['view', 'id'=>$model->cat_id]);
 			}
 		}
 
@@ -173,7 +173,6 @@ class ProfileCategoryController extends Controller
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success deleted.'));
 			return $this->redirect(['index', 'profile'=>$model->profile_id]);
-			//return $this->redirect(['view', 'id' => $model->cat_id]);
 		}
 	}
 
@@ -204,9 +203,9 @@ class ProfileCategoryController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if(($model = MemberProfileCategory::findOne($id)) !== null) 
+		if(($model = MemberProfileCategory::findOne($id)) !== null)
 			return $model;
-		else
-			throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+
+		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}
 }

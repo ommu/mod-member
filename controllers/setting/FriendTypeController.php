@@ -36,7 +36,7 @@ use ommu\member\models\search\MemberFriendType as MemberFriendTypeSearch;
 class FriendTypeController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -94,7 +94,7 @@ class FriendTypeController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member friend type success created.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->id]);
+				//return $this->redirect(['view', 'id'=>$model->id]);
 			} 
 		}
 
@@ -121,7 +121,7 @@ class FriendTypeController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member friend type success updated.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->id]);
+				//return $this->redirect(['view', 'id'=>$model->id]);
 			}
 		}
 
@@ -164,7 +164,6 @@ class FriendTypeController extends Controller
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member friend type success deleted.'));
 			return $this->redirect(['index']);
-			//return $this->redirect(['view', 'id' => $model->id]);
 		}
 	}
 
@@ -195,9 +194,9 @@ class FriendTypeController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if(($model = MemberFriendType::findOne($id)) !== null) 
+		if(($model = MemberFriendType::findOne($id)) !== null)
 			return $model;
-		else
-			throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+
+		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}
 }

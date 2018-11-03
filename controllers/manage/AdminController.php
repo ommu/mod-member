@@ -38,7 +38,7 @@ use ommu\member\models\search\Members as MembersSearch;
 class AdminController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -98,7 +98,7 @@ class AdminController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member success created.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->member_id]);
+				//return $this->redirect(['view', 'id'=>$model->member_id]);
 			} 
 		}
 
@@ -125,7 +125,7 @@ class AdminController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member success updated.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->member_id]);
+				//return $this->redirect(['view', 'id'=>$model->member_id]);
 			}
 		}
 
@@ -168,7 +168,6 @@ class AdminController extends Controller
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member success deleted.'));
 			return $this->redirect(['index']);
-			//return $this->redirect(['view', 'id' => $model->member_id]);
 		}
 	}
 
@@ -217,9 +216,8 @@ class AdminController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if (($model = Members::findOne($id)) !== null) {
+		if(($model = Members::findOne($id)) !== null)
 			return $model;
-		}
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}

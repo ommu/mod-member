@@ -130,7 +130,7 @@ class MemberFollowers extends \app\components\ActiveRecord
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\query\MemberFollowers the active query used by this AR class.
 	 */
 	public static function find()

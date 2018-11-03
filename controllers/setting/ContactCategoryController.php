@@ -37,7 +37,7 @@ use ommu\member\models\search\MemberContactCategory as MemberContactCategorySear
 class ContactCategoryController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -95,7 +95,7 @@ class ContactCategoryController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member contact category success created.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->cat_id]);
+				//return $this->redirect(['view', 'id'=>$model->cat_id]);
 			} 
 		}
 
@@ -122,7 +122,7 @@ class ContactCategoryController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member contact category success updated.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->cat_id]);
+				//return $this->redirect(['view', 'id'=>$model->cat_id]);
 			}
 		}
 
@@ -165,7 +165,6 @@ class ContactCategoryController extends Controller
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member contact category success deleted.'));
 			return $this->redirect(['index']);
-			//return $this->redirect(['view', 'id' => $model->cat_id]);
 		}
 	}
 
@@ -196,9 +195,9 @@ class ContactCategoryController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if(($model = MemberContactCategory::findOne($id)) !== null) 
+		if(($model = MemberContactCategory::findOne($id)) !== null)
 			return $model;
-		else
-			throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+
+		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}
 }

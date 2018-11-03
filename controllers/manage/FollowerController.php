@@ -36,7 +36,7 @@ use ommu\member\models\search\MemberFollowers as MemberFollowersSearch;
 class FollowerController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -100,7 +100,7 @@ class FollowerController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member follower success created.'));
 				return $this->redirect(['index', 'member'=>$model->member_id]);
-				//return $this->redirect(['view', 'id' => $model->id]);
+				//return $this->redirect(['view', 'id'=>$model->id]);
 			} 
 		}
 
@@ -127,7 +127,7 @@ class FollowerController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member follower success updated.'));
 				return $this->redirect(['index', 'member'=>$model->member_id]);
-				//return $this->redirect(['view', 'id' => $model->id]);
+				//return $this->redirect(['view', 'id'=>$model->id]);
 			}
 		}
 
@@ -170,7 +170,6 @@ class FollowerController extends Controller
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member follower success deleted.'));
 			return $this->redirect(['index', 'member'=>$model->member_id]);
-			//return $this->redirect(['view', 'id' => $model->id]);
 		}
 	}
 
@@ -201,9 +200,8 @@ class FollowerController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if (($model = MemberFollowers::findOne($id)) !== null) {
+		if(($model = MemberFollowers::findOne($id)) !== null)
 			return $model;
-		}
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}

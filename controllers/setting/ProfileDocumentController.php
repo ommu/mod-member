@@ -37,7 +37,7 @@ use ommu\member\models\search\MemberProfileDocument as MemberProfileDocumentSear
 class ProfileDocumentController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -101,7 +101,7 @@ class ProfileDocumentController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success created.'));
 				return $this->redirect(['index', 'profile'=>$model->profile_id]);
-				//return $this->redirect(['view', 'id' => $model->id]);
+				//return $this->redirect(['view', 'id'=>$model->id]);
 			} 
 		}
 
@@ -128,7 +128,7 @@ class ProfileDocumentController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success updated.'));
 				return $this->redirect(['index', 'profile'=>$model->profile_id]);
-				//return $this->redirect(['view', 'id' => $model->id]);
+				//return $this->redirect(['view', 'id'=>$model->id]);
 			}
 		}
 
@@ -171,7 +171,6 @@ class ProfileDocumentController extends Controller
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success deleted.'));
 			return $this->redirect(['index', 'profile'=>$model->profile_id]);
-			//return $this->redirect(['view', 'id' => $model->id]);
 		}
 	}
 
@@ -202,9 +201,8 @@ class ProfileDocumentController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if (($model = MemberProfileDocument::findOne($id)) !== null) {
+		if(($model = MemberProfileDocument::findOne($id)) !== null)
 			return $model;
-		}
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}

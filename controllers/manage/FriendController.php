@@ -34,7 +34,7 @@ use ommu\member\models\search\MemberFriends as MemberFriendsSearch;
 class FriendController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -91,7 +91,7 @@ class FriendController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member friend success created.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->id]);
+				//return $this->redirect(['view', 'id'=>$model->id]);
 			} 
 		}
 
@@ -118,7 +118,7 @@ class FriendController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member friend success updated.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id' => $model->id]);
+				//return $this->redirect(['view', 'id'=>$model->id]);
 			}
 		}
 
@@ -170,9 +170,8 @@ class FriendController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if (($model = MemberFriends::findOne($id)) !== null) {
+		if(($model = MemberFriends::findOne($id)) !== null)
 			return $model;
-		}
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}

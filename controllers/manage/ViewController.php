@@ -34,7 +34,7 @@ use ommu\member\models\search\MemberViews as MemberViewsSearch;
 class ViewController extends Controller
 {
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function behaviors()
 	{
@@ -109,7 +109,6 @@ class ViewController extends Controller
 		if($model->save(false, ['publish'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member view success deleted.'));
 			return $this->redirect(['index']);
-			//return $this->redirect(['view', 'id' => $model->view_id]);
 		}
 	}
 
@@ -140,9 +139,8 @@ class ViewController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if (($model = MemberViews::findOne($id)) !== null) {
+		if(($model = MemberViews::findOne($id)) !== null)
 			return $model;
-		}
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}
