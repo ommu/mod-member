@@ -268,8 +268,8 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 	 */
 	public function afterFind()
 	{
-		$this->document_name_i = isset($this->document->title) ? $this->document->title->message : '';
-		$this->document_desc_i = isset($this->document->description) ? $this->document->description->message : '';
+		$this->document_name_i = isset($this->document) ? $this->document->document_name_i : '';
+		$this->document_desc_i = isset($this->document) ? $this->document->document_desc_i : '';
 	}
 
 	/**

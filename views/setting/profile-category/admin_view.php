@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Profile Categories')
 $this->params['breadcrumbs'][] = $model->title->message;
 
 $this->params['menu']['content'] = [
-	['label' => Yii::t('app', 'Back To Manage'), 'url' => Url::to(['index']), 'icon' => 'table'],
+	['label' => Yii::t('app', 'Back To Manage'), 'url' => Url::to(['index', 'profile'=>$model->profile_id]), 'icon' => 'table'],
 	['label' => Yii::t('app', 'Update'), 'url' => Url::to(['update', 'id'=>$model->cat_id]), 'icon' => 'pencil'],
 	['label' => Yii::t('app', 'Delete'), 'url' => Url::to(['delete', 'id'=>$model->cat_id]), 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'), 'method' => 'post', 'icon' => 'trash'],
 ];
