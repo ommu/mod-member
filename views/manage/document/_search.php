@@ -43,6 +43,9 @@ use ommu\member\models\MemberDocumentType;
 
 		<?php echo $form->field($model, 'document_filename');?>
 
+		<?php echo $form->field($model, 'statuses_date')
+			->input('date');?>
+
 		<?php echo $form->field($model, 'creation_date')
 			->input('date');?>
 

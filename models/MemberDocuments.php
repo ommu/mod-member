@@ -17,6 +17,7 @@
  * @property integer $member_id
  * @property integer $profile_document_id
  * @property string $document_filename
+ * @property string $statuses_date
  * @property string $creation_date
  * @property integer $creation_id
  * @property string $modified_date
@@ -79,7 +80,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 			[['member_id', 'profile_document_id'], 'required'],
 			[['publish', 'status', 'member_id', 'profile_document_id', 'creation_id', 'modified_id'], 'integer'],
 			[['document_filename'], 'string'],
-			[['document_filename', 'creation_date', 'modified_date', 'updated_date'], 'safe'],
+			[['document_filename', 'statuses_date', 'creation_date', 'modified_date', 'updated_date'], 'safe'],
 			[['member_id'], 'exist', 'skipOnError' => true, 'targetClass' => Members::className(), 'targetAttribute' => ['member_id' => 'member_id']],
 			[['profile_document_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberProfileDocument::className(), 'targetAttribute' => ['profile_document_id' => 'id']],
 		];
@@ -97,6 +98,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 			'member_id' => Yii::t('app', 'Member'),
 			'profile_document_id' => Yii::t('app', 'Profile Document'),
 			'document_filename' => Yii::t('app', 'Document Filename'),
+			'statuses_date' => Yii::t('app', 'Statuses Date'),
 			'creation_date' => Yii::t('app', 'Creation Date'),
 			'creation_id' => Yii::t('app', 'Creation'),
 			'modified_date' => Yii::t('app', 'Modified Date'),
@@ -196,6 +198,14 @@ class MemberDocuments extends \app\components\ActiveRecord
 			},
 			'format' => 'html',
 		];
+		$this->templateColumns['statuses_date'] = [
+			'attribute' => 'statuses_date',
+			'value' => function($model, $key, $index, $column) {
+				return !in_array($model->statuses_date, ['0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00']) ? Yii::$app->formatter->format($model->statuses_date, 'datetime') : '-';
+			},
+			'filter' => $this->filterDatepicker($this, 'statuses_date'),
+			'format' => 'html',
+		];
 		$this->templateColumns['creation_date'] = [
 			'attribute' => 'creation_date',
 			'value' => function($model, $key, $index, $column) {
@@ -238,10 +248,10 @@ class MemberDocuments extends \app\components\ActiveRecord
 		];
 		$this->templateColumns['status'] = [
 			'attribute' => 'status',
-			'filter' => $this->filterYesNo(),
+			'filter' => self::getStatus(),
 			'value' => function($model, $key, $index, $column) {
 				$url = Url::to(['status', 'id'=>$model->primaryKey]);
-				return $this->quickAction($url, $model->status, '"0=request,1=approve,2=rejected"');
+				return self::getStatus($model->status);
 			},
 			'contentOptions' => ['class'=>'center'],
 			'format' => 'raw',
@@ -276,6 +286,23 @@ class MemberDocuments extends \app\components\ActiveRecord
 			$model = self::findOne($id);
 			return $model;
 		}
+	}
+
+	/**
+	 * function getStatus
+	 */
+	public static function getStatus($value=null)
+	{
+		$items = array(
+			'0'=>Yii::t('app', 'Request'),
+			'1'=>Yii::t('app', 'Approve'),
+			'2'=>Yii::t('app', 'Rejected'),
+		);
+
+		if($value !== null)
+			return $items[$value];
+		else
+			return $items;
 	}
 
 	/**

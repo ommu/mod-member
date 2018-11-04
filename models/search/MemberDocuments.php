@@ -28,7 +28,7 @@ class MemberDocuments extends MemberDocumentsModel
 	{
 		return [
 			[['id', 'publish', 'status', 'member_id', 'profile_document_id', 'creation_id', 'modified_id'], 'integer'],
-			[['document_filename', 'creation_date', 'modified_date', 'updated_date', 'member_search', 'creation_search', 'modified_search', 'profile_search', 'document_search'], 'safe'],
+			[['document_filename', 'statuses_date', 'creation_date', 'modified_date', 'updated_date', 'member_search', 'creation_search', 'modified_search', 'profile_search', 'document_search'], 'safe'],
 		];
 	}
 
@@ -115,6 +115,7 @@ class MemberDocuments extends MemberDocumentsModel
 			't.status' => $this->status,
 			't.member_id' => isset($params['member']) ? $params['member'] : $this->member_id,
 			't.profile_document_id' => isset($params['profileDocument']) ? $params['profileDocument'] : $this->profile_document_id,
+			'cast(t.statuses_date as date)' => $this->statuses_date,
 			'cast(t.creation_date as date)' => $this->creation_date,
 			't.creation_id' => isset($params['creation']) ? $params['creation'] : $this->creation_id,
 			'cast(t.modified_date as date)' => $this->modified_date,

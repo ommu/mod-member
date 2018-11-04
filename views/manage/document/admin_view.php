@@ -45,8 +45,7 @@ $this->params['menu']['content'] = [
 		],
 		[
 			'attribute' => 'status',
-			'value' => $this->quickAction(Url::to(['status', 'id'=>$model->primaryKey]), $model->status, '"0=request,1=approve,2=rejected"'),
-			'format' => 'raw',
+			'value' => MemberDocuments::getStatus($model->status);
 		],
 		[
 			'attribute' => 'profile_search',
@@ -67,6 +66,10 @@ $this->params['menu']['content'] = [
 				return $model->document_filename ? Html::img($image, ['width' => '100%']).'<br/><br/>'.$image : '-';
 			},
 			'format' => 'raw',
+		],
+		[
+			'attribute' => 'statuses_date',
+			'value' => !in_array($model->statuses_date, ['0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00']) ? Yii::$app->formatter->format($model->statuses_date, 'datetime') : '-',
 		],
 		[
 			'attribute' => 'creation_date',

@@ -96,7 +96,7 @@ class Members extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['profile_id', 'displayname'], 'required'],
+			[['profile_id', 'member_private', 'displayname'], 'required'],
 			[['publish', 'approved', 'profile_id', 'member_private', 'approved_id', 'creation_id', 'modified_id'], 'integer'],
 			[['photo_header', 'photo_profile', 'short_biography'], 'string'],
 			[['username', 'photo_header', 'photo_profile', 'short_biography', 'approved_date', 'creation_date', 'modified_date', 'updated_date'], 'safe'],
