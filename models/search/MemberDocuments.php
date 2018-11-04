@@ -112,7 +112,7 @@ class MemberDocuments extends MemberDocumentsModel
 		// grid filtering conditions
 		$query->andFilterWhere([
 			't.id' => $this->id,
-			't.status' => $this->status,
+			't.status' => isset($params['status']) ? $params['status'] : $this->status,
 			't.member_id' => isset($params['member']) ? $params['member'] : $this->member_id,
 			't.profile_document_id' => isset($params['profileDocument']) ? $params['profileDocument'] : $this->profile_document_id,
 			'cast(t.statuses_date as date)' => $this->statuses_date,

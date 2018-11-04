@@ -13,6 +13,7 @@
  * The followings are the available columns in table "ommu_member_user":
  * @property integer $id
  * @property integer $publish
+ * @property integer $owner
  * @property integer $member_id
  * @property integer $level_id
  * @property integer $user_id
@@ -74,7 +75,7 @@ class MemberUser extends \app\components\ActiveRecord
 	{
 		return [
 			[['member_id', 'level_id', 'user_id'], 'required'],
-			[['publish', 'member_id', 'level_id', 'user_id', 'creation_id', 'modified_id'], 'integer'],
+			[['publish', 'owner', 'member_id', 'level_id', 'user_id', 'creation_id', 'modified_id'], 'integer'],
 			[['creation_date', 'modified_date', 'updated_date'], 'safe'],
 			[['member_id'], 'exist', 'skipOnError' => true, 'targetClass' => Members::className(), 'targetAttribute' => ['member_id' => 'member_id']],
 			[['level_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberUserlevel::className(), 'targetAttribute' => ['level_id' => 'level_id']],
@@ -90,6 +91,7 @@ class MemberUser extends \app\components\ActiveRecord
 		return [
 			'id' => Yii::t('app', 'ID'),
 			'publish' => Yii::t('app', 'Active'),
+			'owner' => Yii::t('app', 'Owner'),
 			'member_id' => Yii::t('app', 'Member'),
 			'level_id' => Yii::t('app', 'Level'),
 			'user_id' => Yii::t('app', 'User'),
@@ -238,6 +240,15 @@ class MemberUser extends \app\components\ActiveRecord
 			},
 			'filter' => $this->filterDatepicker($this, 'updated_date'),
 			'format' => 'html',
+		];
+		$this->templateColumns['owner'] = [
+			'attribute' => 'owner',
+			'filter' => $this->filterYesNo(),
+			'value' => function($model, $key, $index, $column) {
+				return $this->filterYesNo($model->owner);
+			},
+			'contentOptions' => ['class'=>'center'],
+			'format' => 'raw',
 		];
 		if(!Yii::$app->request->get('trash')) {
 			$this->templateColumns['publish'] = [

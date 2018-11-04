@@ -27,7 +27,7 @@ class MemberUser extends MemberUserModel
 	public function rules()
 	{
 		return [
-			[['id', 'publish', 'member_id', 'level_id', 'user_id', 'creation_id', 'modified_id'], 'integer'],
+			[['id', 'owner', 'publish', 'member_id', 'level_id', 'user_id', 'creation_id', 'modified_id'], 'integer'],
 			[['creation_date', 'modified_date', 'updated_date', 'member_search', 'user_search', 'creation_search', 'modified_search', 'profile_search'], 'safe'],
 		];
 	}
@@ -116,6 +116,7 @@ class MemberUser extends MemberUserModel
 		// grid filtering conditions
 		$query->andFilterWhere([
 			't.id' => $this->id,
+			't.owner' => isset($params['owner']) ? $params['owner'] : $this->owner,
 			't.member_id' => isset($params['member']) ? $params['member'] : $this->member_id,
 			't.level_id' => isset($params['level']) ? $params['level'] : $this->level_id,
 			't.user_id' => isset($params['user']) ? $params['user'] : $this->user_id,

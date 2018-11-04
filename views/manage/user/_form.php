@@ -43,6 +43,10 @@ echo $form->field($model, 'level_id', ['template' => '{label}<div class="col-md-
 	->textInput(['type'=>'number', 'min'=>'1'])
 	->label($model->getAttributeLabel('user_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
+<?php echo $form->field($model, 'owner', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
+	->checkbox(['label'=>''])
+	->label($model->getAttributeLabel('owner'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+
 <?php echo $form->field($model, 'publish', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
 	->checkbox(['label'=>''])
 	->label($model->getAttributeLabel('publish'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>

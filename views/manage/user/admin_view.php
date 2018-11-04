@@ -42,6 +42,10 @@ $this->params['menu']['content'] = [
 			'format' => 'raw',
 		],
 		[
+			'attribute' => 'owner',
+			'value' => $this->filterYesNo($model->owner),
+		],
+		[
 			'attribute' => 'profile_search',
 			'value' => isset($model->member) ? $model->member->profile->title->message : '-',
 		],
