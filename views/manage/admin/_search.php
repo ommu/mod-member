@@ -18,6 +18,7 @@
 use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use ommu\member\models\Members;
 use ommu\member\models\MemberProfile;
 ?>
 
@@ -66,8 +67,9 @@ use ommu\member\models\MemberProfile;
 		<?php echo $form->field($model, 'approved')
 			->dropDownList($this->filterYesNo(), ['prompt'=>'']);?>
 
-		<?php echo $form->field($model, 'member_private')
-			->dropDownList($this->filterYesNo(), ['prompt'=>'']);?>
+		<?php $memberPrivate = Members::getMemberPrivate();
+			echo $form->field($model, 'member_private')
+			->dropDownList($memberPrivate, ['prompt'=>'']);?>
 
 		<?php echo $form->field($model, 'publish')
 			->dropDownList($this->filterYesNo(), ['prompt'=>'']);?>

@@ -9,7 +9,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 30 October 2018, 22:51 WIB
- * @modified date 3 November 2018, 18:44 WIB
+ * @modified date 4 November 2018, 17:03 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -54,8 +54,7 @@ $this->params['menu']['content'] = [
 		],
 		[
 			'attribute' => 'member_private',
-			'value' => $this->quickAction(Url::to(['member-private', 'id'=>$model->primaryKey]), $model->member_private, '"0=public, 1=private"'),
-			'format' => 'raw',
+			'value' => Members::getMemberPrivate($model->member_private),
 		],
 		'username',
 		'displayname',
