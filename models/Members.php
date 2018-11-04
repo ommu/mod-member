@@ -64,7 +64,7 @@ class Members extends \app\components\ActiveRecord
 	use \ommu\traits\UtilityTrait;
 	use \ommu\traits\FileTrait;
 
-	public $gridForbiddenColumn = [];
+	public $gridForbiddenColumn = ['photo_header','short_biography','approved_date','approved_search','creation_date','creation_search','modified_date','modified_search','updated_date'];
 	public $old_photo_header_i;
 	public $old_photo_profile_i;
 	public $old_approved_i;
@@ -100,6 +100,7 @@ class Members extends \app\components\ActiveRecord
 			[['publish', 'approved', 'profile_id', 'member_private', 'approved_id', 'creation_id', 'modified_id'], 'integer'],
 			[['photo_header', 'photo_profile', 'short_biography'], 'string'],
 			[['username', 'photo_header', 'photo_profile', 'short_biography', 'approved_date', 'creation_date', 'modified_date', 'updated_date'], 'safe'],
+			['username', 'unique'],
 			[['username'], 'string', 'max' => 32],
 			[['displayname'], 'string', 'max' => 64],
 			[['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberProfile::className(), 'targetAttribute' => ['profile_id' => 'profile_id']],
@@ -116,7 +117,7 @@ class Members extends \app\components\ActiveRecord
 			'publish' => Yii::t('app', 'Publish'),
 			'approved' => Yii::t('app', 'Approved'),
 			'profile_id' => Yii::t('app', 'Profile'),
-			'member_private' => Yii::t('app', 'Member Private'),
+			'member_private' => Yii::t('app', 'Member'),
 			'username' => Yii::t('app', 'Username'),
 			'displayname' => Yii::t('app', 'Displayname'),
 			'photo_header' => Yii::t('app', 'Photo Header'),
@@ -412,10 +413,9 @@ class Members extends \app\components\ActiveRecord
 		];
 		$this->templateColumns['member_private'] = [
 			'attribute' => 'member_private',
-			'filter' => $this->filterYesNo(),
+			'filter' => self::getMemberPrivate(),
 			'value' => function($model, $key, $index, $column) {
-				$url = Url::to(['member-private', 'id'=>$model->primaryKey]);
-				return $this->quickAction($url, $model->member_private, '"0=public, 1=private"');
+				return self::getMemberPrivate($model->member_private);
 			},
 			'contentOptions' => ['class'=>'center'],
 			'format' => 'raw',
@@ -450,6 +450,22 @@ class Members extends \app\components\ActiveRecord
 			$model = self::findOne($id);
 			return $model;
 		}
+	}
+
+	/**
+	 * function getMemberPrivate
+	 */
+	public static function getMemberPrivate($value=null)
+	{
+		$items = array(
+			'0'=>Yii::t('app', 'Public'),
+			'1'=>Yii::t('app', 'Private'),
+		);
+
+		if($value !== null)
+			return $items[$value];
+		else
+			return $items;
 	}
 
 	/**

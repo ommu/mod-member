@@ -75,17 +75,14 @@ echo $form->field($model, 'profile_id', ['template' => '{label}<div class="col-m
 	->textarea(['rows'=>2, 'rows'=>6])
 	->label($model->getAttributeLabel('short_biography'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
-<?php echo $form->field($model, 'approved_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->textInput(['type'=>'number', 'min'=>'1'])
-	->label($model->getAttributeLabel('approved_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+<?php $memberPrivate = Members::getMemberPrivate();
+echo $form->field($model, 'member_private', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+	->dropDownList($memberPrivate, ['prompt'=>''])
+	->label($model->getAttributeLabel('member_private'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'approved', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
 	->checkbox(['label'=>''])
 	->label($model->getAttributeLabel('approved'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
-
-<?php echo $form->field($model, 'member_private', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
-	->checkbox(['label'=>''])
-	->label($model->getAttributeLabel('member_private'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'publish', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
 	->checkbox(['label'=>''])

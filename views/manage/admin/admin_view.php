@@ -9,14 +9,16 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 30 October 2018, 22:51 WIB
+ * @modified date 3 November 2018, 18:44 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
 use Yii;
 use yii\helpers\Url;
+use yii\helpers\Html;
 use yii\widgets\DetailView;
-use ommu\member\models\Members
+use ommu\member\models\Members;
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Members'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->displayname;
@@ -59,11 +61,19 @@ $this->params['menu']['content'] = [
 		'displayname',
 		[
 			'attribute' => 'photo_header',
-			'value' => $model->photo_header ? $model->photo_header : '-',
+			'value' => function ($model) {
+				$image = join('/', [Url::Base(), Members::getUploadPath(false), $model->member_id, $model->photo_header]);
+				return $model->photo_header ? Html::img($image, ['width' => '100%']).'<br/><br/>'.$image : '-';
+			},
+			'format' => 'raw',
 		],
 		[
 			'attribute' => 'photo_profile',
-			'value' => $model->photo_profile ? $model->photo_profile : '-',
+			'value' => function ($model) {
+				$image = join('/', [Url::Base(), Members::getUploadPath(false), $model->member_id, $model->photo_profile]);
+				return $model->photo_profile ? Html::img($image, ['width' => '100%']).'<br/><br/>'.$image : '-';
+			},
+			'format' => 'raw',
 		],
 		[
 			'attribute' => 'short_biography',
@@ -73,7 +83,10 @@ $this->params['menu']['content'] = [
 			'attribute' => 'approved_date',
 			'value' => !in_array($model->approved_date, ['0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00']) ? Yii::$app->formatter->format($model->approved_date, 'datetime') : '-',
 		],
-		'approved_id',
+		[
+			'attribute' => 'approved_search',
+			'value' => isset($model->approvedRltn) ? $model->approvedRltn->displayname : '-',
+		],
 		[
 			'attribute' => 'creation_date',
 			'value' => !in_array($model->creation_date, ['0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00']) ? Yii::$app->formatter->format($model->creation_date, 'datetime') : '-',

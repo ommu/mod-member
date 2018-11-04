@@ -10,6 +10,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 30 October 2018, 22:51 WIB
+ * @modified date 3 November 2018, 18:44 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -47,7 +48,7 @@ use ommu\member\models\MemberProfile;
 		<?php echo $form->field($model, 'approved_date')
 			->input('date');?>
 
-		<?php echo $form->field($model, 'approved_id');?>
+		<?php echo $form->field($model, 'approved_search');?>
 
 		<?php echo $form->field($model, 'creation_date')
 			->input('date');?>

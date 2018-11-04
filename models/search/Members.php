@@ -8,6 +8,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 30 October 2018, 22:51 WIB
+ * @modified date 4 November 2018, 05:14 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -63,7 +64,7 @@ class Members extends MembersModel
 		$query = MembersModel::find()->alias('t');
 		$query->joinWith([
 			'profile.title profile', 
-			'approved approved', 
+			'approvedRltn approvedRltn', 
 			'creation creation', 
 			'modified modified'
 		]);
@@ -78,9 +79,9 @@ class Members extends MembersModel
 			'asc' => ['profile.message' => SORT_ASC],
 			'desc' => ['profile.message' => SORT_DESC],
 		];
-		$attributes['approved_search'] = [ 
-			'asc' => ['approved.displayname' => SORT_ASC], 
-			'desc' => ['approved.displayname' => SORT_DESC], 
+		$attributes['approved_search'] = [
+			'asc' => ['approvedRltn.displayname' => SORT_ASC],
+			'desc' => ['approvedRltn.displayname' => SORT_DESC],
 		];
 		$attributes['creation_search'] = [
 			'asc' => ['creation.displayname' => SORT_ASC],
@@ -132,7 +133,7 @@ class Members extends MembersModel
 			->andFilterWhere(['like', 't.photo_header', $this->photo_header])
 			->andFilterWhere(['like', 't.photo_profile', $this->photo_profile])
 			->andFilterWhere(['like', 't.short_biography', $this->short_biography])
-			->andFilterWhere(['like', 'approved.displayname', $this->approved_search]) 
+			->andFilterWhere(['like', 'approvedRltn.displayname', $this->approved_search])
 			->andFilterWhere(['like', 'creation.displayname', $this->creation_search])
 			->andFilterWhere(['like', 'modified.displayname', $this->modified_search]);
 
