@@ -48,7 +48,7 @@ $this->params['menu']['content'] = [
 		],
 		[
 			'attribute' => 'document_id',
-			'value' => isset($model->document) ? $model->document->title->message : '-',
+			'value' => $model->document_name_i,
 		],
 		[
 			'attribute' => 'required',

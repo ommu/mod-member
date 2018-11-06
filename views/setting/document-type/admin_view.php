@@ -44,11 +44,11 @@ $this->params['menu']['content'] = [
 		],
 		[
 			'attribute' => 'document_name_i',
-			'value' => isset($model->title) ? $model->title->message : '-',
+			'value' => $model->document_name_i,
 		],
 		[
 			'attribute' => 'document_desc_i',
-			'value' => isset($model->description) ? $model->description->message : '-',
+			'value' => $model->document_desc_i,
 		],
 		[
 			'attribute' => 'creation_date',

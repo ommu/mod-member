@@ -43,11 +43,11 @@ $this->params['menu']['content'] = [
 		],
 		[
 			'attribute' => 'profile_name_i',
-			'value' => isset($model->title) ? $model->title->message : '-',
+			'value' => $model->profile_name_i,
 		],
 		[
 			'attribute' => 'profile_desc_i',
-			'value' => isset($model->description) ? $model->description->message : '-',
+			'value' => $model->profile_desc_i,
 		],
 		[
 			'attribute' => 'profile_personal',

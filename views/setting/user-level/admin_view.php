@@ -48,11 +48,11 @@ $this->params['menu']['content'] = [
 		],
 		[
 			'attribute' => 'level_name_i',
-			'value' => isset($model->title) ? $model->title->message : '-',
+			'value' => $model->level_name_i,
 		],
 		[
 			'attribute' => 'level_desc_i',
-			'value' => isset($model->description) ? $model->description->message : '-',
+			'value' => $model->level_desc_i,
 		],
 		[
 			'attribute' => 'creation_date',

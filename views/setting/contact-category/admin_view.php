@@ -44,7 +44,7 @@ $this->params['menu']['content'] = [
 		],
 		[
 			'attribute' => 'cat_name_i',
-			'value' => isset($model->title) ? $model->title->message : '-',
+			'value' => $model->cat_name_i,
 		],
 		[
 			'attribute' => 'creation_date',
