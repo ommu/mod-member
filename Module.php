@@ -12,6 +12,8 @@
 
 namespace ommu\member;
 
+use Yii;
+
 class Module extends \app\components\Module
 {
 	public $layout = 'main';
@@ -29,5 +31,16 @@ class Module extends \app\components\Module
 		parent::init();
 
 		// custom initialization code goes here
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getViewPath() 
+	{
+		if(preg_match('/app/', get_class(Yii::$app->controller)))
+			return Yii::getAlias('@app/modules/member/views');
+		else
+			return Yii::getAlias('@ommu/member/views');
 	}
 }
