@@ -35,6 +35,7 @@
  * @property Members $member
  * @property IpediaCompanies $company
  * @property MemberCompanyType $companyType
+ * @property MemberProfileCategory $companyCategory
  * @property MemberCompanyContact[] $contacts
  * @property Users $creation
  * @property Users $modified
@@ -53,14 +54,12 @@ class MemberCompany extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
-	public $gridForbiddenColumn = [];
+	public $gridForbiddenColumn = ['info_intro','info_article','creation_date','creation_search','modified_date','modified_search','updated_date'];
+	public $member_i;
 
 	// Variable Search
-	public $member_search;
-	public $company_search;
 	public $creation_search;
 	public $modified_search;
-	public $profile_search;
 
 	/**
 	 * @return string the associated database table name
@@ -84,11 +83,11 @@ class MemberCompany extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['member_id', 'company_id', 'company_type_id', 'company_cat_id', 'info_intro', 'info_article', 'company_address', 'company_country_id', 'company_province_id', 'company_city_id', 'company_district', 'company_village', 'company_zipcode'], 'required'],
+			[['member_id', 'company_id', 'company_type_id', 'company_cat_id', 'info_intro', 'info_article', 'company_address', 'company_country_id', 'company_province_id', 'company_city_id', 'company_district', 'company_village', 'company_zipcode', 'member_i'], 'required'],
 			[['member_id', 'company_id', 'company_type_id', 'company_cat_id', 'company_country_id', 'company_province_id', 'company_city_id', 'company_zipcode', 'creation_id', 'modified_id'], 'integer'],
 			[['info_intro', 'info_article', 'company_address'], 'string'],
 			[['creation_date', 'modified_date', 'updated_date'], 'safe'],
-			[['company_district', 'company_village'], 'string', 'max' => 64],
+			[['company_district', 'company_village', 'member_i'], 'string', 'max' => 64],
 			[['member_id'], 'exist', 'skipOnError' => true, 'targetClass' => Members::className(), 'targetAttribute' => ['member_id' => 'member_id']],
 			[['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => IpediaCompanies::className(), 'targetAttribute' => ['company_id' => 'company_id']],
 			[['company_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberCompanyType::className(), 'targetAttribute' => ['company_type_id' => 'type_id']],
@@ -103,10 +102,10 @@ class MemberCompany extends \app\components\ActiveRecord
 	{
 		return [
 			'id' => Yii::t('app', 'ID'),
-			'member_id' => Yii::t('app', 'Member'),
+			'member_id' => Yii::t('app', 'Company'),
 			'company_id' => Yii::t('app', 'Company'),
-			'company_type_id' => Yii::t('app', 'Company Type'),
-			'company_cat_id' => Yii::t('app', 'Company Category'),
+			'company_type_id' => Yii::t('app', 'Type'),
+			'company_cat_id' => Yii::t('app', 'Category'),
 			'info_intro' => Yii::t('app', 'Info Intro'),
 			'info_article' => Yii::t('app', 'Info Article'),
 			'company_address' => Yii::t('app', 'Company Address'),
@@ -121,11 +120,9 @@ class MemberCompany extends \app\components\ActiveRecord
 			'modified_date' => Yii::t('app', 'Modified Date'),
 			'modified_id' => Yii::t('app', 'Modified'),
 			'updated_date' => Yii::t('app', 'Updated Date'),
-			'member_search' => Yii::t('app', 'Member'),
-			'company_search' => Yii::t('app', 'Company'),
+			'member_i' => Yii::t('app', 'Company'),
 			'creation_search' => Yii::t('app', 'Creation'),
 			'modified_search' => Yii::t('app', 'Modified'),
-			'profile_search' => Yii::t('app', 'Profile'),
 		];
 	}
 
@@ -158,7 +155,7 @@ class MemberCompany extends \app\components\ActiveRecord
 	 */
 	public function getCompanyCategory()
 	{
-		return $this->hasOne(MemberCompanyType::className(), ['cat_id' => 'company_cat_id']);
+		return $this->hasOne(MemberProfileCategory::className(), ['cat_id' => 'company_cat_id']);
 	}
 
 	/**
@@ -208,25 +205,10 @@ class MemberCompany extends \app\components\ActiveRecord
 			'contentOptions' => ['class'=>'center'],
 		];
 		if(!Yii::$app->request->get('member')) {
-			$this->templateColumns['member_search'] = [
-				'attribute' => 'member_search',
+			$this->templateColumns['member_i'] = [
+				'attribute' => 'member_i',
 				'value' => function($model, $key, $index, $column) {
-					return isset($model->member) ? $model->member->displayname : '-';
-				},
-			];
-			$this->templateColumns['profile_search'] = [
-				'attribute' => 'profile_search',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->member) ? $model->member->profile->title->message : '-';
-				},
-				'filter' => MemberProfile::getProfile(),
-			];
-		}
-		if(!Yii::$app->request->get('company')) {
-			$this->templateColumns['company_search'] = [
-				'attribute' => 'company_search',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->company) ? $model->company->directory->directory_name : '-';
+					return $model->member_i;
 				},
 			];
 		}
@@ -245,7 +227,7 @@ class MemberCompany extends \app\components\ActiveRecord
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->companyCategory) ? $model->companyCategory->title->message : '-';
 				},
-				'filter' => MemberCompanyType::getType(),
+				'filter' => MemberProfileCategory::getCategory(),
 			];
 		}
 		$this->templateColumns['info_intro'] = [
@@ -266,22 +248,10 @@ class MemberCompany extends \app\components\ActiveRecord
 				return $model->company_address;
 			},
 		];
-		$this->templateColumns['company_country_id'] = [
-			'attribute' => 'company_country_id',
+		$this->templateColumns['company_village'] = [
+			'attribute' => 'company_village',
 			'value' => function($model, $key, $index, $column) {
-				return $model->company_country_id;
-			},
-		];
-		$this->templateColumns['company_province_id'] = [
-			'attribute' => 'company_province_id',
-			'value' => function($model, $key, $index, $column) {
-				return $model->company_province_id;
-			},
-		];
-		$this->templateColumns['company_city_id'] = [
-			'attribute' => 'company_city_id',
-			'value' => function($model, $key, $index, $column) {
-				return $model->company_city_id;
+				return $model->company_village;
 			},
 		];
 		$this->templateColumns['company_district'] = [
@@ -290,10 +260,22 @@ class MemberCompany extends \app\components\ActiveRecord
 				return $model->company_district;
 			},
 		];
-		$this->templateColumns['company_village'] = [
-			'attribute' => 'company_village',
+		$this->templateColumns['company_city_id'] = [
+			'attribute' => 'company_city_id',
 			'value' => function($model, $key, $index, $column) {
-				return $model->company_village;
+				return $model->company_city_id;
+			},
+		];
+		$this->templateColumns['company_province_id'] = [
+			'attribute' => 'company_province_id',
+			'value' => function($model, $key, $index, $column) {
+				return $model->company_province_id;
+			},
+		];
+		$this->templateColumns['company_country_id'] = [
+			'attribute' => 'company_country_id',
+			'value' => function($model, $key, $index, $column) {
+				return $model->company_country_id;
 			},
 		];
 		$this->templateColumns['company_zipcode'] = [
@@ -363,6 +345,14 @@ class MemberCompany extends \app\components\ActiveRecord
 	}
 
 	/**
+	 * after find attributes
+	 */
+	public function afterFind()
+	{
+		$this->member_i = $this->member->displayname;
+	}
+
+	/**
 	 * before validate attributes
 	 */
 	public function beforeValidate()
@@ -374,5 +364,20 @@ class MemberCompany extends \app\components\ActiveRecord
 				$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
 		}
 		return true;
+	}
+
+	/**
+	 * After save attributes
+	 */
+	public function afterSave($insert, $changedAttributes)
+	{
+		parent::afterSave($insert, $changedAttributes);
+
+		// update member displayname
+		if(!$insert) {
+			$member = Members::findOne($this->member_id);
+			$member->displayname = $this->member_i;
+			$member->update();
+		}
 	}
 }

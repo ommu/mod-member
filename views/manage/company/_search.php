@@ -31,9 +31,7 @@ use ommu\member\models\MemberProfileCategory;
 		],
 	]); ?>
 
-		<?php echo $form->field($model, 'member_search');?>
-
-		<?php echo $form->field($model, 'company_search');?>
+		<?php echo $form->field($model, 'member_i');?>
 
 		<?php $companyType = MemberCompanyType::getType();
 		echo $form->field($model, 'company_type_id')

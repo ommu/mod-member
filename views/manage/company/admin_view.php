@@ -37,12 +37,8 @@ $this->params['menu']['content'] = [
 	'attributes' => [
 		'id',
 		[
-			'attribute' => 'member_search',
-			'value' => isset($model->member) ? $model->member->displayname : '-',
-		],
-		[
-			'attribute' => 'company_search',
-			'value' => isset($model->company) ? $model->company->directory->directory_name : '-',
+			'attribute' => 'member_i',
+			'value' => $model->member_i,
 		],
 		[
 			'attribute' => 'company_type_id',

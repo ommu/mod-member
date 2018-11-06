@@ -28,7 +28,7 @@ class MemberCompany extends MemberCompanyModel
 	{
 		return [
 			[['id', 'member_id', 'company_id', 'company_type_id', 'company_cat_id', 'company_country_id', 'company_province_id', 'company_city_id', 'company_zipcode', 'creation_id', 'modified_id'], 'integer'],
-			[['info_intro', 'info_article', 'company_address', 'company_district', 'company_village', 'creation_date', 'modified_date', 'updated_date', 'member_search', 'company_search', 'creation_search', 'modified_search', 'profile_search'], 'safe'],
+			[['info_intro', 'info_article', 'company_address', 'company_district', 'company_village', 'creation_date', 'modified_date', 'updated_date', 'member_i', 'creation_search', 'modified_search'], 'safe'],
 		];
 	}
 
@@ -77,13 +77,9 @@ class MemberCompany extends MemberCompanyModel
 		]);
 
 		$attributes = array_keys($this->getTableSchema()->columns);
-		$attributes['member_search'] = [
+		$attributes['member_i'] = [
 			'asc' => ['member.displayname' => SORT_ASC],
 			'desc' => ['member.displayname' => SORT_DESC],
-		];
-		$attributes['company_search'] = [
-			'asc' => ['company.directory_name' => SORT_ASC],
-			'desc' => ['company.directory_name' => SORT_DESC],
 		];
 		$attributes['company_type_id'] = [
 			'asc' => ['companyType.message' => SORT_ASC],
@@ -100,10 +96,6 @@ class MemberCompany extends MemberCompanyModel
 		$attributes['modified_search'] = [
 			'asc' => ['modified.displayname' => SORT_ASC],
 			'desc' => ['modified.displayname' => SORT_DESC],
-		];
-		$attributes['profile_search'] = [
-			'asc' => ['profile.message' => SORT_ASC],
-			'desc' => ['profile.message' => SORT_DESC],
 		];
 		$dataProvider->setSort([
 			'attributes' => $attributes,
@@ -134,7 +126,6 @@ class MemberCompany extends MemberCompanyModel
 			'cast(t.modified_date as date)' => $this->modified_date,
 			't.modified_id' => isset($params['modified']) ? $params['modified'] : $this->modified_id,
 			'cast(t.updated_date as date)' => $this->updated_date,
-			'member.profile_id' => isset($params['profile']) ? $params['profile'] : $this->profile_search,
 		]);
 
 		$query->andFilterWhere(['like', 't.info_intro', $this->info_intro])
@@ -142,8 +133,7 @@ class MemberCompany extends MemberCompanyModel
 			->andFilterWhere(['like', 't.company_address', $this->company_address])
 			->andFilterWhere(['like', 't.company_district', $this->company_district])
 			->andFilterWhere(['like', 't.company_village', $this->company_village])
-			->andFilterWhere(['like', 'member.displayname', $this->member_search])
-			->andFilterWhere(['like', 'company.directory_name', $this->company_search])
+			->andFilterWhere(['like', 'member.displayname', $this->member_i])
 			->andFilterWhere(['like', 'creation.displayname', $this->creation_search])
 			->andFilterWhere(['like', 'modified.displayname', $this->modified_search]);
 
