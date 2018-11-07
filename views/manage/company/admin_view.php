@@ -55,6 +55,7 @@ $this->params['menu']['content'] = [
 		[
 			'attribute' => 'info_article',
 			'value' => $model->info_article ? $model->info_article : '-',
+			'format' => 'raw',
 		],
 		[
 			'attribute' => 'company_address',

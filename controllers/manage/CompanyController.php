@@ -31,6 +31,9 @@ use yii\filters\VerbFilter;
 use app\components\Controller;
 use ommu\member\models\MemberCompany;
 use ommu\member\models\search\MemberCompany as MemberCompanySearch;
+use yii\base\Model;
+use ommu\member\models\Members;
+use app\modules\ipedia\models\IpediaCompany as IpediaCompanies;
 
 class CompanyController extends Controller
 {
@@ -86,14 +89,37 @@ class CompanyController extends Controller
 	public function actionCreate()
 	{
 		$model = new MemberCompany();
+		$member = new Members();
 
 		if(Yii::$app->request->isPost) {
-			$model->load(Yii::$app->request->post());
-			if($model->save()) {
-				Yii::$app->session->setFlash('success', Yii::t('app', 'Member company success created.'));
-				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id'=>$model->id]);
-			} 
+			$postData = Yii::$app->request->post();
+			$model->load($postData);
+			$member->load($postData);
+			$member->scenario = Members::SCENARIO_MEMBER_COMPANY;
+			$member->profile_id = 3;
+
+			if(Model::validateMultiple([$model, $member])) {
+				$model->company_city_id = $postData['company_city_id'] ? $postData['company_city_id'] : 0;
+				$model->company_province_id = $postData['company_province_id'] ? $postData['company_province_id'] : 0;
+				$model->company_country_id = $postData['company_country_id'] ? $postData['company_country_id'] : 0;
+				$model->company_zipcode = $postData['company_zipcode'] ? $postData['company_zipcode'] : 0;
+				
+				if($member->save()) {
+					$model->member_id = $member->member_id;
+					$company_id = IpediaCompanies::createCompany($member->displayname);
+					if(($company = IpediaCompanies::findOne($company_id)) !== null) {
+						$company->member_id = $member->member_id;
+						$company->save();
+					}
+					$model->company_id = $company_id;
+
+					if($model->save()) {
+						Yii::$app->session->setFlash('success', Yii::t('app', 'Member company success created.'));
+						return $this->redirect(['index']);
+						//return $this->redirect(['view', 'id'=>$model->id]);
+					}
+				}
+			}
 		}
 
 		$this->view->title = Yii::t('app', 'Create Company');
@@ -101,6 +127,7 @@ class CompanyController extends Controller
 		$this->view->keywords = '';
 		return $this->render('admin_create', [
 			'model' => $model,
+			'member' => $member,
 		]);
 	}
 
@@ -113,13 +140,23 @@ class CompanyController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->findModel($id);
-		if(Yii::$app->request->isPost) {
-			$model->load(Yii::$app->request->post());
+		$member = Members::findOne($model->member_id);
 
-			if($model->save()) {
-				Yii::$app->session->setFlash('success', Yii::t('app', 'Member company success updated.'));
-				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id'=>$model->id]);
+		if(Yii::$app->request->isPost) {
+			$postData = Yii::$app->request->post();
+			$model->load($postData);
+			$model->scenario = MemberCompany::SCENARIO_UPDATE;
+			$member->load($postData);
+			$member->scenario = Members::SCENARIO_MEMBER_COMPANY;
+
+			if(Model::validateMultiple([$model, $member])) {
+				if($member->save()) {
+					if($model->save()) {
+						Yii::$app->session->setFlash('success', Yii::t('app', 'Member company success updated.'));
+						return $this->redirect(['index']);
+						//return $this->redirect(['view', 'id'=>$model->id]);
+					}
+				}
 			}
 		}
 
@@ -128,6 +165,7 @@ class CompanyController extends Controller
 		$this->view->keywords = '';
 		return $this->render('admin_update', [
 			'model' => $model,
+			'member' => $member,
 		]);
 	}
 

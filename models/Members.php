@@ -74,6 +74,8 @@ class Members extends \app\components\ActiveRecord
 	public $creation_search;
 	public $modified_search;
 
+	const SCENARIO_MEMBER_COMPANY = 'company';
+	
 	/**
 	 * @return string the associated database table name
 	 */
@@ -105,6 +107,13 @@ class Members extends \app\components\ActiveRecord
 			[['displayname'], 'string', 'max' => 64],
 			[['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberProfile::className(), 'targetAttribute' => ['profile_id' => 'profile_id']],
 		];
+	}
+
+	public function scenarios()
+	{
+		$scenarios = parent::scenarios();
+		$scenarios[self::SCENARIO_MEMBER_COMPANY] = ['publish', 'approved', 'member_private', 'username', 'displayname', 'photo_header', 'photo_profile'];
+		return $scenarios;
 	}
 
 	/**
@@ -549,7 +558,7 @@ class Members extends \app\components\ActiveRecord
 
 				$this->photo_header = UploadedFile::getInstance($this, 'photo_header');
 				if($this->photo_header instanceof UploadedFile && !$this->photo_header->getHasError()) {
-					$fileName = time().'_'.$this->member_id.'.'.strtolower($this->photo_header->getExtension()); 
+					$fileName = time().'_header_'.$this->member_id.'.'.strtolower($this->photo_header->getExtension()); 
 					if($this->photo_header->saveAs(join('/', [$uploadPath, $fileName]))) {
 						if($this->old_photo_header_i != '' && file_exists(join('/', [$uploadPath, $this->old_photo_header_i])))
 							rename(join('/', [$uploadPath, $this->old_photo_header_i]), join('/', [$verwijderenPath, time().'_change_'.$this->old_photo_header_i]));
@@ -562,7 +571,7 @@ class Members extends \app\components\ActiveRecord
 
 				$this->photo_profile = UploadedFile::getInstance($this, 'photo_profile');
 				if($this->photo_profile instanceof UploadedFile && !$this->photo_profile->getHasError()) {
-					$fileName = time().'_'.$this->member_id.'.'.strtolower($this->photo_profile->getExtension()); 
+					$fileName = time().'_profile_'.$this->member_id.'.'.strtolower($this->photo_profile->getExtension()); 
 					if($this->photo_profile->saveAs(join('/', [$uploadPath, $fileName]))) {
 						if($this->old_photo_profile_i != '' && file_exists(join('/', [$uploadPath, $this->old_photo_profile_i])))
 							rename(join('/', [$uploadPath, $this->old_photo_profile_i]), join('/', [$verwijderenPath, time().'_change_'.$this->old_photo_profile_i]));

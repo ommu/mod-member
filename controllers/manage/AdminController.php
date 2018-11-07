@@ -99,7 +99,7 @@ class AdminController extends Controller
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member success created.'));
 				return $this->redirect(['index']);
 				//return $this->redirect(['view', 'id'=>$model->member_id]);
-			} 
+			}
 		}
 
 		$this->view->title = Yii::t('app', 'Create Member');

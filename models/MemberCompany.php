@@ -61,6 +61,9 @@ class MemberCompany extends \app\components\ActiveRecord
 	public $creation_search;
 	public $modified_search;
 
+	const SCENARIO_CREATE = 'create';
+	const SCENARIO_UPDATE = 'update';
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -83,16 +86,24 @@ class MemberCompany extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['member_id', 'company_id', 'company_type_id', 'company_cat_id', 'info_intro', 'info_article', 'company_address', 'company_country_id', 'company_province_id', 'company_city_id', 'company_district', 'company_village', 'company_zipcode', 'member_i'], 'required'],
+			[['company_type_id', 'company_address', 'company_city_id'], 'required'],
+			[['company_cat_id'], 'required', 'on' => self::SCENARIO_UPDATE],
 			[['member_id', 'company_id', 'company_type_id', 'company_cat_id', 'company_country_id', 'company_province_id', 'company_city_id', 'company_zipcode', 'creation_id', 'modified_id'], 'integer'],
 			[['info_intro', 'info_article', 'company_address'], 'string'],
-			[['creation_date', 'modified_date', 'updated_date'], 'safe'],
+			[['company_type_id', 'company_cat_id', 'info_intro', 'info_article', 'company_address', 'company_country_id', 'company_province_id', 'company_city_id', 'company_district', 'company_village', 'company_zipcode', 'creation_date', 'modified_date', 'updated_date'], 'safe'],
 			[['company_district', 'company_village', 'member_i'], 'string', 'max' => 64],
 			[['member_id'], 'exist', 'skipOnError' => true, 'targetClass' => Members::className(), 'targetAttribute' => ['member_id' => 'member_id']],
 			[['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => IpediaCompanies::className(), 'targetAttribute' => ['company_id' => 'company_id']],
 			[['company_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberCompanyType::className(), 'targetAttribute' => ['company_type_id' => 'type_id']],
 			[['company_cat_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberProfileCategory::className(), 'targetAttribute' => ['company_cat_id' => 'cat_id']],
 		];
+	}
+
+	public function scenarios()
+	{
+		$scenarios = parent::scenarios();
+		$scenarios[self::SCENARIO_UPDATE] = ['company_type_id', 'company_cat_id', 'info_intro', 'info_article', 'company_address', 'company_country_id', 'company_province_id', 'company_city_id', 'company_district', 'company_village', 'company_zipcode'];
+		return $scenarios;
 	}
 
 	/**
@@ -108,13 +119,13 @@ class MemberCompany extends \app\components\ActiveRecord
 			'company_cat_id' => Yii::t('app', 'Category'),
 			'info_intro' => Yii::t('app', 'Info Intro'),
 			'info_article' => Yii::t('app', 'Info Article'),
-			'company_address' => Yii::t('app', 'Company Address'),
-			'company_country_id' => Yii::t('app', 'Company Country'),
-			'company_province_id' => Yii::t('app', 'Company Province'),
-			'company_city_id' => Yii::t('app', 'Company City'),
-			'company_district' => Yii::t('app', 'Company District'),
-			'company_village' => Yii::t('app', 'Company Village'),
-			'company_zipcode' => Yii::t('app', 'Company Zipcode'),
+			'company_address' => Yii::t('app', 'Address'),
+			'company_country_id' => Yii::t('app', 'Country'),
+			'company_province_id' => Yii::t('app', 'Province'),
+			'company_city_id' => Yii::t('app', 'City'),
+			'company_district' => Yii::t('app', 'District'),
+			'company_village' => Yii::t('app', 'Village'),
+			'company_zipcode' => Yii::t('app', 'Zipcode'),
 			'creation_date' => Yii::t('app', 'Creation Date'),
 			'creation_id' => Yii::t('app', 'Creation'),
 			'modified_date' => Yii::t('app', 'Modified Date'),
@@ -263,25 +274,25 @@ class MemberCompany extends \app\components\ActiveRecord
 		$this->templateColumns['company_city_id'] = [
 			'attribute' => 'company_city_id',
 			'value' => function($model, $key, $index, $column) {
-				return $model->company_city_id;
+				return $model->company_city_id ? $model->company_city_id : '';
 			},
 		];
 		$this->templateColumns['company_province_id'] = [
 			'attribute' => 'company_province_id',
 			'value' => function($model, $key, $index, $column) {
-				return $model->company_province_id;
+				return $model->company_province_id ? $model->company_province_id : '';
 			},
 		];
 		$this->templateColumns['company_country_id'] = [
 			'attribute' => 'company_country_id',
 			'value' => function($model, $key, $index, $column) {
-				return $model->company_country_id;
+				return $model->company_country_id ? $model->company_country_id : '';
 			},
 		];
 		$this->templateColumns['company_zipcode'] = [
 			'attribute' => 'company_zipcode',
 			'value' => function($model, $key, $index, $column) {
-				return $model->company_zipcode;
+				return $model->company_zipcode ? $model->company_zipcode : '';
 			},
 		];
 		$this->templateColumns['creation_date'] = [
@@ -358,26 +369,24 @@ class MemberCompany extends \app\components\ActiveRecord
 	public function beforeValidate()
 	{
 		if(parent::beforeValidate()) {
+			if($this->scenario == self::SCENARIO_UPDATE) {
+				if($this->company_address != '') {
+					if($this->company_district == '' && $this->company_village == '')
+						$this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute'=>$this->getAttributeLabel('company_address')]));
+					else {
+						if($this->company_district == '')
+							$this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute'=>$this->getAttributeLabel('company_district')]));
+						else if($this->company_village == '')
+							$this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute'=>$this->getAttributeLabel('company_village')]));
+					}
+				}
+			}
+
 			if($this->isNewRecord)
 				$this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
 			else
 				$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
 		}
 		return true;
-	}
-
-	/**
-	 * After save attributes
-	 */
-	public function afterSave($insert, $changedAttributes)
-	{
-		parent::afterSave($insert, $changedAttributes);
-
-		// update member displayname
-		if(!$insert) {
-			$member = Members::findOne($this->member_id);
-			$member->displayname = $this->member_i;
-			$member->update();
-		}
 	}
 }
