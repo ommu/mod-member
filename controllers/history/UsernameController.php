@@ -26,6 +26,7 @@ namespace ommu\member\controllers\history;
 use Yii;
 use yii\filters\VerbFilter;
 use app\components\Controller;
+use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberHistoryUsername;
 use ommu\member\models\search\MemberHistoryUsername as MemberHistoryUsernameSearch;
 
@@ -37,6 +38,9 @@ class UsernameController extends Controller
 	public function behaviors()
 	{
 		return [
+			'access' => [
+				'class' => AccessControl::className(),
+			],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [

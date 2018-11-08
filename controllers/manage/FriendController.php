@@ -28,6 +28,7 @@ namespace ommu\member\controllers\manage;
 use Yii;
 use yii\filters\VerbFilter;
 use app\components\Controller;
+use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberFriends;
 use ommu\member\models\search\MemberFriends as MemberFriendsSearch;
 
@@ -39,6 +40,9 @@ class FriendController extends Controller
 	public function behaviors()
 	{
 		return [
+			'access' => [
+				'class' => AccessControl::className(),
+			],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [

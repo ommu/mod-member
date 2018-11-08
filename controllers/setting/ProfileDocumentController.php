@@ -31,6 +31,7 @@ namespace ommu\member\controllers\setting;
 use Yii;
 use yii\filters\VerbFilter;
 use app\components\Controller;
+use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberProfileDocument;
 use ommu\member\models\search\MemberProfileDocument as MemberProfileDocumentSearch;
 
@@ -42,6 +43,9 @@ class ProfileDocumentController extends Controller
 	public function behaviors()
 	{
 		return [
+			'access' => [
+				'class' => AccessControl::className(),
+			],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [

@@ -31,6 +31,7 @@ namespace ommu\member\controllers\manage;
 use Yii;
 use yii\filters\VerbFilter;
 use app\components\Controller;
+use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberCompanyContact;
 use ommu\member\models\search\MemberCompanyContact as MemberCompanyContactSearch;
 
@@ -42,6 +43,9 @@ class CompanyContactController extends Controller
 	public function behaviors()
 	{
 		return [
+			'access' => [
+				'class' => AccessControl::className(),
+			],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [

@@ -26,6 +26,7 @@ namespace ommu\member\controllers\history;
 use Yii;
 use yii\filters\VerbFilter;
 use app\components\Controller;
+use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberViewHistory;
 use ommu\member\models\search\MemberViewHistory as MemberViewHistorySearch;
 
@@ -37,6 +38,9 @@ class ViewController extends Controller
 	public function behaviors()
 	{
 		return [
+			'access' => [
+				'class' => AccessControl::className(),
+			],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [

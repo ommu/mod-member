@@ -27,6 +27,7 @@ namespace ommu\member\controllers\history;
 use Yii;
 use yii\filters\VerbFilter;
 use app\components\Controller;
+use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberFollowerHistory;
 use ommu\member\models\search\MemberFollowerHistory as MemberFollowerHistorySearch;
 
@@ -38,6 +39,9 @@ class FollowerController extends Controller
 	public function behaviors()
 	{
 		return [
+			'access' => [
+				'class' => AccessControl::className(),
+			],
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
