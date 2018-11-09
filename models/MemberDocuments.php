@@ -48,7 +48,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 	public $gridForbiddenColumn = ['modified_date','modified_search','updated_date'];
 	public $old_document_filename_i;
 
-	// Variable Search
+	// Search Variable
 	public $member_search;
 	public $creation_search;
 	public $modified_search;
@@ -294,9 +294,9 @@ class MemberDocuments extends \app\components\ActiveRecord
 	public static function getStatus($value=null)
 	{
 		$items = array(
-			'0'=>Yii::t('app', 'Request'),
-			'1'=>Yii::t('app', 'Approve'),
-			'2'=>Yii::t('app', 'Rejected'),
+			'0' => Yii::t('app', 'Request'),
+			'1' => Yii::t('app', 'Approve'),
+			'2' => Yii::t('app', 'Rejected'),
 		);
 
 		if($value !== null)

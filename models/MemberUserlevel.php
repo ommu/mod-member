@@ -47,7 +47,7 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	public $level_name_i;
 	public $level_desc_i;
 
-	// Variable Search
+	// Search Variable
 	public $creation_search;
 	public $modified_search;
 

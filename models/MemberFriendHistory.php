@@ -37,7 +37,7 @@ class MemberFriendHistory extends \app\components\ActiveRecord
 
 	public $gridForbiddenColumn = [];
 
-	// Variable Search
+	// Search Variable
 	public $creation_search;
 	public $st_user_search;
 	public $nd_user_search;

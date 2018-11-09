@@ -47,7 +47,7 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 	public $gridForbiddenColumn = ['verified_search','creation_date','creation_search','modified_date','modified_search','updated_date'];
 	public $old_status_i;
 
-	// Variable Search
+	// Search Variable
 	public $verified_search;
 	public $creation_search;
 	public $modified_search;

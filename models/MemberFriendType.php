@@ -48,7 +48,7 @@ class MemberFriendType extends \app\components\ActiveRecord
 	public $type_name_i;
 	public $type_desc_i;
 
-	// Variable Search
+	// Search Variable
 	public $creation_search;
 	public $modified_search;
 

@@ -69,7 +69,7 @@ class Members extends \app\components\ActiveRecord
 	public $old_photo_profile_i;
 	public $old_approved_i;
 
-	// Variable Search
+	// Search Variable
 	public $approved_search;
 	public $creation_search;
 	public $modified_search;
@@ -467,8 +467,8 @@ class Members extends \app\components\ActiveRecord
 	public static function getMemberPrivate($value=null)
 	{
 		$items = array(
-			'0'=>Yii::t('app', 'Public'),
-			'1'=>Yii::t('app', 'Private'),
+			'0' => Yii::t('app', 'Public'),
+			'1' => Yii::t('app', 'Private'),
 		);
 
 		if($value !== null)

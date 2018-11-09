@@ -46,7 +46,7 @@ class MemberDocumentType extends \app\components\ActiveRecord
 	public $document_name_i;
 	public $document_desc_i;
 
-	// Variable Search
+	// Search Variable
 	public $creation_search;
 	public $modified_search;
 

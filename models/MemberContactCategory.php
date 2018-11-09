@@ -46,7 +46,7 @@ class MemberContactCategory extends \app\components\ActiveRecord
 	public $gridForbiddenColumn = ['modified_date','modified_search','updated_date'];
 	public $cat_name_i;
 
-	// Variable Search
+	// Search Variable
 	public $creation_search;
 	public $modified_search;
 

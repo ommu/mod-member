@@ -57,7 +57,7 @@ class MemberCompany extends \app\components\ActiveRecord
 	public $gridForbiddenColumn = ['info_intro','info_article','company_country_id','company_province_id','company_city_id','company_district','company_village','company_zipcode','creation_date','creation_search','modified_date','modified_search','updated_date'];
 	public $member_i;
 
-	// Variable Search
+	// Search Variable
 	public $creation_search;
 	public $modified_search;
 

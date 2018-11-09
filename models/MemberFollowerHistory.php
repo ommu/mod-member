@@ -36,7 +36,7 @@ class MemberFollowerHistory extends \app\components\ActiveRecord
 
 	public $gridForbiddenColumn = [];
 
-	// Variable Search
+	// Search Variable
 	public $creation_search;
 	public $profile_search;
 	public $member_search;

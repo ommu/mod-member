@@ -51,7 +51,7 @@ class MemberProfile extends \app\components\ActiveRecord
 	public $profile_name_i;
 	public $profile_desc_i;
 
-	// Variable Search
+	// Search Variable
 	public $creation_search;
 	public $modified_search;
 

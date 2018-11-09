@@ -43,7 +43,7 @@ class MemberViews extends \app\components\ActiveRecord
 
 	public $gridForbiddenColumn = ['modified_date','modified_search','deleted_date'];
 
-	// Variable Search
+	// Search Variable
 	public $member_search;
 	public $user_search;
 	public $modified_search;
