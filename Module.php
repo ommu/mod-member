@@ -34,7 +34,7 @@ class Module extends \app\components\Module
 	}
 
 	/**
-	 * @inheritdoc
+	 * {@inheritdoc}
 	 */
 	public function getViewPath() 
 	{

@@ -94,12 +94,12 @@ class CompanyController extends Controller
 	{
 		$model = new MemberCompany();
 		$member = new Members();
+		$member->scenario = Members::SCENARIO_MEMBER_COMPANY;
 
 		if(Yii::$app->request->isPost) {
 			$postData = Yii::$app->request->post();
 			$model->load($postData);
 			$member->load($postData);
-			$member->scenario = Members::SCENARIO_MEMBER_COMPANY;
 			$member->profile_id = 3;
 
 			if(Model::validateMultiple([$model, $member])) {
@@ -144,14 +144,14 @@ class CompanyController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->findModel($id);
+		$model->scenario = MemberCompany::SCENARIO_UPDATE;
 		$member = Members::findOne($model->member_id);
+		$member->scenario = Members::SCENARIO_MEMBER_COMPANY;
 
 		if(Yii::$app->request->isPost) {
 			$postData = Yii::$app->request->post();
 			$model->load($postData);
-			$model->scenario = MemberCompany::SCENARIO_UPDATE;
 			$member->load($postData);
-			$member->scenario = Members::SCENARIO_MEMBER_COMPANY;
 
 			if(Model::validateMultiple([$model, $member])) {
 				if($member->save()) {
