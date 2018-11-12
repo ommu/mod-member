@@ -15,7 +15,6 @@
  *
  */
 
-use Yii;
 use yii\helpers\Url;
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Profile Documents'), 'url' => ['index']];

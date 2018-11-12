@@ -16,7 +16,6 @@
  *
  */
 
-use Yii;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 use ommu\member\models\MemberSetting;

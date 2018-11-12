@@ -17,7 +17,6 @@
  *
  */
 
-use Yii;
 use yii\helpers\Url;
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Settings'), 'url' => ['index']];

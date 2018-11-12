@@ -14,7 +14,6 @@
  *
  */
 
-use Yii;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\redactor\widgets\Redactor;

@@ -13,7 +13,6 @@
  *
  */
 
-use Yii;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 

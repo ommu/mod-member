@@ -15,7 +15,6 @@
  *
  */
 
-use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\libraries\grid\GridView;
