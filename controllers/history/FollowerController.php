@@ -105,13 +105,10 @@ class FollowerController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$model = $this->findModel($id);
-		$model->publish = 2;
+		$this->findModel($id)->delete();
 
-		if($model->save(false, ['publish'])) {
-			Yii::$app->session->setFlash('success', Yii::t('app', 'Member follower history success deleted.'));
-			return $this->redirect(['index']);
-		}
+		Yii::$app->session->setFlash('success', Yii::t('app', 'Member follower history success deleted.'));
+		return $this->redirect(['index']);
 	}
 
 	/**

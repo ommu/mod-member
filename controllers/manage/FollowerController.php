@@ -171,7 +171,7 @@ class FollowerController extends Controller
 		$model = $this->findModel($id);
 		$model->publish = 2;
 
-		if($model->save(false, ['publish'])) {
+		if($model->save(false, ['publish','modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member follower success deleted.'));
 			return $this->redirect(['index', 'member'=>$model->member_id]);
 		}
@@ -189,7 +189,7 @@ class FollowerController extends Controller
 		$replace = $model->publish == 1 ? 0 : 1;
 		$model->publish = $replace;
 
-		if($model->save(false, ['publish'])) {
+		if($model->save(false, ['publish','modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member follower success updated.'));
 			return $this->redirect(['index', 'member'=>$model->member_id]);
 		}

@@ -172,7 +172,7 @@ class ProfileDocumentController extends Controller
 		$model = $this->findModel($id);
 		$model->publish = 2;
 
-		if($model->save(false, ['publish'])) {
+		if($model->save(false, ['publish','modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success deleted.'));
 			return $this->redirect(['index', 'profile'=>$model->profile_id]);
 		}
@@ -190,7 +190,7 @@ class ProfileDocumentController extends Controller
 		$replace = $model->publish == 1 ? 0 : 1;
 		$model->publish = $replace;
 
-		if($model->save(false, ['publish'])) {
+		if($model->save(false, ['publish','modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success updated.'));
 			return $this->redirect(['index', 'profile'=>$model->profile_id]);
 		}
