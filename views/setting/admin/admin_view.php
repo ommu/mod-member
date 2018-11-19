@@ -16,17 +16,12 @@
  *
  */
 
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 use ommu\member\models\MemberSetting;
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Settings'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $model->id;
-
-$this->params['menu']['content'] = [
-	['label' => Yii::t('app', 'Update'), 'url' => Url::to(['update', 'id'=>$model->id]), 'icon' => 'pencil'],
-	// ['label' => Yii::t('app', 'Delete'), 'url' => Url::to(['delete', 'id'=>$model->id]), 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'), 'method' => 'post', 'icon' => 'trash'],
-];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="member-setting-view">
@@ -97,6 +92,13 @@ $this->params['menu']['content'] = [
 		[
 			'attribute' => 'modified_search',
 			'value' => isset($model->modified) ? $model->modified->displayname : '-',
+		],
+		[
+			'attribute' => '',
+			'value' => Html::a(Yii::t('app', 'Update'), Url::to(['update']), [
+				'class' => 'btn btn-success',
+			]),
+			'format' => 'raw',
 		],
 	],
 ]) ?>

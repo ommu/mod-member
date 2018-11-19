@@ -17,6 +17,7 @@
  *
  * The followings are the available model relations:
  * @property Members $member
+ * @property Users $user
  *
  */
 

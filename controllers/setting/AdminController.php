@@ -85,7 +85,7 @@ class AdminController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}', ['model-class' => 'Setting']);
+		$this->view->title = Yii::t('app', 'Member Settings');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_update', [
@@ -104,7 +104,7 @@ class AdminController extends Controller
 		if($model == null)
 			return $this->redirect(['update']);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {id}', ['model-class' => 'Setting', 'id' => $model->id]);
+		$this->view->title = Yii::t('app', 'Member Settings');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_view', [
@@ -118,9 +118,9 @@ class AdminController extends Controller
 	 * @param integer $id
 	 * @return mixed
 	 */
-	public function actionDelete($id)
+	public function actionDelete()
 	{
-		$this->findModel($id)->delete();
+		$this->findModel(1)->delete();
 		
 		Yii::$app->session->setFlash('success', Yii::t('app', 'Member setting success deleted.'));
 		return $this->redirect(['index']);
