@@ -69,9 +69,13 @@ class MemberFollowerHistory extends MemberFollowerHistoryModel
 		]);
 
 		// add conditions that should always apply here
-		$dataProvider = new ActiveDataProvider([
+		$dataParams = [
 			'query' => $query,
-		]);
+		];
+		// disable pagination agar data pada api tampil semua
+		if(isset($params['pagination']) && $params['pagination'] == 0)
+			$dataParams['pagination'] = false;
+		$dataProvider = new ActiveDataProvider($dataParams);
 
 		$attributes = array_keys($this->getTableSchema()->columns);
 		$attributes['creation_search'] = [
