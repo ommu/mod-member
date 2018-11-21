@@ -58,6 +58,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\web\UploadedFile;
 use ommu\users\models\Users;
+use ommu\member\models\view\MemberUser as MemberUserView;
 
 class Members extends \app\components\ActiveRecord
 {
@@ -290,6 +291,14 @@ class Members extends \app\components\ActiveRecord
 	public function getModified()
 	{
 		return $this->hasOne(Users::className(), ['user_id' => 'modified_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getUser()
+	{
+		return $this->hasOne(MemberUserView::className(), ['member_id' => 'member_id']);
 	}
 
 	/**
