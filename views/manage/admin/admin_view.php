@@ -60,16 +60,16 @@ $this->params['menu']['content'] = [
 		[
 			'attribute' => 'photo_header',
 			'value' => function ($model) {
-				$image = join('/', [Url::Base(), Members::getUploadPath(false), $model->member_id, $model->photo_header]);
-				return $model->photo_header ? Html::img($image, ['width' => '100%']).'<br/><br/>'.$image : '-';
+				$uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
+				return $model->photo_header ? Html::img(join('/', [Url::Base(), $uploadPath, $model->photo_header]), ['width' => '100%']).'<br/><br/>'.$model->photo_header : '-';
 			},
 			'format' => 'raw',
 		],
 		[
 			'attribute' => 'photo_profile',
 			'value' => function ($model) {
-				$image = join('/', [Url::Base(), Members::getUploadPath(false), $model->member_id, $model->photo_profile]);
-				return $model->photo_profile ? Html::img($image, ['width' => '100%']).'<br/><br/>'.$image : '-';
+				$uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
+				return $model->photo_profile ? Html::img(join('/', [Url::Base(), $uploadPath, $model->photo_profile]), ['width' => '100%']).'<br/><br/>'.$model->photo_profile : '-';
 			},
 			'format' => 'raw',
 		],

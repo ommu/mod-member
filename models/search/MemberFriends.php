@@ -14,7 +14,6 @@
 
 namespace ommu\member\models\search;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use ommu\member\models\MemberFriends as MemberFriendsModel;

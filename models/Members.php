@@ -57,6 +57,7 @@ use Yii;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\web\UploadedFile;
+use thamtech\uuid\helpers\UuidHelper;
 use ommu\users\models\Users;
 use ommu\member\models\view\MemberUser as MemberUserView;
 
@@ -76,7 +77,7 @@ class Members extends \app\components\ActiveRecord
 	public $modified_search;
 
 	const SCENARIO_MEMBER_COMPANY = 'company';
-	
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -347,7 +348,7 @@ class Members extends \app\components\ActiveRecord
 			'attribute' => 'photo_header',
 			'value' => function($model, $key, $index, $column) {
 				$uploadPath = join('/', [self::getUploadPath(false), $model->member_id]);
-				return $model->photo_header ? Html::img(join('/', [$uploadPath, $model->photo_header]), ['alt' => $model->photo_header]) : '-';
+				return $model->photo_header ? Html::img(join('/', [Url::Base(), $uploadPath, $model->photo_header]), ['alt' => $model->photo_header]) : '-';
 			},
 			'format' => 'html',
 		];
@@ -355,7 +356,7 @@ class Members extends \app\components\ActiveRecord
 			'attribute' => 'photo_profile',
 			'value' => function($model, $key, $index, $column) {
 				$uploadPath = join('/', [self::getUploadPath(false), $model->member_id]);
-				return $model->photo_profile ? Html::img(join('/', [$uploadPath, $model->photo_profile]), ['alt' => $model->photo_profile]) : '-';
+				return $model->photo_profile ? Html::img(join('/', [Url::Base(), $uploadPath, $model->photo_profile]), ['alt' => $model->photo_profile]) : '-';
 			},
 			'format' => 'html',
 		];
@@ -567,7 +568,7 @@ class Members extends \app\components\ActiveRecord
 
 				$this->photo_header = UploadedFile::getInstance($this, 'photo_header');
 				if($this->photo_header instanceof UploadedFile && !$this->photo_header->getHasError()) {
-					$fileName = time().'_header_'.$this->member_id.'.'.strtolower($this->photo_header->getExtension()); 
+					$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->photo_header->getExtension()); 
 					if($this->photo_header->saveAs(join('/', [$uploadPath, $fileName]))) {
 						if($this->old_photo_header_i != '' && file_exists(join('/', [$uploadPath, $this->old_photo_header_i])))
 							rename(join('/', [$uploadPath, $this->old_photo_header_i]), join('/', [$verwijderenPath, time().'_change_'.$this->old_photo_header_i]));
@@ -580,7 +581,7 @@ class Members extends \app\components\ActiveRecord
 
 				$this->photo_profile = UploadedFile::getInstance($this, 'photo_profile');
 				if($this->photo_profile instanceof UploadedFile && !$this->photo_profile->getHasError()) {
-					$fileName = time().'_profile_'.$this->member_id.'.'.strtolower($this->photo_profile->getExtension()); 
+					$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->photo_profile->getExtension()); 
 					if($this->photo_profile->saveAs(join('/', [$uploadPath, $fileName]))) {
 						if($this->old_photo_profile_i != '' && file_exists(join('/', [$uploadPath, $this->old_photo_profile_i])))
 							rename(join('/', [$uploadPath, $this->old_photo_profile_i]), join('/', [$verwijderenPath, time().'_change_'.$this->old_photo_profile_i]));
@@ -610,14 +611,14 @@ class Members extends \app\components\ActiveRecord
 		if($insert) {
 			$this->photo_header = UploadedFile::getInstance($this, 'photo_header');
 			if($this->photo_header instanceof UploadedFile && !$this->photo_header->getHasError()) {
-				$fileName = time().'_'.$this->member_id.'.'.strtolower($this->photo_header->getExtension()); 
+				$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->photo_header->getExtension()); 
 				if($this->photo_header->saveAs(join('/', [$uploadPath, $fileName])))
 					self::updateAll(['photo_header' => $fileName], ['member_id' => $this->member_id]);
 			}
 
 			$this->photo_profile = UploadedFile::getInstance($this, 'photo_profile');
 			if($this->photo_profile instanceof UploadedFile && !$this->photo_profile->getHasError()) {
-				$fileName = time().'_'.$this->member_id.'.'.strtolower($this->photo_profile->getExtension()); 
+				$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->photo_profile->getExtension()); 
 				if($this->photo_profile->saveAs(join('/', [$uploadPath, $fileName])))
 					self::updateAll(['photo_profile' => $fileName], ['member_id' => $this->member_id]);
 			}

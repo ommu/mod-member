@@ -17,6 +17,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use ommu\member\models\MemberDocuments;
+use ommu\member\models\Members;
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Documents'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->document_filename;
@@ -61,8 +62,8 @@ $this->params['menu']['content'] = [
 		[
 			'attribute' => 'document_filename',
 			'value' => function ($model) {
-				$image = join('/', [Url::Base(), MemberDocuments::getUploadPath(false), $model->member_id, $model->document_filename]);
-				return $model->document_filename ? Html::img($image, ['width' => '100%']).'<br/><br/>'.$image : '-';
+				$uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
+				return $model->document_filename ? Html::img(join('/', [Url::Base(), $uploadPath, $model->document_filename]), ['width' => '100%']).'<br/><br/>'.$image : '-';
 			},
 			'format' => 'raw',
 		],

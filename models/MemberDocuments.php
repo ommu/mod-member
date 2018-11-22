@@ -194,7 +194,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 			'attribute' => 'document_filename',
 			'value' => function($model, $key, $index, $column) {
 				$uploadPath = join('/', [self::getUploadPath(false), $model->id]);
-				return $model->document_filename ? Html::img(join('/', [$uploadPath, $model->document_filename]), ['alt' => $model->document_filename]) : '-';
+				return $model->document_filename ? Html::img(join('/', [Url::Base(), $uploadPath, $model->document_filename]), ['alt' => $model->document_filename]) : '-';
 			},
 			'format' => 'html',
 		];
@@ -306,15 +306,6 @@ class MemberDocuments extends \app\components\ActiveRecord
 	}
 
 	/**
-	 * @param returnAlias set true jika ingin kembaliannya path alias atau false jika ingin string
-	 * relative path. default true.
-	 */
-	public static function getUploadPath($returnAlias=true) 
-	{
-		return ($returnAlias ? Yii::getAlias('@webroot/public/member') : 'public/member');
-	}
-
-	/**
 	 * after find attributes
 	 */
 	public function afterFind()
@@ -358,9 +349,9 @@ class MemberDocuments extends \app\components\ActiveRecord
 	{
 		if(parent::beforeSave($insert)) {
 			if(!$insert) {
-				$uploadPath = join('/', [self::getUploadPath(), $this->member_id]);
-				$verwijderenPath = join('/', [self::getUploadPath(), 'verwijderen']);
-				$this->createUploadDirectory(self::getUploadPath(), $this->member_id);
+				$uploadPath = join('/', [Members::getUploadPath(), $this->member_id]);
+				$verwijderenPath = join('/', [Members::getUploadPath(), 'verwijderen']);
+				$this->createUploadDirectory(Members::getUploadPath(), $this->member_id);
 
 				$this->document_filename = UploadedFile::getInstance($this, 'document_filename');
 				if($this->document_filename instanceof UploadedFile && !$this->document_filename->getHasError()) {
@@ -387,9 +378,9 @@ class MemberDocuments extends \app\components\ActiveRecord
 	{
 		parent::afterSave($insert, $changedAttributes);
 
-		$uploadPath = join('/', [self::getUploadPath(), $this->member_id]);
-		$verwijderenPath = join('/', [self::getUploadPath(), 'verwijderen']);
-		$this->createUploadDirectory(self::getUploadPath(), $this->member_id);
+		$uploadPath = join('/', [Members::getUploadPath(), $this->member_id]);
+		$verwijderenPath = join('/', [Members::getUploadPath(), 'verwijderen']);
+		$this->createUploadDirectory(Members::getUploadPath(), $this->member_id);
 
 		if($insert) {
 			$this->document_filename = UploadedFile::getInstance($this, 'document_filename');
@@ -409,8 +400,8 @@ class MemberDocuments extends \app\components\ActiveRecord
 	{
 		parent::afterDelete();
 
-		$uploadPath = join('/', [self::getUploadPath(), $this->member_id]);
-		$verwijderenPath = join('/', [self::getUploadPath(), 'verwijderen']);
+		$uploadPath = join('/', [Members::getUploadPath(), $this->member_id]);
+		$verwijderenPath = join('/', [Members::getUploadPath(), 'verwijderen']);
 
 		if($this->document_filename != '' && file_exists(join('/', [$uploadPath, $this->document_filename])))
 			rename(join('/', [$uploadPath, $this->document_filename]), join('/', [$verwijderenPath, time().'_deleted_'.$this->document_filename]));
