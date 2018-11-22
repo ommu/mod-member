@@ -38,6 +38,7 @@ use Yii;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\web\UploadedFile;
+use thamtech\uuid\helpers\UuidHelper;
 use ommu\users\models\Users;
 
 class MemberDocuments extends \app\components\ActiveRecord
@@ -355,7 +356,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 
 				$this->document_filename = UploadedFile::getInstance($this, 'document_filename');
 				if($this->document_filename instanceof UploadedFile && !$this->document_filename->getHasError()) {
-					$fileName = time().'_'.$this->member_id.'.'.strtolower($this->document_filename->getExtension()); 
+					$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->document_filename->getExtension());
 					if($this->document_filename->saveAs(join('/', [$uploadPath, $fileName]))) {
 						if($this->old_document_filename_i != '' && file_exists(join('/', [$uploadPath, $this->old_document_filename_i])))
 							rename(join('/', [$uploadPath, $this->old_document_filename_i]), join('/', [$verwijderenPath, time().'_change_'.$this->old_document_filename_i]));
@@ -385,7 +386,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 		if($insert) {
 			$this->document_filename = UploadedFile::getInstance($this, 'document_filename');
 			if($this->document_filename instanceof UploadedFile && !$this->document_filename->getHasError()) {
-				$fileName = time().'_'.$this->member_id.'.'.strtolower($this->document_filename->getExtension()); 
+				$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->document_filename->getExtension());
 				if($this->document_filename->saveAs(join('/', [$uploadPath, $fileName])))
 					self::updateAll(['document_filename' => $fileName], ['id'=>$this->id]);
 			}
