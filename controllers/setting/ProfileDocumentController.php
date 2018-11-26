@@ -106,13 +106,17 @@ class ProfileDocumentController extends Controller
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success created.'));
 				return $this->redirect(['index', 'profile'=>$model->profile_id]);
 				//return $this->redirect(['view', 'id'=>$model->id]);
-			} 
+
+			} else {
+				if(Yii::$app->request->isAjax)
+					return \yii\helpers\Json::encode(\yii\widgets\ActiveForm::validate($model));
+			}
 		}
 
 		$this->view->title = Yii::t('app', 'Create Profile Document');
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_create', [
+		return $this->oRender('admin_create', [
 			'model' => $model,
 		]);
 	}
@@ -133,13 +137,17 @@ class ProfileDocumentController extends Controller
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success updated.'));
 				return $this->redirect(['index', 'profile'=>$model->profile_id]);
 				//return $this->redirect(['view', 'id'=>$model->id]);
+
+			} else {
+				if(Yii::$app->request->isAjax)
+					return \yii\helpers\Json::encode(\yii\widgets\ActiveForm::validate($model));
 			}
 		}
 
 		$this->view->title = Yii::t('app', 'Update {model-class}: {profile-id}', ['model-class' => 'Profile Document', 'profile-id' => $model->profile->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_update', [
+		return $this->oRender('admin_update', [
 			'model' => $model,
 		]);
 	}

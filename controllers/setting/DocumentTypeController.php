@@ -100,13 +100,17 @@ class DocumentTypeController extends Controller
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member document type success created.'));
 				return $this->redirect(['index']);
 				//return $this->redirect(['view', 'id'=>$model->document_id]);
-			} 
+
+			} else {
+				if(Yii::$app->request->isAjax)
+					return \yii\helpers\Json::encode(\yii\widgets\ActiveForm::validate($model));
+			}
 		}
 
 		$this->view->title = Yii::t('app', 'Create Document Type');
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_create', [
+		return $this->oRender('admin_create', [
 			'model' => $model,
 		]);
 	}
@@ -127,13 +131,17 @@ class DocumentTypeController extends Controller
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member document type success updated.'));
 				return $this->redirect(['index']);
 				//return $this->redirect(['view', 'id'=>$model->document_id]);
+
+			} else {
+				if(Yii::$app->request->isAjax)
+					return \yii\helpers\Json::encode(\yii\widgets\ActiveForm::validate($model));
 			}
 		}
 
 		$this->view->title = Yii::t('app', 'Update {model-class}: {document-name}', ['model-class' => 'Document Type', 'document-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_update', [
+		return $this->oRender('admin_update', [
 			'model' => $model,
 		]);
 	}

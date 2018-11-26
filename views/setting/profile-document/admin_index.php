@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $profile = Yii::$app->request->get('profile');
 if($profile) {
 	$this->params['menu']['content'] = [
-		['label' => Yii::t('app', 'Add Profile Document'), 'url' => Url::to(['create', 'profile'=>$profile]), 'icon' => 'plus-square'],
+		['label' => Yii::t('app', 'Add Profile Document'), 'url' => Url::to(['create', 'profile'=>$profile]), 'htmlOptions' => ['class'=>'modal-btn'], 'icon' => 'plus-square'],
 	];
 }
 $this->params['menu']['option'] = [
@@ -57,7 +57,7 @@ array_push($columnData, [
 		},
 		'update' => function ($url, $model, $key) {
 			$url = Url::to(['update', 'id'=>$model->primaryKey]);
-			return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['title' => Yii::t('app', 'Update Profile Document')]);
+			return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['title' => Yii::t('app', 'Update Profile Document'), 'class'=>'modal-btn']);
 		},
 		'delete' => function ($url, $model, $key) {
 			$url = Url::to(['delete', 'id'=>$model->primaryKey]);

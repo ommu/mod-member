@@ -99,13 +99,17 @@ class FriendTypeController extends Controller
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member friend type success created.'));
 				return $this->redirect(['index']);
 				//return $this->redirect(['view', 'id'=>$model->id]);
-			} 
+
+			} else {
+				if(Yii::$app->request->isAjax)
+					return \yii\helpers\Json::encode(\yii\widgets\ActiveForm::validate($model));
+			}
 		}
 
 		$this->view->title = Yii::t('app', 'Create Friend Type');
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_create', [
+		return $this->oRender('admin_create', [
 			'model' => $model,
 		]);
 	}
@@ -126,13 +130,17 @@ class FriendTypeController extends Controller
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member friend type success updated.'));
 				return $this->redirect(['index']);
 				//return $this->redirect(['view', 'id'=>$model->id]);
+
+			} else {
+				if(Yii::$app->request->isAjax)
+					return \yii\helpers\Json::encode(\yii\widgets\ActiveForm::validate($model));
 			}
 		}
 
 		$this->view->title = Yii::t('app', 'Update {model-class}: {type-name}', ['model-class' => 'Friend Type', 'type-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_update', [
+		return $this->oRender('admin_update', [
 			'model' => $model,
 		]);
 	}

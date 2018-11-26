@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $member = Yii::$app->request->get('member');
 if($member) {
 	$this->params['menu']['content'] = [
-		['label' => Yii::t('app', 'Add Follower'), 'url' => Url::to(['create', 'member'=>$member]), 'icon' => 'plus-square'],
+		['label' => Yii::t('app', 'Add Follower'), 'url' => Url::to(['create', 'member'=>$member]), 'htmlOptions' => ['class'=>'modal-btn'], 'icon' => 'plus-square'],
 	];
 }
 $this->params['menu']['option'] = [
@@ -56,7 +56,7 @@ array_push($columnData, [
 		},
 		'update' => function ($url, $model, $key) {
 			$url = Url::to(['update', 'id'=>$model->primaryKey]);
-			return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['title' => Yii::t('app', 'Update Follower')]);
+			return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['title' => Yii::t('app', 'Update Follower'), 'class'=>'modal-btn']);
 		},
 		'delete' => function ($url, $model, $key) {
 			$url = Url::to(['delete', 'id'=>$model->primaryKey]);

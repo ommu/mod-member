@@ -106,13 +106,17 @@ class ProfileCategoryController extends Controller
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success created.'));
 				return $this->redirect(['index', 'profile'=>$model->profile_id]);
 				//return $this->redirect(['view', 'id'=>$model->cat_id]);
-			} 
+
+			} else {
+				if(Yii::$app->request->isAjax)
+					return \yii\helpers\Json::encode(\yii\widgets\ActiveForm::validate($model));
+			}
 		}
 
 		$this->view->title = Yii::t('app', 'Create Profile Category');
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_create', [
+		return $this->oRender('admin_create', [
 			'model' => $model,
 			'profile' => $profile,
 		]);
@@ -134,13 +138,17 @@ class ProfileCategoryController extends Controller
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success updated.'));
 				return $this->redirect(['index', 'profile'=>$model->profile_id]);
 				//return $this->redirect(['view', 'id'=>$model->cat_id]);
+
+			} else {
+				if(Yii::$app->request->isAjax)
+					return \yii\helpers\Json::encode(\yii\widgets\ActiveForm::validate($model));
 			}
 		}
 
 		$this->view->title = Yii::t('app', 'Update {model-class}: {cat-name}', ['model-class' => 'Profile Category', 'cat-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_update', [
+		return $this->oRender('admin_update', [
 			'model' => $model,
 			'profile' => $model->profile_id,
 		]);

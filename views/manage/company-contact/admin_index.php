@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $company = Yii::$app->request->get('company');
 if($company) {
 	$this->params['menu']['content'] = [
-		['label' => Yii::t('app', 'Add Company Contact'), 'url' => Url::to(['create', 'company'=>$company]), 'icon' => 'plus-square'],
+		['label' => Yii::t('app', 'Add Company Contact'), 'url' => Url::to(['create', 'company'=>$company]), 'htmlOptions' => ['class'=>'modal-btn'], 'icon' => 'plus-square'],
 	];
 }
 $this->params['menu']['option'] = [
@@ -56,7 +56,7 @@ array_push($columnData, [
 		},
 		'update' => function ($url, $model, $key) {
 			$url = Url::to(['update', 'id'=>$model->primaryKey]);
-			return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['title' => Yii::t('app', 'Update Company Contact')]);
+			return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['title' => Yii::t('app', 'Update Company Contact'), 'class'=>'modal-btn']);
 		},
 		'delete' => function ($url, $model, $key) {
 			$url = Url::to(['delete', 'id'=>$model->primaryKey]);

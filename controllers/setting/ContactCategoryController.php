@@ -100,13 +100,17 @@ class ContactCategoryController extends Controller
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member contact category success created.'));
 				return $this->redirect(['index']);
 				//return $this->redirect(['view', 'id'=>$model->cat_id]);
-			} 
+
+			} else {
+				if(Yii::$app->request->isAjax)
+					return \yii\helpers\Json::encode(\yii\widgets\ActiveForm::validate($model));
+			}
 		}
 
 		$this->view->title = Yii::t('app', 'Create Contact Category');
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_create', [
+		return $this->oRender('admin_create', [
 			'model' => $model,
 		]);
 	}
@@ -127,13 +131,17 @@ class ContactCategoryController extends Controller
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member contact category success updated.'));
 				return $this->redirect(['index']);
 				//return $this->redirect(['view', 'id'=>$model->cat_id]);
+
+			} else {
+				if(Yii::$app->request->isAjax)
+					return \yii\helpers\Json::encode(\yii\widgets\ActiveForm::validate($model));
 			}
 		}
 
 		$this->view->title = Yii::t('app', 'Update {model-class}: {cat-name}', ['model-class' => 'Contact Category', 'cat-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_update', [
+		return $this->oRender('admin_update', [
 			'model' => $model,
 		]);
 	}
