@@ -311,6 +311,8 @@ class MemberDocuments extends \app\components\ActiveRecord
 	 */
 	public function afterFind()
 	{
+		parent::afterFind();
+
 		$this->old_document_filename_i = $this->document_filename;
 	}
 

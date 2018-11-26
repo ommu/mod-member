@@ -501,6 +501,8 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public function afterFind()
 	{
+		parent::afterFind();
+
 		$this->old_photo_header_i = $this->photo_header;
 		$this->old_photo_profile_i = $this->photo_profile;
 		$this->old_approved_i = $this->approved;

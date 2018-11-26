@@ -282,6 +282,8 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	 */
 	public function afterFind()
 	{
+		parent::afterFind();
+
 		$this->level_name_i = isset($this->title) ? $this->title->message : '';
 		$this->level_desc_i = isset($this->description) ? $this->description->message : '';
 	}

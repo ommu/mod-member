@@ -272,6 +272,8 @@ class MemberDocumentType extends \app\components\ActiveRecord
 	 */
 	public function afterFind()
 	{
+		parent::afterFind();
+
 		$this->document_name_i = isset($this->title) ? $this->title->message : '';
 		$this->document_desc_i = isset($this->description) ? $this->description->message : '';
 	}

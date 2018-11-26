@@ -255,6 +255,8 @@ class MemberContactCategory extends \app\components\ActiveRecord
 	 */
 	public function afterFind()
 	{
+		parent::afterFind();
+
 		$this->cat_name_i = isset($this->title) ? $this->title->message : '';
 	}
 

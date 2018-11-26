@@ -290,6 +290,8 @@ class MemberFriendType extends \app\components\ActiveRecord
 	 */
 	public function afterFind()
 	{
+		parent::afterFind();
+
 		$this->type_name_i = isset($this->title) ? $this->title->message : '';
 		$this->type_desc_i = isset($this->description) ? $this->description->message : '';
 	}

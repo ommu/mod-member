@@ -269,6 +269,8 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 	 */
 	public function afterFind()
 	{
+		parent::afterFind();
+
 		$this->document_name_i = isset($this->document) ? $this->document->document_name_i : '';
 		$this->document_desc_i = isset($this->document) ? $this->document->document_desc_i : '';
 	}

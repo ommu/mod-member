@@ -324,6 +324,8 @@ class MemberSetting extends \app\components\ActiveRecord
 	 */
 	public function afterFind()
 	{
+		parent::afterFind();
+
 		$this->form_custom_insert_field = unserialize($this->form_custom_insert_field);
 		$this->profile_views = unserialize($this->profile_views);
 		$this->photo_header_view_size = unserialize($this->photo_header_view_size);

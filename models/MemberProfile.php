@@ -320,6 +320,8 @@ class MemberProfile extends \app\components\ActiveRecord
 	 */
 	public function afterFind()
 	{
+		parent::afterFind();
+
 		$this->profile_name_i = isset($this->title) ? $this->title->message : '';
 		$this->profile_desc_i = isset($this->description) ? $this->description->message : '';
 	}

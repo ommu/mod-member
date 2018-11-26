@@ -360,6 +360,8 @@ class MemberCompany extends \app\components\ActiveRecord
 	 */
 	public function afterFind()
 	{
+		parent::afterFind();
+
 		$this->member_i = $this->member->displayname;
 	}
 

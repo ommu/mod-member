@@ -48,27 +48,17 @@ echo $form->field($model, 'profile_id', ['template' => '{label}<div class="col-m
 	->textInput(['maxlength'=>true])
 	->label($model->getAttributeLabel('displayname'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
-<div class="form-group field-photo_header">
-	<?php echo $form->field($model, 'photo_header', ['template' => '{label}', 'options' => ['tag' => null]])
-		->label($model->getAttributeLabel('photo_header'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
-	<div class="col-md-6 col-sm-9 col-xs-12">
-		<?php echo !$model->isNewRecord && $model->old_photo_header_i != '' ? Html::img(join('/', [Url::Base(), Members::getUploadPath(false), $model->member_id, $model->old_photo_header_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';?>
-		<?php echo $form->field($model, 'photo_header', ['template' => '{input}{error}'])
-			->fileInput()
-			->label($model->getAttributeLabel('photo_header'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
-	</div>
-</div>
+<?php $uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
+$photoHeader = !$model->isNewRecord && $model->old_photo_header_i != '' ? Html::img(join('/', [Url::Base(), $uploadPath, $model->old_photo_header_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';
+echo $form->field($model, 'photo_header', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12"><div>'.$photoHeader.'</div>{input}{error}</div>'])
+	->fileInput()
+	->label($model->getAttributeLabel('photo_header'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
-<div class="form-group field-photo_profile">
-	<?php echo $form->field($model, 'photo_profile', ['template' => '{label}', 'options' => ['tag' => null]])
-		->label($model->getAttributeLabel('photo_profile'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
-	<div class="col-md-6 col-sm-9 col-xs-12">
-		<?php echo !$model->isNewRecord && $model->old_photo_profile_i != '' ? Html::img(join('/', [Url::Base(), Members::getUploadPath(false), $model->member_id, $model->old_photo_profile_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';?>
-		<?php echo $form->field($model, 'photo_profile', ['template' => '{input}{error}'])
-			->fileInput()
-			->label($model->getAttributeLabel('photo_profile'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
-	</div>
-</div>
+<?php $uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
+$photoProfile = !$model->isNewRecord && $model->old_photo_profile_i != '' ? Html::img(join('/', [Url::Base(), $uploadPath, $model->old_photo_profile_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';
+echo $form->field($model, 'photo_profile', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12"><div>'.$photoProfile.'</div>{input}{error}</div>'])
+	->fileInput()
+	->label($model->getAttributeLabel('photo_profile'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'short_biography', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
 	->textarea(['rows'=>2, 'rows'=>6])
