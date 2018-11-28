@@ -111,7 +111,7 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	public function getUsers()
 	{
 		return $this->hasMany(MemberUser::className(), ['level_id' => 'level_id'])
-			->andOnCondition(['publish' => 1]);
+			->andOnCondition([sprintf('%s.publish1', MemberUser::tableName()) => 1]);
 	}
 
 	/**

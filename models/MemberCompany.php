@@ -175,7 +175,7 @@ class MemberCompany extends \app\components\ActiveRecord
 	public function getContacts()
 	{
 		return $this->hasMany(MemberCompanyContact::className(), ['member_company_id' => 'id'])
-			->andOnCondition(['publish' => 1]);
+			->andOnCondition([sprintf('%s.publish1', MemberCompanyContact::tableName()) => 1]);
 	}
 
 	/**
