@@ -155,7 +155,7 @@ class Members extends \app\components\ActiveRecord
 	// public function getCompanies()
 	// {
 	// 	return $this->hasMany(\app\modules\ipedia\models\IpediaCompanies::className(), ['member_id' => 'member_id'])
-			->andOnCondition([sprintf('%s.publish1', \app\modules\ipedia\models\IpediaCompanies::tableName()) => 1]);
+	//		->andOnCondition([sprintf('%s.publish1', \app\modules\ipedia\models\IpediaCompanies::tableName()) => 1]);
 	// }
 
 	/**
