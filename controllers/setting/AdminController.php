@@ -55,12 +55,22 @@ class AdminController extends Controller
 	}
 
 	/**
-	 * Lists all MemberSetting models.
+	 * Displays a single MemberSetting model.
+	 * @param integer $id
 	 * @return mixed
 	 */
 	public function actionIndex()
 	{
-		return $this->redirect(['update']);
+		$model = MemberSetting::findOne(1);
+		if($model == null)
+			return $this->redirect(['update']);
+
+		$this->view->title = Yii::t('app', 'Member Settings');
+		$this->view->description = '';
+		$this->view->keywords = '';
+		return $this->render('admin_index', [
+			'model' => $model,
+		]);
 	}
 
 	/**
@@ -81,7 +91,6 @@ class AdminController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member setting success updated.'));
 				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id'=>$model->id]);
 			}
 		}
 
@@ -89,25 +98,6 @@ class AdminController extends Controller
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_update', [
-			'model' => $model,
-		]);
-	}
-
-	/**
-	 * Displays a single MemberSetting model.
-	 * @param integer $id
-	 * @return mixed
-	 */
-	public function actionView()
-	{
-		$model = MemberSetting::findOne(1);
-		if($model == null)
-			return $this->redirect(['update']);
-
-		$this->view->title = Yii::t('app', 'Member Settings');
-		$this->view->description = '';
-		$this->view->keywords = '';
-		return $this->render('admin_view', [
 			'model' => $model,
 		]);
 	}

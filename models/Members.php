@@ -303,6 +303,15 @@ class Members extends \app\components\ActiveRecord
 	}
 
 	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getUserInfo()
+	{
+		return $this->hasOne(Users::className(), ['user_id' => 'user_id'])
+			->via('user');
+	}
+
+	/**
 	 * {@inheritdoc}
 	 * @return \ommu\member\models\query\Members the active query used by this AR class.
 	 */
@@ -322,6 +331,14 @@ class Members extends \app\components\ActiveRecord
 			'header' => Yii::t('app', 'No'),
 			'class'  => 'yii\grid\SerialColumn',
 			'contentOptions' => ['class'=>'center'],
+		];
+		$this->templateColumns['photo_profile'] = [
+			'attribute' => 'photo_profile',
+			'value' => function($model, $key, $index, $column) {
+				$uploadPath = join('/', [self::getUploadPath(false), $model->member_id]);
+				return $model->photo_profile ? Html::img(join('/', [Url::Base(), $uploadPath, $model->photo_profile]), ['alt' => $model->photo_profile]) : '-';
+			},
+			'format' => 'html',
 		];
 		if(!Yii::$app->request->get('profile')) {
 			$this->templateColumns['profile_id'] = [
@@ -349,14 +366,6 @@ class Members extends \app\components\ActiveRecord
 			'value' => function($model, $key, $index, $column) {
 				$uploadPath = join('/', [self::getUploadPath(false), $model->member_id]);
 				return $model->photo_header ? Html::img(join('/', [Url::Base(), $uploadPath, $model->photo_header]), ['alt' => $model->photo_header]) : '-';
-			},
-			'format' => 'html',
-		];
-		$this->templateColumns['photo_profile'] = [
-			'attribute' => 'photo_profile',
-			'value' => function($model, $key, $index, $column) {
-				$uploadPath = join('/', [self::getUploadPath(false), $model->member_id]);
-				return $model->photo_profile ? Html::img(join('/', [Url::Base(), $uploadPath, $model->photo_profile]), ['alt' => $model->photo_profile]) : '-';
 			},
 			'format' => 'html',
 		];

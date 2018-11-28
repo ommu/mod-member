@@ -20,10 +20,6 @@
 use yii\helpers\Url;
 
 $this->params['breadcrumbs'][] = $this->title;
-
-$this->params['menu']['content'] = [
-	['label' => Yii::t('app', 'View Setting Detail'), 'url' => Url::to(['view']), 'icon' => 'eye'],
-];
 ?>
 
 <div class="member-setting-update">
