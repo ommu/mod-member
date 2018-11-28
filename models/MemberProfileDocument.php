@@ -110,7 +110,7 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 	public function getDocuments()
 	{
 		return $this->hasMany(MemberDocuments::className(), ['profile_document_id' => 'id'])
-			->andOnCondition([sprintf('%s.publish1', MemberDocuments::tableName()) => 1]);
+			->andOnCondition([sprintf('%s.publish', MemberDocuments::tableName()) => 1]);
 	}
 
 	/**

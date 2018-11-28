@@ -117,7 +117,7 @@ class MemberProfile extends \app\components\ActiveRecord
 	public function getCategories()
 	{
 		return $this->hasMany(MemberProfileCategory::className(), ['profile_id' => 'profile_id'])
-			->andOnCondition([sprintf('%s.publish1', MemberProfileCategory::tableName()) => 1]);
+			->andOnCondition([sprintf('%s.publish', MemberProfileCategory::tableName()) => 1]);
 	}
 
 	/**
@@ -126,7 +126,7 @@ class MemberProfile extends \app\components\ActiveRecord
 	public function getDocuments()
 	{
 		return $this->hasMany(MemberProfileDocument::className(), ['profile_id' => 'profile_id'])
-			->andOnCondition([sprintf('%s.publish1', MemberProfileDocument::tableName()) => 1]);
+			->andOnCondition([sprintf('%s.publish', MemberProfileDocument::tableName()) => 1]);
 	}
 
 	/**
@@ -135,7 +135,7 @@ class MemberProfile extends \app\components\ActiveRecord
 	public function getMembers()
 	{
 		return $this->hasMany(Members::className(), ['profile_id' => 'profile_id'])
-			->andOnCondition([sprintf('%s.publish1', Members::tableName()) => 1]);
+			->andOnCondition([sprintf('%s.publish', Members::tableName()) => 1]);
 	}
 
 	/**
