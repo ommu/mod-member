@@ -61,6 +61,15 @@ class AdminController extends Controller
 	 */
 	public function actionIndex()
 	{
+		// echo '<pre>';
+		// print_r(Yii::$app->authManager->getRoles());
+		// print_r(\ommu\users\models\Assignments::getRoles());
+		// $manager = Yii::$app->authManager;
+		// $item	= $manager->getRole('userAdmin');
+		// print_r($manager->getAssignments(1));
+		// print_r($manager->getRole('userAdmin'));
+		//$manager->assign($item, 1);
+
 		$model = MemberSetting::findOne(1);
 		if($model == null)
 			return $this->redirect(['update']);
