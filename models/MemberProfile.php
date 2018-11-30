@@ -15,6 +15,7 @@
  * @property integer $publish
  * @property integer $profile_name
  * @property integer $profile_desc
+ * @property string $assignment_roles
  * @property integer $profile_personal
  * @property integer $multiple_user
  * @property integer $user_limit
@@ -46,8 +47,9 @@ use ommu\users\models\Users;
 class MemberProfile extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
+	use \ommu\traits\FileTrait;
 
-	public $gridForbiddenColumn = ['modified_date','modified_search','updated_date'];
+	public $gridForbiddenColumn = ['assignment_roles','modified_date','modified_search','updated_date'];
 	public $profile_name_i;
 	public $profile_desc_i;
 
@@ -77,7 +79,7 @@ class MemberProfile extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['profile_name_i', 'profile_desc_i', 'user_limit'], 'required'],
+			[['profile_name_i', 'profile_desc_i', 'assignment_roles', 'user_limit'], 'required'],
 			[['publish', 'profile_name', 'profile_desc', 'profile_personal', 'multiple_user', 'user_limit', 'creation_id', 'modified_id'], 'integer'],
 			[['profile_name_i', 'profile_desc_i'], 'string'],
 			[['creation_date', 'modified_date', 'updated_date'], 'safe'],
@@ -96,6 +98,7 @@ class MemberProfile extends \app\components\ActiveRecord
 			'publish' => Yii::t('app', 'Publish'),
 			'profile_name' => Yii::t('app', 'profile'),
 			'profile_desc' => Yii::t('app', 'Description'),
+			'assignment_roles' => Yii::t('app', 'Assignment Roles'),
 			'profile_personal' => Yii::t('app', 'Personal'),
 			'multiple_user' => Yii::t('app', 'Multiple User'),
 			'user_limit' => Yii::t('app', 'User Limit'),
@@ -201,6 +204,12 @@ class MemberProfile extends \app\components\ActiveRecord
 			'attribute' => 'profile_desc_i',
 			'value' => function($model, $key, $index, $column) {
 				return $model->profile_desc_i;
+			},
+		];
+		$this->templateColumns['assignment_roles'] = [
+			'attribute' => 'assignment_roles',
+			'value' => function($model, $key, $index, $column) {
+				return $this->formatFileType($model->assignment_roles, false);
 			},
 		];
 		$this->templateColumns['user_limit'] = [
@@ -324,6 +333,8 @@ class MemberProfile extends \app\components\ActiveRecord
 
 		$this->profile_name_i = isset($this->title) ? $this->title->message : '';
 		$this->profile_desc_i = isset($this->description) ? $this->description->message : '';
+
+		$this->assignment_roles = $this->formatFileType($this->assignment_roles, true, '#');
 	}
 
 	/**
@@ -378,6 +389,7 @@ class MemberProfile extends \app\components\ActiveRecord
 				$profile_desc->save();
 			}
 
+			$this->assignment_roles = $this->formatFileType($this->assignment_roles, false, '#');
 		}
 		return true;
 	}

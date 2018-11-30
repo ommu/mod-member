@@ -38,7 +38,7 @@ $this->params['menu']['content'] = [
 		[
 			'attribute' => 'publish',
 			'value' => $this->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish, 'Enable,Disable'),
-			'format' => 'raw',
+			'format' => 'html',
 		],
 		[
 			'attribute' => 'profile_name_i',
@@ -47,6 +47,11 @@ $this->params['menu']['content'] = [
 		[
 			'attribute' => 'profile_desc_i',
 			'value' => $model->profile_desc_i,
+		],
+		[
+			'attribute' => 'assignment_roles',
+			'value' => $this->formatFileType($model->assignment_roles, false, '<br/>'),
+			'format' => 'html',
 		],
 		[
 			'attribute' => 'profile_personal',

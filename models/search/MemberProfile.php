@@ -27,7 +27,7 @@ class MemberProfile extends MemberProfileModel
 	{
 		return [
 			[['profile_id', 'publish', 'profile_name', 'profile_desc', 'profile_personal', 'multiple_user', 'user_limit', 'creation_id', 'modified_id'], 'integer'],
-			[['creation_date', 'modified_date', 'updated_date', 'profile_name_i', 'profile_desc_i', 'creation_search', 'modified_search'], 'safe'],
+			[['assignment_roles', 'creation_date', 'modified_date', 'updated_date', 'profile_name_i', 'profile_desc_i', 'creation_search', 'modified_search'], 'safe'],
 		];
 	}
 
@@ -130,7 +130,8 @@ class MemberProfile extends MemberProfileModel
 				$query->andFilterWhere(['t.publish' => $this->publish]);
 		}
 
-		$query->andFilterWhere(['like', 'title.message', $this->profile_name_i])
+		$query->andFilterWhere(['like', 't.assignment_roles', $this->assignment_roles])
+			->andFilterWhere(['like', 'title.message', $this->profile_name_i])
 			->andFilterWhere(['like', 'description.message', $this->profile_desc_i])
 			->andFilterWhere(['like', 'creation.displayname', $this->creation_search])
 			->andFilterWhere(['like', 'modified.displayname', $this->modified_search]);

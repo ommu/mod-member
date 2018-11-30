@@ -16,6 +16,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use ommu\users\models\Assignments;
 
 $js = <<<JS
 	$('.field-profile_personal input[name="profile_personal"]').on('change', function() {
@@ -63,6 +64,11 @@ JS;
 echo $form->field($model, 'profile_personal', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
 	->checkbox(['label'=>''])
 	->label($model->getAttributeLabel('profile_personal'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+
+<?php $assignments = Assignments::getRoles();
+echo $form->field($model, 'assignment_roles', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12"><span class="small-px">'.Yii::t('app', '').'</span>{input}{error}</div>'])
+	->checkboxList($assignments, ['class'=>'desc pt-10', 'separator'=>'<br />'])
+	->label($model->getAttributeLabel('assignment_roles'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <div id="not-personal" <?php echo $model->profile_personal == 1 ? 'style="display: none;"' : ''; ?>>
 	<?php if($model->isNewRecord && !$model->getErrors())
