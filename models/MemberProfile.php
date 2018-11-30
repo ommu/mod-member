@@ -283,7 +283,7 @@ class MemberProfile extends \app\components\ActiveRecord
 					return $this->quickAction($url, $model->publish, 'Enable,Disable');
 				},
 				'contentOptions' => ['class'=>'center'],
-				'format' => 'html',
+				'format' => 'raw',
 			];
 		}
 	}

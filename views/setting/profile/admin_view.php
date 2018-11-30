@@ -38,7 +38,7 @@ $this->params['menu']['content'] = [
 		[
 			'attribute' => 'publish',
 			'value' => $this->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish, 'Enable,Disable'),
-			'format' => 'html',
+			'format' => 'raw',
 		],
 		[
 			'attribute' => 'profile_name_i',
