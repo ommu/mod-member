@@ -379,10 +379,9 @@ class Members extends \app\components\ActiveRecord
 		$this->templateColumns['approved_date'] = [
 			'attribute' => 'approved_date',
 			'value' => function($model, $key, $index, $column) {
-				return !in_array($model->approved_date, ['0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00']) ? Yii::$app->formatter->format($model->approved_date, 'datetime') : '-';
+				return Yii::$app->formatter->asDatetime($model->approved_date, 'medium');
 			},
 			'filter' => $this->filterDatepicker($this, 'approved_date'),
-			'format' => 'html',
 		];
 		if(!Yii::$app->request->get('approved')) {
 			$this->templateColumns['approved_search'] = [
@@ -395,10 +394,9 @@ class Members extends \app\components\ActiveRecord
 		$this->templateColumns['creation_date'] = [
 			'attribute' => 'creation_date',
 			'value' => function($model, $key, $index, $column) {
-				return !in_array($model->creation_date, ['0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00']) ? Yii::$app->formatter->format($model->creation_date, 'datetime') : '-';
+				return Yii::$app->formatter->asDatetime($model->creation_date, 'medium');
 			},
 			'filter' => $this->filterDatepicker($this, 'creation_date'),
-			'format' => 'html',
 		];
 		if(!Yii::$app->request->get('creation')) {
 			$this->templateColumns['creation_search'] = [
@@ -411,10 +409,9 @@ class Members extends \app\components\ActiveRecord
 		$this->templateColumns['modified_date'] = [
 			'attribute' => 'modified_date',
 			'value' => function($model, $key, $index, $column) {
-				return !in_array($model->modified_date, ['0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00']) ? Yii::$app->formatter->format($model->modified_date, 'datetime') : '-';
+				return Yii::$app->formatter->asDatetime($model->modified_date, 'medium');
 			},
 			'filter' => $this->filterDatepicker($this, 'modified_date'),
-			'format' => 'html',
 		];
 		if(!Yii::$app->request->get('modified')) {
 			$this->templateColumns['modified_search'] = [
@@ -427,10 +424,9 @@ class Members extends \app\components\ActiveRecord
 		$this->templateColumns['updated_date'] = [
 			'attribute' => 'updated_date',
 			'value' => function($model, $key, $index, $column) {
-				return !in_array($model->updated_date, ['0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00']) ? Yii::$app->formatter->format($model->updated_date, 'datetime') : '-';
+				return Yii::$app->formatter->asDatetime($model->updated_date, 'medium');
 			},
 			'filter' => $this->filterDatepicker($this, 'updated_date'),
-			'format' => 'html',
 		];
 		$this->templateColumns['approved'] = [
 			'attribute' => 'approved',

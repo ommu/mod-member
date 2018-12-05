@@ -183,18 +183,16 @@ class MemberFriends extends \app\components\ActiveRecord
 		$this->templateColumns['request_date'] = [
 			'attribute' => 'request_date',
 			'value' => function($model, $key, $index, $column) {
-				return !in_array($model->request_date, ['0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00']) ? Yii::$app->formatter->format($model->request_date, 'datetime') : '-';
+				return Yii::$app->formatter->asDatetime($model->request_date, 'medium');
 			},
 			'filter' => $this->filterDatepicker($this, 'request_date'),
-			'format' => 'html',
 		];
 		$this->templateColumns['modified_date'] = [
 			'attribute' => 'modified_date',
 			'value' => function($model, $key, $index, $column) {
-				return !in_array($model->modified_date, ['0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00']) ? Yii::$app->formatter->format($model->modified_date, 'datetime') : '-';
+				return Yii::$app->formatter->asDatetime($model->modified_date, 'medium');
 			},
 			'filter' => $this->filterDatepicker($this, 'modified_date'),
-			'format' => 'html',
 		];
 		if(!Yii::$app->request->get('modified')) {
 			$this->templateColumns['modified_search'] = [
