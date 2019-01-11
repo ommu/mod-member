@@ -29,8 +29,6 @@ use yii\helpers\Html;
 
 class MemberViewHistory extends \app\components\ActiveRecord
 {
-	use \ommu\traits\UtilityTrait;
-
 	public $gridForbiddenColumn = [];
 
 	// Search Variable
