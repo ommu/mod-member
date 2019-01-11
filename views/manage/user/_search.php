@@ -15,7 +15,7 @@
  */
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use app\components\ActiveForm;
 use ommu\member\models\MemberUserlevel;
 use ommu\member\models\MemberProfile;
 ?>

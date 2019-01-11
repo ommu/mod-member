@@ -16,7 +16,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
+use app\components\ActiveForm;
 use ommu\member\models\Members;
 use ommu\member\models\MemberProfile;
 ?>
@@ -25,7 +25,6 @@ use ommu\member\models\MemberProfile;
 
 <?php $form = ActiveForm::begin([
 	'options' => [
-		'class' => 'form-horizontal form-label-left',
 		'enctype' => 'multipart/form-data',
 	],
 	'enableClientValidation' => false,

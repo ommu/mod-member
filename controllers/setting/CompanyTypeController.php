@@ -102,7 +102,7 @@ class CompanyTypeController extends Controller
 
 			} else {
 				if(Yii::$app->request->isAjax)
-					return \yii\helpers\Json::encode(\yii\widgets\ActiveForm::validate($model));
+					return \yii\helpers\Json::encode(\app\components\ActiveForm::validate($model));
 			}
 		}
 
@@ -133,7 +133,7 @@ class CompanyTypeController extends Controller
 
 			} else {
 				if(Yii::$app->request->isAjax)
-					return \yii\helpers\Json::encode(\yii\widgets\ActiveForm::validate($model));
+					return \yii\helpers\Json::encode(\app\components\ActiveForm::validate($model));
 			}
 		}
 

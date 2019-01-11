@@ -15,7 +15,7 @@
  */
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use app\components\ActiveForm;
 use yii\redactor\widgets\Redactor;
 use ommu\member\models\MemberCompanyType;
 use ommu\member\models\MemberProfileCategory;
@@ -39,7 +39,6 @@ $redactorOptions = [
 
 <?php $form = ActiveForm::begin([
 	'options' => [
-		'class' => 'form-horizontal form-label-left',
 		'enctype' => 'multipart/form-data',
 	],
 	'enableClientValidation' => false,
