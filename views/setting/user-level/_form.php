@@ -34,7 +34,7 @@ use app\components\ActiveForm;
 	->label($model->getAttributeLabel('level_name_i'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'level_desc_i', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->textarea(['rows'=>2, 'rows'=>6, 'maxlength'=>true])
+	->textarea(['rows'=>6, 'cols'=>50, 'maxlength'=>true])
 	->label($model->getAttributeLabel('level_desc_i'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'default', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])

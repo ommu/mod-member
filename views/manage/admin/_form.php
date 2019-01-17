@@ -60,7 +60,7 @@ echo $form->field($model, 'photo_profile', ['template' => '{label}<div class="co
 	->label($model->getAttributeLabel('photo_profile'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'short_biography', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->textarea(['rows'=>2, 'rows'=>6])
+	->textarea(['rows'=>6, 'cols'=>50])
 	->label($model->getAttributeLabel('short_biography'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php $memberPrivate = Members::getMemberPrivate();

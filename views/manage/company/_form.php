@@ -95,11 +95,11 @@ echo $form->field($model, 'company_cat_id', ['template' => '{label}<div class="c
 <div class="ln_solid"></div>
 
 <?php echo $form->field($model, 'info_intro', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->textarea(['rows'=>2, 'rows'=>6])
+	->textarea(['rows'=>6, 'cols'=>50])
 	->label($model->getAttributeLabel('info_intro'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'info_article', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
-	->textarea(['rows'=>2,'rows'=>6])
+	->textarea(['rows'=>6, 'cols'=>50])
 	->widget(Redactor::className(), ['clientOptions' => $redactorOptions])
 	->label($model->getAttributeLabel('info_article'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
@@ -151,7 +151,7 @@ echo $form->field($model, 'company_cat_id', ['template' => '{label}<div class="c
 	->label($model->getAttributeLabel('company_district'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php echo $form->field($model, 'company_address', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}</div>'.$company_village.$company_district.'<div class="col-md-6 col-sm-9 col-xs-12 col-sm-offset-3">{error}</div>'])
-	->textarea(['rows'=>2, 'rows'=>6])
+	->textarea(['rows'=>6, 'cols'=>50])
 	->label($model->getAttributeLabel('company_address'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
 
 <?php $companyCity = CoreZoneCity::getCity(1);

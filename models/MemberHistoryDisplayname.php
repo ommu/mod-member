@@ -178,8 +178,10 @@ class MemberHistoryDisplayname extends \app\components\ActiveRecord
 	public function beforeValidate()
 	{
 		if(parent::beforeValidate()) {
-			if(!$this->isNewRecord)
-				$this->updated_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+			if(!$this->isNewRecord) {
+				if($this->updated_id == null)
+					$this->updated_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+			}
 		}
 		return true;
 	}
