@@ -35,8 +35,8 @@
 namespace ommu\member\models;
 
 use Yii;
-use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use ommu\users\models\Users;
 
 class MemberProfileDocument extends \app\components\ActiveRecord
