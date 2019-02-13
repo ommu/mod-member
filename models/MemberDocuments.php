@@ -239,7 +239,6 @@ class MemberDocuments extends \app\components\ActiveRecord
 			'attribute' => 'status',
 			'filter' => self::getStatus(),
 			'value' => function($model, $key, $index, $column) {
-				$url = Url::to(['status', 'id'=>$model->primaryKey]);
 				return self::getStatus($model->status);
 			},
 			'contentOptions' => ['class'=>'center'],
