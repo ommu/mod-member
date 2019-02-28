@@ -25,6 +25,7 @@ use ommu\member\models\MemberProfile;
 
 <?php $form = ActiveForm::begin([
 	'options' => [
+		'class' => 'form-horizontal form-label-left',
 		'enctype' => 'multipart/form-data',
 	],
 	'enableClientValidation' => false,
@@ -35,52 +36,52 @@ use ommu\member\models\MemberProfile;
 <?php //echo $form->errorSummary($model);?>
 
 <?php $profile = MemberProfile::getProfile();
-echo $form->field($model, 'profile_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+echo $form->field($model, 'profile_id')
 	->dropDownList($profile, ['prompt'=>''])
-	->label($model->getAttributeLabel('profile_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('profile_id')); ?>
 
-<?php echo $form->field($model, 'username', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+<?php echo $form->field($model, 'username')
 	->textInput(['maxlength'=>true])
-	->label($model->getAttributeLabel('username'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('username')); ?>
 
-<?php echo $form->field($model, 'displayname', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+<?php echo $form->field($model, 'displayname')
 	->textInput(['maxlength'=>true])
-	->label($model->getAttributeLabel('displayname'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('displayname')); ?>
 
 <?php $uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
 $photoHeader = !$model->isNewRecord && $model->old_photo_header_i != '' ? Html::img(join('/', [Url::Base(), $uploadPath, $model->old_photo_header_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';
-echo $form->field($model, 'photo_header', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12"><div>'.$photoHeader.'</div>{input}{error}</div>'])
+echo $form->field($model, 'photo_header', ['template' => '{label}{beginWrapper}<div>'.$photoHeader.'</div>{input}{error}{hint}{endWrapper}'])
 	->fileInput()
-	->label($model->getAttributeLabel('photo_header'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('photo_header')); ?>
 
 <?php $uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
 $photoProfile = !$model->isNewRecord && $model->old_photo_profile_i != '' ? Html::img(join('/', [Url::Base(), $uploadPath, $model->old_photo_profile_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';
-echo $form->field($model, 'photo_profile', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12"><div>'.$photoProfile.'</div>{input}{error}</div>'])
+echo $form->field($model, 'photo_profile', ['template' => '{label}{beginWrapper}<div>'.$photoProfile.'</div>{input}{error}{hint}{endWrapper}'])
 	->fileInput()
-	->label($model->getAttributeLabel('photo_profile'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('photo_profile')); ?>
 
-<?php echo $form->field($model, 'short_biography', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+<?php echo $form->field($model, 'short_biography')
 	->textarea(['rows'=>6, 'cols'=>50])
-	->label($model->getAttributeLabel('short_biography'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('short_biography')); ?>
 
 <?php $memberPrivate = Members::getMemberPrivate();
 if($model->isNewRecord && !$model->getErrors())
 	$model->member_private = 0;
-echo $form->field($model, 'member_private', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+echo $form->field($model, 'member_private')
 	->dropDownList($memberPrivate, ['prompt'=>''])
-	->label($model->getAttributeLabel('member_private'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('member_private')); ?>
 
-<?php echo $form->field($model, 'approved', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
-	->checkbox(['label'=>''])
-	->label($model->getAttributeLabel('approved'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+<?php echo $form->field($model, 'approved')
+	->checkbox()
+	->label($model->getAttributeLabel('approved')); ?>
 
-<?php echo $form->field($model, 'publish', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
-	->checkbox(['label'=>''])
-	->label($model->getAttributeLabel('publish'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+<?php echo $form->field($model, 'publish')
+	->checkbox()
+	->label($model->getAttributeLabel('publish')); ?>
 
 <div class="ln_solid"></div>
-<div class="form-group">
-	<div class="col-md-6 col-sm-9 col-xs-12 col-sm-offset-3">
+<div class="form-group row">
+	<div class="col-md-6 col-sm-9 col-xs-12 offset-sm-3">
 		<?php echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']); ?>
 	</div>
 </div>

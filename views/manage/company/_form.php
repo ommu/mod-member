@@ -39,6 +39,7 @@ $redactorOptions = [
 
 <?php $form = ActiveForm::begin([
 	'options' => [
+		'class' => 'form-horizontal form-label-left',
 		'enctype' => 'multipart/form-data',
 	],
 	'enableClientValidation' => false,
@@ -48,64 +49,78 @@ $redactorOptions = [
 
 <?php //echo $form->errorSummary($model);?>
 
-<?php echo $form->field($member, 'username', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+<?php echo $form->field($member, 'username')
 	->textInput(['maxlength'=>true])
-	->label($member->getAttributeLabel('username'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($member->getAttributeLabel('username')); ?>
 
 <div class="ln_solid"></div>
 
 <?php $companyType = MemberCompanyType::getType();
-echo $form->field($model, 'company_type_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+echo $form->field($model, 'company_type_id')
 	->dropDownList($companyType, ['prompt'=>''])
-	->label($model->getAttributeLabel('company_type_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('company_type_id')); ?>
 
-<?php echo $form->field($member, 'displayname', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+<?php echo $form->field($member, 'displayname')
 	->textInput(['maxlength'=>true])
-	->label($member->getAttributeLabel('displayname'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($member->getAttributeLabel('displayname')); ?>
 
 <?php $companyCategory = MemberProfileCategory::getCategory();
-echo $form->field($model, 'company_cat_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+echo $form->field($model, 'company_cat_id')
 	->dropDownList($companyCategory, ['prompt'=>''])
-	->label($model->getAttributeLabel('company_cat_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('company_cat_id')); ?>
 
 <div class="ln_solid"></div>
 
+<?php $uploadPath = join('/', [Members::getUploadPath(false), $member->member_id]);
+$photoHeader = !$member->isNewRecord && $member->old_photo_header_i != '' ? Html::img(join('/', [Url::Base(), $uploadPath, $member->old_photo_header_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';
+echo $form->field($member, 'photo_header', ['template' => '{label}{beginWrapper}<div>'.$photoHeader.'</div>{input}{error}{hint}{endWrapper}'])
+	->fileInput()
+	->label($member->getAttributeLabel('photo_header')); ?>
+
+<?php $uploadPath = join('/', [Members::getUploadPath(false), $member->member_id]);
+$photoProfile = !$member->isNewRecord && $member->old_photo_profile_i != '' ? Html::img(join('/', [Url::Base(), $uploadPath, $member->old_photo_profile_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';
+echo $form->field($member, 'photo_profile', ['template' => '{label}{beginWrapper}<div>'.$photoProfile.'</div>{input}{error}{hint}{endWrapper}'])
+	->fileInput()
+	->label($member->getAttributeLabel('photo_profile')); ?>
+
+<?php /*
 <div class="form-group field-photo_header">
 	<?php echo $form->field($member, 'photo_header', ['template' => '{label}', 'options' => ['tag' => null]])
-		->label($member->getAttributeLabel('photo_header'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+		->label($member->getAttributeLabel('photo_header')); ?>
 	<div class="col-md-6 col-sm-9 col-xs-12">
 		<?php echo !$member->isNewRecord && $member->old_photo_header_i != '' ? Html::img(join('/', [Url::Base(), Members::getUploadPath(false), $member->member_id, $member->old_photo_header_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';?>
 		<?php echo $form->field($member, 'photo_header', ['template' => '{input}{error}'])
 			->fileInput()
-			->label($member->getAttributeLabel('photo_header'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+			->label($member->getAttributeLabel('photo_header')); ?>
 	</div>
 </div>
 
 <div class="form-group field-photo_profile">
 	<?php echo $form->field($member, 'photo_profile', ['template' => '{label}', 'options' => ['tag' => null]])
-		->label($member->getAttributeLabel('photo_profile'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+		->label($member->getAttributeLabel('photo_profile')); ?>
 	<div class="col-md-6 col-sm-9 col-xs-12">
 		<?php echo !$member->isNewRecord && $member->old_photo_profile_i != '' ? Html::img(join('/', [Url::Base(), Members::getUploadPath(false), $member->member_id, $member->old_photo_profile_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';?>
 		<?php echo $form->field($member, 'photo_profile', ['template' => '{input}{error}'])
 			->fileInput()
-			->label($member->getAttributeLabel('photo_profile'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+			->label($member->getAttributeLabel('photo_profile')); ?>
 	</div>
 </div>
+*/?>
 
 <div class="ln_solid"></div>
 
-<?php echo $form->field($model, 'info_intro', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+<?php echo $form->field($model, 'info_intro')
 	->textarea(['rows'=>6, 'cols'=>50])
-	->label($model->getAttributeLabel('info_intro'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('info_intro')); ?>
 
-<?php echo $form->field($model, 'info_article', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+<?php echo $form->field($model, 'info_article')
 	->textarea(['rows'=>6, 'cols'=>50])
 	->widget(Redactor::className(), ['clientOptions' => $redactorOptions])
-	->label($model->getAttributeLabel('info_article'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('info_article')); ?>
 
 <div class="ln_solid"></div>
 
-<?php $company_village = $form->field($model, 'company_village', ['template' => '<div class="col-md-3 col-sm-4 col-xs-6 col-sm-offset-3 pt-10">{input}{error}</div>', 'options' => ['tag' => null]])
+<?php $company_village = $form->field($model, 'company_village', ['template' => '{beginWrapper}{input}{error}{endWrapper}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-4 col-xs-6 offset-sm-3'], 'options' => ['tag' => null]])
 	//->textInput(['maxlength'=>true, 'placeholder'=>$model->getAttributeLabel('company_village')])
 	->widget(AutoComplete::className(), [
 		'options' => [
@@ -126,9 +141,9 @@ echo $form->field($model, 'company_cat_id', ['template' => '{label}<div class="c
 			}"),
 		]
 	])
-	->label($model->getAttributeLabel('company_village'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('company_village')); ?>
 
-<?php $company_district = $form->field($model, 'company_district', ['template' => '<div class="col-md-3 col-sm-5 col-xs-6 pt-10">{input}{error}</div>', 'options' => ['tag' => null]])
+<?php $company_district = $form->field($model, 'company_district', ['template' => '{beginWrapper}{input}{error}{endWrapper}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-5 col-xs-6'], 'options' => ['tag' => null]])
 	//->textInput(['maxlength'=>true, 'placeholder'=>$model->getAttributeLabel('company_district')])
 	->widget(AutoComplete::className(), [
 		'options' => [
@@ -148,53 +163,53 @@ echo $form->field($model, 'company_cat_id', ['template' => '{label}<div class="c
 			}"),
 		]
 	])
-	->label($model->getAttributeLabel('company_district'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('company_district')); ?>
 
-<?php echo $form->field($model, 'company_address', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}</div>'.$company_village.$company_district.'<div class="col-md-6 col-sm-9 col-xs-12 col-sm-offset-3">{error}</div>'])
+<?php echo $form->field($model, 'company_address', ['template' => '{label}{beginWrapper}{input}{endWrapper}'.$company_village.$company_district.'{error}', 'horizontalCssClasses' => ['wrapper'=>'col-md-6 col-sm-9 col-xs-12', 'error'=>'col-md-6 col-sm-9 col-xs-12 offset-sm-3']])
 	->textarea(['rows'=>6, 'cols'=>50])
-	->label($model->getAttributeLabel('company_address'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('company_address')); ?>
 
 <?php $companyCity = CoreZoneCity::getCity(1);
-echo $form->field($model, 'company_city_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+echo $form->field($model, 'company_city_id')
 	->dropDownList($companyCity, ['prompt'=>''])
-	->label($model->getAttributeLabel('company_city_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('company_city_id')); ?>
 
 <?php $companyProvince = CoreZoneProvince::getProvince(1);
-echo $form->field($model, 'company_province_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+echo $form->field($model, 'company_province_id')
 	->dropDownList($companyProvince, ['prompt'=>''])
-	->label($model->getAttributeLabel('company_province_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('company_province_id')); ?>
 
 <?php $companyCountry = CoreZoneCountry::getCountry();
-echo $form->field($model, 'company_country_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+echo $form->field($model, 'company_country_id')
 	->dropDownList($companyCountry, ['prompt'=>''])
-	->label($model->getAttributeLabel('company_country_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('company_country_id')); ?>
 
 <?php if(!$model->getErrors() && $model->company_zipcode == 0)
 	$model->company_zipcode = '';
-echo $form->field($model, 'company_zipcode', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+echo $form->field($model, 'company_zipcode')
 	->textInput(['type'=>'number', 'min'=>'1'])
-	->label($model->getAttributeLabel('company_zipcode'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('company_zipcode')); ?>
 
 <div class="ln_solid"></div>
 
 <?php $memberPrivate = Members::getMemberPrivate();
 if($member->isNewRecord && !$member->getErrors())
 	$member->member_private = 0;
-echo $form->field($member, 'member_private', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+echo $form->field($member, 'member_private')
 	->dropDownList($memberPrivate, ['prompt'=>''])
-	->label($member->getAttributeLabel('member_private'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($member->getAttributeLabel('member_private')); ?>
 
-<?php echo $form->field($member, 'approved', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
-	->checkbox(['label'=>''])
-	->label($member->getAttributeLabel('approved'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+<?php echo $form->field($member, 'approved')
+	->checkbox()
+	->label($member->getAttributeLabel('approved')); ?>
 
-<?php echo $form->field($member, 'publish', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
-	->checkbox(['label'=>''])
-	->label($member->getAttributeLabel('publish'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+<?php echo $form->field($member, 'publish')
+	->checkbox()
+	->label($member->getAttributeLabel('publish')); ?>
 
 <div class="ln_solid"></div>
-<div class="form-group">
-	<div class="col-md-6 col-sm-9 col-xs-12 col-sm-offset-3">
+<div class="form-group row">
+	<div class="col-md-6 col-sm-9 col-xs-12 offset-sm-3">
 		<?php echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']); ?>
 	</div>
 </div>

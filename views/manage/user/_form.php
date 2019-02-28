@@ -22,6 +22,7 @@ use ommu\member\models\MemberUserlevel;
 <div class="member-user-form">
 
 <?php $form = ActiveForm::begin([
+	'options' => ['class'=>'form-horizontal form-label-left'],
 	'enableClientValidation' => true,
 	'enableAjaxValidation' => false,
 	//'enableClientScript' => true,
@@ -30,25 +31,25 @@ use ommu\member\models\MemberUserlevel;
 <?php //echo $form->errorSummary($model);?>
 
 <?php $level = MemberUserlevel::getUserlevel();
-echo $form->field($model, 'level_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+echo $form->field($model, 'level_id')
 	->dropDownList($level, ['prompt'=>''])
-	->label($model->getAttributeLabel('level_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('level_id')); ?>
 
-<?php echo $form->field($model, 'user_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+<?php echo $form->field($model, 'user_id')
 	->textInput(['type'=>'number', 'min'=>'1'])
-	->label($model->getAttributeLabel('user_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('user_id')); ?>
 
-<?php echo $form->field($model, 'owner', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
-	->checkbox(['label'=>''])
-	->label($model->getAttributeLabel('owner'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+<?php echo $form->field($model, 'owner')
+	->checkbox()
+	->label($model->getAttributeLabel('owner')); ?>
 
-<?php echo $form->field($model, 'publish', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
-	->checkbox(['label'=>''])
-	->label($model->getAttributeLabel('publish'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+<?php echo $form->field($model, 'publish')
+	->checkbox()
+	->label($model->getAttributeLabel('publish')); ?>
 
 <div class="ln_solid"></div>
-<div class="form-group">
-	<div class="col-md-6 col-sm-9 col-xs-12 col-sm-offset-3">
+<div class="form-group row">
+	<div class="col-md-6 col-sm-9 col-xs-12 offset-sm-3">
 		<?php echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']); ?>
 	</div>
 </div>

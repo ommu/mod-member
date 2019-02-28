@@ -24,6 +24,7 @@ use ommu\member\models\MemberDocuments;
 
 <?php $form = ActiveForm::begin([
 	'options' => [
+		'class' => 'form-horizontal form-label-left',
 		'enctype' => 'multipart/form-data',
 	],
 	'enableClientValidation' => false,
@@ -33,32 +34,26 @@ use ommu\member\models\MemberDocuments;
 
 <?php //echo $form->errorSummary($model);?>
 
-<?php echo $form->field($model, 'profile_document_id', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12">{input}{error}</div>'])
+<?php echo $form->field($model, 'profile_document_id')
 	->dropDownList($document, ['prompt'=>''])
-	->label($model->getAttributeLabel('profile_document_id'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+	->label($model->getAttributeLabel('profile_document_id')); ?>
 
-<div class="form-group field-document_filename">
-	<?php echo $form->field($model, 'document_filename', ['template' => '{label}', 'options' => ['tag' => null]])
-		->label($model->getAttributeLabel('document_filename'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
-	<div class="col-md-6 col-sm-9 col-xs-12">
-		<?php echo !$model->isNewRecord && $model->old_document_filename_i != '' ? Html::img(join('/', [Url::Base(), MemberDocuments::getUploadPath(false), $model->old_document_filename_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';?>
-		<?php echo $form->field($model, 'document_filename', ['template' => '{input}{error}'])
-			->fileInput()
-			->label($model->getAttributeLabel('document_filename'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
-	</div>
-</div>
+<?php $documentFilename = !$model->isNewRecord && $model->old_document_filename_i != '' ? Html::img(join('/', [Url::Base(), MemberDocuments::getUploadPath(false), $model->old_document_filename_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';
+echo $form->field($model, 'document_filename', ['template' => '{label}{beginWrapper}<div>'.$documentFilename.'</div>{input}{error}{hint}{endWrapper}'])
+	->fileInput()
+	->label($model->getAttributeLabel('document_filename')); ?>
 
-<?php echo $form->field($model, 'status', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
-	->checkbox(['label'=>''])
-	->label($model->getAttributeLabel('status'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+<?php echo $form->field($model, 'status')
+	->checkbox()
+	->label($model->getAttributeLabel('status')); ?>
 
-<?php echo $form->field($model, 'publish', ['template' => '{label}<div class="col-md-6 col-sm-9 col-xs-12 checkbox">{input}{error}</div>'])
-	->checkbox(['label'=>''])
-	->label($model->getAttributeLabel('publish'), ['class'=>'control-label col-md-3 col-sm-3 col-xs-12']); ?>
+<?php echo $form->field($model, 'publish')
+	->checkbox()
+	->label($model->getAttributeLabel('publish')); ?>
 
 <div class="ln_solid"></div>
-<div class="form-group">
-	<div class="col-md-6 col-sm-9 col-xs-12 col-sm-offset-3">
+<div class="form-group row">
+	<div class="col-md-6 col-sm-9 col-xs-12 offset-sm-3">
 		<?php echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']); ?>
 	</div>
 </div>
