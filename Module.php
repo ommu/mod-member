@@ -27,8 +27,6 @@ class Module extends \app\components\Module
 	public function init()
 	{
 		parent::init();
-
-		// custom initialization code goes here
 	}
 
 	/**
@@ -40,5 +38,16 @@ class Module extends \app\components\Module
 			return Yii::getAlias('@app/modules/member/views');
 		else
 			return Yii::getAlias('@ommu/member/views');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getLayoutPath()
+	{
+		if(Yii::$app->view->theme)
+			return Yii::$app->view->theme->basePath . DIRECTORY_SEPARATOR . 'layouts';
+		else
+			return parent::getLayoutPath();
 	}
 }

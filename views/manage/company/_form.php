@@ -120,7 +120,7 @@ echo $form->field($member, 'photo_profile', ['template' => '{label}{beginWrapper
 
 <div class="ln_solid"></div>
 
-<?php $company_village = $form->field($model, 'company_village', ['template' => '{beginWrapper}{input}{error}{endWrapper}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-4 col-xs-6 col-6 offset-sm-3'], 'options' => ['tag' => null]])
+<?php $company_village = $form->field($model, 'company_village', ['template' => '{beginWrapper}{input}{error}{endWrapper}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-4 col-xs-6 col-6 col-sm-offset-3'], 'options' => ['tag' => null]])
 	//->textInput(['maxlength'=>true, 'placeholder'=>$model->getAttributeLabel('company_village')])
 	->widget(AutoComplete::className(), [
 		'options' => [
@@ -165,7 +165,7 @@ echo $form->field($member, 'photo_profile', ['template' => '{label}{beginWrapper
 	])
 	->label($model->getAttributeLabel('company_district')); ?>
 
-<?php echo $form->field($model, 'company_address', ['template' => '{label}{beginWrapper}{input}{endWrapper}'.$company_village.$company_district.'{error}', 'horizontalCssClasses' => ['wrapper'=>'col-md-6 col-sm-9 col-xs-12 col-12', 'error'=>'col-md-6 col-sm-9 col-xs-12 col-12 offset-sm-3']])
+<?php echo $form->field($model, 'company_address', ['template' => '{label}{beginWrapper}{input}{endWrapper}'.$company_village.$company_district.'{error}', 'horizontalCssClasses' => ['wrapper'=>'col-md-6 col-sm-9 col-xs-12 col-12', 'error'=>'col-md-6 col-sm-9 col-xs-12 col-12 col-sm-offset-3']])
 	->textarea(['rows'=>6, 'cols'=>50])
 	->label($model->getAttributeLabel('company_address')); ?>
 
@@ -209,7 +209,7 @@ echo $form->field($member, 'member_private')
 
 <div class="ln_solid"></div>
 <div class="form-group row">
-	<div class="col-md-6 col-sm-9 col-xs-12 col-12 offset-sm-3">
+	<div class="col-md-6 col-sm-9 col-xs-12 col-12 col-sm-offset-3">
 		<?php echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']); ?>
 	</div>
 </div>

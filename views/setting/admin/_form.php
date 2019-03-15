@@ -80,7 +80,7 @@ echo $form->field($model, 'profile_views')
 	->textInput(['type'=>'number', 'min'=>0, 'maxlength'=>'3', 'placeholder'=>$model->getAttributeLabel('photo_resize_size[height]')])
 	->label($model->getAttributeLabel('photo_resize_size[height]')); ?>
 
-<?php echo $form->field($model, 'photo_resize_size[width]', ['template' => '{label}{beginWrapper}{input}{endWrapper}'.$photo_resize_size_height.'{error}{hint}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-4 col-xs-6 col-6', 'error'=>'col-md-6 col-sm-9 col-xs-12 col-12 offset-sm-3', 'hint'=>'col-md-6 col-sm-9 col-xs-12 col-12 offset-sm-3']])
+<?php echo $form->field($model, 'photo_resize_size[width]', ['template' => '{label}{beginWrapper}{input}{endWrapper}'.$photo_resize_size_height.'{error}{hint}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-4 col-xs-6 col-6', 'error'=>'col-md-6 col-sm-9 col-xs-12 col-12 col-sm-offset-3', 'hint'=>'col-md-6 col-sm-9 col-xs-12 col-12 col-sm-offset-3']])
 	->textInput(['type'=>'number', 'min'=>0, 'maxlength'=>'3', 'placeholder'=>$model->getAttributeLabel('photo_resize_size[width]')])
 	->label($model->getAttributeLabel('photo_resize_size')); ?>
 
@@ -88,7 +88,7 @@ echo $form->field($model, 'profile_views')
 	->textInput(['type'=>'number', 'min'=>0, 'maxlength'=>'3', 'placeholder'=>$model->getAttributeLabel('photo_view_size[height]')])
 	->label($model->getAttributeLabel('photo_view_size[height]')); ?>
 
-<?php echo $form->field($model, 'photo_view_size[width]', ['template' => '{label}{beginWrapper}{input}{endWrapper}'.$photo_view_size_height.'{error}{hint}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-4 col-xs-6 col-6', 'error'=>'col-md-6 col-sm-9 col-xs-12 col-12 offset-sm-3', 'hint'=>'col-md-6 col-sm-9 col-xs-12 col-12 offset-sm-3']])
+<?php echo $form->field($model, 'photo_view_size[width]', ['template' => '{label}{beginWrapper}{input}{endWrapper}'.$photo_view_size_height.'{error}{hint}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-4 col-xs-6 col-6', 'error'=>'col-md-6 col-sm-9 col-xs-12 col-12 col-sm-offset-3', 'hint'=>'col-md-6 col-sm-9 col-xs-12 col-12 col-sm-offset-3']])
 	->textInput(['type'=>'number', 'min'=>0, 'maxlength'=>'3', 'placeholder'=>$model->getAttributeLabel('photo_view_size[width]')])
 	->label($model->getAttributeLabel('photo_view_size')); ?>
 
@@ -96,7 +96,7 @@ echo $form->field($model, 'profile_views')
 	->textInput(['type'=>'number', 'min'=>0, 'maxlength'=>'3', 'placeholder'=>$model->getAttributeLabel('photo_header_view_size[height]')])
 	->label($model->getAttributeLabel('photo_header_view_size[height]')); ?>
 
-<?php echo $form->field($model, 'photo_header_view_size[width]', ['template' => '{label}{beginWrapper}{input}{endWrapper}'.$photo_header_view_size_height.'{error}{hint}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-4 col-xs-6 col-6', 'error'=>'col-md-6 col-sm-9 col-xs-12 col-12 offset-sm-3', 'hint'=>'col-md-6 col-sm-9 col-xs-12 col-12 offset-sm-3']])
+<?php echo $form->field($model, 'photo_header_view_size[width]', ['template' => '{label}{beginWrapper}{input}{endWrapper}'.$photo_header_view_size_height.'{error}{hint}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-4 col-xs-6 col-6', 'error'=>'col-md-6 col-sm-9 col-xs-12 col-12 col-sm-offset-3', 'hint'=>'col-md-6 col-sm-9 col-xs-12 col-12 col-sm-offset-3']])
 	->textInput(['type'=>'number', 'min'=>0, 'maxlength'=>'3', 'placeholder'=>$model->getAttributeLabel('photo_header_view_size[width]')])
 	->label($model->getAttributeLabel('photo_header_view_size')); ?>
 
@@ -115,7 +115,7 @@ echo $form->field($model, 'profile_views')
 
 <div class="ln_solid"></div>
 <div class="form-group row">
-	<div class="col-md-6 col-sm-9 col-xs-12 col-12 offset-sm-3">
+	<div class="col-md-6 col-sm-9 col-xs-12 col-12 col-sm-offset-3">
 		<?php echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']); ?>
 	</div>
 </div>
