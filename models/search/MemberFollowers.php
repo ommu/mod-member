@@ -57,9 +57,12 @@ class MemberFollowers extends MemberFollowersModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberFollowersModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberFollowersModel::find()->alias('t');
+		else
+			$query = MemberFollowersModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'member member', 
 			'user user', 

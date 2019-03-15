@@ -58,9 +58,12 @@ class MemberProfileDocument extends MemberProfileDocumentModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberProfileDocumentModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberProfileDocumentModel::find()->alias('t');
+		else
+			$query = MemberProfileDocumentModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'profile.title profile', 
 			'document.title document', 

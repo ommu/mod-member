@@ -57,9 +57,12 @@ class MemberViews extends MemberViewsModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberViewsModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberViewsModel::find()->alias('t');
+		else
+			$query = MemberViewsModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'member member', 
 			'user user', 

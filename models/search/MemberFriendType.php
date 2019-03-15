@@ -57,9 +57,12 @@ class MemberFriendType extends MemberFriendTypeModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberFriendTypeModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberFriendTypeModel::find()->alias('t');
+		else
+			$query = MemberFriendTypeModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'title title', 
 			'description description', 

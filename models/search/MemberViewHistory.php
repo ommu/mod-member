@@ -57,9 +57,12 @@ class MemberViewHistory extends MemberViewHistoryModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberViewHistoryModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberViewHistoryModel::find()->alias('t');
+		else
+			$query = MemberViewHistoryModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'view.member.profile.title profile',
 			'view.member member', 

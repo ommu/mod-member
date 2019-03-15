@@ -57,9 +57,12 @@ class MemberDocumentType extends MemberDocumentTypeModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberDocumentTypeModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberDocumentTypeModel::find()->alias('t');
+		else
+			$query = MemberDocumentTypeModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'title title', 
 			'description description', 

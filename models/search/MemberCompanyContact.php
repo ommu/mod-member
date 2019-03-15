@@ -57,9 +57,12 @@ class MemberCompanyContact extends MemberCompanyContactModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberCompanyContactModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberCompanyContactModel::find()->alias('t');
+		else
+			$query = MemberCompanyContactModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'memberCompany.member member', 
 			'category.title category', 

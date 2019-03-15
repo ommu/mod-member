@@ -57,9 +57,12 @@ class MemberFollowerHistory extends MemberFollowerHistoryModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberFollowerHistoryModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberFollowerHistoryModel::find()->alias('t');
+		else
+			$query = MemberFollowerHistoryModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'creation creation',
 			'follower.member.profile.title profile',

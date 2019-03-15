@@ -57,9 +57,12 @@ class MemberCompany extends MemberCompanyModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberCompanyModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberCompanyModel::find()->alias('t');
+		else
+			$query = MemberCompanyModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'member member', 
 			'company.directory company', 

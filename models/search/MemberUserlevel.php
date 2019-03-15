@@ -57,9 +57,12 @@ class MemberUserlevel extends MemberUserlevelModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberUserlevelModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberUserlevelModel::find()->alias('t');
+		else
+			$query = MemberUserlevelModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'title title', 
 			'description description', 

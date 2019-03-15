@@ -57,9 +57,12 @@ class MemberFriendHistory extends MemberFriendHistoryModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberFriendHistoryModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberFriendHistoryModel::find()->alias('t');
+		else
+			$query = MemberFriendHistoryModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'type.title type', 
 			'creation creation',

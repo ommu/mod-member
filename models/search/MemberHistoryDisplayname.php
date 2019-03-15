@@ -57,9 +57,12 @@ class MemberHistoryDisplayname extends MemberHistoryDisplaynameModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberHistoryDisplaynameModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberHistoryDisplaynameModel::find()->alias('t');
+		else
+			$query = MemberHistoryDisplaynameModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'member member', 
 			'updated updated', 

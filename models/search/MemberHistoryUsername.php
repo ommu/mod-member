@@ -57,9 +57,12 @@ class MemberHistoryUsername extends MemberHistoryUsernameModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberHistoryUsernameModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberHistoryUsernameModel::find()->alias('t');
+		else
+			$query = MemberHistoryUsernameModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'member member', 
 			'updated updated', 

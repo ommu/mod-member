@@ -58,9 +58,12 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberProfileCategoryModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberProfileCategoryModel::find()->alias('t');
+		else
+			$query = MemberProfileCategoryModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'title title', 
 			'description description', 

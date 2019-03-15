@@ -491,7 +491,7 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public static function getUploadPath($returnAlias=true) 
 	{
-		return ($returnAlias ? Yii::getAlias('@webroot/public/member') : 'public/member');
+		return ($returnAlias ? Yii::getAlias('@public/member') : 'public/member');
 	}
 
 	/**
@@ -626,6 +626,12 @@ class Members extends \app\components\ActiveRecord
 					self::updateAll(['photo_profile' => $fileName], ['member_id' => $this->member_id]);
 			}
 
+		} else {
+			if(array_key_exists('publish', $changedAttributes) && $this->publish != $changedAttributes['publish'] && $this->publish == 2) {
+				if(class_exists('ommu\ipedia\models\IpediaCompanies')) {
+					\ommu\ipedia\models\IpediaCompanies::find()->where(['member_id'=>$this->member_id])->updateAttributes(['member_id'=>null]);
+				}
+			}
 		}
 	}
 

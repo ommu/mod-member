@@ -60,9 +60,12 @@ class MemberContactCategory extends MemberContactCategoryModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberContactCategoryModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberContactCategoryModel::find()->alias('t');
+		else
+			$query = MemberContactCategoryModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'title title', 
 			'creation creation', 

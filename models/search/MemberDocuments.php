@@ -57,9 +57,12 @@ class MemberDocuments extends MemberDocumentsModel
 	 *
 	 * @return ActiveDataProvider
 	 */
-	public function search($params)
+	public function search($params, $column=null)
 	{
-		$query = MemberDocumentsModel::find()->alias('t');
+		if(!($column && is_array($column)))
+			$query = MemberDocumentsModel::find()->alias('t');
+		else
+			$query = MemberDocumentsModel::find()->alias('t')->select($column);
 		$query->joinWith([
 			'member member', 
 			'creation creation', 
