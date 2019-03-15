@@ -19,10 +19,6 @@ use yii\helpers\Url;
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contact Categories'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Create');
-
-$this->params['menu']['content'] = [
-	['label' => Yii::t('app', 'Back To Manage'), 'url' => Url::to(['index']), 'icon' => 'table'],
-];
 ?>
 
 <div class="member-contact-category-create">
