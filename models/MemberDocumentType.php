@@ -46,7 +46,6 @@ class MemberDocumentType extends \app\components\ActiveRecord
 	public $document_name_i;
 	public $document_desc_i;
 
-	// Search Variable
 	public $creation_search;
 	public $modified_search;
 
@@ -181,6 +180,7 @@ class MemberDocumentType extends \app\components\ActiveRecord
 				'attribute' => 'creation_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->creation) ? $model->creation->displayname : '-';
+					// return $model->creationDisplayname;
 				},
 			];
 		}
@@ -196,6 +196,7 @@ class MemberDocumentType extends \app\components\ActiveRecord
 				'attribute' => 'modified_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->modified) ? $model->modified->displayname : '-';
+					// return $model->modifiedDisplayname;
 				},
 			];
 		}

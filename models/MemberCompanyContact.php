@@ -47,7 +47,6 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 	public $gridForbiddenColumn = ['verified_search','creation_date','creation_search','modified_date','modified_search','updated_date'];
 	public $old_status_i;
 
-	// Search Variable
 	public $verified_search;
 	public $creation_search;
 	public $modified_search;
@@ -222,6 +221,7 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 				'attribute' => 'creation_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->creation) ? $model->creation->displayname : '-';
+					// return $model->creationDisplayname;
 				},
 			];
 		}
@@ -237,6 +237,7 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 				'attribute' => 'modified_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->modified) ? $model->modified->displayname : '-';
+					// return $model->modifiedDisplayname;
 				},
 			];
 		}
@@ -249,11 +250,11 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 		];
 		$this->templateColumns['status'] = [
 			'attribute' => 'status',
-			'filter' => $this->filterYesNo(),
 			'value' => function($model, $key, $index, $column) {
 				$url = Url::to(['status', 'id'=>$model->primaryKey]);
 				return $this->quickAction($url, $model->status, 'Verified,Unverified');
 			},
+			'filter' => $this->filterYesNo(),
 			'contentOptions' => ['class'=>'center'],
 			'format' => 'raw',
 		];

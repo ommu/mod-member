@@ -45,7 +45,6 @@ class MemberUser extends \app\components\ActiveRecord
 
 	public $gridForbiddenColumn = ['modified_date','modified_search','updated_date'];
 
-	// Search Variable
 	public $member_search;
 	public $user_search;
 	public $creation_search;
@@ -205,6 +204,7 @@ class MemberUser extends \app\components\ActiveRecord
 				'attribute' => 'creation_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->creation) ? $model->creation->displayname : '-';
+					// return $model->creationDisplayname;
 				},
 			];
 		}
@@ -220,6 +220,7 @@ class MemberUser extends \app\components\ActiveRecord
 				'attribute' => 'modified_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->modified) ? $model->modified->displayname : '-';
+					// return $model->modifiedDisplayname;
 				},
 			];
 		}
@@ -232,10 +233,10 @@ class MemberUser extends \app\components\ActiveRecord
 		];
 		$this->templateColumns['owner'] = [
 			'attribute' => 'owner',
-			'filter' => $this->filterYesNo(),
 			'value' => function($model, $key, $index, $column) {
 				return $this->filterYesNo($model->owner);
 			},
+			'filter' => $this->filterYesNo(),
 			'contentOptions' => ['class'=>'center'],
 			'format' => 'raw',
 		];

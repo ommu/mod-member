@@ -53,7 +53,6 @@ class MemberProfile extends \app\components\ActiveRecord
 	public $profile_name_i;
 	public $profile_desc_i;
 
-	// Search Variable
 	public $creation_search;
 	public $modified_search;
 
@@ -222,6 +221,7 @@ class MemberProfile extends \app\components\ActiveRecord
 				'attribute' => 'creation_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->creation) ? $model->creation->displayname : '-';
+					// return $model->creationDisplayname;
 				},
 			];
 		}
@@ -237,6 +237,7 @@ class MemberProfile extends \app\components\ActiveRecord
 				'attribute' => 'modified_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->modified) ? $model->modified->displayname : '-';
+					// return $model->modifiedDisplayname;
 				},
 			];
 		}
@@ -249,18 +250,18 @@ class MemberProfile extends \app\components\ActiveRecord
 		];
 		$this->templateColumns['profile_personal'] = [
 			'attribute' => 'profile_personal',
-			'filter' => $this->filterYesNo(),
 			'value' => function($model, $key, $index, $column) {
 				return $this->filterYesNo($model->profile_personal);
 			},
+			'filter' => $this->filterYesNo(),
 			'contentOptions' => ['class'=>'center'],
 		];
 		$this->templateColumns['multiple_user'] = [
 			'attribute' => 'multiple_user',
-			'filter' => $this->filterYesNo(),
 			'value' => function($model, $key, $index, $column) {
 				return $this->filterYesNo($model->multiple_user);
 			},
+			'filter' => $this->filterYesNo(),
 			'contentOptions' => ['class'=>'center'],
 		];
 		if(!Yii::$app->request->get('trash')) {

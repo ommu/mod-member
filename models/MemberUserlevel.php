@@ -47,7 +47,6 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	public $level_name_i;
 	public $level_desc_i;
 
-	// Search Variable
 	public $creation_search;
 	public $modified_search;
 
@@ -183,6 +182,7 @@ class MemberUserlevel extends \app\components\ActiveRecord
 				'attribute' => 'creation_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->creation) ? $model->creation->displayname : '-';
+					// return $model->creationDisplayname;
 				},
 			];
 		}
@@ -198,6 +198,7 @@ class MemberUserlevel extends \app\components\ActiveRecord
 				'attribute' => 'modified_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->modified) ? $model->modified->displayname : '-';
+					// return $model->modifiedDisplayname;
 				},
 			];
 		}
@@ -210,10 +211,10 @@ class MemberUserlevel extends \app\components\ActiveRecord
 		];
 		$this->templateColumns['default'] = [
 			'attribute' => 'default',
-			'filter' => $this->filterYesNo(),
 			'value' => function($model, $key, $index, $column) {
 				return $this->filterYesNo($model->default);
 			},
+			'filter' => $this->filterYesNo(),
 			'contentOptions' => ['class'=>'center'],
 		];
 		if(!Yii::$app->request->get('trash')) {

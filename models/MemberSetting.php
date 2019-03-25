@@ -53,7 +53,6 @@ class MemberSetting extends \app\components\ActiveRecord
 
 	public $gridForbiddenColumn = [];
 
-	// Search Variable
 	public $modified_search;
 
 	/**
@@ -236,31 +235,32 @@ class MemberSetting extends \app\components\ActiveRecord
 				'attribute' => 'modified_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->modified) ? $model->modified->displayname : '-';
+					// return $model->modifiedDisplayname;
 				},
 			];
 		}
 		$this->templateColumns['profile_page_user_auto_follow'] = [
 			'attribute' => 'profile_page_user_auto_follow',
-			'filter' => $this->filterYesNo(),
 			'value' => function($model, $key, $index, $column) {
 				return $this->filterYesNo($model->profile_page_user_auto_follow);
 			},
+			'filter' => $this->filterYesNo(),
 			'contentOptions' => ['class'=>'center'],
 		];
 		$this->templateColumns['photo_resize'] = [
 			'attribute' => 'photo_resize',
-			'filter' => $this->filterYesNo(),
 			'value' => function($model, $key, $index, $column) {
 				return $this->filterYesNo($model->photo_resize);
 			},
+			'filter' => $this->filterYesNo(),
 			'contentOptions' => ['class'=>'center'],
 		];
 		$this->templateColumns['friends_auto_follow'] = [
 			'attribute' => 'friends_auto_follow',
-			'filter' => $this->filterYesNo(),
 			'value' => function($model, $key, $index, $column) {
 				return $this->filterYesNo($model->friends_auto_follow);
 			},
+			'filter' => $this->filterYesNo(),
 			'contentOptions' => ['class'=>'center'],
 		];
 	}

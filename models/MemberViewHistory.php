@@ -31,7 +31,6 @@ class MemberViewHistory extends \app\components\ActiveRecord
 {
 	public $gridForbiddenColumn = [];
 
-	// Search Variable
 	public $profile_search;
 	public $member_search;
 	public $user_search;

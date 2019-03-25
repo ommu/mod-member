@@ -46,7 +46,6 @@ class MemberCompanyType extends \app\components\ActiveRecord
 	public $type_name_i;
 	public $type_desc_i;
 
-	// Search Variable
 	public $creation_search;
 	public $modified_search;
 
@@ -180,6 +179,7 @@ class MemberCompanyType extends \app\components\ActiveRecord
 				'attribute' => 'creation_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->creation) ? $model->creation->displayname : '-';
+					// return $model->creationDisplayname;
 				},
 			];
 		}
@@ -195,6 +195,7 @@ class MemberCompanyType extends \app\components\ActiveRecord
 				'attribute' => 'modified_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->modified) ? $model->modified->displayname : '-';
+					// return $model->modifiedDisplayname;
 				},
 			];
 		}

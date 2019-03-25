@@ -49,7 +49,6 @@ class MemberDocuments extends \app\components\ActiveRecord
 	public $gridForbiddenColumn = ['modified_date','modified_search','updated_date'];
 	public $old_document_filename_i;
 
-	// Search Variable
 	public $member_search;
 	public $creation_search;
 	public $modified_search;
@@ -210,6 +209,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 				'attribute' => 'creation_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->creation) ? $model->creation->displayname : '-';
+					// return $model->creationDisplayname;
 				},
 			];
 		}
@@ -225,6 +225,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 				'attribute' => 'modified_search',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->modified) ? $model->modified->displayname : '-';
+					// return $model->modifiedDisplayname;
 				},
 			];
 		}
