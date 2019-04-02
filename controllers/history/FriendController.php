@@ -91,7 +91,7 @@ class FriendController extends Controller
 		$this->view->title = Yii::t('app', 'Detail {model-class}: {request-id}', ['model-class' => 'Friend History', 'request-id' => $model->friend->request->displayname]);
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_view', [
+		return $this->oRender('admin_view', [
 			'model' => $model,
 		]);
 	}

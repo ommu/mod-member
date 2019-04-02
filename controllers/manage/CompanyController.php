@@ -185,7 +185,7 @@ class CompanyController extends Controller
 		$this->view->title = Yii::t('app', 'Detail {model-class}: {member-id}', ['model-class' => 'Company', 'member-id' => $model->member->displayname]);
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_view', [
+		return $this->oRender('admin_view', [
 			'model' => $model,
 		]);
 	}

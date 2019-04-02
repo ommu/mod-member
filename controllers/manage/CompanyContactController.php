@@ -165,7 +165,7 @@ class CompanyContactController extends Controller
 		$this->view->title = Yii::t('app', 'Detail {model-class}: {member-company-id}', ['model-class' => 'Company Contact', 'member-company-id' => $model->memberCompany->member->displayname]);
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_view', [
+		return $this->oRender('admin_view', [
 			'model' => $model,
 		]);
 	}

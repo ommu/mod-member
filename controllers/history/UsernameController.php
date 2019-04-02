@@ -91,7 +91,7 @@ class UsernameController extends Controller
 		$this->view->title = Yii::t('app', 'Detail {model-class}: {username}', ['model-class' => 'History Username', 'username' => $model->username]);
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_view', [
+		return $this->oRender('admin_view', [
 			'model' => $model,
 		]);
 	}

@@ -164,7 +164,7 @@ class ProfileDocumentController extends Controller
 		$this->view->title = Yii::t('app', 'Detail {model-class}: {profile-id}', ['model-class' => 'Profile Document', 'profile-id' => $model->profile->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_view', [
+		return $this->oRender('admin_view', [
 			'model' => $model,
 		]);
 	}
