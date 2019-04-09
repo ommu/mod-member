@@ -28,8 +28,8 @@
 namespace ommu\member\controllers\manage;
 
 use Yii;
-use yii\filters\VerbFilter;
 use app\components\Controller;
+use yii\filters\VerbFilter;
 use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberUser;
 use ommu\member\models\search\MemberUser as MemberUserSearch;

@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $company = Yii::$app->request->get('company');
 if($company) {
 	$this->params['menu']['content'] = [
-		['label' => Yii::t('app', 'Add Company Contact'), 'url' => Url::to(['create', 'company'=>$company]), 'htmlOptions' => ['class'=>'modal-btn'], 'icon' => 'plus-square'],
+		['label' => Yii::t('app', 'Add Company Contact'), 'url' => Url::to(['create', 'company'=>$company]), 'htmlOptions' => ['class'=>'modal-btn'], 'icon' => 'plus-square', 'htmlOptions' => ['class'=>'btn btn-success btn-sm']],
 	];
 }
 $this->params['menu']['option'] = [

@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $profile = Yii::$app->request->get('profile');
 if($profile) {
 	$this->params['menu']['content'] = [
-		['label' => Yii::t('app', 'Add Profile Document'), 'url' => Url::to(['create', 'profile'=>$profile]), 'htmlOptions' => ['class'=>'modal-btn'], 'icon' => 'plus-square'],
+		['label' => Yii::t('app', 'Add Profile Document'), 'url' => Url::to(['create', 'profile'=>$profile]), 'htmlOptions' => ['class'=>'modal-btn'], 'icon' => 'plus-square', 'htmlOptions' => ['class'=>'btn btn-success btn-sm']],
 	];
 }
 $this->params['menu']['option'] = [

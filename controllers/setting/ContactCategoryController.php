@@ -29,8 +29,8 @@
 namespace ommu\member\controllers\setting;
 
 use Yii;
-use yii\filters\VerbFilter;
 use app\components\Controller;
+use yii\filters\VerbFilter;
 use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberContactCategory;
 use ommu\member\models\search\MemberContactCategory as MemberContactCategorySearch;
