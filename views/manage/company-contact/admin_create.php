@@ -4,7 +4,7 @@
  * @var $this yii\web\View
  * @var $this ommu\member\controllers\manage\CompanyContactController
  * @var $model ommu\member\models\MemberCompanyContact
- * @var $form yii\widgets\ActiveForm
+ * @var $form app\components\widgets\ActiveForm
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114

@@ -15,7 +15,7 @@
  */
 
 use yii\helpers\Html;
-use app\components\ActiveForm;
+use yii\widgets\ActiveForm;
 use ommu\member\models\MemberCompanyType;
 use ommu\member\models\MemberProfileCategory;
 ?>

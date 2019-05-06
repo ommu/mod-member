@@ -4,7 +4,7 @@
  * @var $this yii\web\View
  * @var $this ommu\member\controllers\setting\ProfileController
  * @var $model ommu\member\models\MemberProfile
- * @var $form yii\widgets\ActiveForm
+ * @var $form app\components\widgets\ActiveForm
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
@@ -15,7 +15,7 @@
  */
 
 use yii\helpers\Html;
-use app\components\ActiveForm;
+use app\components\widgets\ActiveForm;
 use ommu\users\models\Assignments;
 
 $js = <<<JS

@@ -4,7 +4,7 @@
  * @var $this yii\web\View
  * @var $this ommu\member\controllers\manage\CompanyController
  * @var $model ommu\member\models\MemberCompany
- * @var $form yii\widgets\ActiveForm
+ * @var $form app\components\widgets\ActiveForm
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
@@ -15,7 +15,7 @@
  */
 
 use yii\helpers\Html;
-use app\components\ActiveForm;
+use app\components\widgets\ActiveForm;
 use yii\redactor\widgets\Redactor;
 use ommu\member\models\MemberCompanyType;
 use ommu\member\models\MemberProfileCategory;

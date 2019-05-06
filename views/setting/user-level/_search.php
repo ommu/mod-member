@@ -16,7 +16,7 @@
  */
 
 use yii\helpers\Html;
-use app\components\ActiveForm;
+use yii\widgets\ActiveForm;
 ?>
 
 <div class="member-userlevel-search search-form">
