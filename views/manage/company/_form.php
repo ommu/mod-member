@@ -87,7 +87,7 @@ echo $form->field($member, 'photo_profile', ['template' => '{label}{beginWrapper
 <div class="form-group field-photo_header">
 	<?php echo $form->field($member, 'photo_header', ['template' => '{label}', 'options' => ['tag' => null]])
 		->label($member->getAttributeLabel('photo_header')); ?>
-	<div class="col-md-6 col-sm-9 col-xs-12 col-12">
+	<div class="col-md-6 col-sm-9 col-xs-12">
 		<?php echo !$member->isNewRecord && $member->old_photo_header_i != '' ? Html::img(join('/', [Url::Base(), Members::getUploadPath(false), $member->member_id, $member->old_photo_header_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';?>
 		<?php echo $form->field($member, 'photo_header', ['template' => '{input}{error}'])
 			->fileInput()
@@ -98,7 +98,7 @@ echo $form->field($member, 'photo_profile', ['template' => '{label}{beginWrapper
 <div class="form-group field-photo_profile">
 	<?php echo $form->field($member, 'photo_profile', ['template' => '{label}', 'options' => ['tag' => null]])
 		->label($member->getAttributeLabel('photo_profile')); ?>
-	<div class="col-md-6 col-sm-9 col-xs-12 col-12">
+	<div class="col-md-6 col-sm-9 col-xs-12">
 		<?php echo !$member->isNewRecord && $member->old_photo_profile_i != '' ? Html::img(join('/', [Url::Base(), Members::getUploadPath(false), $member->member_id, $member->old_photo_profile_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';?>
 		<?php echo $form->field($member, 'photo_profile', ['template' => '{input}{error}'])
 			->fileInput()
@@ -165,7 +165,7 @@ echo $form->field($member, 'photo_profile', ['template' => '{label}{beginWrapper
 	])
 	->label($model->getAttributeLabel('company_district')); ?>
 
-<?php echo $form->field($model, 'company_address', ['template' => '{label}{beginWrapper}{input}{endWrapper}'.$company_village.$company_district.'{error}', 'horizontalCssClasses' => ['wrapper'=>'col-md-6 col-sm-9 col-xs-12 col-12', 'error'=>'col-md-6 col-sm-9 col-xs-12 col-12 col-sm-offset-3']])
+<?php echo $form->field($model, 'company_address', ['template' => '{label}{beginWrapper}{input}{endWrapper}'.$company_village.$company_district.'{error}', 'horizontalCssClasses' => ['error'=>'col-md-6 col-sm-9 col-xs-12 col-sm-offset-3']])
 	->textarea(['rows'=>6, 'cols'=>50])
 	->label($model->getAttributeLabel('company_address')); ?>
 
@@ -208,11 +208,9 @@ echo $form->field($member, 'member_private')
 	->label($member->getAttributeLabel('publish')); ?>
 
 <div class="ln_solid"></div>
-<div class="form-group row">
-	<div class="col-md-6 col-sm-9 col-xs-12 col-12 col-sm-offset-3">
-		<?php echo Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']); ?>
-	</div>
-</div>
+
+<?php echo $form->field($model, 'submitButton')
+	->submitButton(); ?>
 
 <?php ActiveForm::end(); ?>
 
