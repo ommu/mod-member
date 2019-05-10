@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Documents (member-documents)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\manage\DocumentController
  * @var $model ommu\member\models\MemberDocuments
  * @var $form app\components\widgets\ActiveForm

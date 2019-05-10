@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Followers (member-followers)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\manage\FollowerController
  * @var $model ommu\member\models\search\MemberFollowers
  * @var $form yii\widgets\ActiveForm

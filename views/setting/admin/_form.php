@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Settings (member-setting)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\setting\AdminController
  * @var $model ommu\member\models\MemberSetting
  * @var $form app\components\widgets\ActiveForm

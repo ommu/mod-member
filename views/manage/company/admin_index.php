@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Companies (member-company)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\manage\CompanyController
  * @var $model ommu\member\models\MemberCompany
  * @var $searchModel ommu\member\models\search\MemberCompany

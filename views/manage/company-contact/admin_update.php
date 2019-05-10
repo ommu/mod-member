@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Company Contacts (member-company-contact)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\manage\CompanyContactController
  * @var $model ommu\member\models\MemberCompanyContact
  * @var $form app\components\widgets\ActiveForm

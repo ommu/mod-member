@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Friend Histories (member-friend-history)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\history\FriendController
  * @var $model ommu\member\models\MemberFriendHistory
  *

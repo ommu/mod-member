@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Friend Types (member-friend-type)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\setting\FriendTypeController
  * @var $model ommu\member\models\MemberFriendType
  *

@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Friends (member-friends)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\manage\FriendController
  * @var $model ommu\member\models\MemberFriends
  * @var $form app\components\widgets\ActiveForm

@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Userlevels (member-userlevel)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\setting\UserLevelController
  * @var $model ommu\member\models\search\MemberUserlevel
  * @var $form yii\widgets\ActiveForm

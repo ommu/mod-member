@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Company Types (member-company-type)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\setting\CompanyTypeController
  * @var $model ommu\member\models\search\MemberCompanyType
  * @var $form yii\widgets\ActiveForm

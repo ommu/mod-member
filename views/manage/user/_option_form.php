@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Users (member-user)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\manage\UserController
  * @var $model ommu\member\models\search\MemberUser
  * @var $form yii\widgets\ActiveForm

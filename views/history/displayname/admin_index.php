@@ -1,7 +1,7 @@
 <?php
 /**
  * Member History Displaynames (member-history-displayname)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\history\DisplaynameController
  * @var $model ommu\member\models\MemberHistoryDisplayname
  * @var $searchModel ommu\member\models\search\MemberHistoryDisplayname

@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Follower Histories (member-follower-history)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\history\FollowerController
  * @var $model ommu\member\models\MemberFollowerHistory
  * @var $searchModel ommu\member\models\search\MemberFollowerHistory

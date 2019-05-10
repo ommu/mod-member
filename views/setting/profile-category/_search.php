@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Profile Categories (member-profile-category)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\setting\ProfileCategoryController
  * @var $model ommu\member\models\search\MemberProfileCategory
  * @var $form yii\widgets\ActiveForm

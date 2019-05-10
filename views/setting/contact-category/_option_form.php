@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Contact Categories (member-contact-category)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\setting\ContactCategoryController
  * @var $model ommu\member\models\search\MemberContactCategory
  * @var $form yii\widgets\ActiveForm

@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Profiles (member-profile)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\setting\ProfileController
  * @var $model ommu\member\models\MemberProfile
  *

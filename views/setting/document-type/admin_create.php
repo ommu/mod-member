@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Document Types (member-document-type)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\setting\DocumentTypeController
  * @var $model ommu\member\models\MemberDocumentType
  * @var $form app\components\widgets\ActiveForm

@@ -1,7 +1,7 @@
 <?php
 /**
  * Member Views (member-views)
- * @var $this yii\web\View
+ * @var $this app\components\View
  * @var $this ommu\member\controllers\manage\ViewController
  * @var $model ommu\member\models\search\MemberViews
  * @var $form yii\widgets\ActiveForm
