@@ -1,7 +1,7 @@
 <?php
 /**
  * ProfileCategoryController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\setting\ProfileCategoryController
  * @var $model ommu\member\models\MemberProfileCategory
  *
  * ProfileCategoryController implements the CRUD actions for MemberProfileCategory model.

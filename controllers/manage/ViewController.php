@@ -1,7 +1,7 @@
 <?php
 /**
  * ViewController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\manage\ViewController
  * @var $model ommu\member\models\MemberViews
  *
  * ViewController implements the CRUD actions for MemberViews model.

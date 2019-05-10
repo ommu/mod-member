@@ -1,7 +1,7 @@
 <?php
 /**
  * ContactCategoryController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\setting\ContactCategoryController
  * @var $model ommu\member\models\MemberContactCategory
  *
  * ContactCategoryController implements the CRUD actions for MemberContactCategory model.

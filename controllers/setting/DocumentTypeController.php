@@ -1,7 +1,7 @@
 <?php
 /**
  * DocumentTypeController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\setting\DocumentTypeController
  * @var $model ommu\member\models\MemberDocumentType
  *
  * DocumentTypeController implements the CRUD actions for MemberDocumentType model.

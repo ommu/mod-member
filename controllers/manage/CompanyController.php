@@ -1,7 +1,7 @@
 <?php
 /**
  * CompanyController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\manage\CompanyController
  * @var $model ommu\member\models\MemberCompany
  *
  * CompanyController implements the CRUD actions for MemberCompany model.

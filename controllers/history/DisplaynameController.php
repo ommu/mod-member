@@ -1,7 +1,7 @@
 <?php
 /**
  * DisplaynameController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\history\DisplaynameController
  * @var $model ommu\member\models\MemberHistoryDisplayname
  *
  * DisplaynameController implements the CRUD actions for MemberHistoryDisplayname model.

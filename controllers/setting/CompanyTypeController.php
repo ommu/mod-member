@@ -1,7 +1,7 @@
 <?php
 /**
  * CompanyTypeController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\setting\CompanyTypeController
  * @var $model ommu\member\models\MemberCompanyType
  *
  * CompanyTypeController implements the CRUD actions for MemberCompanyType model.

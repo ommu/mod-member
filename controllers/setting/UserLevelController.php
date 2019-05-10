@@ -1,7 +1,7 @@
 <?php
 /**
  * UserLevelController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\setting\UserLevelController
  * @var $model ommu\member\models\MemberUserlevel
  *
  * UserLevelController implements the CRUD actions for MemberUserlevel model.

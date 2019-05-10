@@ -1,7 +1,7 @@
 <?php
 /**
  * ViewController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\history\ViewController
  * @var $model ommu\member\models\MemberViewHistory
  *
  * ViewController implements the CRUD actions for MemberViewHistory model.

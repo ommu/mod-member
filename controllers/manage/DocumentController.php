@@ -1,7 +1,7 @@
 <?php
 /**
  * DocumentController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\manage\DocumentController
  * @var $model ommu\member\models\MemberDocuments
  *
  * DocumentController implements the CRUD actions for MemberDocuments model.

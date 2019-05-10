@@ -1,7 +1,7 @@
 <?php
 /**
  * UserController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\manage\UserController
  * @var $model ommu\member\models\MemberUser
  *
  * UserController implements the CRUD actions for MemberUser model.

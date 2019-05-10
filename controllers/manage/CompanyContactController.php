@@ -1,7 +1,7 @@
 <?php
 /**
  * CompanyContactController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\manage\CompanyContactController
  * @var $model ommu\member\models\MemberCompanyContact
  *
  * CompanyContactController implements the CRUD actions for MemberCompanyContact model.

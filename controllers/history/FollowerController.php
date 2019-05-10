@@ -1,7 +1,7 @@
 <?php
 /**
  * FollowerController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\history\FollowerController
  * @var $model ommu\member\models\MemberFollowerHistory
  *
  * FollowerController implements the CRUD actions for MemberFollowerHistory model.

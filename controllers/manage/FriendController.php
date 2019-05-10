@@ -1,7 +1,7 @@
 <?php
 /**
  * FriendController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\manage\FriendController
  * @var $model ommu\member\models\MemberFriends
  *
  * FriendController implements the CRUD actions for MemberFriends model.

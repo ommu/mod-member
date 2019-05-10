@@ -1,7 +1,7 @@
 <?php
 /**
  * AdminController
- * @var $this yii\web\View
+ * @var $this ommu\member\controllers\setting\AdminController
  * @var $model ommu\member\models\MemberSetting
  *
  * AdminController implements the CRUD actions for MemberSetting model.
