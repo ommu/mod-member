@@ -120,7 +120,7 @@ echo $form->field($member, 'photo_profile', ['template' => '{label}{beginWrapper
 
 <div class="ln_solid"></div>
 
-<?php $company_village = $form->field($model, 'company_village', ['template' => '{beginWrapper}{input}{error}{endWrapper}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-4 col-xs-6 col-6 col-sm-offset-3'], 'options' => ['tag' => null]])
+<?php $company_village = $form->field($model, 'company_village', ['template' => '{beginWrapper}{input}{error}{endWrapper}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-4 col-xs-6 col-sm-offset-3'], 'options' => ['tag' => null]])
 	//->textInput(['maxlength'=>true, 'placeholder'=>$model->getAttributeLabel('company_village')])
 	->widget(AutoComplete::className(), [
 		'options' => [
@@ -143,7 +143,7 @@ echo $form->field($member, 'photo_profile', ['template' => '{label}{beginWrapper
 	])
 	->label($model->getAttributeLabel('company_village')); ?>
 
-<?php $company_district = $form->field($model, 'company_district', ['template' => '{beginWrapper}{input}{error}{endWrapper}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-5 col-xs-6 col-6'], 'options' => ['tag' => null]])
+<?php $company_district = $form->field($model, 'company_district', ['template' => '{beginWrapper}{input}{error}{endWrapper}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-5 col-xs-6'], 'options' => ['tag' => null]])
 	//->textInput(['maxlength'=>true, 'placeholder'=>$model->getAttributeLabel('company_district')])
 	->widget(AutoComplete::className(), [
 		'options' => [
