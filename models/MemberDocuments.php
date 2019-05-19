@@ -186,7 +186,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 			'attribute' => 'document_filename',
 			'value' => function($model, $key, $index, $column) {
 				$uploadPath = join('/', [self::getUploadPath(false), $model->id]);
-				return $model->document_filename ? Html::img(join('/', [Url::Base(), $uploadPath, $model->document_filename]), ['alt' => $model->document_filename]) : '-';
+				return $model->document_filename ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->document_filename])), ['alt' => $model->document_filename]) : '-';
 			},
 			'format' => 'html',
 		];

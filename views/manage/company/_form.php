@@ -72,13 +72,13 @@ echo $form->field($model, 'company_cat_id')
 <div class="ln_solid"></div>
 
 <?php $uploadPath = join('/', [Members::getUploadPath(false), $member->member_id]);
-$photoHeader = !$member->isNewRecord && $member->old_photo_header_i != '' ? Html::img(join('/', [Url::Base(), $uploadPath, $member->old_photo_header_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';
+$photoHeader = !$member->isNewRecord && $member->old_photo_header_i != '' ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $member->old_photo_header_i])), ['class'=>'mb-15', 'width'=>'100%']) : '';
 echo $form->field($member, 'photo_header', ['template' => '{label}{beginWrapper}<div>'.$photoHeader.'</div>{input}{error}{hint}{endWrapper}'])
 	->fileInput()
 	->label($member->getAttributeLabel('photo_header')); ?>
 
 <?php $uploadPath = join('/', [Members::getUploadPath(false), $member->member_id]);
-$photoProfile = !$member->isNewRecord && $member->old_photo_profile_i != '' ? Html::img(join('/', [Url::Base(), $uploadPath, $member->old_photo_profile_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';
+$photoProfile = !$member->isNewRecord && $member->old_photo_profile_i != '' ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $member->old_photo_profile_i])), ['class'=>'mb-15', 'width'=>'100%']) : '';
 echo $form->field($member, 'photo_profile', ['template' => '{label}{beginWrapper}<div>'.$photoProfile.'</div>{input}{error}{hint}{endWrapper}'])
 	->fileInput()
 	->label($member->getAttributeLabel('photo_profile')); ?>
@@ -88,7 +88,7 @@ echo $form->field($member, 'photo_profile', ['template' => '{label}{beginWrapper
 	<?php echo $form->field($member, 'photo_header', ['template' => '{label}', 'options' => ['tag' => null]])
 		->label($member->getAttributeLabel('photo_header')); ?>
 	<div class="col-md-6 col-sm-9 col-xs-12">
-		<?php echo !$member->isNewRecord && $member->old_photo_header_i != '' ? Html::img(join('/', [Url::Base(), Members::getUploadPath(false), $member->member_id, $member->old_photo_header_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';?>
+		<?php echo !$member->isNewRecord && $member->old_photo_header_i != '' ? Html::img(Url::to(join('/', ['@webpublic', Members::getUploadPath(false), $member->member_id, $member->old_photo_header_i])), ['class'=>'mb-15', 'width'=>'100%']) : '';?>
 		<?php echo $form->field($member, 'photo_header', ['template' => '{input}{error}'])
 			->fileInput()
 			->label($member->getAttributeLabel('photo_header')); ?>
@@ -99,7 +99,7 @@ echo $form->field($member, 'photo_profile', ['template' => '{label}{beginWrapper
 	<?php echo $form->field($member, 'photo_profile', ['template' => '{label}', 'options' => ['tag' => null]])
 		->label($member->getAttributeLabel('photo_profile')); ?>
 	<div class="col-md-6 col-sm-9 col-xs-12">
-		<?php echo !$member->isNewRecord && $member->old_photo_profile_i != '' ? Html::img(join('/', [Url::Base(), Members::getUploadPath(false), $member->member_id, $member->old_photo_profile_i]), ['class'=>'mb-15', 'width'=>'100%']) : '';?>
+		<?php echo !$member->isNewRecord && $member->old_photo_profile_i != '' ? Html::img(Url::to(join('/', ['@webpublic', Members::getUploadPath(false), $member->member_id, $member->old_photo_profile_i])), ['class'=>'mb-15', 'width'=>'100%']) : '';?>
 		<?php echo $form->field($member, 'photo_profile', ['template' => '{input}{error}'])
 			->fileInput()
 			->label($member->getAttributeLabel('photo_profile')); ?>

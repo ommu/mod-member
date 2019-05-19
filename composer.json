@@ -1,6 +1,7 @@
 {
 	"name": "ommu/member",
 	"description": "Single User Module from Ommu Platform",
+	"type": "ommu-module",
 	"keywords": [
 		"module",
 		"member",
@@ -9,9 +10,8 @@
 		"ommu-platform",
 		"yii2"
 	],
-	"homepage": "https://github.com/ommu/mod-member",
-	"type": "ommu-module",
 	"license": "Apache-2.0",
+	"homepage": "https://github.com/ommu/mod-member",
 	"support": {
 		"issues": "https://github.com/ommu/mod-member/issues",
 		"wiki": "https://github.com/ommu/mod-member/wiki",
