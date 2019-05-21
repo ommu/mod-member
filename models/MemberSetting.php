@@ -302,12 +302,15 @@ class MemberSetting extends \app\components\ActiveRecord
 	/**
 	 * function getSize
 	 */
-	public static function getSize($banner_size)
+	public static function getSize($sizes)
 	{
-		if(empty($banner_size))
+		if(empty($sizes))
 			return '-';
 
-		return $banner_size['width'].'x'.$banner_size['height'];
+		$width = $sizes['width'] ? $sizes['width'] : '~';
+		$height = $sizes['height'] ? $sizes['height'] : '~';
+
+		return $width. 'x' .$height;
 	}
 
 	/**
