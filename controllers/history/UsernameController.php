@@ -20,12 +20,12 @@
  * @link https://github.com/ommu/mod-member
  *
  */
- 
+
 namespace ommu\member\controllers\history;
 
 use Yii;
-use app\components\Controller;
 use yii\filters\VerbFilter;
+use app\components\Controller;
 use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberHistoryUsername;
 use ommu\member\models\search\MemberHistoryUsername as MemberHistoryUsernameSearch;
@@ -104,8 +104,9 @@ class UsernameController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->findModel($id)->delete();
-		
+		$model = $this->findModel($id);
+		$model->delete();
+
 		Yii::$app->session->setFlash('success', Yii::t('app', 'Member history username success deleted.'));
 		return $this->redirect(['index']);
 	}

@@ -22,12 +22,12 @@
  * @link https://github.com/ommu/mod-member
  *
  */
- 
+
 namespace ommu\member\controllers\manage;
 
 use Yii;
-use app\components\Controller;
 use yii\filters\VerbFilter;
+use app\components\Controller;
 use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberViews;
 use ommu\member\models\search\MemberViews as MemberViewsSearch;

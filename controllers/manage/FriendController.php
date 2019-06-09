@@ -22,12 +22,12 @@
  * @link https://github.com/ommu/mod-member
  *
  */
- 
+
 namespace ommu\member\controllers\manage;
 
 use Yii;
-use app\components\Controller;
 use yii\filters\VerbFilter;
+use app\components\Controller;
 use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberFriends;
 use ommu\member\models\search\MemberFriends as MemberFriendsSearch;
@@ -92,6 +92,9 @@ class FriendController extends Controller
 
 		if(Yii::$app->request->isPost) {
 			$model->load(Yii::$app->request->post());
+			// $postData = Yii::$app->request->post();
+			// $model->load($postData);
+
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member friend success created.'));
 				return $this->redirect(['index']);
@@ -123,6 +126,8 @@ class FriendController extends Controller
 
 		if(Yii::$app->request->isPost) {
 			$model->load(Yii::$app->request->post());
+			// $postData = Yii::$app->request->post();
+			// $model->load($postData);
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member friend success updated.'));
@@ -168,8 +173,9 @@ class FriendController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->findModel($id)->delete();
-		
+		$model = $this->findModel($id);
+		$model->delete();
+
 		Yii::$app->session->setFlash('success', Yii::t('app', 'Member friend success deleted.'));
 		return $this->redirect(['index']);
 	}
