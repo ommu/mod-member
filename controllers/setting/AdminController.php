@@ -92,7 +92,7 @@ class AdminController extends Controller
 	{
 		$model = MemberSetting::findOne(1);
 		if($model == null)
-			$model = new MemberSetting();
+			$model = new MemberSetting(['id'=>1]);
 
 		if(Yii::$app->request->isPost) {
 			$model->load(Yii::$app->request->post());
