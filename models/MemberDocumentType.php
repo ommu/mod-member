@@ -101,7 +101,8 @@ class MemberDocumentType extends \app\components\ActiveRecord
 	public function getDocuments()
 	{
 		return $this->hasMany(MemberProfileDocument::className(), ['document_id' => 'document_id'])
-			->andOnCondition([sprintf('%s.publish', MemberProfileDocument::tableName()) => 1]);
+			->alias('documents')
+			->andOnCondition([sprintf('%s.publish', 'documents') => 1]);
 	}
 
 	/**
