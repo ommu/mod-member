@@ -32,7 +32,7 @@ $js = <<<JS
 		});
 	});
 JS;
-	$this->registerJs($js, \yii\web\View::POS_READY);
+	$this->registerJs($js, \app\components\View::POS_READY);
 ?>
 
 <div class="grid-form">

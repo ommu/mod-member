@@ -106,6 +106,10 @@ class AdminController extends Controller
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member success created.'));
 				return $this->redirect(['index']);
 				//return $this->redirect(['view', 'id'=>$model->member_id]);
+
+			} else {
+				if(Yii::$app->request->isAjax)
+					return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
 			}
 		}
 
@@ -136,6 +140,10 @@ class AdminController extends Controller
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member success updated.'));
 				return $this->redirect(['index']);
 				//return $this->redirect(['view', 'id'=>$model->member_id]);
+
+			} else {
+				if(Yii::$app->request->isAjax)
+					return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
 			}
 		}
 

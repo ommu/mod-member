@@ -102,6 +102,10 @@ class AdminController extends Controller
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member setting success updated.'));
 				return $this->redirect(['index']);
+
+			} else {
+				if(Yii::$app->request->isAjax)
+					return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
 			}
 		}
 
