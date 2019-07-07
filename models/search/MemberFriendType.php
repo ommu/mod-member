@@ -69,7 +69,8 @@ class MemberFriendType extends MemberFriendTypeModel
 			'description description', 
 			'creation creation', 
 			'modified modified'
-		]);
+		])
+		->groupBy(['id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

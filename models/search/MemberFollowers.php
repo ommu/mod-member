@@ -69,7 +69,8 @@ class MemberFollowers extends MemberFollowersModel
 			'user user', 
 			'modified modified',
 			'member.profile.title profile'
-		]);
+		])
+		->groupBy(['id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

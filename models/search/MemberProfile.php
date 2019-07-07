@@ -69,7 +69,8 @@ class MemberProfile extends MemberProfileModel
 			'description description', 
 			'creation creation', 
 			'modified modified'
-		]);
+		])
+		->groupBy(['profile_id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

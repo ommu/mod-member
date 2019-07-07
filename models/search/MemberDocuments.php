@@ -71,7 +71,8 @@ class MemberDocuments extends MemberDocumentsModel
 			'member.profile.title profile',
 			'profileDocument profileDocument',
 			'profileDocument.document.title document'
-		]);
+		])
+		->groupBy(['id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

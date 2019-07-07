@@ -71,7 +71,8 @@ class MemberContactCategory extends MemberContactCategoryModel
 			'title title', 
 			'creation creation', 
 			'modified modified'
-		]);
+		])
+		->groupBy(['cat_id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

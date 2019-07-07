@@ -69,7 +69,8 @@ class MemberFriendHistory extends MemberFriendHistoryModel
 			'creation creation',
 			'friend.user user',
 			'friend.request request'
-		]);
+		])
+		->groupBy(['id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

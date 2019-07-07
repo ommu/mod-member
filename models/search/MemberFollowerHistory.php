@@ -69,7 +69,8 @@ class MemberFollowerHistory extends MemberFollowerHistoryModel
 			'follower.member.profile.title profile',
 			'follower.member member', 
 			'follower.user user'
-		]);
+		])
+		->groupBy(['id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

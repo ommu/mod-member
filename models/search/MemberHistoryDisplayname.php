@@ -68,7 +68,8 @@ class MemberHistoryDisplayname extends MemberHistoryDisplaynameModel
 			'member member', 
 			'updated updated', 
 			'member.profile.title profile'
-		]);
+		])
+		->groupBy(['id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

@@ -69,7 +69,8 @@ class MemberUserlevel extends MemberUserlevelModel
 			'description description', 
 			'creation creation', 
 			'modified modified'
-		]);
+		])
+		->groupBy(['level_id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

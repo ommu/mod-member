@@ -70,7 +70,8 @@ class Members extends MembersModel
 			'approvedRltn approvedRltn', 
 			'creation creation', 
 			'modified modified'
-		]);
+		])
+		->groupBy(['member_id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

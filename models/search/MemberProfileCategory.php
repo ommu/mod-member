@@ -72,7 +72,8 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 			'parent.title parent', 
 			'creation creation', 
 			'modified modified'
-		]);
+		])
+		->groupBy(['cat_id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

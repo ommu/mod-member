@@ -69,7 +69,8 @@ class MemberFriends extends MemberFriendsModel
 			'user user', 
 			'request request', 
 			'modified modified'
-		]);
+		])
+		->groupBy(['id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

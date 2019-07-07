@@ -69,7 +69,8 @@ class MemberDocumentType extends MemberDocumentTypeModel
 			'description description', 
 			'creation creation', 
 			'modified modified'
-		]);
+		])
+		->groupBy(['document_id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

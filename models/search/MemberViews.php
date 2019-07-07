@@ -69,7 +69,8 @@ class MemberViews extends MemberViewsModel
 			'user user', 
 			'modified modified',
 			'member.profile.title profile'
-		]);
+		])
+		->groupBy(['view_id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

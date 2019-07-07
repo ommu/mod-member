@@ -68,7 +68,8 @@ class MemberViewHistory extends MemberViewHistoryModel
 			'view.member.profile.title profile',
 			'view.member member', 
 			'view.user user'
-		]);
+		])
+		->groupBy(['id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

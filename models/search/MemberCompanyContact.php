@@ -71,7 +71,8 @@ class MemberCompanyContact extends MemberCompanyContactModel
 			'creation creation', 
 			'modified modified',
 			'memberCompany.member.profile.title profile'
-		]);
+		])
+		->groupBy(['id']);
 
 		// add conditions that should always apply here
 		$dataParams = [

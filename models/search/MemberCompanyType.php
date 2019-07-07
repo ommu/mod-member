@@ -69,7 +69,8 @@ class MemberCompanyType extends MemberCompanyTypeModel
 			'description description', 
 			'creation creation', 
 			'modified modified'
-		]);
+		])
+		->groupBy(['type_id']);
 
 		// add conditions that should always apply here
 		$dataParams = [
