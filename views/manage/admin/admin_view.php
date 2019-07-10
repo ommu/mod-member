@@ -61,7 +61,7 @@ $this->params['menu']['content'] = [
 			'attribute' => 'photo_header',
 			'value' => function ($model) {
 				$uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
-				return $model->photo_header ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->photo_header])), ['width' => '100%']).'<br/><br/>'.$model->photo_header : '-';
+				return $model->photo_header ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->photo_header])), ['alt'=>$model->photo_header, 'class'=>'mb-3']).'<br/>'.$model->photo_header : '-';
 			},
 			'format' => 'raw',
 		],
@@ -69,7 +69,7 @@ $this->params['menu']['content'] = [
 			'attribute' => 'photo_profile',
 			'value' => function ($model) {
 				$uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
-				return $model->photo_profile ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->photo_profile])), ['width' => '100%']).'<br/><br/>'.$model->photo_profile : '-';
+				return $model->photo_profile ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->photo_profile])), ['alt'=>$model->photo_profile, 'class'=>'mb-3']).'<br/>'.$model->photo_profile : '-';
 			},
 			'format' => 'raw',
 		],

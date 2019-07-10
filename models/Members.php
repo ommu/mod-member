@@ -340,7 +340,7 @@ class Members extends \app\components\ActiveRecord
 			'attribute' => 'photo_profile',
 			'value' => function($model, $key, $index, $column) {
 				$uploadPath = join('/', [self::getUploadPath(false), $model->member_id]);
-				return $model->photo_profile ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->photo_profile])), ['alt' => $model->photo_profile]) : '-';
+				return $model->photo_profile ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->photo_profile])), ['alt'=>$model->photo_profile]) : '-';
 			},
 			'format' => 'html',
 		];
@@ -369,7 +369,7 @@ class Members extends \app\components\ActiveRecord
 			'attribute' => 'photo_header',
 			'value' => function($model, $key, $index, $column) {
 				$uploadPath = join('/', [self::getUploadPath(false), $model->member_id]);
-				return $model->photo_header ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->photo_header])), ['alt' => $model->photo_header]) : '-';
+				return $model->photo_header ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->photo_header])), ['alt'=>$model->photo_header]) : '-';
 			},
 			'format' => 'html',
 		];

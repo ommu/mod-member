@@ -43,7 +43,7 @@ use ommu\member\models\MemberDocuments;
 	->dropDownList($document, ['prompt'=>''])
 	->label($model->getAttributeLabel('profile_document_id')); ?>
 
-<?php $documentFilename = !$model->isNewRecord && $model->old_document_filename_i != '' ? Html::img(Url::to(join('/', ['@webpublic', MemberDocuments::getUploadPath(false), $model->old_document_filename_i])), ['class'=>'mb-15', 'width'=>'100%']) : '';
+<?php $documentFilename = !$model->isNewRecord && $model->old_document_filename_i != '' ? Html::img(Url::to(join('/', ['@webpublic', MemberDocuments::getUploadPath(false), $model->old_document_filename_i])), ['alt'=>$model->old_document_filename_i, 'class'=>'mb-3']) : '';
 echo $form->field($model, 'document_filename', ['template' => '{label}{beginWrapper}<div>'.$documentFilename.'</div>{input}{error}{hint}{endWrapper}'])
 	->fileInput()
 	->label($model->getAttributeLabel('document_filename')); ?>

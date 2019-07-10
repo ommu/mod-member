@@ -64,7 +64,7 @@ $this->params['menu']['content'] = [
 			'attribute' => 'document_filename',
 			'value' => function ($model) {
 				$uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
-				return $model->document_filename ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->document_filename])), ['width' => '100%']).'<br/><br/>'.$model->document_filename : '-';
+				return $model->document_filename ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->document_filename])), ['alt'=>$model->document_filename, 'class'=>'mb-3']).'<br/>'.$model->document_filename : '-';
 			},
 			'format' => 'raw',
 		],
