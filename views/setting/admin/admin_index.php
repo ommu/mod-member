@@ -19,7 +19,6 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
-use ommu\member\models\MemberSetting;
 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -36,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		'license',
 		[
 			'attribute' => 'permission',
-			'value' => MemberSetting::getPermission($model->permission),
+			'value' => $model::getPermission($model->permission),
 		],
 		[
 			'attribute' => 'meta_description',
@@ -67,15 +66,15 @@ $this->params['breadcrumbs'][] = $this->title;
 		],
 		[
 			'attribute' => 'photo_resize_size',
-			'value' => MemberSetting::getSize($model->photo_resize_size),
+			'value' => $model::getSize($model->photo_resize_size),
 		],
 		[
 			'attribute' => 'photo_view_size',
-			'value' => MemberSetting::getSize($model->photo_view_size),
+			'value' => $model::getSize($model->photo_view_size),
 		],
 		[
 			'attribute' => 'photo_header_view_size',
-			'value' => MemberSetting::getSize($model->photo_header_view_size),
+			'value' => $model::getSize($model->photo_header_view_size),
 		],
 		[
 			'attribute' => 'photo_file_type',

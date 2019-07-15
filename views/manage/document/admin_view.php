@@ -46,7 +46,7 @@ $this->params['menu']['content'] = [
 		],
 		[
 			'attribute' => 'status',
-			'value' => MemberDocuments::getStatus($model->status);
+			'value' => MemberDocuments::getStatus($model->status),
 		],
 		[
 			'attribute' => 'profile_search',
