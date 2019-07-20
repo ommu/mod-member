@@ -107,7 +107,7 @@ echo $form->field($model, 'profile_views')
 <?php echo $form->field($model, 'photo_file_type')
 	->textInput()
 	->label($model->getAttributeLabel('photo_file_type'))
-	->hint(Yii::t('app', 'pisahkan jenis file dengan koma (,). example: "jpg, jpeg, png, bmp, gif"')); ?>
+	->hint(Yii::t('app', 'pisahkan jenis file dengan koma (,). example: "jpg, jpeg, bmp, gif, png"')); ?>
 
 <?php echo $form->field($model, 'profile_page_user_auto_follow')
 	->checkbox()
