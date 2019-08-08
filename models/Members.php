@@ -506,7 +506,7 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public static function getUploadPath($returnAlias=true) 
 	{
-		return ($returnAlias ? Yii::getAlias('@public/member') : 'public/member');
+		return ($returnAlias ? Yii::getAlias('@public/member') : 'member');
 	}
 
 	/**
