@@ -5,7 +5,7 @@
  * This is the ActiveQuery class for [[\ommu\member\models\MemberUser]].
  * @see \ommu\member\models\MemberUser
  * 
- * @author Putra Sudaryanto <putra@sudaryanto.id>
+ * @author Putra Sudaryanto <putra@ommu.co>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 31 October 2018, 13:13 WIB

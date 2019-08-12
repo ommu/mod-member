@@ -6,13 +6,10 @@
  * @var $model ommu\member\models\MemberSetting
  * @var $form app\components\widgets\ActiveForm
  *
- * @author Putra Sudaryanto <putra@sudaryanto.id>
+ * @author Putra Sudaryanto <putra@ommu.co>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 5 November 2018, 06:17 WIB
- * @modified date 5 November 2018, 06:17 WIB
- * @modified by Putra Sudaryanto <putra@sudaryanto.id>
- * @contact (+62)856-299-4114
  * @link https://github.com/ommu/mod-member
  *
  */

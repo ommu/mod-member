@@ -5,7 +5,7 @@
  * @var $this ommu\member\controllers\setting\FriendTypeController
  * @var $model ommu\member\models\MemberFriendType
  *
- * @author Putra Sudaryanto <putra@sudaryanto.id>
+ * @author Putra Sudaryanto <putra@ommu.co>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 27 October 2018, 23:10 WIB
