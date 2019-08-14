@@ -97,6 +97,7 @@ class ProfileController extends Controller
 			$model->load(Yii::$app->request->post());
 			// $postData = Yii::$app->request->post();
 			// $model->load($postData);
+			// $model->order = $postData['order'] ? $postData['order'] : 0;
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success created.'));
@@ -131,6 +132,7 @@ class ProfileController extends Controller
 			$model->load(Yii::$app->request->post());
 			// $postData = Yii::$app->request->post();
 			// $model->load($postData);
+			// $model->order = $postData['order'] ? $postData['order'] : 0;
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success updated.'));
