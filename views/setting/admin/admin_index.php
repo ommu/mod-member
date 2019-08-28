@@ -84,6 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		[
 			'attribute' => 'modified_date',
 			'value' => Yii::$app->formatter->asDatetime($model->modified_date, 'medium'),
+			'visible' => !$small,
 		],
 		[
 			'attribute' => 'modified_search',

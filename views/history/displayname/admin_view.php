@@ -46,6 +46,7 @@ $this->params['menu']['content'] = [
 		[
 			'attribute' => 'updated_date',
 			'value' => Yii::$app->formatter->asDatetime($model->updated_date, 'medium'),
+			'visible' => !$small,
 		],
 		[
 			'attribute' => 'updated_search',
