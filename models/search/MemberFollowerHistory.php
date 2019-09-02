@@ -28,7 +28,7 @@ class MemberFollowerHistory extends MemberFollowerHistoryModel
 	{
 		return [
 			[['id', 'publish', 'follower_id', 'creation_id'], 'integer'],
-			[['creation_date', 'creation_search', 'profile_search', 'member_search', 'user_search'], 'safe'],
+			[['creation_date', 'creationDisplayname', 'profile_search', 'member_search', 'userDisplayname'], 'safe'],
 		];
 	}
 
@@ -82,7 +82,7 @@ class MemberFollowerHistory extends MemberFollowerHistoryModel
 		$dataProvider = new ActiveDataProvider($dataParams);
 
 		$attributes = array_keys($this->getTableSchema()->columns);
-		$attributes['creation_search'] = [
+		$attributes['creationDisplayname'] = [
 			'asc' => ['creation.displayname' => SORT_ASC],
 			'desc' => ['creation.displayname' => SORT_DESC],
 		];
@@ -94,7 +94,7 @@ class MemberFollowerHistory extends MemberFollowerHistoryModel
 			'asc' => ['member.displayname' => SORT_ASC],
 			'desc' => ['member.displayname' => SORT_DESC],
 		];
-		$attributes['user_search'] = [
+		$attributes['userDisplayname'] = [
 			'asc' => ['user.displayname' => SORT_ASC],
 			'desc' => ['user.displayname' => SORT_DESC],
 		];
@@ -131,9 +131,9 @@ class MemberFollowerHistory extends MemberFollowerHistoryModel
 				$query->andFilterWhere(['t.publish' => $this->publish]);
 		}
 
-		$query->andFilterWhere(['like', 'creation.displayname', $this->creation_search])
+		$query->andFilterWhere(['like', 'creation.displayname', $this->creationDisplayname])
 			->andFilterWhere(['like', 'member.displayname', $this->member_search])
-			->andFilterWhere(['like', 'user.displayname', $this->user_search]);
+			->andFilterWhere(['like', 'user.displayname', $this->userDisplayname]);
 
 		return $dataProvider;
 	}

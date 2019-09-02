@@ -13,6 +13,7 @@
  *
  */
 
+use yii\helpers\Html; 
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 
@@ -29,71 +30,86 @@ $this->params['menu']['content'] = [
 
 <div class="member-company-contact-view">
 
-<?php echo DetailView::widget([
+<?php
+$attributes = [
+	[
+		'attribute' => 'id',
+		'value' => $model->id,
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'publish',
+		'value' => $model->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish),
+		'format' => 'raw',
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'status',
+		'value' => $model->quickAction(Url::to(['status', 'id'=>$model->primaryKey]), $model->status, 'Verified,Unverified'),
+		'format' => 'raw',
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'profile_search',
+		'value' => isset($model->member) ? $model->memberCompany->member->profile->title->message : '-',
+	],
+	[
+		'attribute' => 'member_search',
+		'value' => isset($model->member) ? $model->memberCompany->member->displayname : '-',
+	],
+	[
+		'attribute' => 'contact_cat_id',
+		'value' => isset($model->category) ? $model->category->title->message : '-',
+	],
+	[
+		'attribute' => 'contact_value',
+		'value' => $model->contact_value ? $model->contact_value : '-',
+	],
+	[
+		'attribute' => 'verified_date',
+		'value' => Yii::$app->formatter->asDatetime($model->verified_date, 'medium'),
+	],
+	[
+		'attribute' => 'verified_search',
+		'value' => isset($model->verified) ? $model->verified->displayname : '-',
+	],
+	[
+		'attribute' => 'creation_date',
+		'value' => Yii::$app->formatter->asDatetime($model->creation_date, 'medium'),
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'creationDisplayname',
+		'value' => isset($model->creation) ? $model->creation->displayname : '-',
+	],
+	[
+		'attribute' => 'modified_date',
+		'value' => Yii::$app->formatter->asDatetime($model->modified_date, 'medium'),
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'modifiedDisplayname',
+		'value' => isset($model->modified) ? $model->modified->displayname : '-',
+	],
+	[
+		'attribute' => 'updated_date',
+		'value' => Yii::$app->formatter->asDatetime($model->updated_date, 'medium'),
+		'visible' => !$small,
+	],
+	[
+		'attribute' => '',
+		'value' => Html::a(Yii::t('app', 'Update'), ['update', 'id'=>$model->primaryKey], ['title'=>Yii::t('app', 'Update'), 'class'=>'btn btn-primary']),
+		'format' => 'html',
+		'visible' => !$small && Yii::$app->request->isAjax ? true : false,
+	],
+];
+
+echo DetailView::widget([
 	'model' => $model,
 	'options' => [
 		'class'=>'table table-striped detail-view',
 	],
-	'attributes' => [
-		'id',
-		[
-			'attribute' => 'publish',
-			'value' => $this->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish),
-			'format' => 'raw',
-		],
-		[
-			'attribute' => 'status',
-			'value' => $this->quickAction(Url::to(['status', 'id'=>$model->primaryKey]), $model->status, 'Verified,Unverified'),
-			'format' => 'raw',
-		],
-		[
-			'attribute' => 'profile_search',
-			'value' => isset($model->member) ? $model->memberCompany->member->profile->title->message : '-',
-		],
-		[
-			'attribute' => 'member_search',
-			'value' => isset($model->member) ? $model->memberCompany->member->displayname : '-',
-		],
-		[
-			'attribute' => 'contact_cat_id',
-			'value' => isset($model->category) ? $model->category->title->message : '-',
-		],
-		[
-			'attribute' => 'contact_value',
-			'value' => $model->contact_value ? $model->contact_value : '-',
-		],
-		[
-			'attribute' => 'verified_date',
-			'value' => Yii::$app->formatter->asDatetime($model->verified_date, 'medium'),
-		],
-		[
-			'attribute' => 'verified_search',
-			'value' => isset($model->verified) ? $model->verified->displayname : '-',
-		],
-		[
-			'attribute' => 'creation_date',
-			'value' => Yii::$app->formatter->asDatetime($model->creation_date, 'medium'),
-			'visible' => !$small,
-		],
-		[
-			'attribute' => 'creation_search',
-			'value' => isset($model->creation) ? $model->creation->displayname : '-',
-		],
-		[
-			'attribute' => 'modified_date',
-			'value' => Yii::$app->formatter->asDatetime($model->modified_date, 'medium'),
-			'visible' => !$small,
-		],
-		[
-			'attribute' => 'modified_search',
-			'value' => isset($model->modified) ? $model->modified->displayname : '-',
-		],
-		[
-			'attribute' => 'updated_date',
-			'value' => Yii::$app->formatter->asDatetime($model->updated_date, 'medium'),
-			'visible' => !$small,
-		],
-	],
-]) ?>
+	'attributes' => $attributes,
+]); ?>
 
 </div>

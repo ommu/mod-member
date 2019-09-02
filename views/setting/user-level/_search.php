@@ -36,21 +36,21 @@ use yii\widgets\ActiveForm;
 		<?php echo $form->field($model, 'creation_date')
 			->input('date');?>
 
-		<?php echo $form->field($model, 'creation_search');?>
+		<?php echo $form->field($model, 'creationDisplayname');?>
 
 		<?php echo $form->field($model, 'modified_date')
 			->input('date');?>
 
-		<?php echo $form->field($model, 'modified_search');?>
+		<?php echo $form->field($model, 'modifiedDisplayname');?>
 
 		<?php echo $form->field($model, 'updated_date')
 			->input('date');?>
 
 		<?php echo $form->field($model, 'default')
-			->dropDownList($this->filterYesNo(), ['prompt'=>'']);?>
+			->dropDownList($model->filterYesNo(), ['prompt'=>'']);?>
 
 		<?php echo $form->field($model, 'publish')
-			->dropDownList($this->filterYesNo(), ['prompt'=>'']);?>
+			->dropDownList($model->filterYesNo(), ['prompt'=>'']);?>
 
 		<div class="form-group">
 			<?php echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']); ?>

@@ -29,7 +29,7 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 	{
 		return [
 			[['cat_id', 'publish', 'profile_id', 'parent_id', 'cat_name', 'cat_desc', 'creation_id', 'modified_id'], 'integer'],
-			[['creation_date', 'modified_date', 'updated_date', 'cat_name_i', 'cat_desc_i', 'creation_search', 'modified_search'], 'safe'],
+			[['creation_date', 'modified_date', 'updated_date', 'cat_name_i', 'cat_desc_i', 'creationDisplayname', 'modifiedDisplayname'], 'safe'],
 		];
 	}
 
@@ -101,11 +101,11 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 			'asc' => ['parent.message' => SORT_ASC],
 			'desc' => ['parent.message' => SORT_DESC],
 		];
-		$attributes['creation_search'] = [
+		$attributes['creationDisplayname'] = [
 			'asc' => ['creation.displayname' => SORT_ASC],
 			'desc' => ['creation.displayname' => SORT_DESC],
 		];
-		$attributes['modified_search'] = [
+		$attributes['modifiedDisplayname'] = [
 			'asc' => ['modified.displayname' => SORT_ASC],
 			'desc' => ['modified.displayname' => SORT_DESC],
 		];
@@ -147,8 +147,8 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 
 		$query->andFilterWhere(['like', 'title.message', $this->cat_name_i])
 			->andFilterWhere(['like', 'description.message', $this->cat_desc_i])
-			->andFilterWhere(['like', 'creation.displayname', $this->creation_search])
-			->andFilterWhere(['like', 'modified.displayname', $this->modified_search]);
+			->andFilterWhere(['like', 'creation.displayname', $this->creationDisplayname])
+			->andFilterWhere(['like', 'modified.displayname', $this->modifiedDisplayname]);
 
 		return $dataProvider;
 	}

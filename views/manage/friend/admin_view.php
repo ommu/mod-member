@@ -13,6 +13,7 @@
  *
  */
 
+use yii\helpers\Html; 
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 
@@ -28,39 +29,52 @@ $this->params['menu']['content'] = [
 
 <div class="member-friends-view">
 
-<?php echo DetailView::widget([
+<?php
+$attributes = [
+	[
+		'attribute' => 'id',
+		'value' => $model->id,
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'type_id',
+		'value' => isset($model->type) ? $model->type->title->message : '-',
+	],
+	[
+		'attribute' => 'userDisplayname',
+		'value' => isset($model->user) ? $model->user->displayname : '-',
+	],
+	[
+		'attribute' => 'request_search',
+		'value' => isset($model->request) ? $model->request->displayname : '-',
+	],
+	[
+		'attribute' => 'request_date',
+		'value' => Yii::$app->formatter->asDatetime($model->request_date, 'medium'),
+	],
+	[
+		'attribute' => 'modified_date',
+		'value' => Yii::$app->formatter->asDatetime($model->modified_date, 'medium'),
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'modifiedDisplayname',
+		'value' => isset($model->modified) ? $model->modified->displayname : '-',
+	],
+	[
+		'attribute' => '',
+		'value' => Html::a(Yii::t('app', 'Update'), ['update', 'id'=>$model->primaryKey], ['title'=>Yii::t('app', 'Update'), 'class'=>'btn btn-primary']),
+		'format' => 'html',
+		'visible' => !$small && Yii::$app->request->isAjax ? true : false,
+	],
+];
+
+echo DetailView::widget([
 	'model' => $model,
 	'options' => [
 		'class'=>'table table-striped detail-view',
 	],
-	'attributes' => [
-		'id',
-		[
-			'attribute' => 'type_id',
-			'value' => isset($model->type) ? $model->type->title->message : '-',
-		],
-		[
-			'attribute' => 'user_search',
-			'value' => isset($model->user) ? $model->user->displayname : '-',
-		],
-		[
-			'attribute' => 'request_search',
-			'value' => isset($model->request) ? $model->request->displayname : '-',
-		],
-		[
-			'attribute' => 'request_date',
-			'value' => Yii::$app->formatter->asDatetime($model->request_date, 'medium'),
-		],
-		[
-			'attribute' => 'modified_date',
-			'value' => Yii::$app->formatter->asDatetime($model->modified_date, 'medium'),
-			'visible' => !$small,
-		],
-		[
-			'attribute' => 'modified_search',
-			'value' => isset($model->modified) ? $model->modified->displayname : '-',
-		],
-	],
-]) ?>
+	'attributes' => $attributes,
+]); ?>
 
 </div>

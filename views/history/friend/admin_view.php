@@ -27,35 +27,42 @@ $this->params['menu']['content'] = [
 
 <div class="member-friend-history-view">
 
-<?php echo DetailView::widget([
+<?php
+$attributes = [
+	[
+		'attribute' => 'id',
+		'value' => $model->id,
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'type_id',
+		'value' => isset($model->type) ? $model->type->title->message : '-',
+	],
+	[
+		'attribute' => 'st_user_search',
+		'value' => isset($model->friend) ? $model->friend->user->displayname : '-',
+	],
+	[
+		'attribute' => 'nd_user_search',
+		'value' => isset($model->friend) ? $model->friend->request->displayname : '-',
+	],
+	[
+		'attribute' => 'creation_date',
+		'value' => Yii::$app->formatter->asDatetime($model->creation_date, 'medium'),
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'creationDisplayname',
+		'value' => isset($model->creation) ? $model->creation->displayname : '-',
+	],
+];
+
+echo DetailView::widget([
 	'model' => $model,
 	'options' => [
 		'class'=>'table table-striped detail-view',
 	],
-	'attributes' => [
-		'id',
-		[
-			'attribute' => 'type_id',
-			'value' => isset($model->type) ? $model->type->title->message : '-',
-		],
-		[
-			'attribute' => 'st_user_search',
-			'value' => isset($model->friend) ? $model->friend->user->displayname : '-',
-		],
-		[
-			'attribute' => 'nd_user_search',
-			'value' => isset($model->friend) ? $model->friend->request->displayname : '-',
-		],
-		[
-			'attribute' => 'creation_date',
-			'value' => Yii::$app->formatter->asDatetime($model->creation_date, 'medium'),
-			'visible' => !$small,
-		],
-		[
-			'attribute' => 'creation_search',
-			'value' => isset($model->creation) ? $model->creation->displayname : '-',
-		],
-	],
-]) ?>
+	'attributes' => $attributes,
+]); ?>
 
 </div>

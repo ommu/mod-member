@@ -146,7 +146,7 @@ class UserLevelController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {level-name}', ['model-class' => 'Userlevel', 'level-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Update Userlevel: {level-name}', ['level-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_update', [
@@ -163,7 +163,7 @@ class UserLevelController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {level-name}', ['model-class' => 'Userlevel', 'level-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Detail Userlevel: {level-name}', ['level-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_view', [

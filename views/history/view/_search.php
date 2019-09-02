@@ -35,7 +35,7 @@ use ommu\member\models\MemberProfile;
 
 		<?php echo $form->field($model, 'member_search');?>
 
-		<?php echo $form->field($model, 'user_search');?>
+		<?php echo $form->field($model, 'userDisplayname');?>
 
 		<?php echo $form->field($model, 'view_date')
 			->input('date');?>

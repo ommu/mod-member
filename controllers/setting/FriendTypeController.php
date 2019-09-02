@@ -145,7 +145,7 @@ class FriendTypeController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {type-name}', ['model-class' => 'Friend Type', 'type-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Update Friend Type: {type-name}', ['type-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_update', [
@@ -162,7 +162,7 @@ class FriendTypeController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {type-name}', ['model-class' => 'Friend Type', 'type-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Detail Friend Type: {type-name}', ['type-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_view', [

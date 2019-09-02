@@ -50,7 +50,7 @@ class MemberSetting extends \app\components\ActiveRecord
 
 	public $gridForbiddenColumn = [];
 
-	public $modified_search;
+	public $modifiedDisplayname;
 
 	/**
 	 * @return string the associated database table name
@@ -100,7 +100,7 @@ class MemberSetting extends \app\components\ActiveRecord
 			'friends_auto_follow' => Yii::t('app', 'Friends Auto Follow'),
 			'modified_date' => Yii::t('app', 'Modified Date'),
 			'modified_id' => Yii::t('app', 'Modified'),
-			'modified_search' => Yii::t('app', 'Modified'),
+			'modifiedDisplayname' => Yii::t('app', 'Modified'),
 			'photo_header_view_size[i]' => Yii::t('app', 'Photo Header View Size'),
 			'photo_header_view_size[width]' => Yii::t('app', 'Width'),
 			'photo_header_view_size[height]' => Yii::t('app', 'Height'),
@@ -231,8 +231,8 @@ class MemberSetting extends \app\components\ActiveRecord
 			'filter' => $this->filterDatepicker($this, 'modified_date'),
 		];
 		if(!Yii::$app->request->get('modified')) {
-			$this->templateColumns['modified_search'] = [
-				'attribute' => 'modified_search',
+			$this->templateColumns['modifiedDisplayname'] = [
+				'attribute' => 'modifiedDisplayname',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->modified) ? $model->modified->displayname : '-';
 					// return $model->modifiedDisplayname;

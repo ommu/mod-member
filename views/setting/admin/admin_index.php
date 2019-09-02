@@ -22,7 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="member-setting-view">
 
-<?php echo DetailView::widget([
+<?php
+//$attributes = ;
+
+echo DetailView::widget([
 	'model' => $model,
 	'options' => [
 		'class'=>'table table-striped detail-view',
@@ -87,7 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'visible' => !$small,
 		],
 		[
-			'attribute' => 'modified_search',
+			'attribute' => 'modifiedDisplayname',
 			'value' => isset($model->modified) ? $model->modified->displayname : '-',
 		],
 		[
@@ -98,6 +101,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			'format' => 'raw',
 		],
 	],
-]) ?>
+]); ?>
 
 </div>

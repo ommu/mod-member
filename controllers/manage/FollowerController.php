@@ -147,7 +147,7 @@ class FollowerController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {member-id}', ['model-class' => 'Follower', 'member-id' => $model->member->displayname]);
+		$this->view->title = Yii::t('app', 'Update Follower: {member-id}', ['member-id' => $model->member->displayname]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_update', [
@@ -164,7 +164,7 @@ class FollowerController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {member-id}', ['model-class' => 'Follower', 'member-id' => $model->member->displayname]);
+		$this->view->title = Yii::t('app', 'Detail Follower: {member-id}', ['member-id' => $model->member->displayname]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_view', [

@@ -36,10 +36,10 @@ class MemberFollowerHistory extends \app\components\ActiveRecord
 
 	public $gridForbiddenColumn = [];
 
-	public $creation_search;
+	public $creationDisplayname;
 	public $profile_search;
 	public $member_search;
-	public $user_search;
+	public $userDisplayname;
 
 	/**
 	 * @return string the associated database table name
@@ -73,10 +73,10 @@ class MemberFollowerHistory extends \app\components\ActiveRecord
 			'follower_id' => Yii::t('app', 'Follower'),
 			'creation_date' => Yii::t('app', 'Creation Date'),
 			'creation_id' => Yii::t('app', 'Creation'),
-			'creation_search' => Yii::t('app', 'Creation'),
+			'creationDisplayname' => Yii::t('app', 'Creation'),
 			'profile_search' => Yii::t('app', 'Profile'),
 			'member_search' => Yii::t('app', 'Member'),
-			'user_search' => Yii::t('app', 'User'),
+			'userDisplayname' => Yii::t('app', 'User'),
 		];
 	}
 
@@ -134,8 +134,8 @@ class MemberFollowerHistory extends \app\components\ActiveRecord
 					return isset($model->follower) ? $model->follower->member->displayname : '-';
 				},
 			];
-			$this->templateColumns['user_search'] = [
-				'attribute' => 'user_search',
+			$this->templateColumns['userDisplayname'] = [
+				'attribute' => 'userDisplayname',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->follower) ? $model->follower->user->displayname : '-';
 				},
@@ -149,8 +149,8 @@ class MemberFollowerHistory extends \app\components\ActiveRecord
 			'filter' => $this->filterDatepicker($this, 'creation_date'),
 		];
 		if(!Yii::$app->request->get('creation')) {
-			$this->templateColumns['creation_search'] = [
-				'attribute' => 'creation_search',
+			$this->templateColumns['creationDisplayname'] = [
+				'attribute' => 'creationDisplayname',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->creation) ? $model->creation->displayname : '-';
 					// return $model->creationDisplayname;

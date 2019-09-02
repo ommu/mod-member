@@ -142,7 +142,7 @@ class FriendController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {request-id}', ['model-class' => 'Friend', 'request-id' => $model->request->displayname]);
+		$this->view->title = Yii::t('app', 'Update Friend: {request-id}', ['request-id' => $model->request->displayname]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_update', [
@@ -159,7 +159,7 @@ class FriendController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {request-id}', ['model-class' => 'Friend', 'request-id' => $model->request->displayname]);
+		$this->view->title = Yii::t('app', 'Detail Friend: {request-id}', ['request-id' => $model->request->displayname]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_view', [

@@ -35,15 +35,15 @@ use ommu\member\models\MemberProfile;
 
 		<?php echo $form->field($model, 'member_search');?>
 
-		<?php echo $form->field($model, 'user_search');?>
+		<?php echo $form->field($model, 'userDisplayname');?>
 
 		<?php echo $form->field($model, 'creation_date')
 			->input('date');?>
 
-		<?php echo $form->field($model, 'creation_search');?>
+		<?php echo $form->field($model, 'creationDisplayname');?>
 
 		<?php echo $form->field($model, 'publish')
-			->dropDownList($this->filterYesNo(), ['prompt'=>'']);?>
+			->dropDownList($model->filterYesNo(), ['prompt'=>'']);?>
 
 		<div class="form-group">
 			<?php echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']); ?>

@@ -28,7 +28,7 @@ class MemberCompany extends MemberCompanyModel
 	{
 		return [
 			[['id', 'member_id', 'company_id', 'company_type_id', 'company_cat_id', 'company_country_id', 'company_province_id', 'company_city_id', 'company_zipcode', 'creation_id', 'modified_id'], 'integer'],
-			[['info_intro', 'info_article', 'company_address', 'company_district', 'company_village', 'creation_date', 'modified_date', 'updated_date', 'member_i', 'creation_search', 'modified_search'], 'safe'],
+			[['info_intro', 'info_article', 'company_address', 'company_district', 'company_village', 'creation_date', 'modified_date', 'updated_date', 'member_i', 'creationDisplayname', 'modifiedDisplayname'], 'safe'],
 		];
 	}
 
@@ -97,11 +97,11 @@ class MemberCompany extends MemberCompanyModel
 			'asc' => ['companyCategory.message' => SORT_ASC],
 			'desc' => ['companyCategory.message' => SORT_DESC],
 		];
-		$attributes['creation_search'] = [
+		$attributes['creationDisplayname'] = [
 			'asc' => ['creation.displayname' => SORT_ASC],
 			'desc' => ['creation.displayname' => SORT_DESC],
 		];
-		$attributes['modified_search'] = [
+		$attributes['modifiedDisplayname'] = [
 			'asc' => ['modified.displayname' => SORT_ASC],
 			'desc' => ['modified.displayname' => SORT_DESC],
 		];
@@ -144,8 +144,8 @@ class MemberCompany extends MemberCompanyModel
 			->andFilterWhere(['like', 't.company_district', $this->company_district])
 			->andFilterWhere(['like', 't.company_village', $this->company_village])
 			->andFilterWhere(['like', 'member.displayname', $this->member_i])
-			->andFilterWhere(['like', 'creation.displayname', $this->creation_search])
-			->andFilterWhere(['like', 'modified.displayname', $this->modified_search]);
+			->andFilterWhere(['like', 'creation.displayname', $this->creationDisplayname])
+			->andFilterWhere(['like', 'modified.displayname', $this->modifiedDisplayname]);
 
 		return $dataProvider;
 	}

@@ -149,7 +149,7 @@ class CompanyContactController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {member-company-id}', ['model-class' => 'Company Contact', 'member-company-id' => $model->memberCompany->member->displayname]);
+		$this->view->title = Yii::t('app', 'Update Company Contact: {member-company-id}', ['member-company-id' => $model->memberCompany->member->displayname]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_update', [
@@ -166,7 +166,7 @@ class CompanyContactController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {member-company-id}', ['model-class' => 'Company Contact', 'member-company-id' => $model->memberCompany->member->displayname]);
+		$this->view->title = Yii::t('app', 'Detail Company Contact: {member-company-id}', ['member-company-id' => $model->memberCompany->member->displayname]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_view', [

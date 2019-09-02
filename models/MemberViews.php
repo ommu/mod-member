@@ -41,11 +41,11 @@ class MemberViews extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
-	public $gridForbiddenColumn = ['modified_date','modified_search','deleted_date'];
+	public $gridForbiddenColumn = ['modified_date','modifiedDisplayname','deleted_date'];
 
 	public $member_search;
-	public $user_search;
-	public $modified_search;
+	public $userDisplayname;
+	public $modifiedDisplayname;
 	public $profile_search;
 
 	/**
@@ -87,8 +87,8 @@ class MemberViews extends \app\components\ActiveRecord
 			'modified_id' => Yii::t('app', 'Modified'),
 			'deleted_date' => Yii::t('app', 'Deleted Date'),
 			'member_search' => Yii::t('app', 'Member'),
-			'user_search' => Yii::t('app', 'User'),
-			'modified_search' => Yii::t('app', 'Modified'),
+			'userDisplayname' => Yii::t('app', 'User'),
+			'modifiedDisplayname' => Yii::t('app', 'Modified'),
 			'profile_search' => Yii::t('app', 'Profile'),
 		];
 	}
@@ -165,8 +165,8 @@ class MemberViews extends \app\components\ActiveRecord
 			];
 		}
 		if(!Yii::$app->request->get('user')) {
-			$this->templateColumns['user_search'] = [
-				'attribute' => 'user_search',
+			$this->templateColumns['userDisplayname'] = [
+				'attribute' => 'userDisplayname',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->user) ? $model->user->displayname : '-';
 				},
@@ -199,8 +199,8 @@ class MemberViews extends \app\components\ActiveRecord
 			'filter' => $this->filterDatepicker($this, 'modified_date'),
 		];
 		if(!Yii::$app->request->get('modified')) {
-			$this->templateColumns['modified_search'] = [
-				'attribute' => 'modified_search',
+			$this->templateColumns['modifiedDisplayname'] = [
+				'attribute' => 'modifiedDisplayname',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->modified) ? $model->modified->displayname : '-';
 					// return $model->modifiedDisplayname;

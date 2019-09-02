@@ -146,7 +146,7 @@ class DocumentTypeController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {document-name}', ['model-class' => 'Document Type', 'document-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Update Document Type: {document-name}', ['document-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_update', [
@@ -163,7 +163,7 @@ class DocumentTypeController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {document-name}', ['model-class' => 'Document Type', 'document-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Detail Document Type: {document-name}', ['document-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_view', [

@@ -28,7 +28,7 @@ class MemberFriendType extends MemberFriendTypeModel
 	{
 		return [
 			[['id', 'publish', 'default', 'type_name', 'type_desc', 'creation_id', 'modified_id'], 'integer'],
-			[['creation_date', 'modified_date', 'updated_date', 'type_name_i', 'type_desc_i', 'creation_search', 'modified_search'], 'safe'],
+			[['creation_date', 'modified_date', 'updated_date', 'type_name_i', 'type_desc_i', 'creationDisplayname', 'modifiedDisplayname'], 'safe'],
 		];
 	}
 
@@ -90,11 +90,11 @@ class MemberFriendType extends MemberFriendTypeModel
 			'asc' => ['description.message' => SORT_ASC],
 			'desc' => ['description.message' => SORT_DESC],
 		];
-		$attributes['creation_search'] = [
+		$attributes['creationDisplayname'] = [
 			'asc' => ['creation.displayname' => SORT_ASC],
 			'desc' => ['creation.displayname' => SORT_DESC],
 		];
-		$attributes['modified_search'] = [
+		$attributes['modifiedDisplayname'] = [
 			'asc' => ['modified.displayname' => SORT_ASC],
 			'desc' => ['modified.displayname' => SORT_DESC],
 		];
@@ -137,8 +137,8 @@ class MemberFriendType extends MemberFriendTypeModel
 
 		$query->andFilterWhere(['like', 'title.message', $this->type_name_i])
 			->andFilterWhere(['like', 'description.message', $this->type_desc_i])
-			->andFilterWhere(['like', 'creation.displayname', $this->creation_search])
-			->andFilterWhere(['like', 'modified.displayname', $this->modified_search]);
+			->andFilterWhere(['like', 'creation.displayname', $this->creationDisplayname])
+			->andFilterWhere(['like', 'modified.displayname', $this->modifiedDisplayname]);
 
 		return $dataProvider;
 	}

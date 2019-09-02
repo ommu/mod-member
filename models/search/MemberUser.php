@@ -28,7 +28,7 @@ class MemberUser extends MemberUserModel
 	{
 		return [
 			[['id', 'owner', 'publish', 'member_id', 'level_id', 'user_id', 'creation_id', 'modified_id'], 'integer'],
-			[['creation_date', 'modified_date', 'updated_date', 'member_search', 'user_search', 'creation_search', 'modified_search', 'profile_search'], 'safe'],
+			[['creation_date', 'modified_date', 'updated_date', 'member_search', 'userDisplayname', 'creationDisplayname', 'modifiedDisplayname', 'profile_search'], 'safe'],
 		];
 	}
 
@@ -92,15 +92,15 @@ class MemberUser extends MemberUserModel
 			'asc' => ['level.message' => SORT_ASC],
 			'desc' => ['level.message' => SORT_DESC],
 		];
-		$attributes['user_search'] = [
+		$attributes['userDisplayname'] = [
 			'asc' => ['user.displayname' => SORT_ASC],
 			'desc' => ['user.displayname' => SORT_DESC],
 		];
-		$attributes['creation_search'] = [
+		$attributes['creationDisplayname'] = [
 			'asc' => ['creation.displayname' => SORT_ASC],
 			'desc' => ['creation.displayname' => SORT_DESC],
 		];
-		$attributes['modified_search'] = [
+		$attributes['modifiedDisplayname'] = [
 			'asc' => ['modified.displayname' => SORT_ASC],
 			'desc' => ['modified.displayname' => SORT_DESC],
 		];
@@ -148,9 +148,9 @@ class MemberUser extends MemberUserModel
 		}
 
 		$query->andFilterWhere(['like', 'member.displayname', $this->member_search])
-			->andFilterWhere(['like', 'user.displayname', $this->user_search])
-			->andFilterWhere(['like', 'creation.displayname', $this->creation_search])
-			->andFilterWhere(['like', 'modified.displayname', $this->modified_search]);
+			->andFilterWhere(['like', 'user.displayname', $this->userDisplayname])
+			->andFilterWhere(['like', 'creation.displayname', $this->creationDisplayname])
+			->andFilterWhere(['like', 'modified.displayname', $this->modifiedDisplayname]);
 
 		return $dataProvider;
 	}

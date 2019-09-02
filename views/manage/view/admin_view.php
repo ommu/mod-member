@@ -28,50 +28,66 @@ $this->params['menu']['content'] = [
 
 <div class="member-views-view">
 
-<?php echo DetailView::widget([
+<?php
+$attributes = [
+	[
+		'attribute' => 'view_id',
+		'value' => $model->view_id,
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'publish',
+		'value' => $model->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish),
+		'format' => 'raw',
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'profile_search',
+		'value' => isset($model->member) ? $model->member->profile->title->message : '-',
+	],
+	[
+		'attribute' => 'member_search',
+		'value' => isset($model->member) ? $model->member->displayname : '-',
+	],
+	[
+		'attribute' => 'userDisplayname',
+		'value' => isset($model->user) ? $model->user->displayname : '-',
+	],
+	[
+		'attribute' => 'views',
+		'value' => $model->views,
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'view_date',
+		'value' => Yii::$app->formatter->asDatetime($model->view_date, 'medium'),
+	],
+	[
+		'attribute' => 'view_ip',
+		'value' => $model->view_ip,
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'modified_date',
+		'value' => Yii::$app->formatter->asDatetime($model->modified_date, 'medium'),
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'modifiedDisplayname',
+		'value' => isset($model->modified) ? $model->modified->displayname : '-',
+	],
+	[
+		'attribute' => 'deleted_date',
+		'value' => Yii::$app->formatter->asDatetime($model->deleted_date, 'medium'),
+	],
+];
+
+echo DetailView::widget([
 	'model' => $model,
 	'options' => [
 		'class'=>'table table-striped detail-view',
 	],
-	'attributes' => [
-		'view_id',
-		[
-			'attribute' => 'publish',
-			'value' => $this->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish),
-			'format' => 'raw',
-		],
-		[
-			'attribute' => 'profile_search',
-			'value' => isset($model->member) ? $model->member->profile->title->message : '-',
-		],
-		[
-			'attribute' => 'member_search',
-			'value' => isset($model->member) ? $model->member->displayname : '-',
-		],
-		[
-			'attribute' => 'user_search',
-			'value' => isset($model->user) ? $model->user->displayname : '-',
-		],
-		'views',
-		[
-			'attribute' => 'view_date',
-			'value' => Yii::$app->formatter->asDatetime($model->view_date, 'medium'),
-		],
-		'view_ip',
-		[
-			'attribute' => 'modified_date',
-			'value' => Yii::$app->formatter->asDatetime($model->modified_date, 'medium'),
-			'visible' => !$small,
-		],
-		[
-			'attribute' => 'modified_search',
-			'value' => isset($model->modified) ? $model->modified->displayname : '-',
-		],
-		[
-			'attribute' => 'deleted_date',
-			'value' => Yii::$app->formatter->asDatetime($model->deleted_date, 'medium'),
-		],
-	],
-]) ?>
+	'attributes' => $attributes,
+]); ?>
 
 </div>

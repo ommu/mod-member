@@ -14,6 +14,7 @@
  *
  */
 
+use yii\helpers\Html; 
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 
@@ -29,54 +30,68 @@ $this->params['menu']['content'] = [
 
 <div class="member-userlevel-view">
 
-<?php echo DetailView::widget([
+<?php
+$attributes = [
+	[
+		'attribute' => 'level_id',
+		'value' => $model->level_id,
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'publish',
+		'value' => $model->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish, 'Enable,Disable'),
+		'format' => 'raw',
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'default',
+		'value' => $this->filterYesNo($model->default),
+	],
+	[
+		'attribute' => 'level_name_i',
+		'value' => $model->level_name_i,
+	],
+	[
+		'attribute' => 'level_desc_i',
+		'value' => $model->level_desc_i,
+	],
+	[
+		'attribute' => 'creation_date',
+		'value' => Yii::$app->formatter->asDatetime($model->creation_date, 'medium'),
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'creationDisplayname',
+		'value' => isset($model->creation) ? $model->creation->displayname : '-',
+	],
+	[
+		'attribute' => 'modified_date',
+		'value' => Yii::$app->formatter->asDatetime($model->modified_date, 'medium'),
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'modifiedDisplayname',
+		'value' => isset($model->modified) ? $model->modified->displayname : '-',
+	],
+	[
+		'attribute' => 'updated_date',
+		'value' => Yii::$app->formatter->asDatetime($model->updated_date, 'medium'),
+		'visible' => !$small,
+	],
+	[
+		'attribute' => '',
+		'value' => Html::a(Yii::t('app', 'Update'), ['update', 'id'=>$model->primaryKey], ['title'=>Yii::t('app', 'Update'), 'class'=>'btn btn-primary']),
+		'format' => 'html',
+		'visible' => !$small && Yii::$app->request->isAjax ? true : false,
+	],
+];
+
+echo DetailView::widget([
 	'model' => $model,
 	'options' => [
 		'class'=>'table table-striped detail-view',
 	],
-	'attributes' => [
-		'level_id',
-		[
-			'attribute' => 'publish',
-			'value' => $this->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish, 'Enable,Disable'),
-			'format' => 'raw',
-		],
-		[
-			'attribute' => 'default',
-			'value' => $this->filterYesNo($model->default),
-		],
-		[
-			'attribute' => 'level_name_i',
-			'value' => $model->level_name_i,
-		],
-		[
-			'attribute' => 'level_desc_i',
-			'value' => $model->level_desc_i,
-		],
-		[
-			'attribute' => 'creation_date',
-			'value' => Yii::$app->formatter->asDatetime($model->creation_date, 'medium'),
-			'visible' => !$small,
-		],
-		[
-			'attribute' => 'creation_search',
-			'value' => isset($model->creation) ? $model->creation->displayname : '-',
-		],
-		[
-			'attribute' => 'modified_date',
-			'value' => Yii::$app->formatter->asDatetime($model->modified_date, 'medium'),
-			'visible' => !$small,
-		],
-		[
-			'attribute' => 'modified_search',
-			'value' => isset($model->modified) ? $model->modified->displayname : '-',
-		],
-		[
-			'attribute' => 'updated_date',
-			'value' => Yii::$app->formatter->asDatetime($model->updated_date, 'medium'),
-			'visible' => !$small,
-		],
-	],
-]) ?>
+	'attributes' => $attributes,
+]); ?>
 
 </div>

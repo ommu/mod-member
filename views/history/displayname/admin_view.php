@@ -27,32 +27,42 @@ $this->params['menu']['content'] = [
 
 <div class="member-history-displayname-view">
 
-<?php echo DetailView::widget([
+<?php
+$attributes = [
+	[
+		'attribute' => 'id',
+		'value' => $model->id,
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'profile_search',
+		'value' => isset($model->member) ? $model->member->profile->title->message : '-',
+	],
+	[
+		'attribute' => 'member_search',
+		'value' => isset($model->member) ? $model->member->displayname : '-',
+	],
+	[
+		'attribute' => 'displayname',
+		'value' => $model->displayname ? $model->displayname : '-',
+	],
+	[
+		'attribute' => 'updated_date',
+		'value' => Yii::$app->formatter->asDatetime($model->updated_date, 'medium'),
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'updated_search',
+		'value' => isset($model->updated) ? $model->updated->displayname : '-',
+	],
+];
+
+echo DetailView::widget([
 	'model' => $model,
 	'options' => [
 		'class'=>'table table-striped detail-view',
 	],
-	'attributes' => [
-		'id',
-		[
-			'attribute' => 'profile_search',
-			'value' => isset($model->member) ? $model->member->profile->title->message : '-',
-		],
-		[
-			'attribute' => 'member_search',
-			'value' => isset($model->member) ? $model->member->displayname : '-',
-		],
-		'displayname',
-		[
-			'attribute' => 'updated_date',
-			'value' => Yii::$app->formatter->asDatetime($model->updated_date, 'medium'),
-			'visible' => !$small,
-		],
-		[
-			'attribute' => 'updated_search',
-			'value' => isset($model->updated) ? $model->updated->displayname : '-',
-		],
-	],
-]) ?>
+	'attributes' => $attributes,
+]); ?>
 
 </div>

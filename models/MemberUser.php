@@ -43,12 +43,12 @@ class MemberUser extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
-	public $gridForbiddenColumn = ['modified_date','modified_search','updated_date'];
+	public $gridForbiddenColumn = ['modified_date','modifiedDisplayname','updated_date'];
 
 	public $member_search;
-	public $user_search;
-	public $creation_search;
-	public $modified_search;
+	public $userDisplayname;
+	public $creationDisplayname;
+	public $modifiedDisplayname;
 	public $profile_search;
 
 	/**
@@ -67,7 +67,6 @@ class MemberUser extends \app\components\ActiveRecord
 		return [
 			[['member_id', 'level_id', 'user_id'], 'required'],
 			[['publish', 'owner', 'member_id', 'level_id', 'user_id', 'creation_id', 'modified_id'], 'integer'],
-			[['creation_date', 'modified_date', 'updated_date'], 'safe'],
 			[['member_id'], 'exist', 'skipOnError' => true, 'targetClass' => Members::className(), 'targetAttribute' => ['member_id' => 'member_id']],
 			[['level_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberUserlevel::className(), 'targetAttribute' => ['level_id' => 'level_id']],
 			[['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'user_id']],
@@ -92,9 +91,9 @@ class MemberUser extends \app\components\ActiveRecord
 			'modified_id' => Yii::t('app', 'Modified'),
 			'updated_date' => Yii::t('app', 'Updated Date'),
 			'member_search' => Yii::t('app', 'Member'),
-			'user_search' => Yii::t('app', 'User'),
-			'creation_search' => Yii::t('app', 'Creation'),
-			'modified_search' => Yii::t('app', 'Modified'),
+			'userDisplayname' => Yii::t('app', 'User'),
+			'creationDisplayname' => Yii::t('app', 'Creation'),
+			'modifiedDisplayname' => Yii::t('app', 'Modified'),
 			'profile_search' => Yii::t('app', 'Profile'),
 		];
 	}
@@ -188,8 +187,8 @@ class MemberUser extends \app\components\ActiveRecord
 			];
 		}
 		if(!Yii::$app->request->get('user')) {
-			$this->templateColumns['user_search'] = [
-				'attribute' => 'user_search',
+			$this->templateColumns['userDisplayname'] = [
+				'attribute' => 'userDisplayname',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->user) ? $model->user->displayname : '-';
 				},
@@ -203,8 +202,8 @@ class MemberUser extends \app\components\ActiveRecord
 			'filter' => $this->filterDatepicker($this, 'creation_date'),
 		];
 		if(!Yii::$app->request->get('creation')) {
-			$this->templateColumns['creation_search'] = [
-				'attribute' => 'creation_search',
+			$this->templateColumns['creationDisplayname'] = [
+				'attribute' => 'creationDisplayname',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->creation) ? $model->creation->displayname : '-';
 					// return $model->creationDisplayname;
@@ -219,8 +218,8 @@ class MemberUser extends \app\components\ActiveRecord
 			'filter' => $this->filterDatepicker($this, 'modified_date'),
 		];
 		if(!Yii::$app->request->get('modified')) {
-			$this->templateColumns['modified_search'] = [
-				'attribute' => 'modified_search',
+			$this->templateColumns['modifiedDisplayname'] = [
+				'attribute' => 'modifiedDisplayname',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->modified) ? $model->modified->displayname : '-';
 					// return $model->modifiedDisplayname;

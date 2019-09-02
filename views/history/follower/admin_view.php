@@ -27,39 +27,46 @@ $this->params['menu']['content'] = [
 
 <div class="member-follower-history-view">
 
-<?php echo DetailView::widget([
+<?php
+$attributes = [
+	[
+		'attribute' => 'id',
+		'value' => $model->id,
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'publish',
+		'value' => $model->publish ? Yii::t('app', 'Follow') : Yii::t('app', 'Unfollow'),
+	],
+	[
+		'attribute' => 'profile_search',
+		'value' => isset($model->member) ? $model->member->profile->title->message : '-',
+	],
+	[
+		'attribute' => 'member_search',
+		'value' => isset($model->follower) ? $model->follower->member->displayname : '-',
+	],
+	[
+		'attribute' => 'userDisplayname',
+		'value' => isset($model->follower) ? $model->follower->user->displayname : '-',
+	],
+	[
+		'attribute' => 'creation_date',
+		'value' => Yii::$app->formatter->asDatetime($model->creation_date, 'medium'),
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'creationDisplayname',
+		'value' => isset($model->creation) ? $model->creation->displayname : '-',
+	],
+];
+
+echo DetailView::widget([
 	'model' => $model,
 	'options' => [
 		'class'=>'table table-striped detail-view',
 	],
-	'attributes' => [
-		'id',
-		[
-			'attribute' => 'publish',
-			'value' => $model->publish ? Yii::t('app', 'Follow') : Yii::t('app', 'Unfollow'),
-		],
-		[
-			'attribute' => 'profile_search',
-			'value' => isset($model->member) ? $model->member->profile->title->message : '-',
-		],
-		[
-			'attribute' => 'member_search',
-			'value' => isset($model->follower) ? $model->follower->member->displayname : '-',
-		],
-		[
-			'attribute' => 'user_search',
-			'value' => isset($model->follower) ? $model->follower->user->displayname : '-',
-		],
-		[
-			'attribute' => 'creation_date',
-			'value' => Yii::$app->formatter->asDatetime($model->creation_date, 'medium'),
-			'visible' => !$small,
-		],
-		[
-			'attribute' => 'creation_search',
-			'value' => isset($model->creation) ? $model->creation->displayname : '-',
-		],
-	],
-]) ?>
+	'attributes' => $attributes,
+]); ?>
 
 </div>

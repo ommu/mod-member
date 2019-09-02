@@ -89,7 +89,7 @@ class FollowerController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {follower-id}', ['model-class' => 'Follower History', 'follower-id' => $model->follower->member->displayname]);
+		$this->view->title = Yii::t('app', 'Detail Follower History: {follower-id}', ['follower-id' => $model->follower->member->displayname]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_view', [

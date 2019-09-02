@@ -40,7 +40,7 @@ use ommu\member\models\MemberFriendType;
 		<?php echo $form->field($model, 'creation_date')
 			->input('date');?>
 
-		<?php echo $form->field($model, 'creation_search');?>
+		<?php echo $form->field($model, 'creationDisplayname');?>
 
 		<div class="form-group">
 			<?php echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']); ?>

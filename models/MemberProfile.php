@@ -50,12 +50,12 @@ class MemberProfile extends \app\components\ActiveRecord
 	use \ommu\traits\UtilityTrait;
 	use \ommu\traits\FileTrait;
 
-	public $gridForbiddenColumn = ['assignment_roles','modified_date','modified_search','updated_date'];
+	public $gridForbiddenColumn = ['assignment_roles','modified_date','modifiedDisplayname','updated_date'];
 	public $profile_name_i;
 	public $profile_desc_i;
 
-	public $creation_search;
-	public $modified_search;
+	public $creationDisplayname;
+	public $modifiedDisplayname;
 
 	/**
 	 * @return string the associated database table name
@@ -74,7 +74,7 @@ class MemberProfile extends \app\components\ActiveRecord
 			[['profile_name_i', 'profile_desc_i', 'assignment_roles', 'user_limit'], 'required'],
 			[['publish', 'profile_name', 'profile_desc', 'profile_personal', 'multiple_user', 'user_limit', 'creation_id', 'modified_id'], 'integer'],
 			[['profile_name_i', 'profile_desc_i'], 'string'],
-			[['creation_date', 'modified_date', 'updated_date'], 'safe'],
+			//[['assignment_roles'], 'serialize'],
 			[['profile_name_i'], 'string', 'max' => 64],
 			[['profile_desc_i'], 'string', 'max' => 128],
 		];
@@ -88,7 +88,7 @@ class MemberProfile extends \app\components\ActiveRecord
 		return [
 			'profile_id' => Yii::t('app', 'Profile'),
 			'publish' => Yii::t('app', 'Publish'),
-			'profile_name' => Yii::t('app', 'profile'),
+			'profile_name' => Yii::t('app', 'Profile'),
 			'profile_desc' => Yii::t('app', 'Description'),
 			'assignment_roles' => Yii::t('app', 'Assignment Roles'),
 			'profile_personal' => Yii::t('app', 'Personal'),
@@ -99,10 +99,13 @@ class MemberProfile extends \app\components\ActiveRecord
 			'modified_date' => Yii::t('app', 'Modified Date'),
 			'modified_id' => Yii::t('app', 'Modified'),
 			'updated_date' => Yii::t('app', 'Updated Date'),
-			'profile_name_i' => Yii::t('app', 'profile'),
+			'profile_name_i' => Yii::t('app', 'Profile'),
 			'profile_desc_i' => Yii::t('app', 'Description'),
-			'creation_search' => Yii::t('app', 'Creation'),
-			'modified_search' => Yii::t('app', 'Modified'),
+			'categories' => Yii::t('app', 'Categories'),
+			'documents' => Yii::t('app', 'Documents'),
+			'members' => Yii::t('app', 'Members'),
+			'creationDisplayname' => Yii::t('app', 'Creation'),
+			'modifiedDisplayname' => Yii::t('app', 'Modified'),
 		];
 	}
 
@@ -224,8 +227,8 @@ class MemberProfile extends \app\components\ActiveRecord
 			'filter' => $this->filterDatepicker($this, 'creation_date'),
 		];
 		if(!Yii::$app->request->get('creation')) {
-			$this->templateColumns['creation_search'] = [
-				'attribute' => 'creation_search',
+			$this->templateColumns['creationDisplayname'] = [
+				'attribute' => 'creationDisplayname',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->creation) ? $model->creation->displayname : '-';
 					// return $model->creationDisplayname;
@@ -240,8 +243,8 @@ class MemberProfile extends \app\components\ActiveRecord
 			'filter' => $this->filterDatepicker($this, 'modified_date'),
 		];
 		if(!Yii::$app->request->get('modified')) {
-			$this->templateColumns['modified_search'] = [
-				'attribute' => 'modified_search',
+			$this->templateColumns['modifiedDisplayname'] = [
+				'attribute' => 'modifiedDisplayname',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->modified) ? $model->modified->displayname : '-';
 					// return $model->modifiedDisplayname;

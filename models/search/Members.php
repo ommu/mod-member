@@ -29,7 +29,7 @@ class Members extends MembersModel
 	{
 		return [
 			[['member_id', 'publish', 'approved', 'profile_id', 'member_private', 'approved_id', 'creation_id', 'modified_id'], 'integer'],
-			[['username', 'displayname', 'photo_header', 'photo_profile', 'short_biography', 'approved_date', 'creation_date', 'modified_date', 'updated_date', 'approved_search', 'creation_search', 'modified_search'], 'safe'],
+			[['username', 'displayname', 'photo_header', 'photo_profile', 'short_biography', 'approved_date', 'creation_date', 'modified_date', 'updated_date', 'approved_search', 'creationDisplayname', 'modifiedDisplayname'], 'safe'],
 		];
 	}
 
@@ -91,11 +91,11 @@ class Members extends MembersModel
 			'asc' => ['approvedRltn.displayname' => SORT_ASC],
 			'desc' => ['approvedRltn.displayname' => SORT_DESC],
 		];
-		$attributes['creation_search'] = [
+		$attributes['creationDisplayname'] = [
 			'asc' => ['creation.displayname' => SORT_ASC],
 			'desc' => ['creation.displayname' => SORT_DESC],
 		];
-		$attributes['modified_search'] = [
+		$attributes['modifiedDisplayname'] = [
 			'asc' => ['modified.displayname' => SORT_ASC],
 			'desc' => ['modified.displayname' => SORT_DESC],
 		];
@@ -142,8 +142,8 @@ class Members extends MembersModel
 			->andFilterWhere(['like', 't.photo_profile', $this->photo_profile])
 			->andFilterWhere(['like', 't.short_biography', $this->short_biography])
 			->andFilterWhere(['like', 'approvedRltn.displayname', $this->approved_search])
-			->andFilterWhere(['like', 'creation.displayname', $this->creation_search])
-			->andFilterWhere(['like', 'modified.displayname', $this->modified_search]);
+			->andFilterWhere(['like', 'creation.displayname', $this->creationDisplayname])
+			->andFilterWhere(['like', 'modified.displayname', $this->modifiedDisplayname]);
 
 		return $dataProvider;
 	}

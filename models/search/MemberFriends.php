@@ -28,7 +28,7 @@ class MemberFriends extends MemberFriendsModel
 	{
 		return [
 			[['id', 'type_id', 'user_id', 'request_id', 'modified_id'], 'integer'],
-			[['request_date', 'modified_date', 'user_search', 'request_search', 'modified_search'], 'safe'],
+			[['request_date', 'modified_date', 'userDisplayname', 'request_search', 'modifiedDisplayname'], 'safe'],
 		];
 	}
 
@@ -86,7 +86,7 @@ class MemberFriends extends MemberFriendsModel
 			'asc' => ['type.message' => SORT_ASC],
 			'desc' => ['type.message' => SORT_DESC],
 		];
-		$attributes['user_search'] = [
+		$attributes['userDisplayname'] = [
 			'asc' => ['user.displayname' => SORT_ASC],
 			'desc' => ['user.displayname' => SORT_DESC],
 		];
@@ -94,7 +94,7 @@ class MemberFriends extends MemberFriendsModel
 			'asc' => ['request.displayname' => SORT_ASC],
 			'desc' => ['request.displayname' => SORT_DESC],
 		];
-		$attributes['modified_search'] = [
+		$attributes['modifiedDisplayname'] = [
 			'asc' => ['modified.displayname' => SORT_ASC],
 			'desc' => ['modified.displayname' => SORT_DESC],
 		];
@@ -124,9 +124,9 @@ class MemberFriends extends MemberFriendsModel
 			't.modified_id' => isset($params['modified']) ? $params['modified'] : $this->modified_id,
 		]);
 
-		$query->andFilterWhere(['like', 'user.displayname', $this->user_search])
+		$query->andFilterWhere(['like', 'user.displayname', $this->userDisplayname])
 			->andFilterWhere(['like', 'request.displayname', $this->request_search])
-			->andFilterWhere(['like', 'modified.displayname', $this->modified_search]);
+			->andFilterWhere(['like', 'modified.displayname', $this->modifiedDisplayname]);
 
 		return $dataProvider;
 	}

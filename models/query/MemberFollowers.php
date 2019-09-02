@@ -29,7 +29,7 @@ class MemberFollowers extends \yii\db\ActiveQuery
 	 */
 	public function follow() 
 	{
-		return $this->andWhere(['publish' => 1]);
+		return $this->andWhere(['t.publish' => 1]);
 	}
 
 	/**
@@ -37,7 +37,7 @@ class MemberFollowers extends \yii\db\ActiveQuery
 	 */
 	public function unfollow() 
 	{
-		return $this->andWhere(['publish' => 0]);
+		return $this->andWhere(['t.publish' => 0]);
 	}
 
 	/**

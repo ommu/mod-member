@@ -147,7 +147,7 @@ class UserController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {member-id}', ['model-class' => 'User', 'member-id' => $model->member->displayname]);
+		$this->view->title = Yii::t('app', 'Update User: {member-id}', ['member-id' => $model->member->displayname]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_update', [
@@ -164,7 +164,7 @@ class UserController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {member-id}', ['model-class' => 'User', 'member-id' => $model->member->displayname]);
+		$this->view->title = Yii::t('app', 'Detail User: {member-id}', ['member-id' => $model->member->displayname]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_view', [

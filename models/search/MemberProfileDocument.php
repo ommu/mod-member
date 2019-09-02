@@ -29,7 +29,7 @@ class MemberProfileDocument extends MemberProfileDocumentModel
 	{
 		return [
 			[['id', 'publish', 'profile_id', 'document_id', 'required', 'creation_id', 'modified_id'], 'integer'],
-			[['creation_date', 'modified_date', 'updated_date', 'creation_search', 'modified_search'], 'safe'],
+			[['creation_date', 'modified_date', 'updated_date', 'creationDisplayname', 'modifiedDisplayname'], 'safe'],
 		];
 	}
 
@@ -91,11 +91,11 @@ class MemberProfileDocument extends MemberProfileDocumentModel
 			'asc' => ['document.message' => SORT_ASC],
 			'desc' => ['document.message' => SORT_DESC],
 		];
-		$attributes['creation_search'] = [
+		$attributes['creationDisplayname'] = [
 			'asc' => ['creation.displayname' => SORT_ASC],
 			'desc' => ['creation.displayname' => SORT_DESC],
 		];
-		$attributes['modified_search'] = [
+		$attributes['modifiedDisplayname'] = [
 			'asc' => ['modified.displayname' => SORT_ASC],
 			'desc' => ['modified.displayname' => SORT_DESC],
 		];
@@ -136,8 +136,8 @@ class MemberProfileDocument extends MemberProfileDocumentModel
 				$query->andFilterWhere(['t.publish' => $this->publish]);
 		}
 
-		$query->andFilterWhere(['like', 'creation.displayname', $this->creation_search])
-			->andFilterWhere(['like', 'modified.displayname', $this->modified_search]);
+		$query->andFilterWhere(['like', 'creation.displayname', $this->creationDisplayname])
+			->andFilterWhere(['like', 'modified.displayname', $this->modifiedDisplayname]);
 
 		return $dataProvider;
 	}

@@ -28,7 +28,7 @@ class MemberViews extends MemberViewsModel
 	{
 		return [
 			[['view_id', 'publish', 'member_id', 'user_id', 'views', 'modified_id'], 'integer'],
-			[['view_date', 'view_ip', 'modified_date', 'deleted_date', 'member_search', 'user_search', 'modified_search', 'profile_search'], 'safe'],
+			[['view_date', 'view_ip', 'modified_date', 'deleted_date', 'member_search', 'userDisplayname', 'modifiedDisplayname', 'profile_search'], 'safe'],
 		];
 	}
 
@@ -86,11 +86,11 @@ class MemberViews extends MemberViewsModel
 			'asc' => ['member.displayname' => SORT_ASC],
 			'desc' => ['member.displayname' => SORT_DESC],
 		];
-		$attributes['user_search'] = [
+		$attributes['userDisplayname'] = [
 			'asc' => ['user.displayname' => SORT_ASC],
 			'desc' => ['user.displayname' => SORT_DESC],
 		];
-		$attributes['modified_search'] = [
+		$attributes['modifiedDisplayname'] = [
 			'asc' => ['modified.displayname' => SORT_ASC],
 			'desc' => ['modified.displayname' => SORT_DESC],
 		];
@@ -135,8 +135,8 @@ class MemberViews extends MemberViewsModel
 
 		$query->andFilterWhere(['like', 't.view_ip', $this->view_ip])
 			->andFilterWhere(['like', 'member.displayname', $this->member_search])
-			->andFilterWhere(['like', 'user.displayname', $this->user_search])
-			->andFilterWhere(['like', 'modified.displayname', $this->modified_search]);
+			->andFilterWhere(['like', 'user.displayname', $this->userDisplayname])
+			->andFilterWhere(['like', 'modified.displayname', $this->modifiedDisplayname]);
 
 		return $dataProvider;
 	}

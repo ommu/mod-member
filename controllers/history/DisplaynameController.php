@@ -88,7 +88,7 @@ class DisplaynameController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {displayname}', ['model-class' => 'History Displayname', 'displayname' => $model->displayname]);
+		$this->view->title = Yii::t('app', 'Detail History Displayname: {displayname}', ['displayname' => $model->displayname]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_view', [
