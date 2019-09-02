@@ -2,7 +2,7 @@
 /**
  * Member Profiles (member-profile)
  * @var $this app\components\View
- * @var $this ommu\member\controllers\setting\ProfileController
+ * @var $this ommu\member\controllers\setting\profile\AdminController
  * @var $model ommu\member\models\MemberProfile
  * @var $form app\components\widgets\ActiveForm
  *

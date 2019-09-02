@@ -1,16 +1,14 @@
 <?php
 /**
- * Member Profile Documents (member-profile-document)
+ * Member Profiles (member-profile)
  * @var $this app\components\View
- * @var $this ommu\member\controllers\setting\ProfileDocumentController
- * @var $model ommu\member\models\MemberProfileDocument
- * @var $searchModel ommu\member\models\search\MemberProfileDocument
+ * @var $this ommu\member\controllers\setting\profile\AdminController
+ * @var $model ommu\member\models\MemberProfile
  *
  * @author Putra Sudaryanto <putra@ommu.co>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
- * @created date 2 October 2018, 11:36 WIB
- * @modified date 30 October 2018, 11:08 WIB
+ * @created date 2 October 2018, 09:48 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -22,19 +20,16 @@ use yii\widgets\Pjax;
 
 $this->params['breadcrumbs'][] = $this->title;
 
-$profile = Yii::$app->request->get('profile');
-if($profile) {
-	$this->params['menu']['content'] = [
-		['label' => Yii::t('app', 'Add Profile Document'), 'url' => Url::to(['create', 'profile'=>$profile]), 'icon' => 'plus-square', 'htmlOptions' => ['class'=>'btn modal-btn btn-success']],
-	];
-}
+$this->params['menu']['content'] = [
+	['label' => Yii::t('app', 'Add Profile'), 'url' => Url::to(['create']), 'icon' => 'plus-square', 'htmlOptions' => ['class'=>'btn modal-btn btn-success']],
+];
 $this->params['menu']['option'] = [
 	//['label' => Yii::t('app', 'Search'), 'url' => 'javascript:void(0);'],
 	['label' => Yii::t('app', 'Grid Option'), 'url' => 'javascript:void(0);'],
 ];
 ?>
 
-<div class="member-profile-document-index">
+<div class="member-profile-index">
 
 <?php Pjax::begin(); ?>
 

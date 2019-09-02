@@ -1,10 +1,10 @@
 <?php
 /**
- * ProfileDocumentController
- * @var $this ommu\member\controllers\setting\ProfileDocumentController
+ * DocumentController
+ * @var $this ommu\member\controllers\setting\profile\DocumentController
  * @var $model ommu\member\models\MemberProfileDocument
  *
- * ProfileDocumentController implements the CRUD actions for MemberProfileDocument model.
+ * DocumentController implements the CRUD actions for MemberProfileDocument model.
  * Reference start
  * TOC :
  *	Index
@@ -26,7 +26,7 @@
  *
  */
 
-namespace ommu\member\controllers\setting;
+namespace ommu\member\controllers\setting\profile;
 
 use Yii;
 use yii\filters\VerbFilter;
@@ -35,7 +35,7 @@ use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberProfileDocument;
 use ommu\member\models\search\MemberProfileDocument as MemberProfileDocumentSearch;
 
-class ProfileDocumentController extends Controller
+class DocumentController extends Controller
 {
 	/**
 	 * {@inheritdoc}
@@ -57,10 +57,18 @@ class ProfileDocumentController extends Controller
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function actionIndex()
+	{
+		return $this->redirect(['manage']);
+	}
+
+	/**
 	 * Lists all MemberProfileDocument models.
 	 * @return mixed
 	 */
-	public function actionIndex()
+	public function actionManage()
 	{
 		$searchModel = new MemberProfileDocumentSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -78,7 +86,7 @@ class ProfileDocumentController extends Controller
 		$this->view->title = Yii::t('app', 'Profile Documents');
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_index', [
+		return $this->render('admin_manage', [
 			'searchModel' => $searchModel,
 			'dataProvider' => $dataProvider,
 			'columns' => $columns,
@@ -104,7 +112,7 @@ class ProfileDocumentController extends Controller
 			
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success created.'));
-				return $this->redirect(['index', 'profile'=>$model->profile_id]);
+				return $this->redirect(['manage', 'profile'=>$model->profile_id]);
 				//return $this->redirect(['view', 'id'=>$model->id]);
 
 			} else {
@@ -139,7 +147,7 @@ class ProfileDocumentController extends Controller
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success updated.'));
-				return $this->redirect(['index', 'profile'=>$model->profile_id]);
+				return $this->redirect(['manage', 'profile'=>$model->profile_id]);
 				//return $this->redirect(['view', 'id'=>$model->id]);
 
 			} else {
@@ -148,7 +156,7 @@ class ProfileDocumentController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {profile-id}', ['model-class' => 'Profile Document', 'profile-id' => $model->profile->title->message]);
+		$this->view->title = Yii::t('app', 'Update Profile Document: {profile-id}', ['profile-id' => $model->profile->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_update', [
@@ -165,7 +173,7 @@ class ProfileDocumentController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {profile-id}', ['model-class' => 'Profile Document', 'profile-id' => $model->profile->title->message]);
+		$this->view->title = Yii::t('app', 'Detail Profile Document: {profile-id}', ['profile-id' => $model->profile->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_view', [
@@ -186,7 +194,7 @@ class ProfileDocumentController extends Controller
 
 		if($model->save(false, ['publish','modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success deleted.'));
-			return $this->redirect(['index', 'profile'=>$model->profile_id]);
+			return $this->redirect(['manage', 'profile'=>$model->profile_id]);
 		}
 	}
 
@@ -204,7 +212,7 @@ class ProfileDocumentController extends Controller
 
 		if($model->save(false, ['publish','modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success updated.'));
-			return $this->redirect(['index', 'profile'=>$model->profile_id]);
+			return $this->redirect(['manage', 'profile'=>$model->profile_id]);
 		}
 	}
 

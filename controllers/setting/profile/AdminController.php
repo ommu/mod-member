@@ -1,10 +1,10 @@
 <?php
 /**
- * ProfileController
- * @var $this ommu\member\controllers\setting\ProfileController
+ * AdminController
+ * @var $this ommu\member\controllers\setting\profile\AdminController
  * @var $model ommu\member\models\MemberProfile
  *
- * ProfileController implements the CRUD actions for MemberProfile model.
+ * AdminController implements the CRUD actions for MemberProfile model.
  * Reference start
  * TOC :
  *	Index
@@ -25,7 +25,7 @@
  *
  */
 
-namespace ommu\member\controllers\setting;
+namespace ommu\member\controllers\setting\profile;
 
 use Yii;
 use yii\filters\VerbFilter;
@@ -34,7 +34,7 @@ use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberProfile;
 use ommu\member\models\search\MemberProfile as MemberProfileSearch;
 
-class ProfileController extends Controller
+class AdminController extends Controller
 {
 	/**
 	 * {@inheritdoc}
@@ -56,10 +56,18 @@ class ProfileController extends Controller
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function actionIndex()
+	{
+		return $this->redirect(['manage']);
+	}
+
+	/**
 	 * Lists all MemberProfile models.
 	 * @return mixed
 	 */
-	public function actionIndex()
+	public function actionManage()
 	{
 		$searchModel = new MemberProfileSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -77,7 +85,7 @@ class ProfileController extends Controller
 		$this->view->title = Yii::t('app', 'Profiles');
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_index', [
+		return $this->render('admin_manage', [
 			'searchModel' => $searchModel,
 			'dataProvider' => $dataProvider,
 			'columns' => $columns,
@@ -101,7 +109,7 @@ class ProfileController extends Controller
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success created.'));
-				return $this->redirect(['index']);
+				return $this->redirect(['manage']);
 				//return $this->redirect(['view', 'id'=>$model->profile_id]);
 
 			} else {
@@ -136,7 +144,7 @@ class ProfileController extends Controller
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success updated.'));
-				return $this->redirect(['index']);
+				return $this->redirect(['manage']);
 				//return $this->redirect(['view', 'id'=>$model->profile_id]);
 
 			} else {
@@ -145,7 +153,7 @@ class ProfileController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {profile-name}', ['model-class' => 'Profile', 'profile-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Update Profile: {profile-name}', ['profile-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_update', [
@@ -162,7 +170,7 @@ class ProfileController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {profile-name}', ['model-class' => 'Profile', 'profile-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Detail Profile: {profile-name}', ['profile-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_view', [
@@ -183,7 +191,7 @@ class ProfileController extends Controller
 
 		if($model->save(false, ['publish','modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success deleted.'));
-			return $this->redirect(['index']);
+			return $this->redirect(Yii::$app->request->referrer ?: ['manage']);
 		}
 	}
 
@@ -201,7 +209,7 @@ class ProfileController extends Controller
 
 		if($model->save(false, ['publish','modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success updated.'));
-			return $this->redirect(['index']);
+			return $this->redirect(Yii::$app->request->referrer ?: ['manage']);
 		}
 	}
 

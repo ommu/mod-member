@@ -1,10 +1,10 @@
 <?php
 /**
- * ProfileCategoryController
- * @var $this ommu\member\controllers\setting\ProfileCategoryController
+ * CategoryController
+ * @var $this ommu\member\controllers\setting\profile\CategoryController
  * @var $model ommu\member\models\MemberProfileCategory
  *
- * ProfileCategoryController implements the CRUD actions for MemberProfileCategory model.
+ * CategoryController implements the CRUD actions for MemberProfileCategory model.
  * Reference start
  * TOC :
  *	Index
@@ -26,7 +26,7 @@
  *
  */
 
-namespace ommu\member\controllers\setting;
+namespace ommu\member\controllers\setting\profile;
 
 use Yii;
 use yii\filters\VerbFilter;
@@ -35,7 +35,7 @@ use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberProfileCategory;
 use ommu\member\models\search\MemberProfileCategory as MemberProfileCategorySearch;
 
-class ProfileCategoryController extends Controller
+class CategoryController extends Controller
 {
 	/**
 	 * {@inheritdoc}
@@ -57,10 +57,18 @@ class ProfileCategoryController extends Controller
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function actionIndex()
+	{
+		return $this->redirect(['manage']);
+	}
+
+	/**
 	 * Lists all MemberProfileCategory models.
 	 * @return mixed
 	 */
-	public function actionIndex()
+	public function actionManage()
 	{
 		$searchModel = new MemberProfileCategorySearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -78,7 +86,7 @@ class ProfileCategoryController extends Controller
 		$this->view->title = Yii::t('app', 'Profile Categories');
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_index', [
+		return $this->render('admin_manage', [
 			'searchModel' => $searchModel,
 			'dataProvider' => $dataProvider,
 			'columns' => $columns,
@@ -104,7 +112,7 @@ class ProfileCategoryController extends Controller
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success created.'));
-				return $this->redirect(['index', 'profile'=>$model->profile_id]);
+				return $this->redirect(['manage', 'profile'=>$model->profile_id]);
 				//return $this->redirect(['view', 'id'=>$model->cat_id]);
 
 			} else {
@@ -140,7 +148,7 @@ class ProfileCategoryController extends Controller
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success updated.'));
-				return $this->redirect(['index', 'profile'=>$model->profile_id]);
+				return $this->redirect(['manage', 'profile'=>$model->profile_id]);
 				//return $this->redirect(['view', 'id'=>$model->cat_id]);
 
 			} else {
@@ -149,7 +157,7 @@ class ProfileCategoryController extends Controller
 			}
 		}
 
-		$this->view->title = Yii::t('app', 'Update {model-class}: {cat-name}', ['model-class' => 'Profile Category', 'cat-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Update Profile Category: {cat-name}', ['cat-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_update', [
@@ -167,7 +175,7 @@ class ProfileCategoryController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		$this->view->title = Yii::t('app', 'Detail {model-class}: {cat-name}', ['model-class' => 'Profile Category', 'cat-name' => $model->title->message]);
+		$this->view->title = Yii::t('app', 'Detail Profile Category: {cat-name}', ['cat-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->oRender('admin_view', [
@@ -188,7 +196,7 @@ class ProfileCategoryController extends Controller
 
 		if($model->save(false, ['publish','modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success deleted.'));
-			return $this->redirect(['index', 'profile'=>$model->profile_id]);
+			return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
 		}
 	}
 
@@ -206,7 +214,7 @@ class ProfileCategoryController extends Controller
 
 		if($model->save(false, ['publish','modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success updated.'));
-			return $this->redirect(['index', 'profile'=>$model->profile_id]);
+			return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
 		}
 	}
 

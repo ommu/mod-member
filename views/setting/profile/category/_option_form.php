@@ -1,15 +1,16 @@
 <?php
 /**
- * Member Profiles (member-profile)
+ * Member Profile Categories (member-profile-category)
  * @var $this app\components\View
- * @var $this ommu\member\controllers\setting\ProfileController
- * @var $model ommu\member\models\search\MemberProfile
+ * @var $this ommu\member\controllers\setting\profile\CategoryController
+ * @var $model ommu\member\models\search\MemberProfileCategory
  * @var $form yii\widgets\ActiveForm
  *
  * @author Putra Sudaryanto <putra@ommu.co>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
- * @created date 2 October 2018, 09:48 WIB
+ * @created date 2 October 2018, 09:58 WIB
+ * @modified date 28 October 2018, 21:38 WIB
  * @link https://github.com/ommu/mod-member
  *
  */

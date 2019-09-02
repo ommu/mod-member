@@ -2,7 +2,7 @@
 /**
  * Member Profile Categories (member-profile-category)
  * @var $this app\components\View
- * @var $this ommu\member\controllers\setting\ProfileCategoryController
+ * @var $this ommu\member\controllers\setting\profile\CategoryController
  * @var $model ommu\member\models\search\MemberProfileCategory
  * @var $form yii\widgets\ActiveForm
  *
@@ -46,18 +46,18 @@ use ommu\member\models\MemberProfileCategory;
 		<?php echo $form->field($model, 'creation_date')
 			->input('date');?>
 
-		<?php echo $form->field($model, 'creation_search');?>
+		<?php echo $form->field($model, 'creationDisplayname');?>
 
 		<?php echo $form->field($model, 'modified_date')
 			->input('date');?>
 
-		<?php echo $form->field($model, 'modified_search');?>
+		<?php echo $form->field($model, 'modifiedDisplayname');?>
 
 		<?php echo $form->field($model, 'updated_date')
 			->input('date');?>
 
 		<?php echo $form->field($model, 'publish')
-			->dropDownList($this->filterYesNo(), ['prompt'=>'']);?>
+			->dropDownList($model->filterYesNo(), ['prompt'=>'']);?>
 
 		<div class="form-group">
 			<?php echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']); ?>

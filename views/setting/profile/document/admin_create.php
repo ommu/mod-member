@@ -2,7 +2,7 @@
 /**
  * Member Profile Documents (member-profile-document)
  * @var $this app\components\View
- * @var $this ommu\member\controllers\setting\ProfileDocumentController
+ * @var $this ommu\member\controllers\setting\profile\DocumentController
  * @var $model ommu\member\models\MemberProfileDocument
  * @var $form app\components\widgets\ActiveForm
  *

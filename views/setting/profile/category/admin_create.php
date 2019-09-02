@@ -2,7 +2,7 @@
 /**
  * Member Profile Categories (member-profile-category)
  * @var $this app\components\View
- * @var $this ommu\member\controllers\setting\ProfileCategoryController
+ * @var $this ommu\member\controllers\setting\profile\CategoryController
  * @var $model ommu\member\models\MemberProfileCategory
  * @var $form app\components\widgets\ActiveForm
  *
