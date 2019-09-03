@@ -6,6 +6,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 5 November 2018, 06:12 WIB
+ * @modified date 3 September 2019, 10:41 WIB
  * @link https://github.com/ommu/mod-member
  *
  * This is the model class for table "ommu_member_setting".
@@ -16,11 +17,11 @@
  * @property integer $permission
  * @property string $meta_description
  * @property string $meta_keyword
- * @property string $form_custom_insert_field
- * @property integer $level_member_default
+ * @property integer $personal_profile_id
+ * @property integer $company_profile_id
+ * @property integer $group_profile_id
  * @property integer $profile_user_limit
  * @property integer $profile_page_user_auto_follow
- * @property string $profile_views
  * @property string $photo_header_view_size
  * @property integer $photo_limit
  * @property integer $photo_resize
@@ -40,7 +41,7 @@ namespace ommu\member\models;
 
 use Yii;
 use yii\helpers\Html;
-use yii\helpers\Url;
+use yii\helpers\Json;
 use ommu\users\models\Users;
 
 class MemberSetting extends \app\components\ActiveRecord
@@ -66,12 +67,13 @@ class MemberSetting extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['license', 'permission', 'meta_description', 'meta_keyword', 'form_custom_insert_field', 'profile_user_limit', 'profile_views', 'photo_header_view_size', 'photo_limit', 'photo_resize', 'photo_resize_size', 'photo_view_size', 'photo_file_type'], 'required'],
-			[['permission', 'level_member_default', 'profile_user_limit', 'profile_page_user_auto_follow', 'photo_limit', 'photo_resize', 'friends_auto_follow', 'modified_id'], 'integer'],
+			[['license', 'permission', 'meta_description', 'meta_keyword', 'profile_user_limit', 'photo_header_view_size', 'photo_limit', 'photo_resize', 'photo_resize_size', 'photo_view_size', 'photo_file_type'], 'required'],
+			[['permission', 'profile_user_limit', 'profile_page_user_auto_follow', 'photo_limit', 'photo_resize', 'friends_auto_follow', 'modified_id'], 'integer'],
 			[['meta_description', 'meta_keyword'], 'string'],
-			//[['form_custom_insert_field', 'profile_views', 'photo_header_view_size', 'photo_resize_size', 'photo_view_size', 'photo_file_type'], 'serialize'],
-			[['modified_date'], 'safe'],
+			[['personal_profile_id', 'company_profile_id', 'group_profile_id'], 'safe'],
+			//[['photo_header_view_size', 'photo_resize_size', 'photo_view_size', 'photo_file_type'], 'json'],
 			[['license'], 'string', 'max' => 32],
+			[['personal_profile_id', 'company_profile_id', 'group_profile_id'], 'string', 'max' => 64],
 		];
 	}
 
@@ -86,31 +88,51 @@ class MemberSetting extends \app\components\ActiveRecord
 			'permission' => Yii::t('app', 'Permission'),
 			'meta_description' => Yii::t('app', 'Meta Description'),
 			'meta_keyword' => Yii::t('app', 'Meta Keyword'),
-			'form_custom_insert_field' => Yii::t('app', 'Form Custom Insert Field'),
-			'level_member_default' => Yii::t('app', 'Level Member Default'),
+			'personal_profile_id' => Yii::t('app', 'Personal Profile'),
+			'company_profile_id' => Yii::t('app', 'Company Profile'),
+			'group_profile_id' => Yii::t('app', 'Group Profile'),
 			'profile_user_limit' => Yii::t('app', 'Profile User Limit'),
 			'profile_page_user_auto_follow' => Yii::t('app', 'Profile Page User Auto Follow'),
-			'profile_views' => Yii::t('app', 'Profile Views'),
 			'photo_header_view_size' => Yii::t('app', 'Photo Header View Size'),
 			'photo_limit' => Yii::t('app', 'Photo Limit'),
 			'photo_resize' => Yii::t('app', 'Photo Resize'),
 			'photo_resize_size' => Yii::t('app', 'Photo Resize Size'),
 			'photo_view_size' => Yii::t('app', 'Photo View Size'),
+			'photo_view_size[small]' => Yii::t('app', 'Small'),
+			'photo_view_size[medium]' => Yii::t('app', 'Medium'),
+			'photo_view_size[large]' => Yii::t('app', 'Large'),
 			'photo_file_type' => Yii::t('app', 'Photo File Type'),
 			'friends_auto_follow' => Yii::t('app', 'Friends Auto Follow'),
 			'modified_date' => Yii::t('app', 'Modified Date'),
 			'modified_id' => Yii::t('app', 'Modified'),
 			'modifiedDisplayname' => Yii::t('app', 'Modified'),
-			'photo_header_view_size[i]' => Yii::t('app', 'Photo Header View Size'),
-			'photo_header_view_size[width]' => Yii::t('app', 'Width'),
-			'photo_header_view_size[height]' => Yii::t('app', 'Height'),
-			'photo_resize_size[i]' => Yii::t('app', 'Photo Resize Size'),
-			'photo_resize_size[width]' => Yii::t('app', 'Width'),
-			'photo_resize_size[height]' => Yii::t('app', 'Height'),
-			'photo_view_size[i]' => Yii::t('app', 'Photo View Size'),
-			'photo_view_size[width]' => Yii::t('app', 'Width'),
-			'photo_view_size[height]' => Yii::t('app', 'Height'),
+			'width' => Yii::t('app', 'Width'),
+			'height' => Yii::t('app', 'Height'),
 		];
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getPersonal()
+	{
+		return $this->hasOne(MemberProfile::className(), ['profile_id' => 'personal_profile_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getCompany()
+	{
+		return $this->hasOne(MemberProfile::className(), ['profile_id' => 'company_profile_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getGroup()
+	{
+		return $this->hasOne(MemberProfile::className(), ['profile_id' => 'group_profile_id']);
 	}
 
 	/**
@@ -119,15 +141,6 @@ class MemberSetting extends \app\components\ActiveRecord
 	public function getModified()
 	{
 		return $this->hasOne(Users::className(), ['user_id' => 'modified_id']);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 * @return \ommu\member\models\query\MemberSetting the active query used by this AR class.
-	 */
-	public static function find()
-	{
-		return new \ommu\member\models\query\MemberSetting(get_called_class());
 	}
 
 	/**
@@ -169,34 +182,28 @@ class MemberSetting extends \app\components\ActiveRecord
 				return $model->meta_keyword;
 			},
 		];
-		$this->templateColumns['form_custom_insert_field'] = [
-			'attribute' => 'form_custom_insert_field',
+		$this->templateColumns['personal_profile_id'] = [
+			'attribute' => 'personal_profile_id',
 			'value' => function($model, $key, $index, $column) {
-				return serialize($model->form_custom_insert_field);
+				return isset($model->personal) ? $model->personal->profile_name_i : '-';
 			},
 		];
-		$this->templateColumns['level_member_default'] = [
-			'attribute' => 'level_member_default',
+		$this->templateColumns['company_profile_id'] = [
+			'attribute' => 'company_profile_id',
 			'value' => function($model, $key, $index, $column) {
-				return $model->level_member_default;
+				return isset($model->company) ? $model->company->profile_name_i : '-';
+			},
+		];
+		$this->templateColumns['group_profile_id'] = [
+			'attribute' => 'group_profile_id',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->group) ? $model->group->profile_name_i : '-';
 			},
 		];
 		$this->templateColumns['profile_user_limit'] = [
 			'attribute' => 'profile_user_limit',
 			'value' => function($model, $key, $index, $column) {
 				return $model->profile_user_limit;
-			},
-		];
-		$this->templateColumns['profile_views'] = [
-			'attribute' => 'profile_views',
-			'value' => function($model, $key, $index, $column) {
-				return serialize($model->profile_views);
-			},
-		];
-		$this->templateColumns['photo_header_view_size'] = [
-			'attribute' => 'photo_header_view_size',
-			'value' => function($model, $key, $index, $column) {
-				return self::getSize($model->photo_header_view_size);
 			},
 		];
 		$this->templateColumns['photo_limit'] = [
@@ -214,7 +221,13 @@ class MemberSetting extends \app\components\ActiveRecord
 		$this->templateColumns['photo_view_size'] = [
 			'attribute' => 'photo_view_size',
 			'value' => function($model, $key, $index, $column) {
-				return self::getSize($model->photo_view_size);
+				return self::parsePhotoViewSize($model->photo_view_size);
+			},
+		];
+		$this->templateColumns['photo_header_view_size'] = [
+			'attribute' => 'photo_header_view_size',
+			'value' => function($model, $key, $index, $column) {
+				return self::getSize($model->photo_header_view_size);
 			},
 		];
 		$this->templateColumns['photo_file_type'] = [
@@ -302,6 +315,22 @@ class MemberSetting extends \app\components\ActiveRecord
 	}
 
 	/**
+	 * function getPhotoResize
+	 */
+	public static function getPhotoResize($value=null)
+	{
+		$items = array(
+			1 => Yii::t('app', 'Yes, resize photo after upload.'),
+			0 => Yii::t('app', 'No, not resize photo after upload.'),
+		);
+
+		if($value !== null)
+			return $items[$value];
+		else
+			return $items;
+	}
+
+	/**
 	 * function getSize
 	 */
 	public static function getSize($sizes)
@@ -316,20 +345,34 @@ class MemberSetting extends \app\components\ActiveRecord
 	}
 
 	/**
+	 * function parsePhotoViewSize
+	 */
+	public function parsePhotoViewSize($view_size)
+	{
+		if(empty($view_size))
+			return '-';
+
+		$views = [];
+		foreach ($view_size as $key => $value) {
+			$views[] = ucfirst($key).": ".self::getSize($value);
+		}
+		return Html::ul($views, ['encode'=>false, 'class'=>'list-boxed']);
+	}
+
+	/**
 	 * after find attributes
 	 */
 	public function afterFind()
 	{
 		parent::afterFind();
 
-		$this->form_custom_insert_field = unserialize($this->form_custom_insert_field);
-		$this->profile_views = unserialize($this->profile_views);
-		$this->photo_header_view_size = unserialize($this->photo_header_view_size);
-		$this->photo_resize_size = unserialize($this->photo_resize_size);
-		$this->photo_view_size = unserialize($this->photo_view_size);
-		$photo_file_type = unserialize($this->photo_file_type);
+		$this->photo_header_view_size = Json::decode($this->photo_header_view_size);
+		$this->photo_resize_size = Json::decode($this->photo_resize_size);
+		$this->photo_view_size = Json::decode($this->photo_view_size);
+		$photo_file_type = Json::decode($this->photo_file_type);
 		if(!empty($photo_file_type))
 			$this->photo_file_type = $this->formatFileType($photo_file_type, false);
+		// $this->modifiedDisplayname = isset($this->modified) ? $this->modified->displayname : '-';
 	}
 
 	/**
@@ -352,12 +395,34 @@ class MemberSetting extends \app\components\ActiveRecord
 	public function beforeSave($insert)
 	{
 		if(parent::beforeSave($insert)) {
-			$this->form_custom_insert_field = serialize($this->form_custom_insert_field);
-			$this->profile_views = serialize($this->profile_views);
-			$this->photo_header_view_size = serialize($this->photo_header_view_size);
-			$this->photo_resize_size = serialize($this->photo_resize_size);
-			$this->photo_view_size = serialize($this->photo_view_size);
-			$this->photo_file_type = serialize($this->formatFileType($this->photo_file_type));
+			$this->photo_header_view_size = Json::encode($this->photo_header_view_size);
+			$this->photo_resize_size = Json::encode($this->photo_resize_size);
+			$this->photo_view_size = Json::encode($this->photo_view_size);
+			$this->photo_file_type = Json::encode($this->formatFileType($this->photo_file_type));
+
+			// insert new personal profile
+			if(!isset($this->personal) && $this->personal_profile_id != '') {
+				$model = new MemberProfile();
+				$model->profile_name_i = $this->personal_profile_id;
+				if($model->save())
+					$this->personal_profile_id = $model->profile_id;
+			}
+
+			// insert new company profile
+			if(!isset($this->company) && $this->company_profile_id != '') {
+				$model = new MemberProfile();
+				$model->profile_name_i = $this->company_profile_id;
+				if($model->save())
+					$this->company_profile_id = $model->profile_id;
+			}
+
+			// insert new group profile
+			if(!isset($this->group) && $this->group_profile_id != '') {
+				$model = new MemberProfile();
+				$model->profile_name_i = $this->group_profile_id;
+				if($model->save())
+					$this->group_profile_id = $model->profile_id;
+			}
 		}
 		return true;
 	}

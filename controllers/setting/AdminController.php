@@ -18,6 +18,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 5 November 2018, 06:17 WIB
+ * @modified date 3 September 2019, 10:42 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -29,7 +30,7 @@ use yii\filters\VerbFilter;
 use app\components\Controller;
 use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberSetting;
-use yii\data\ActiveDataProvider;
+use ommu\member\models\search\MemberProfile as MemberProfileSearch;
 
 class AdminController extends Controller
 {
@@ -52,30 +53,53 @@ class AdminController extends Controller
 	}
 
 	/**
-	 * Displays a single MemberSetting model.
-	 * @param integer $id
-	 * @return mixed
+	 * {@inheritdoc}
 	 */
 	public function actionIndex()
 	{
-		// echo '<pre>';
-		// print_r(Yii::$app->authManager->getRoles());
-		// print_r(\ommu\users\models\Assignments::getRoles());
-		// $manager = Yii::$app->authManager;
-		// $item	= $manager->getRole('userAdmin');
-		// print_r($manager->getAssignments(1));
-		// print_r($manager->getRole('userAdmin'));
-		//$manager->assign($item, 1);
+		$this->layout = 'admin_default';
 
 		$model = MemberSetting::findOne(1);
-		if($model == null)
-			return $this->redirect(['update']);
+		if($model === null) 
+			$model = new MemberSetting(['id'=>1]);
+
+		if(Yii::$app->request->isPost) {
+			$model->load(Yii::$app->request->post());
+			// $postData = Yii::$app->request->post();
+			// $model->load($postData);
+			// $model->order = $postData['order'] ? $postData['order'] : 0;
+
+			if($model->save()) {
+				Yii::$app->session->setFlash('success', Yii::t('app', 'Article setting success updated.'));
+				return $this->redirect(['update']);
+
+			} else {
+				if(Yii::$app->request->isAjax)
+					return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
+			}
+		}
+
+		$searchModel = new MemberProfileSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+		$gridColumn = Yii::$app->request->get('GridColumn', null);
+		$cols = [];
+		if($gridColumn != null && count($gridColumn) > 0) {
+			foreach($gridColumn as $key => $val) {
+				if($gridColumn[$key] == 1)
+					$cols[] = $key;
+			}
+		}
+		$columns = $searchModel->getGridColumn($cols);
 
 		$this->view->title = Yii::t('app', 'Member Settings');
 		$this->view->description = '';
 		$this->view->keywords = '';
 		return $this->render('admin_index', [
 			'model' => $model,
+			'searchModel' => $searchModel,
+			'dataProvider' => $dataProvider,
+			'columns' => $columns,
 		]);
 	}
 
@@ -99,7 +123,7 @@ class AdminController extends Controller
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member setting success updated.'));
-				return $this->redirect(['index']);
+				return $this->redirect(['update']);
 
 			} else {
 				if(Yii::$app->request->isAjax)
@@ -107,6 +131,7 @@ class AdminController extends Controller
 			}
 		}
 
+		$this->subMenu = $this->module->params['setting_submenu'];
 		$this->view->title = Yii::t('app', 'Member Settings');
 		$this->view->description = '';
 		$this->view->keywords = '';
@@ -123,8 +148,9 @@ class AdminController extends Controller
 	 */
 	public function actionDelete()
 	{
-		$this->findModel(1)->delete();
-		
+		$model = $this->findModel(1);
+		$model->delete();
+
 		Yii::$app->session->setFlash('success', Yii::t('app', 'Member setting success deleted.'));
 		return $this->redirect(['index']);
 	}

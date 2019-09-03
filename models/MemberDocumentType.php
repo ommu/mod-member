@@ -43,7 +43,7 @@ class MemberDocumentType extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
-	public $gridForbiddenColumn = ['modified_date','modifiedDisplayname','updated_date'];
+	public $gridForbiddenColumn = ['modified_date', 'modifiedDisplayname', 'updated_date'];
 	public $document_name_i;
 	public $document_desc_i;
 
@@ -64,9 +64,10 @@ class MemberDocumentType extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['document_name_i', 'document_desc_i'], 'required'],
+			[['document_name_i'], 'required'],
 			[['publish', 'document_name', 'document_desc', 'creation_id', 'modified_id'], 'integer'],
 			[['document_name_i', 'document_desc_i'], 'string'],
+			[['document_desc_i'], 'safe'],
 			[['document_name_i'], 'string', 'max' => 64],
 			[['document_desc_i'], 'string', 'max' => 128],
 		];

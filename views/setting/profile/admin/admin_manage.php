@@ -23,7 +23,7 @@ use yii\widgets\Pjax;
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['menu']['content'] = [
-	['label' => Yii::t('app', 'Add Profile'), 'url' => Url::to(['create']), 'icon' => 'plus-square', 'htmlOptions' => ['class'=>'btn modal-btn btn-success']],
+	['label' => Yii::t('app', 'Add Profile'), 'url' => Url::to(['setting/profile/admin/create']), 'icon' => 'plus-square', 'htmlOptions' => ['class'=>'btn modal-btn btn-success']],
 ];
 $this->params['menu']['option'] = [
 	//['label' => Yii::t('app', 'Search'), 'url' => 'javascript:void(0);'],
@@ -45,11 +45,11 @@ array_push($columnData, [
 	'header' => Yii::t('app', 'Option'),
 	'urlCreator' => function($action, $model, $key, $index) {
 		if($action == 'view')
-			return Url::to(['view', 'id'=>$key]);
+			return Url::to(['setting/profile/admin/view', 'id'=>$key]);
 		if($action == 'update')
-			return Url::to(['update', 'id'=>$key]);
+			return Url::to(['setting/profile/admin/update', 'id'=>$key]);
 		if($action == 'delete')
-			return Url::to(['delete', 'id'=>$key]);
+			return Url::to(['setting/profile/admin/delete', 'id'=>$key]);
 	},
 	'buttons' => [
 		'view' => function ($url, $model, $key) {

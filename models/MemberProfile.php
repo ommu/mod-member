@@ -58,6 +58,8 @@ class MemberProfile extends \app\components\ActiveRecord
 	public $creationDisplayname;
 	public $modifiedDisplayname;
 
+	const SCENARIO_UPADTE = 'updateForm';
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -72,13 +74,25 @@ class MemberProfile extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['profile_name_i', 'profile_desc_i', 'assignment_roles', 'user_limit'], 'required'],
+			[['profile_name_i'], 'required'],
+			[['profile_desc_i', 'assignment_roles', 'user_limit'], 'required', 'on' => self::SCENARIO_UPADTE],
 			[['publish', 'profile_name', 'profile_desc', 'profile_personal', 'multiple_user', 'user_limit', 'creation_id', 'modified_id'], 'integer'],
 			[['profile_name_i', 'profile_desc_i'], 'string'],
+			[['profile_desc_i', 'assignment_roles', 'profile_personal', 'multiple_user', 'user_limit'], 'safe'],
 			//[['assignment_roles'], 'json'],
 			[['profile_name_i'], 'string', 'max' => 64],
 			[['profile_desc_i'], 'string', 'max' => 128],
 		];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function scenarios()
+	{
+		$scenarios = parent::scenarios();
+		$scenarios[self::SCENARIO_UPADTE] = ['profile_name_i', 'profile_desc_i', 'assignment_roles', 'profile_personal', 'multiple_user', 'user_limit'];
+		return $scenarios;
 	}
 
 	/**
@@ -216,6 +230,16 @@ class MemberProfile extends \app\components\ActiveRecord
 
 	/**
 	 * {@inheritdoc}
+	 */
+	public function getMultipleUserLimit()
+	{
+		$limit = MemberSetting::getInfo('profile_user_limit');
+
+		return $limit ? $limit : 20;
+	}
+
+	/**
+	 * {@inheritdoc}
 	 * @return \ommu\member\models\query\MemberProfile the active query used by this AR class.
 	 */
 	public static function find()
@@ -299,7 +323,7 @@ class MemberProfile extends \app\components\ActiveRecord
 			'attribute' => 'categories',
 			'value' => function($model, $key, $index, $column) {
 				$categories = $model->getCategories(true);
-				return Html::a($categories, ['profile/category/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} categories', ['count'=>$categories]), 'data-pjax'=>0]);
+				return Html::a($categories, ['setting/profile/category/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} categories', ['count'=>$categories]), 'data-pjax'=>0]);
 			},
 			'filter' => false,
 			'contentOptions' => ['class'=>'center'],
@@ -309,7 +333,7 @@ class MemberProfile extends \app\components\ActiveRecord
 			'attribute' => 'documents',
 			'value' => function($model, $key, $index, $column) {
 				$documents = $model->getDocuments(true);
-				return Html::a($documents, ['profile/document/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} documents', ['count'=>$documents]), 'data-pjax'=>0]);
+				return Html::a($documents, ['setting/profile/document/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} documents', ['count'=>$documents]), 'data-pjax'=>0]);
 			},
 			'filter' => false,
 			'contentOptions' => ['class'=>'center'],
@@ -319,7 +343,7 @@ class MemberProfile extends \app\components\ActiveRecord
 			'attribute' => 'members',
 			'value' => function($model, $key, $index, $column) {
 				$members = $model->getMembers(true);
-				return Html::a($members, ['profile/admin/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} members', ['count'=>$members]), 'data-pjax'=>0]);
+				return Html::a($members, ['admin/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} members', ['count'=>$members]), 'data-pjax'=>0]);
 			},
 			'filter' => false,
 			'contentOptions' => ['class'=>'center'],
@@ -389,7 +413,8 @@ class MemberProfile extends \app\components\ActiveRecord
 	 */
 	public static function getProfile($publish=null, $array=true) 
 	{
-		$model = self::find()->alias('t')
+		$model = self::find()
+			->alias('t')
 			->select(['t.profile_id', 't.profile_name']);
 		$model->leftJoin(sprintf('%s title', SourceMessage::tableName()), 't.profile_name=title.id');
 		if($publish != null)
@@ -447,6 +472,7 @@ class MemberProfile extends \app\components\ActiveRecord
 				if($this->modified_id == null)
 					$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
 			}
+
 			if($this->profile_personal) {
 				$this->multiple_user = 0;
 				$this->user_limit = 1;

@@ -256,6 +256,19 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	}
 
 	/**
+	 * function getDefault
+	 */
+	public static function getDefault() 
+	{
+		$model = self::find()
+			->select(['level_id'])
+			->where(['default' => 1])
+			->one();
+			
+		return $model->level_id;
+	}
+
+	/**
 	 * function getUserlevel
 	 */
 	public static function getUserlevel($publish=null, $array=true) 

@@ -41,7 +41,6 @@ use yii\helpers\ArrayHelper;
 <?php $parents = MemberProfileCategory::getCategory($model->profile_id, 1);
 echo $form->field($model, 'parent_id')
 	->widget(Selectize::className(), [
-		'cascade' => true,
 		'options' => [
 			'placeholder' => Yii::t('app', 'Select a parent category..'),
 		],

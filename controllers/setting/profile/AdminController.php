@@ -41,6 +41,15 @@ class AdminController extends Controller
 	/**
 	 * {@inheritdoc}
 	 */
+	public function init()
+	{
+		parent::init();
+		$this->subMenu = $this->module->params['setting_submenu'];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function behaviors()
 	{
 		return [
@@ -138,6 +147,7 @@ class AdminController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->findModel($id);
+		$model->scenario = $model::SCENARIO_UPADTE;
 
 		if(Yii::$app->request->isPost) {
 			$model->load(Yii::$app->request->post());

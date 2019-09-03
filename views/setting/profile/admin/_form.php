@@ -82,7 +82,8 @@ echo $form->field($model, 'profile_personal')
 
 <?php echo $form->field($model, 'user_limit', ['options' => ['style' => $model->multiple_user == 0 ? 'display: none' : '']])
 	->textInput(['type'=>'number', 'min'=>'1'])
-	->label($model->getAttributeLabel('user_limit')); ?>
+	->label($model->getAttributeLabel('user_limit'))
+	->hint(Yii::t('app', 'User limit recommendation is {limit}', ['limit'=>$model->multipleUserLimit])); ?>
 </div>
 
 <?php echo $form->field($model, 'publish')

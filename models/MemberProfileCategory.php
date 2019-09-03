@@ -311,7 +311,8 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 	 */
 	public static function getCategory($profile=null, $publish=null, $array=true)
 	{
-		$model = self::find()->alias('t')
+		$model = self::find()
+			->alias('t')
 			->select(['t.cat_id', 't.cat_name']);
 		$model->leftJoin(sprintf('%s title', SourceMessage::tableName()), 't.cat_name=title.id');
 		if($publish != null)

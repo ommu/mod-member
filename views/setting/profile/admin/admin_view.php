@@ -69,7 +69,7 @@ $attributes = [
 		'attribute' => 'categories',
 		'value' => function ($model) {
 			$categories = $model->getCategories(true);
-			return Html::a($categories, ['category/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} categories', ['count'=>$categories])]);
+			return Html::a($categories, ['setting/profile/category/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} categories', ['count'=>$categories])]);
 		},
 		'format' => 'html',
 		'visible' => !$small,
@@ -78,7 +78,7 @@ $attributes = [
 		'attribute' => 'documents',
 		'value' => function ($model) {
 			$documents = $model->getDocuments(true);
-			return Html::a($documents, ['document/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} documents', ['count'=>$documents])]);
+			return Html::a($documents, ['setting/profile/document/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} documents', ['count'=>$documents])]);
 		},
 		'format' => 'html',
 		'visible' => !$small,

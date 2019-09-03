@@ -41,7 +41,6 @@ use yii\helpers\ArrayHelper;
 <?php $document = MemberDocumentType::getType();
 echo $form->field($model, 'document_id')
 	->widget(Selectize::className(), [
-		'cascade' => true,
 		'options' => [
 			'placeholder' => Yii::t('app', 'Select a document type..'),
 		],
