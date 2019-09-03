@@ -8,7 +8,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:58 WIB
- * @modified date 30 October 2018, 10:27 WIB
+ * @modified date 2 September 2019, 18:27 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -29,7 +29,7 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 	{
 		return [
 			[['cat_id', 'publish', 'profile_id', 'parent_id', 'cat_name', 'cat_desc', 'creation_id', 'modified_id'], 'integer'],
-			[['creation_date', 'modified_date', 'updated_date', 'cat_name_i', 'cat_desc_i', 'creationDisplayname', 'modifiedDisplayname'], 'safe'],
+			[['creation_date', 'modified_date', 'updated_date', 'cat_name_i', 'cat_desc_i', 'profileName', 'creationDisplayname', 'modifiedDisplayname'], 'safe'],
 		];
 	}
 
@@ -97,6 +97,10 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 			'asc' => ['profile.message' => SORT_ASC],
 			'desc' => ['profile.message' => SORT_DESC],
 		];
+		$attributes['profileName'] = [
+			'asc' => ['profile.message' => SORT_ASC],
+			'desc' => ['profile.message' => SORT_DESC],
+		];
 		$attributes['parent_id'] = [
 			'asc' => ['parent.message' => SORT_ASC],
 			'desc' => ['parent.message' => SORT_DESC],
@@ -114,6 +118,8 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 			'defaultOrder' => ['cat_id' => SORT_DESC],
 		]);
 
+		if(Yii::$app->request->get('cat_id'))
+			unset($params['cat_id']);
 		$this->load($params);
 
 		if(!$this->validate()) {
@@ -147,6 +153,7 @@ class MemberProfileCategory extends MemberProfileCategoryModel
 
 		$query->andFilterWhere(['like', 'title.message', $this->cat_name_i])
 			->andFilterWhere(['like', 'description.message', $this->cat_desc_i])
+			->andFilterWhere(['like', 'profile.message', $this->profileName])
 			->andFilterWhere(['like', 'creation.displayname', $this->creationDisplayname])
 			->andFilterWhere(['like', 'modified.displayname', $this->modifiedDisplayname]);
 

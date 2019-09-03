@@ -8,6 +8,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:48 WIB
+ * @modified date 2 September 2019, 18:27 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -103,6 +104,8 @@ class MemberProfile extends MemberProfileModel
 			'defaultOrder' => ['profile_id' => SORT_DESC],
 		]);
 
+		if(Yii::$app->request->get('profile_id'))
+			unset($params['profile_id']);
 		$this->load($params);
 
 		if(!$this->validate()) {

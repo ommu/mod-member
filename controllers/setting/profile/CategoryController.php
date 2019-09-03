@@ -8,6 +8,7 @@
  * Reference start
  * TOC :
  *	Index
+ *	Manage
  *	Create
  *	Update
  *	View
@@ -21,7 +22,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:58 WIB
- * @modified date 28 October 2018, 21:38 WIB
+ * @modified date 2 September 2019, 18:27 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -37,6 +38,16 @@ use ommu\member\models\search\MemberProfileCategory as MemberProfileCategorySear
 
 class CategoryController extends Controller
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function init()
+	{
+		parent::init();
+		if(Yii::$app->request->get('id') || Yii::$app->request->get('profile'))
+			$this->subMenu = $this->module->params['profile_submenu'];
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -83,6 +94,11 @@ class CategoryController extends Controller
 		}
 		$columns = $searchModel->getGridColumn($cols);
 
+		if(($profile = Yii::$app->request->get('profile')) != null) {
+			$this->subMenuParam = $profile;
+			$profile = \ommu\member\models\MemberProfile::findOne($profile);
+		}
+
 		$this->view->title = Yii::t('app', 'Profile Categories');
 		$this->view->description = '';
 		$this->view->keywords = '';
@@ -90,6 +106,7 @@ class CategoryController extends Controller
 			'searchModel' => $searchModel,
 			'dataProvider' => $dataProvider,
 			'columns' => $columns,
+			'profile' => $profile,
 		]);
 	}
 
@@ -100,19 +117,23 @@ class CategoryController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$profile = Yii::$app->request->get('profile');
-		if(!$profile)
+		if(($id = Yii::$app->request->get('id')) == null)
 			throw new \yii\web\NotAcceptableHttpException(Yii::t('app', 'The requested page does not exist.'));
 
 		$model = new MemberProfileCategory();
+		$model->profile_id = $id;
 
 		if(Yii::$app->request->isPost) {
 			$model->load(Yii::$app->request->post());
-			$model->profile_id = $profile;
+			// $postData = Yii::$app->request->post();
+			// $model->load($postData);
+			// $model->order = $postData['order'] ? $postData['order'] : 0;
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success created.'));
-				return $this->redirect(['manage', 'profile'=>$model->profile_id]);
+				if(!Yii::$app->request->isAjax)
+					return $this->redirect(['manage', 'profile'=>$model->profile_id]);
+				return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
 				//return $this->redirect(['view', 'id'=>$model->cat_id]);
 
 			} else {
@@ -126,7 +147,6 @@ class CategoryController extends Controller
 		$this->view->keywords = '';
 		return $this->oRender('admin_create', [
 			'model' => $model,
-			'profile' => $profile,
 		]);
 	}
 
@@ -139,6 +159,7 @@ class CategoryController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->findModel($id);
+		$this->subMenuParam = $model->profile_id;
 
 		if(Yii::$app->request->isPost) {
 			$model->load(Yii::$app->request->post());
@@ -148,8 +169,9 @@ class CategoryController extends Controller
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success updated.'));
-				return $this->redirect(['manage', 'profile'=>$model->profile_id]);
-				//return $this->redirect(['view', 'id'=>$model->cat_id]);
+				if(!Yii::$app->request->isAjax)
+					return $this->redirect(['update', 'id'=>$model->cat_id]);
+				return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
 
 			} else {
 				if(Yii::$app->request->isAjax)
@@ -162,7 +184,6 @@ class CategoryController extends Controller
 		$this->view->keywords = '';
 		return $this->oRender('admin_update', [
 			'model' => $model,
-			'profile' => $model->profile_id,
 		]);
 	}
 
@@ -174,6 +195,7 @@ class CategoryController extends Controller
 	public function actionView($id)
 	{
 		$model = $this->findModel($id);
+		$this->subMenuParam = $model->profile_id;
 
 		$this->view->title = Yii::t('app', 'Detail Profile Category: {cat-name}', ['cat-name' => $model->title->message]);
 		$this->view->description = '';

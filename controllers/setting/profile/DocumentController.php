@@ -8,6 +8,7 @@
  * Reference start
  * TOC :
  *	Index
+ *	Manage
  *	Create
  *	Update
  *	View
@@ -21,7 +22,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:36 WIB
- * @modified date 30 October 2018, 11:26 WIB
+ * @modified date 2 September 2019, 18:28 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -37,6 +38,16 @@ use ommu\member\models\search\MemberProfileDocument as MemberProfileDocumentSear
 
 class DocumentController extends Controller
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function init()
+	{
+		parent::init();
+		if(Yii::$app->request->get('id') || Yii::$app->request->get('profile'))
+			$this->subMenu = $this->module->params['profile_submenu'];
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -83,6 +94,13 @@ class DocumentController extends Controller
 		}
 		$columns = $searchModel->getGridColumn($cols);
 
+		if(($document = Yii::$app->request->get('document')) != null)
+			$document = \ommu\member\models\MemberDocumentType::findOne($document);
+		if(($profile = Yii::$app->request->get('profile')) != null) {
+			$this->subMenuParam = $profile;
+			$profile = \ommu\member\models\MemberProfile::findOne($profile);
+		}
+
 		$this->view->title = Yii::t('app', 'Profile Documents');
 		$this->view->description = '';
 		$this->view->keywords = '';
@@ -90,6 +108,8 @@ class DocumentController extends Controller
 			'searchModel' => $searchModel,
 			'dataProvider' => $dataProvider,
 			'columns' => $columns,
+			'document' => $document,
+			'profile' => $profile,
 		]);
 	}
 
@@ -100,19 +120,23 @@ class DocumentController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$profile = Yii::$app->request->get('profile');
-		if(!$profile)
+		if(($id = Yii::$app->request->get('id')) == null)
 			throw new \yii\web\NotAcceptableHttpException(Yii::t('app', 'The requested page does not exist.'));
 
 		$model = new MemberProfileDocument();
+		$model->profile_id = $id;
 
 		if(Yii::$app->request->isPost) {
 			$model->load(Yii::$app->request->post());
-			$model->profile_id = $profile;
-			
+			// $postData = Yii::$app->request->post();
+			// $model->load($postData);
+			// $model->order = $postData['order'] ? $postData['order'] : 0;
+
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success created.'));
-				return $this->redirect(['manage', 'profile'=>$model->profile_id]);
+				if(!Yii::$app->request->isAjax)
+					return $this->redirect(['manage', 'profile'=>$model->profile_id]);
+				return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
 				//return $this->redirect(['view', 'id'=>$model->id]);
 
 			} else {
@@ -138,6 +162,7 @@ class DocumentController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->findModel($id);
+		$this->subMenuParam = $model->profile_id;
 
 		if(Yii::$app->request->isPost) {
 			$model->load(Yii::$app->request->post());
@@ -147,8 +172,9 @@ class DocumentController extends Controller
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success updated.'));
-				return $this->redirect(['manage', 'profile'=>$model->profile_id]);
-				//return $this->redirect(['view', 'id'=>$model->id]);
+				if(!Yii::$app->request->isAjax)
+					return $this->redirect(['update', 'id'=>$model->id]);
+				return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
 
 			} else {
 				if(Yii::$app->request->isAjax)
@@ -172,6 +198,7 @@ class DocumentController extends Controller
 	public function actionView($id)
 	{
 		$model = $this->findModel($id);
+		$this->subMenuParam = $model->profile_id;
 
 		$this->view->title = Yii::t('app', 'Detail Profile Document: {profile-id}', ['profile-id' => $model->profile->title->message]);
 		$this->view->description = '';
@@ -194,7 +221,7 @@ class DocumentController extends Controller
 
 		if($model->save(false, ['publish','modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success deleted.'));
-			return $this->redirect(['manage', 'profile'=>$model->profile_id]);
+			return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
 		}
 	}
 
@@ -212,7 +239,7 @@ class DocumentController extends Controller
 
 		if($model->save(false, ['publish','modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success updated.'));
-			return $this->redirect(['manage', 'profile'=>$model->profile_id]);
+			return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
 		}
 	}
 

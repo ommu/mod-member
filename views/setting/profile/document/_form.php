@@ -10,7 +10,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:36 WIB
- * @modified date 30 October 2018, 11:08 WIB
+ * @modified date 2 September 2019, 18:28 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -18,6 +18,8 @@
 use yii\helpers\Html;
 use app\components\widgets\ActiveForm;
 use ommu\member\models\MemberDocumentType;
+use ommu\selectize\Selectize;
+use yii\helpers\ArrayHelper;
 ?>
 
 <div class="member-profile-document-form">
@@ -38,7 +40,21 @@ use ommu\member\models\MemberDocumentType;
 
 <?php $document = MemberDocumentType::getType();
 echo $form->field($model, 'document_id')
-	->dropDownList($document, ['prompt'=>''])
+	->widget(Selectize::className(), [
+		'cascade' => true,
+		'options' => [
+			'placeholder' => Yii::t('app', 'Select a document type..'),
+		],
+		'items' => ArrayHelper::merge([''=>Yii::t('app', 'Select a document type..')], $document),
+		'pluginOptions' => [
+			'valueField' => 'id',
+			'labelField' => 'label',
+			'searchField' => ['label'],
+			'persist' => false,
+			'createOnBlur' => false,
+			'create' => true,
+		],
+	])
 	->label($model->getAttributeLabel('document_id')); ?>
 
 <?php echo $form->field($model, 'required')

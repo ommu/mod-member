@@ -10,7 +10,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:58 WIB
- * @modified date 28 October 2018, 21:38 WIB
+ * @modified date 2 September 2019, 18:28 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -22,8 +22,8 @@ $this->params['breadcrumbs'][] = ['label' => $model->title->message, 'url' => ['
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
 $this->params['menu']['content'] = [
-	['label' => Yii::t('app', 'Back To Manage'), 'url' => Url::to(['index', 'profile'=>$model->profile_id]), 'icon' => 'table'],
 	['label' => Yii::t('app', 'Detail'), 'url' => Url::to(['view', 'id'=>$model->cat_id]), 'icon' => 'eye', 'htmlOptions' => ['class'=>'btn btn-success']],
+	['label' => Yii::t('app', 'Update'), 'url' => Url::to(['update', 'id'=>$model->cat_id]), 'icon' => 'pencil', 'htmlOptions' => ['class'=>'btn btn-primary']],
 	['label' => Yii::t('app', 'Delete'), 'url' => Url::to(['delete', 'id'=>$model->cat_id]), 'htmlOptions' => ['data-confirm'=>Yii::t('app', 'Are you sure you want to delete this item?'), 'data-method'=>'post', 'class'=>'btn btn-danger'], 'icon' => 'trash'],
 ];
 ?>
@@ -32,7 +32,6 @@ $this->params['menu']['content'] = [
 
 <?php echo $this->render('_form', [
 	'model' => $model,
-	'profile' => $profile,
 ]); ?>
 
 </div>

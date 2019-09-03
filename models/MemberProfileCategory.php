@@ -6,7 +6,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:57 WIB
- * @modified date 29 October 2018, 23:40 WIB
+ * @modified date 2 September 2019, 18:27 WIB
  * @link https://github.com/ommu/mod-member
  *
  * This is the model class for table "ommu_member_profile_category".
@@ -25,6 +25,7 @@
  * @property string $updated_date
  *
  * The followings are the available model relations:
+ * @property MemberCompany[] $companies
  * @property MemberProfile $profile
  * @property SourceMessage $title
  * @property SourceMessage $description
@@ -46,10 +47,11 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
-	public $gridForbiddenColumn = ['modified_date','modifiedDisplayname','updated_date'];
+	public $gridForbiddenColumn = ['cat_desc_i', 'creation_date', 'creationDisplayname', 'modified_date', 'modifiedDisplayname', 'updated_date'];
+
 	public $cat_name_i;
 	public $cat_desc_i;
-
+	public $profileName;
 	public $creationDisplayname;
 	public $modifiedDisplayname;
 
@@ -67,10 +69,11 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['profile_id', 'cat_name_i', 'cat_desc_i'], 'required'],
-			[['publish', 'profile_id', 'parent_id', 'cat_name', 'cat_desc', 'creation_id', 'modified_id'], 'integer'],
+			[['profile_id', 'cat_name_i'], 'required'],
+			[['publish', 'profile_id', 'cat_name', 'cat_desc', 'creation_id', 'modified_id'], 'integer'],
 			[['cat_name_i', 'cat_desc_i'], 'string'],
-			[['cat_name_i'], 'string', 'max' => 64],
+			[['parent_id', 'cat_desc_i'], 'safe'],
+			[['parent_id', 'cat_name_i'], 'string', 'max' => 64],
 			[['cat_desc_i'], 'string', 'max' => 128],
 			[['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberProfile::className(), 'targetAttribute' => ['profile_id' => 'profile_id']],
 		];
@@ -86,18 +89,36 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 			'publish' => Yii::t('app', 'Publish'),
 			'profile_id' => Yii::t('app', 'Profile'),
 			'parent_id' => Yii::t('app', 'Parent'),
-			'cat_name' => Yii::t('app', 'Cat Name'),
-			'cat_desc' => Yii::t('app', 'Cat Desc'),
+			'cat_name' => Yii::t('app', 'Category'),
+			'cat_desc' => Yii::t('app', 'Descrioption'),
 			'creation_date' => Yii::t('app', 'Creation Date'),
 			'creation_id' => Yii::t('app', 'Creation'),
 			'modified_date' => Yii::t('app', 'Modified Date'),
 			'modified_id' => Yii::t('app', 'Modified'),
 			'updated_date' => Yii::t('app', 'Updated Date'),
-			'cat_name_i' => Yii::t('app', 'Cat Name'),
-			'cat_desc_i' => Yii::t('app', 'Cat Desc'),
+			'cat_name_i' => Yii::t('app', 'Category'),
+			'cat_desc_i' => Yii::t('app', 'Descrioption'),
+			'companies' => Yii::t('app', 'Companies'),
+			'profileName' => Yii::t('app', 'Profile'),
 			'creationDisplayname' => Yii::t('app', 'Creation'),
 			'modifiedDisplayname' => Yii::t('app', 'Modified'),
 		];
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getCompanies($count=false)
+	{
+		if($count == false)
+			return $this->hasMany(MemberCompany::className(), ['company_cat_id' => 'cat_id']);
+
+		$model = MemberCompany::find()
+			->alias('t')
+			->where(['company_cat_id' => $this->cat_id]);
+		$companies = $model->count();
+
+		return $companies ? $companies : 0;
 	}
 
 	/**
@@ -177,6 +198,7 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 				'attribute' => 'profile_id',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->profile) ? $model->profile->title->message : '-';
+					// return $model->profileName;
 				},
 				'filter' => MemberProfile::getProfile(),
 			];
@@ -240,6 +262,16 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 			},
 			'filter' => $this->filterDatepicker($this, 'updated_date'),
 		];
+		$this->templateColumns['companies'] = [
+			'attribute' => 'companies',
+			'value' => function($model, $key, $index, $column) {
+				$companies = $model->getCompanies(true);
+				return Html::a($companies, ['company/manage', 'companyCat'=>$model->primaryKey], ['title'=>Yii::t('app', '{count} companies', ['count'=>$companies]), 'data-pjax'=>0]);
+			},
+			'filter' => false,
+			'contentOptions' => ['class'=>'center'],
+			'format' => 'raw',
+		];
 		if(!Yii::$app->request->get('trash')) {
 			$this->templateColumns['publish'] = [
 				'attribute' => 'publish',
@@ -279,7 +311,8 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 	 */
 	public static function getCategory($profile=null, $publish=null, $array=true)
 	{
-		$model = self::find()->alias('t');
+		$model = self::find()->alias('t')
+			->select(['t.cat_id', 't.cat_name']);
 		$model->leftJoin(sprintf('%s title', SourceMessage::tableName()), 't.cat_name=title.id');
 		if($publish != null)
 			$model->andWhere(['t.publish' => $publish]);
@@ -303,6 +336,9 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 
 		$this->cat_name_i = isset($this->title) ? $this->title->message : '';
 		$this->cat_desc_i = isset($this->description) ? $this->description->message : '';
+		// $this->profileName = isset($this->profile) ? $this->profile->title->message : '-';
+		// $this->creationDisplayname = isset($this->creation) ? $this->creation->displayname : '-';
+		// $this->modifiedDisplayname = isset($this->modified) ? $this->modified->displayname : '-';
 	}
 
 	/**
@@ -360,7 +396,16 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 				$cat_desc->save();
 			}
 
+			// insert new parent
+			if(!isset($this->parent)) {
+				$model = new self();
+				$model->profile_id = $this->profile_id;
+				$model->cat_name_i = $this->parent_id;
+				if($model->save())
+					$this->parent_id = $model->cat_id;
+			}
 		}
+
 		return true;
 	}
 }

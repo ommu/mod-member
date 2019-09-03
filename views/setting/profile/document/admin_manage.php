@@ -10,7 +10,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:36 WIB
- * @modified date 30 October 2018, 11:08 WIB
+ * @modified date 2 September 2019, 18:28 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -22,10 +22,9 @@ use yii\widgets\Pjax;
 
 $this->params['breadcrumbs'][] = $this->title;
 
-$profile = Yii::$app->request->get('profile');
-if($profile) {
+if($profile != null) {
 	$this->params['menu']['content'] = [
-		['label' => Yii::t('app', 'Add Profile Document'), 'url' => Url::to(['create', 'profile'=>$profile]), 'icon' => 'plus-square', 'htmlOptions' => ['class'=>'btn modal-btn btn-success']],
+		['label' => Yii::t('app', 'Add Profile Document'), 'url' => Url::to(['create', 'id'=>$profile->profile_id]), 'icon' => 'plus-square', 'htmlOptions' => ['class'=>'btn modal-btn btn-success']],
 	];
 }
 $this->params['menu']['option'] = [
@@ -34,9 +33,14 @@ $this->params['menu']['option'] = [
 ];
 ?>
 
-<div class="member-profile-document-index">
-
+<div class="member-profile-document-manage">
 <?php Pjax::begin(); ?>
+
+<?php if($document != null)
+	echo $this->render('/document/admin_view', ['model'=>$document, 'small'=>true]); ?>
+
+<?php if($profile != null)
+	echo $this->render('/setting/profile/admin/admin_view', ['model'=>$profile, 'small'=>true]); ?>
 
 <?php //echo $this->render('_search', ['model'=>$searchModel]); ?>
 
@@ -57,14 +61,14 @@ array_push($columnData, [
 	},
 	'buttons' => [
 		'view' => function ($url, $model, $key) {
-			return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, ['title'=>Yii::t('app', 'Detail')]);
+			return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, ['title'=>Yii::t('app', 'Detail Profile Document'), 'class'=>'modal-btn']);
 		},
 		'update' => function ($url, $model, $key) {
-			return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['title'=>Yii::t('app', 'Update')]);
+			return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['title'=>Yii::t('app', 'Update Profile Document'), 'class'=>'modal-btn']);
 		},
 		'delete' => function ($url, $model, $key) {
 			return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
-				'title' => Yii::t('app', 'Delete'),
+				'title' => Yii::t('app', 'Delete Profile Document'),
 				'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
 				'data-method'  => 'post',
 			]);

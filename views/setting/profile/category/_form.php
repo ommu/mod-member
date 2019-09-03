@@ -10,7 +10,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:58 WIB
- * @modified date 29 October 2018, 09:25 WIB
+ * @modified date 2 September 2019, 18:27 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -18,6 +18,8 @@
 use yii\helpers\Html;
 use app\components\widgets\ActiveForm;
 use ommu\member\models\MemberProfileCategory;
+use ommu\selectize\Selectize;
+use yii\helpers\ArrayHelper;
 ?>
 
 <div class="member-profile-category-form">
@@ -36,9 +38,23 @@ use ommu\member\models\MemberProfileCategory;
 
 <?php //echo $form->errorSummary($model);?>
 
-<?php $parent = MemberProfileCategory::getCategory($profile, 1);
+<?php $parents = MemberProfileCategory::getCategory($model->profile_id, 1);
 echo $form->field($model, 'parent_id')
-	->dropDownList($parent, ['prompt'=>''])
+	->widget(Selectize::className(), [
+		'cascade' => true,
+		'options' => [
+			'placeholder' => Yii::t('app', 'Select a parent category..'),
+		],
+		'items' => ArrayHelper::merge([''=>Yii::t('app', 'Select a parent category..')], $parents),
+		'pluginOptions' => [
+			'valueField' => 'id',
+			'labelField' => 'label',
+			'searchField' => ['label'],
+			'persist' => false,
+			'createOnBlur' => false,
+			'create' => true,
+		],
+	])
 	->label($model->getAttributeLabel('parent_id')); ?>
 
 <?php echo $form->field($model, 'cat_name_i')
@@ -46,7 +62,7 @@ echo $form->field($model, 'parent_id')
 	->label($model->getAttributeLabel('cat_name_i')); ?>
 
 <?php echo $form->field($model, 'cat_desc_i')
-	->textarea(['rows'=>6, 'cols'=>50, 'maxlength'=>true])
+	->textarea(['rows'=>4, 'cols'=>50, 'maxlength'=>true])
 	->label($model->getAttributeLabel('cat_desc_i')); ?>
 
 <?php echo $form->field($model, 'publish')

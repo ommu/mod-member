@@ -9,12 +9,12 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:58 WIB
- * @modified date 28 October 2018, 21:38 WIB
+ * @modified date 2 September 2019, 18:28 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
-use yii\helpers\Html; 
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 
@@ -23,8 +23,8 @@ $this->params['breadcrumbs'][] = $model->title->message;
 
 if(!$small) {
 $this->params['menu']['content'] = [
-	['label' => Yii::t('app', 'Back To Manage'), 'url' => Url::to(['index', 'profile'=>$model->profile_id]), 'icon' => 'table'],
-	['label' => Yii::t('app', 'Update'), 'url' => Url::to(['update', 'id'=>$model->cat_id]), 'htmlOptions' => ['class'=>'modal-btn'], 'icon' => 'pencil', 'htmlOptions' => ['class'=>'btn btn-primary']],
+	['label' => Yii::t('app', 'Detail'), 'url' => Url::to(['view', 'id'=>$model->cat_id]), 'icon' => 'eye', 'htmlOptions' => ['class'=>'btn btn-success']],
+	['label' => Yii::t('app', 'Update'), 'url' => Url::to(['update', 'id'=>$model->cat_id]), 'icon' => 'pencil', 'htmlOptions' => ['class'=>'btn btn-primary']],
 	['label' => Yii::t('app', 'Delete'), 'url' => Url::to(['delete', 'id'=>$model->cat_id]), 'htmlOptions' => ['data-confirm'=>Yii::t('app', 'Are you sure you want to delete this item?'), 'data-method'=>'post', 'class'=>'btn btn-danger'], 'icon' => 'trash'],
 ];
 } ?>
@@ -35,7 +35,7 @@ $this->params['menu']['content'] = [
 $attributes = [
 	[
 		'attribute' => 'cat_id',
-		'value' => $model->cat_id,
+		'value' => $model->cat_id ? $model->cat_id : '-',
 		'visible' => !$small,
 	],
 	[
@@ -45,8 +45,14 @@ $attributes = [
 		'visible' => !$small,
 	],
 	[
-		'attribute' => 'profile_id',
-		'value' => isset($model->profile) ? $model->profile->title->message : '-',
+		'attribute' => 'profileName',
+		'value' => function ($model) {
+			$profileName = isset($model->profile) ? $model->profile->title->message : '-';
+			if($profileName != '-')
+				return Html::a($profileName, ['setting/profile/view', 'id'=>$model->profile_id], ['title'=>$profileName, 'class'=>'modal-btn']);
+			return $profileName;
+		},
+		'format' => 'html',
 	],
 	[
 		'attribute' => 'parent_id',
@@ -61,6 +67,15 @@ $attributes = [
 		'value' => $model->cat_desc_i,
 	],
 	[
+		'attribute' => 'companies',
+		'value' => function ($model) {
+			$companies = $model->getCompanies(true);
+			return Html::a($companies, ['company/manage', 'companyCat'=>$model->primaryKey], ['title'=>Yii::t('app', '{count} companies', ['count'=>$companies])]);
+		},
+		'format' => 'html',
+		'visible' => !$small,
+	],
+	[
 		'attribute' => 'creation_date',
 		'value' => Yii::$app->formatter->asDatetime($model->creation_date, 'medium'),
 		'visible' => !$small,
@@ -68,6 +83,7 @@ $attributes = [
 	[
 		'attribute' => 'creationDisplayname',
 		'value' => isset($model->creation) ? $model->creation->displayname : '-',
+		'visible' => !$small,
 	],
 	[
 		'attribute' => 'modified_date',
@@ -77,6 +93,7 @@ $attributes = [
 	[
 		'attribute' => 'modifiedDisplayname',
 		'value' => isset($model->modified) ? $model->modified->displayname : '-',
+		'visible' => !$small,
 	],
 	[
 		'attribute' => 'updated_date',

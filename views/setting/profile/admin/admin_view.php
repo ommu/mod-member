@@ -9,23 +9,18 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:48 WIB
+ * @modified date 2 September 2019, 18:27 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
 
-use yii\helpers\Html; 
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Profiles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->title->message;
-
-if(!$small) {
-$this->params['menu']['content'] = [
-	['label' => Yii::t('app', 'Update'), 'url' => Url::to(['update', 'id'=>$model->profile_id]), 'htmlOptions' => ['class'=>'modal-btn'], 'icon' => 'pencil', 'htmlOptions' => ['class'=>'btn btn-primary']],
-	['label' => Yii::t('app', 'Delete'), 'url' => Url::to(['delete', 'id'=>$model->profile_id]), 'htmlOptions' => ['data-confirm'=>Yii::t('app', 'Are you sure you want to delete this item?'), 'data-method'=>'post', 'class'=>'btn btn-danger'], 'icon' => 'trash'],
-];
-} ?>
+?>
 
 <div class="member-profile-view">
 
@@ -33,7 +28,7 @@ $this->params['menu']['content'] = [
 $attributes = [
 	[
 		'attribute' => 'profile_id',
-		'value' => $model->profile_id,
+		'value' => $model->profile_id ? $model->profile_id : '-',
 		'visible' => !$small,
 	],
 	[
@@ -52,20 +47,49 @@ $attributes = [
 	],
 	[
 		'attribute' => 'assignment_roles',
-		'value' => $this->formatFileType($model->assignment_roles, false, '<br/>'),
+		'value' => $model::parseAssignmentRoles($model->assignment_roles),
 		'format' => 'html',
+		'visible' => !$small,
 	],
 	[
 		'attribute' => 'profile_personal',
-		'value' => $this->filterYesNo($model->profile_personal),
+		'value' => $model->filterYesNo($model->profile_personal),
 	],
 	[
 		'attribute' => 'multiple_user',
-		'value' => $this->filterYesNo($model->multiple_user),
+		'value' => $model->filterYesNo($model->multiple_user),
+		'visible' => !$small,
 	],
 	[
 		'attribute' => 'user_limit',
-		'value' => $model->user_limit,
+		'value' => $model->user_limit ? $model->user_limit : '-',
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'categories',
+		'value' => function ($model) {
+			$categories = $model->getCategories(true);
+			return Html::a($categories, ['category/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} categories', ['count'=>$categories])]);
+		},
+		'format' => 'html',
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'documents',
+		'value' => function ($model) {
+			$documents = $model->getDocuments(true);
+			return Html::a($documents, ['document/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} documents', ['count'=>$documents])]);
+		},
+		'format' => 'html',
+		'visible' => !$small,
+	],
+	[
+		'attribute' => 'members',
+		'value' => function ($model) {
+			$members = $model->getMembers(true);
+			return Html::a($members, ['admin/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} members', ['count'=>$members])]);
+		},
+		'format' => 'html',
 		'visible' => !$small,
 	],
 	[
@@ -76,6 +100,7 @@ $attributes = [
 	[
 		'attribute' => 'creationDisplayname',
 		'value' => isset($model->creation) ? $model->creation->displayname : '-',
+		'visible' => !$small,
 	],
 	[
 		'attribute' => 'modified_date',
@@ -85,6 +110,7 @@ $attributes = [
 	[
 		'attribute' => 'modifiedDisplayname',
 		'value' => isset($model->modified) ? $model->modified->displayname : '-',
+		'visible' => !$small,
 	],
 	[
 		'attribute' => 'updated_date',

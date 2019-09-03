@@ -8,6 +8,7 @@
  * Reference start
  * TOC :
  *	Index
+ *	Manage
  *	Create
  *	Update
  *	View
@@ -21,6 +22,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:48 WIB
+ * @modified date 2 September 2019, 18:27 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -109,8 +111,9 @@ class AdminController extends Controller
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success created.'));
-				return $this->redirect(['manage']);
-				//return $this->redirect(['view', 'id'=>$model->profile_id]);
+				if(!Yii::$app->request->isAjax)
+					return $this->redirect(['view', 'id'=>$model->profile_id]);
+				return $this->redirect(Yii::$app->request->referrer ?: ['view', 'id'=>$model->profile_id]);
 
 			} else {
 				if(Yii::$app->request->isAjax)
@@ -144,8 +147,9 @@ class AdminController extends Controller
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success updated.'));
-				return $this->redirect(['manage']);
-				//return $this->redirect(['view', 'id'=>$model->profile_id]);
+				if(!Yii::$app->request->isAjax)
+					return $this->redirect(['update', 'id'=>$model->profile_id]);
+				return $this->redirect(Yii::$app->request->referrer ?: ['update', 'id'=>$model->profile_id]);
 
 			} else {
 				if(Yii::$app->request->isAjax)
@@ -153,6 +157,7 @@ class AdminController extends Controller
 			}
 		}
 
+		$this->subMenu = $this->module->params['profile_submenu'];
 		$this->view->title = Yii::t('app', 'Update Profile: {profile-name}', ['profile-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';
@@ -170,6 +175,7 @@ class AdminController extends Controller
 	{
 		$model = $this->findModel($id);
 
+		$this->subMenu = $this->module->params['profile_submenu'];
 		$this->view->title = Yii::t('app', 'Detail Profile: {profile-name}', ['profile-name' => $model->title->message]);
 		$this->view->description = '';
 		$this->view->keywords = '';

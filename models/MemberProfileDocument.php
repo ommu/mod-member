@@ -6,7 +6,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:34 WIB
- * @modified date 30 October 2018, 11:01 WIB
+ * @modified date 2 September 2019, 18:27 WIB
  * @link https://github.com/ommu/mod-member
  *
  * This is the model class for table "ommu_member_profile_document".
@@ -43,10 +43,10 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
-	public $gridForbiddenColumn = ['modified_date','modifiedDisplayname','updated_date'];
-	public $document_name_i;
-	public $document_desc_i;
+	public $gridForbiddenColumn = ['creation_date', 'creationDisplayname', 'modified_date', 'modifiedDisplayname', 'updated_date'];
 
+	public $profileName;
+	public $documentName;
 	public $creationDisplayname;
 	public $modifiedDisplayname;
 
@@ -65,8 +65,9 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 	{
 		return [
 			[['profile_id', 'document_id'], 'required'],
-			[['publish', 'profile_id', 'document_id', 'required', 'creation_id', 'modified_id'], 'integer'],
-			[['document_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberDocumentType::className(), 'targetAttribute' => ['document_id' => 'document_id']],
+			[['publish', 'profile_id', 'required', 'creation_id', 'modified_id'], 'integer'],
+			[['document_id'], 'string', 'max' => 64],
+			// [['document_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberDocumentType::className(), 'targetAttribute' => ['document_id' => 'document_id']],
 			[['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberProfile::className(), 'targetAttribute' => ['profile_id' => 'profile_id']],
 		];
 	}
@@ -87,21 +88,36 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 			'modified_date' => Yii::t('app', 'Modified Date'),
 			'modified_id' => Yii::t('app', 'Modified'),
 			'updated_date' => Yii::t('app', 'Updated Date'),
+			'documents' => Yii::t('app', 'Documents'),
+			'profileName' => Yii::t('app', 'Profile'),
+			'documentName' => Yii::t('app', 'Document'),
 			'creationDisplayname' => Yii::t('app', 'Creation'),
 			'modifiedDisplayname' => Yii::t('app', 'Modified'),
-			'document_name_i' => Yii::t('app', 'Document Name'),
-			'document_desc_i' => Yii::t('app', 'Document Desc'),
 		];
 	}
 
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getDocuments()
+	public function getDocuments($count=false, $publish=1)
 	{
-		return $this->hasMany(MemberDocuments::className(), ['profile_document_id' => 'id'])
+		if($count == false)
+			return $this->hasMany(MemberDocuments::className(), ['profile_document_id' => 'id'])
 			->alias('documents')
-			->andOnCondition([sprintf('%s.publish', 'documents') => 1]);
+			->andOnCondition([sprintf('%s.publish', 'documents') => $publish]);
+
+		$model = MemberDocuments::find()
+			->alias('t')
+			->where(['profile_document_id' => $this->id]);
+		if($publish == 0)
+			$model->unpublish();
+		elseif($publish == 1)
+			$model->published();
+		elseif($publish == 2)
+			$model->deleted();
+		$documents = $model->count();
+
+		return $documents ? $documents : 0;
 	}
 
 	/**
@@ -165,6 +181,7 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 				'attribute' => 'profile_id',
 				'value' => function($model, $key, $index, $column) {
 					return isset($model->profile) ? $model->profile->title->message : '-';
+					// return $model->profileName;
 				},
 				'filter' => MemberProfile::getProfile(),
 			];
@@ -173,7 +190,8 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 			$this->templateColumns['document_id'] = [
 				'attribute' => 'document_id',
 				'value' => function($model, $key, $index, $column) {
-					return isset($model->document->title) ? $model->document->title->message : '-';
+					return isset($model->document) ? $model->document->title->message : '-';
+					// return $model->documentName;
 				},
 				'filter' => MemberDocumentType::getType(),
 			];
@@ -216,6 +234,16 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 				return Yii::$app->formatter->asDatetime($model->updated_date, 'medium');
 			},
 			'filter' => $this->filterDatepicker($this, 'updated_date'),
+		];
+		$this->templateColumns['documents'] = [
+			'attribute' => 'documents',
+			'value' => function($model, $key, $index, $column) {
+				$documents = $model->getDocuments(true);
+				return Html::a($documents, ['document/manage', 'profileDocument'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} documents', ['count'=>$documents]), 'data-pjax'=>0]);
+			},
+			'filter' => false,
+			'contentOptions' => ['class'=>'center'],
+			'format' => 'raw',
 		];
 		$this->templateColumns['required'] = [
 			'attribute' => 'required',
@@ -266,8 +294,10 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 	{
 		parent::afterFind();
 
-		$this->document_name_i = isset($this->document) ? $this->document->document_name_i : '';
-		$this->document_desc_i = isset($this->document) ? $this->document->document_desc_i : '';
+		// $this->profileName = isset($this->profile) ? $this->profile->title->message : '-';
+		// $this->documentName = isset($this->document) ? $this->document->title->message : '-';
+		// $this->creationDisplayname = isset($this->creation) ? $this->creation->displayname : '-';
+		// $this->modifiedDisplayname = isset($this->modified) ? $this->modified->displayname : '-';
 	}
 
 	/**
@@ -284,6 +314,24 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 					$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
 			}
 		}
+		return true;
+	}
+
+	/**
+	 * before save attributes
+	 */
+	public function beforeSave($insert)
+	{
+		if(parent::beforeSave($insert)) {
+			// insert document type
+			if(!isset($this->document)) {
+				$model = new MemberDocumentType();
+				$model->document_name_i = $this->document_id;
+				if($model->save())
+					$this->document_id = $model->document_id;
+			}
+		}
+
 		return true;
 	}
 }

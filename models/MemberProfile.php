@@ -6,6 +6,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 09:48 WIB
+ * @modified date 2 September 2019, 18:27 WIB
  * @link https://github.com/ommu/mod-member
  *
  * This is the model class for table "ommu_member_profile".
@@ -41,6 +42,7 @@ namespace ommu\member\models;
 use Yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\Json;
 use yii\helpers\Inflector;
 use app\models\SourceMessage;
 use ommu\users\models\Users;
@@ -48,12 +50,11 @@ use ommu\users\models\Users;
 class MemberProfile extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
-	use \ommu\traits\FileTrait;
 
-	public $gridForbiddenColumn = ['assignment_roles','modified_date','modifiedDisplayname','updated_date'];
+	public $gridForbiddenColumn = ['profile_desc_i', 'assignment_roles', 'creation_date', 'creationDisplayname', 'modified_date', 'modifiedDisplayname', 'updated_date'];
+
 	public $profile_name_i;
 	public $profile_desc_i;
-
 	public $creationDisplayname;
 	public $modifiedDisplayname;
 
@@ -74,7 +75,7 @@ class MemberProfile extends \app\components\ActiveRecord
 			[['profile_name_i', 'profile_desc_i', 'assignment_roles', 'user_limit'], 'required'],
 			[['publish', 'profile_name', 'profile_desc', 'profile_personal', 'multiple_user', 'user_limit', 'creation_id', 'modified_id'], 'integer'],
 			[['profile_name_i', 'profile_desc_i'], 'string'],
-			//[['assignment_roles'], 'serialize'],
+			//[['assignment_roles'], 'json'],
 			[['profile_name_i'], 'string', 'max' => 64],
 			[['profile_desc_i'], 'string', 'max' => 128],
 		];
@@ -112,31 +113,73 @@ class MemberProfile extends \app\components\ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getCategories()
+	public function getCategories($count=false, $publish=1)
 	{
-		return $this->hasMany(MemberProfileCategory::className(), ['profile_id' => 'profile_id'])
+		if($count == false)
+			return $this->hasMany(MemberProfileCategory::className(), ['profile_id' => 'profile_id'])
 			->alias('categories')
-			->andOnCondition([sprintf('%s.publish', 'categories') => 1]);
+			->andOnCondition([sprintf('%s.publish', 'categories') => $publish]);
+
+		$model = MemberProfileCategory::find()
+			->alias('t')
+			->where(['profile_id' => $this->profile_id]);
+		if($publish == 0)
+			$model->unpublish();
+		elseif($publish == 1)
+			$model->published();
+		elseif($publish == 2)
+			$model->deleted();
+		$categories = $model->count();
+
+		return $categories ? $categories : 0;
 	}
 
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getDocuments()
+	public function getDocuments($count=false, $publish=1)
 	{
-		return $this->hasMany(MemberProfileDocument::className(), ['profile_id' => 'profile_id'])
+		if($count == false)
+			return $this->hasMany(MemberProfileDocument::className(), ['profile_id' => 'profile_id'])
 			->alias('documents')
-			->andOnCondition([sprintf('%s.publish', 'documents') => 1]);
+			->andOnCondition([sprintf('%s.publish', 'documents') => $publish]);
+
+		$model = MemberProfileDocument::find()
+			->alias('t')
+			->where(['profile_id' => $this->profile_id]);
+		if($publish == 0)
+			$model->unpublish();
+		elseif($publish == 1)
+			$model->published();
+		elseif($publish == 2)
+			$model->deleted();
+		$documents = $model->count();
+
+		return $documents ? $documents : 0;
 	}
 
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getMembers()
+	public function getMembers($count=false, $publish=1)
 	{
-		return $this->hasMany(Members::className(), ['profile_id' => 'profile_id'])
+		if($count == false)
+			return $this->hasMany(Members::className(), ['profile_id' => 'profile_id'])
 			->alias('members')
-			->andOnCondition([sprintf('%s.publish', 'members') => 1]);
+			->andOnCondition([sprintf('%s.publish', 'members') => $publish]);
+
+		$model = Members::find()
+			->alias('t')
+			->where(['profile_id' => $this->profile_id]);
+		if($publish == 0)
+			$model->unpublish();
+		elseif($publish == 1)
+			$model->published();
+		elseif($publish == 2)
+			$model->deleted();
+		$members = $model->count();
+
+		return $members ? $members : 0;
 	}
 
 	/**
@@ -210,13 +253,7 @@ class MemberProfile extends \app\components\ActiveRecord
 		$this->templateColumns['assignment_roles'] = [
 			'attribute' => 'assignment_roles',
 			'value' => function($model, $key, $index, $column) {
-				return $this->formatFileType($model->assignment_roles, false);
-			},
-		];
-		$this->templateColumns['user_limit'] = [
-			'attribute' => 'user_limit',
-			'value' => function($model, $key, $index, $column) {
-				return $model->user_limit;
+				return self::parseAssignmentRoles($model->assignment_roles);
 			},
 		];
 		$this->templateColumns['creation_date'] = [
@@ -258,6 +295,36 @@ class MemberProfile extends \app\components\ActiveRecord
 			},
 			'filter' => $this->filterDatepicker($this, 'updated_date'),
 		];
+		$this->templateColumns['categories'] = [
+			'attribute' => 'categories',
+			'value' => function($model, $key, $index, $column) {
+				$categories = $model->getCategories(true);
+				return Html::a($categories, ['profile/category/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} categories', ['count'=>$categories]), 'data-pjax'=>0]);
+			},
+			'filter' => false,
+			'contentOptions' => ['class'=>'center'],
+			'format' => 'raw',
+		];
+		$this->templateColumns['documents'] = [
+			'attribute' => 'documents',
+			'value' => function($model, $key, $index, $column) {
+				$documents = $model->getDocuments(true);
+				return Html::a($documents, ['profile/document/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} documents', ['count'=>$documents]), 'data-pjax'=>0]);
+			},
+			'filter' => false,
+			'contentOptions' => ['class'=>'center'],
+			'format' => 'raw',
+		];
+		$this->templateColumns['members'] = [
+			'attribute' => 'members',
+			'value' => function($model, $key, $index, $column) {
+				$members = $model->getMembers(true);
+				return Html::a($members, ['profile/admin/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} members', ['count'=>$members]), 'data-pjax'=>0]);
+			},
+			'filter' => false,
+			'contentOptions' => ['class'=>'center'],
+			'format' => 'raw',
+		];
 		$this->templateColumns['profile_personal'] = [
 			'attribute' => 'profile_personal',
 			'value' => function($model, $key, $index, $column) {
@@ -268,10 +335,19 @@ class MemberProfile extends \app\components\ActiveRecord
 		];
 		$this->templateColumns['multiple_user'] = [
 			'attribute' => 'multiple_user',
+			'label' => Yii::t('app', 'Multiple'),
 			'value' => function($model, $key, $index, $column) {
 				return $this->filterYesNo($model->multiple_user);
 			},
 			'filter' => $this->filterYesNo(),
+			'contentOptions' => ['class'=>'center'],
+		];
+		$this->templateColumns['user_limit'] = [
+			'attribute' => 'user_limit',
+			'label' => Yii::t('app', 'Limit'),
+			'value' => function($model, $key, $index, $column) {
+				return $model->user_limit;
+			},
 			'contentOptions' => ['class'=>'center'],
 		];
 		if(!Yii::$app->request->get('trash')) {
@@ -313,7 +389,8 @@ class MemberProfile extends \app\components\ActiveRecord
 	 */
 	public static function getProfile($publish=null, $array=true) 
 	{
-		$model = self::find()->alias('t');
+		$model = self::find()->alias('t')
+			->select(['t.profile_id', 't.profile_name']);
 		$model->leftJoin(sprintf('%s title', SourceMessage::tableName()), 't.profile_name=title.id');
 		if($publish != null)
 			$model->andWhere(['t.publish' => $publish]);
@@ -327,6 +404,23 @@ class MemberProfile extends \app\components\ActiveRecord
 	}
 
 	/**
+	 * function parseAssignmentRoles
+	 */
+	public static function parseAssignmentRoles($assignmentRoles, $sep='li')
+	{
+		if(!is_array($assignmentRoles) || (is_array($assignmentRoles) && empty($assignmentRoles)))
+			return '-';
+
+		if($sep == 'li') {
+			return Html::ul($assignmentRoles, ['item' => function($item, $index) {
+				return Html::tag('li', $item);
+			}, 'class'=>'list-boxed']);
+		}
+
+		return implode($sep, $answer);
+	}
+
+	/**
 	 * after find attributes
 	 */
 	public function afterFind()
@@ -335,8 +429,9 @@ class MemberProfile extends \app\components\ActiveRecord
 
 		$this->profile_name_i = isset($this->title) ? $this->title->message : '';
 		$this->profile_desc_i = isset($this->description) ? $this->description->message : '';
-
-		$this->assignment_roles = $this->formatFileType($this->assignment_roles, true, '#');
+		$this->assignment_roles = Json::decode($this->assignment_roles);
+		// $this->creationDisplayname = isset($this->creation) ? $this->creation->displayname : '-';
+		// $this->modifiedDisplayname = isset($this->modified) ? $this->modified->displayname : '-';
 	}
 
 	/**
@@ -351,6 +446,13 @@ class MemberProfile extends \app\components\ActiveRecord
 			} else {
 				if($this->modified_id == null)
 					$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+			}
+			if($this->profile_personal) {
+				$this->multiple_user = 0;
+				$this->user_limit = 1;
+			} else {
+				if(!$this->multiple_user)
+					$this->user_limit = 1;
 			}
 		}
 		return true;
@@ -394,7 +496,7 @@ class MemberProfile extends \app\components\ActiveRecord
 				$profile_desc->save();
 			}
 
-			$this->assignment_roles = $this->formatFileType($this->assignment_roles, false, '#');
+			$this->assignment_roles = Json::encode($this->assignment_roles);
 		}
 		return true;
 	}
