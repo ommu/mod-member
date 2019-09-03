@@ -46,7 +46,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 	use \ommu\traits\UtilityTrait;
 	use \ommu\traits\FileTrait;
 
-	public $gridForbiddenColumn = ['modified_date','modifiedDisplayname','updated_date'];
+	public $gridForbiddenColumn = ['modified_date', 'modifiedDisplayname', 'updated_date'];
 	public $old_document_filename_i;
 
 	public $member_search;

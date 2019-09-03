@@ -1,13 +1,14 @@
 <?php
 /**
- * DocumentTypeController
- * @var $this ommu\member\controllers\setting\DocumentTypeController
+ * DocumentController
+ * @var $this ommu\member\controllers\setting\DocumentController
  * @var $model ommu\member\models\MemberDocumentType
  *
- * DocumentTypeController implements the CRUD actions for MemberDocumentType model.
+ * DocumentController implements the CRUD actions for MemberDocumentType model.
  * Reference start
  * TOC :
  *	Index
+ *	Manage
  *	Create
  *	Update
  *	View
@@ -21,7 +22,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:07 WIB
- * @modified date 27 October 2018, 22:44 WIB
+ * @modified date 3 September 2019, 21:15 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -35,8 +36,17 @@ use mdm\admin\components\AccessControl;
 use ommu\member\models\MemberDocumentType;
 use ommu\member\models\search\MemberDocumentType as MemberDocumentTypeSearch;
 
-class DocumentTypeController extends Controller
+class DocumentController extends Controller
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function init()
+	{
+		parent::init();
+		$this->subMenu = $this->module->params['setting_submenu'];
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -57,10 +67,18 @@ class DocumentTypeController extends Controller
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function actionIndex()
+	{
+		return $this->redirect(['manage']);
+	}
+
+	/**
 	 * Lists all MemberDocumentType models.
 	 * @return mixed
 	 */
-	public function actionIndex()
+	public function actionManage()
 	{
 		$searchModel = new MemberDocumentTypeSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -78,7 +96,7 @@ class DocumentTypeController extends Controller
 		$this->view->title = Yii::t('app', 'Document Types');
 		$this->view->description = '';
 		$this->view->keywords = '';
-		return $this->render('admin_index', [
+		return $this->render('admin_manage', [
 			'searchModel' => $searchModel,
 			'dataProvider' => $dataProvider,
 			'columns' => $columns,
@@ -102,8 +120,9 @@ class DocumentTypeController extends Controller
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member document type success created.'));
-				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id'=>$model->document_id]);
+				if(!Yii::$app->request->isAjax)
+					return $this->redirect(['manage']);
+				return $this->redirect(Yii::$app->request->referrer ?: ['manage']);
 
 			} else {
 				if(Yii::$app->request->isAjax)
@@ -137,8 +156,9 @@ class DocumentTypeController extends Controller
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member document type success updated.'));
-				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id'=>$model->document_id]);
+				if(!Yii::$app->request->isAjax)
+					return $this->redirect(['update', 'id'=>$model->document_id]);
+				return $this->redirect(Yii::$app->request->referrer ?: ['update', 'id'=>$model->document_id]);
 
 			} else {
 				if(Yii::$app->request->isAjax)
@@ -184,7 +204,7 @@ class DocumentTypeController extends Controller
 
 		if($model->save(false, ['publish','modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member document type success deleted.'));
-			return $this->redirect(['index']);
+			return $this->redirect(Yii::$app->request->referrer ?: ['manage']);
 		}
 	}
 
@@ -202,7 +222,7 @@ class DocumentTypeController extends Controller
 
 		if($model->save(false, ['publish','modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member document type success updated.'));
-			return $this->redirect(['index']);
+			return $this->redirect(Yii::$app->request->referrer ?: ['manage']);
 		}
 	}
 

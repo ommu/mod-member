@@ -46,6 +46,8 @@ class DocumentController extends Controller
 		parent::init();
 		if(Yii::$app->request->get('id') || Yii::$app->request->get('profile'))
 			$this->subMenu = $this->module->params['profile_submenu'];
+		if(Yii::$app->request->get('document'))
+			$this->subMenu = $this->module->params['setting_submenu'];
 	}
 
 	/**

@@ -2,14 +2,15 @@
 /**
  * Member Document Types (member-document-type)
  * @var $this app\components\View
- * @var $this ommu\member\controllers\setting\DocumentTypeController
+ * @var $this ommu\member\controllers\setting\DocumentController
  * @var $model ommu\member\models\MemberDocumentType
+ * @var $searchModel ommu\member\models\search\MemberDocumentType
  *
  * @author Putra Sudaryanto <putra@ommu.co>
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:07 WIB
- * @modified date 27 October 2018, 22:44 WIB
+ * @modified date 3 September 2019, 21:15 WIB
  * @link https://github.com/ommu/mod-member
  *
  */
@@ -30,8 +31,7 @@ $this->params['menu']['option'] = [
 ];
 ?>
 
-<div class="member-document-type-index">
-
+<div class="member-document-type-manage">
 <?php Pjax::begin(); ?>
 
 <?php //echo $this->render('_search', ['model'=>$searchModel]); ?>
@@ -53,14 +53,14 @@ array_push($columnData, [
 	},
 	'buttons' => [
 		'view' => function ($url, $model, $key) {
-			return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, ['title'=>Yii::t('app', 'Detail')]);
+			return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, ['title'=>Yii::t('app', 'Detail Document Type'), 'class'=>'modal-btn']);
 		},
 		'update' => function ($url, $model, $key) {
-			return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['title'=>Yii::t('app', 'Update')]);
+			return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, ['title'=>Yii::t('app', 'Update Document Type'), 'class'=>'modal-btn']);
 		},
 		'delete' => function ($url, $model, $key) {
 			return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
-				'title' => Yii::t('app', 'Delete'),
+				'title' => Yii::t('app', 'Delete Document Type'),
 				'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
 				'data-method'  => 'post',
 			]);

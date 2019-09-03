@@ -6,6 +6,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
  * @created date 2 October 2018, 11:04 WIB
+ * @modified date 3 September 2019, 21:14 WIB
  * @link https://github.com/ommu/mod-member
  *
  * This is the model class for table "ommu_member_document_type".
@@ -43,10 +44,10 @@ class MemberDocumentType extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
-	public $gridForbiddenColumn = ['modified_date', 'modifiedDisplayname', 'updated_date'];
+	public $gridForbiddenColumn = ['document_desc_i', 'creation_date', 'creationDisplayname', 'modified_date', 'modifiedDisplayname', 'updated_date'];
+
 	public $document_name_i;
 	public $document_desc_i;
-
 	public $creationDisplayname;
 	public $modifiedDisplayname;
 
@@ -81,15 +82,16 @@ class MemberDocumentType extends \app\components\ActiveRecord
 		return [
 			'document_id' => Yii::t('app', 'Document'),
 			'publish' => Yii::t('app', 'Publish'),
-			'document_name' => Yii::t('app', 'Document Name'),
-			'document_desc' => Yii::t('app', 'Document Desc'),
+			'document_name' => Yii::t('app', 'Document'),
+			'document_desc' => Yii::t('app', 'Description'),
 			'creation_date' => Yii::t('app', 'Creation Date'),
 			'creation_id' => Yii::t('app', 'Creation'),
 			'modified_date' => Yii::t('app', 'Modified Date'),
 			'modified_id' => Yii::t('app', 'Modified'),
 			'updated_date' => Yii::t('app', 'Updated Date'),
-			'document_name_i' => Yii::t('app', 'Document Name'),
-			'document_desc_i' => Yii::t('app', 'Document Desc'),
+			'document_name_i' => Yii::t('app', 'Document'),
+			'document_desc_i' => Yii::t('app', 'Description'),
+			'documents' => Yii::t('app', 'Documents'),
 			'creationDisplayname' => Yii::t('app', 'Creation'),
 			'modifiedDisplayname' => Yii::t('app', 'Modified'),
 		];
@@ -98,11 +100,25 @@ class MemberDocumentType extends \app\components\ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getDocuments()
+	public function getDocuments($count=false, $publish=1)
 	{
-		return $this->hasMany(MemberProfileDocument::className(), ['document_id' => 'document_id'])
+		if($count == false)
+			return $this->hasMany(MemberProfileDocument::className(), ['document_id' => 'document_id'])
 			->alias('documents')
-			->andOnCondition([sprintf('%s.publish', 'documents') => 1]);
+			->andOnCondition([sprintf('%s.publish', 'documents') => $publish]);
+
+		$model = MemberProfileDocument::find()
+			->alias('t')
+			->where(['document_id' => $this->document_id]);
+		if($publish == 0)
+			$model->unpublish();
+		elseif($publish == 1)
+			$model->published();
+		elseif($publish == 2)
+			$model->deleted();
+		$documents = $model->count();
+
+		return $documents ? $documents : 0;
 	}
 
 	/**
@@ -172,6 +188,16 @@ class MemberDocumentType extends \app\components\ActiveRecord
 			'value' => function($model, $key, $index, $column) {
 				return $model->document_desc_i;
 			},
+		];
+		$this->templateColumns['documents'] = [
+			'attribute' => 'documents',
+			'value' => function($model, $key, $index, $column) {
+				$documents = $model->getDocuments(true);
+				return Html::a($documents, ['setting/profile/document/manage', 'document'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} documents', ['count'=>$documents]), 'data-pjax'=>0]);
+			},
+			'filter' => false,
+			'contentOptions' => ['class'=>'center'],
+			'format' => 'raw',
 		];
 		$this->templateColumns['creation_date'] = [
 			'attribute' => 'creation_date',
@@ -251,7 +277,9 @@ class MemberDocumentType extends \app\components\ActiveRecord
 	 */
 	public static function getType($publish=null, $array=true) 
 	{
-		$model = self::find()->alias('t');
+		$model = self::find()
+			->alias('t')
+			->select(['t.document_id', 't.document_name']);
 		$model->leftJoin(sprintf('%s title', SourceMessage::tableName()), 't.document_name=title.id');
 		if($publish != null)
 			$model->andWhere(['t.publish' => $publish]);
@@ -273,6 +301,8 @@ class MemberDocumentType extends \app\components\ActiveRecord
 
 		$this->document_name_i = isset($this->title) ? $this->title->message : '';
 		$this->document_desc_i = isset($this->description) ? $this->description->message : '';
+		// $this->creationDisplayname = isset($this->creation) ? $this->creation->displayname : '-';
+		// $this->modifiedDisplayname = isset($this->modified) ? $this->modified->displayname : '-';
 	}
 
 	/**

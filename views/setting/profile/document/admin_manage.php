@@ -37,7 +37,7 @@ $this->params['menu']['option'] = [
 <?php Pjax::begin(); ?>
 
 <?php if($document != null)
-	echo $this->render('/document/admin_view', ['model'=>$document, 'small'=>true]); ?>
+	echo $this->render('/setting/document/admin_view', ['model'=>$document, 'small'=>true]); ?>
 
 <?php if($profile != null)
 	echo $this->render('/setting/profile/admin/admin_view', ['model'=>$profile, 'small'=>true]); ?>
