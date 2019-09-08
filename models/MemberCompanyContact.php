@@ -44,7 +44,7 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
-	public $gridForbiddenColumn = ['verified_search','creation_date','creationDisplayname','modified_date','modifiedDisplayname','updated_date'];
+	public $gridForbiddenColumn = ['verified_search','creation_date','creationDisplayname','modified_date', 'modifiedDisplayname', 'updated_date'];
 	public $old_status_i;
 
 	public $verified_search;

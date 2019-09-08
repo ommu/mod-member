@@ -46,7 +46,7 @@ $attributes = [
 	],
 	[
 		'attribute' => 'approved',
-		'value' => $this->filterYesNo($model->approved),
+		'value' => $model->filterYesNo($model->approved),
 	],
 	[
 		'attribute' => 'profile_id',

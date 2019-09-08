@@ -52,7 +52,7 @@ use app\modules\ipedia\models\IpediaCompany as IpediaCompanies;
 
 class MemberCompany extends \app\components\ActiveRecord
 {
-	public $gridForbiddenColumn = ['info_intro','info_article','company_country_id','company_province_id','company_city_id','company_district','company_village','company_zipcode','creation_date','creationDisplayname','modified_date','modifiedDisplayname','updated_date'];
+	public $gridForbiddenColumn = ['info_intro','info_article','company_country_id','company_province_id','company_city_id','company_district','company_village','company_zipcode','creation_date','creationDisplayname','modified_date', 'modifiedDisplayname', 'updated_date'];
 	public $member_i;
 
 	public $creationDisplayname;
