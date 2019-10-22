@@ -15,7 +15,6 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\DetailView;
 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -29,5 +28,5 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php echo $this->renderWidget(!$model->isNewRecord ? 'admin_view' : 'admin_update', [
 	'contentMenu' => true,
-	'model'=>$model,
+	'model' => $model,
 ]); ?>
