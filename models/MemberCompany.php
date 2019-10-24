@@ -211,32 +211,29 @@ class MemberCompany extends \app\components\ActiveRecord
 			'class' => 'yii\grid\SerialColumn',
 			'contentOptions' => ['class'=>'center'],
 		];
-		if(!Yii::$app->request->get('member')) {
-			$this->templateColumns['member_i'] = [
-				'attribute' => 'member_i',
-				'value' => function($model, $key, $index, $column) {
-					return $model->member_i;
-				},
-			];
-		}
-		if(!Yii::$app->request->get('companyType')) {
-			$this->templateColumns['company_type_id'] = [
-				'attribute' => 'company_type_id',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->companyType) ? $model->companyType->title->message : '-';
-				},
-				'filter' => MemberCompanyType::getType(),
-			];
-		}
-		if(!Yii::$app->request->get('companyCategory')) {
-			$this->templateColumns['company_cat_id'] = [
-				'attribute' => 'company_cat_id',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->companyCategory) ? $model->companyCategory->title->message : '-';
-				},
-				'filter' => MemberProfileCategory::getCategory(),
-			];
-		}
+		$this->templateColumns['member_i'] = [
+			'attribute' => 'member_i',
+			'value' => function($model, $key, $index, $column) {
+				return $model->member_i;
+			},
+			'visible' => !Yii::$app->request->get('member') ? true : false,
+		];
+		$this->templateColumns['company_type_id'] = [
+			'attribute' => 'company_type_id',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->companyType) ? $model->companyType->title->message : '-';
+			},
+			'filter' => MemberCompanyType::getType(),
+			'visible' => !Yii::$app->request->get('companyType') ? true : false,
+		];
+		$this->templateColumns['company_cat_id'] = [
+			'attribute' => 'company_cat_id',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->companyCategory) ? $model->companyCategory->title->message : '-';
+			},
+			'filter' => MemberProfileCategory::getCategory(),
+			'visible' => !Yii::$app->request->get('companyCategory') ? true : false,
+		];
 		$this->templateColumns['info_intro'] = [
 			'attribute' => 'info_intro',
 			'value' => function($model, $key, $index, $column) {
@@ -298,15 +295,14 @@ class MemberCompany extends \app\components\ActiveRecord
 			},
 			'filter' => $this->filterDatepicker($this, 'creation_date'),
 		];
-		if(!Yii::$app->request->get('creation')) {
-			$this->templateColumns['creationDisplayname'] = [
-				'attribute' => 'creationDisplayname',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->creation) ? $model->creation->displayname : '-';
-					// return $model->creationDisplayname;
-				},
-			];
-		}
+		$this->templateColumns['creationDisplayname'] = [
+			'attribute' => 'creationDisplayname',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->creation) ? $model->creation->displayname : '-';
+				// return $model->creationDisplayname;
+			},
+			'visible' => !Yii::$app->request->get('creation') ? true : false,
+		];
 		$this->templateColumns['modified_date'] = [
 			'attribute' => 'modified_date',
 			'value' => function($model, $key, $index, $column) {
@@ -314,15 +310,14 @@ class MemberCompany extends \app\components\ActiveRecord
 			},
 			'filter' => $this->filterDatepicker($this, 'modified_date'),
 		];
-		if(!Yii::$app->request->get('modified')) {
-			$this->templateColumns['modifiedDisplayname'] = [
-				'attribute' => 'modifiedDisplayname',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->modified) ? $model->modified->displayname : '-';
-					// return $model->modifiedDisplayname;
-				},
-			];
-		}
+		$this->templateColumns['modifiedDisplayname'] = [
+			'attribute' => 'modifiedDisplayname',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->modified) ? $model->modified->displayname : '-';
+				// return $model->modifiedDisplayname;
+			},
+			'visible' => !Yii::$app->request->get('modified') ? true : false,
+		];
 		$this->templateColumns['updated_date'] = [
 			'attribute' => 'updated_date',
 			'value' => function($model, $key, $index, $column) {

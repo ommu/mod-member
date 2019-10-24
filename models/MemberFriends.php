@@ -150,31 +150,28 @@ class MemberFriends extends \app\components\ActiveRecord
 			'class' => 'yii\grid\SerialColumn',
 			'contentOptions' => ['class'=>'center'],
 		];
-		if(!Yii::$app->request->get('type')) {
-			$this->templateColumns['type_id'] = [
-				'attribute' => 'type_id',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->type) ? $model->type->title->message : '-';
-				},
-				'filter' => MemberFriendType::getType(),
-			];
-		}
-		if(!Yii::$app->request->get('user')) {
-			$this->templateColumns['userDisplayname'] = [
-				'attribute' => 'userDisplayname',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->user) ? $model->user->displayname : '-';
-				},
-			];
-		}
-		if(!Yii::$app->request->get('request')) {
-			$this->templateColumns['request_search'] = [
-				'attribute' => 'request_search',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->request) ? $model->request->displayname : '-';
-				},
-			];
-		}
+		$this->templateColumns['type_id'] = [
+			'attribute' => 'type_id',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->type) ? $model->type->title->message : '-';
+			},
+			'filter' => MemberFriendType::getType(),
+			'visible' => !Yii::$app->request->get('type') ? true : false,
+		];
+		$this->templateColumns['userDisplayname'] = [
+			'attribute' => 'userDisplayname',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->user) ? $model->user->displayname : '-';
+			},
+			'visible' => !Yii::$app->request->get('user') ? true : false,
+		];
+		$this->templateColumns['request_search'] = [
+			'attribute' => 'request_search',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->request) ? $model->request->displayname : '-';
+			},
+			'visible' => !Yii::$app->request->get('request') ? true : false,
+		];
 		$this->templateColumns['request_date'] = [
 			'attribute' => 'request_date',
 			'value' => function($model, $key, $index, $column) {
@@ -189,15 +186,14 @@ class MemberFriends extends \app\components\ActiveRecord
 			},
 			'filter' => $this->filterDatepicker($this, 'modified_date'),
 		];
-		if(!Yii::$app->request->get('modified')) {
-			$this->templateColumns['modifiedDisplayname'] = [
-				'attribute' => 'modifiedDisplayname',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->modified) ? $model->modified->displayname : '-';
-					// return $model->modifiedDisplayname;
-				},
-			];
-		}
+		$this->templateColumns['modifiedDisplayname'] = [
+			'attribute' => 'modifiedDisplayname',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->modified) ? $model->modified->displayname : '-';
+				// return $model->modifiedDisplayname;
+			},
+			'visible' => !Yii::$app->request->get('modified') ? true : false,
+		];
 	}
 
 	/**

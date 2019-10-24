@@ -108,27 +108,28 @@ class MemberViewHistory extends \app\components\ActiveRecord
 			'class' => 'yii\grid\SerialColumn',
 			'contentOptions' => ['class'=>'center'],
 		];
-		if(!Yii::$app->request->get('view')) {
-			$this->templateColumns['profile_search'] = [
-				'attribute' => 'profile_search',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->view) ? $model->view->member->profile->title->message : '-';
-				},
-				'filter' => MemberProfile::getProfile(),
-			];
-			$this->templateColumns['member_search'] = [
-				'attribute' => 'member_search',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->view) ? $model->view->member->displayname : '-';
-				},
-			];
-			$this->templateColumns['userDisplayname'] = [
-				'attribute' => 'userDisplayname',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->view) ? $model->view->user->displayname : '-';
-				},
-			];
-		}
+		$this->templateColumns['profile_search'] = [
+			'attribute' => 'profile_search',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->view) ? $model->view->member->profile->title->message : '-';
+			},
+			'filter' => MemberProfile::getProfile(),
+			'visible' => !Yii::$app->request->get('view') ? true : false,
+		];
+		$this->templateColumns['member_search'] = [
+			'attribute' => 'member_search',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->view) ? $model->view->member->displayname : '-';
+			},
+			'visible' => !Yii::$app->request->get('view') ? true : false,
+		];
+		$this->templateColumns['userDisplayname'] = [
+			'attribute' => 'userDisplayname',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->view) ? $model->view->user->displayname : '-';
+			},
+			'visible' => !Yii::$app->request->get('view') ? true : false,
+		];
 		$this->templateColumns['view_date'] = [
 			'attribute' => 'view_date',
 			'value' => function($model, $key, $index, $column) {

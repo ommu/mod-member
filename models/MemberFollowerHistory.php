@@ -123,27 +123,28 @@ class MemberFollowerHistory extends \app\components\ActiveRecord
 			'class' => 'yii\grid\SerialColumn',
 			'contentOptions' => ['class'=>'center'],
 		];
-		if(!Yii::$app->request->get('follower')) {
-			$this->templateColumns['profile_search'] = [
-				'attribute' => 'profile_search',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->follower) ? $model->follower->member->profile->title->message : '-';
-				},
-				'filter' => MemberProfile::getProfile(),
-			];
-			$this->templateColumns['member_search'] = [
-				'attribute' => 'member_search',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->follower) ? $model->follower->member->displayname : '-';
-				},
-			];
-			$this->templateColumns['userDisplayname'] = [
-				'attribute' => 'userDisplayname',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->follower) ? $model->follower->user->displayname : '-';
-				},
-			];
-		}
+		$this->templateColumns['profile_search'] = [
+			'attribute' => 'profile_search',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->follower) ? $model->follower->member->profile->title->message : '-';
+			},
+			'filter' => MemberProfile::getProfile(),
+			'visible' => !Yii::$app->request->get('follower') ? true : false,
+		];
+		$this->templateColumns['member_search'] = [
+			'attribute' => 'member_search',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->follower) ? $model->follower->member->displayname : '-';
+			},
+			'visible' => !Yii::$app->request->get('follower') ? true : false,
+		];
+		$this->templateColumns['userDisplayname'] = [
+			'attribute' => 'userDisplayname',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->follower) ? $model->follower->user->displayname : '-';
+			},
+			'visible' => !Yii::$app->request->get('follower') ? true : false,
+		];
 		$this->templateColumns['creation_date'] = [
 			'attribute' => 'creation_date',
 			'value' => function($model, $key, $index, $column) {
@@ -151,26 +152,24 @@ class MemberFollowerHistory extends \app\components\ActiveRecord
 			},
 			'filter' => $this->filterDatepicker($this, 'creation_date'),
 		];
-		if(!Yii::$app->request->get('creation')) {
-			$this->templateColumns['creationDisplayname'] = [
-				'attribute' => 'creationDisplayname',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->creation) ? $model->creation->displayname : '-';
-					// return $model->creationDisplayname;
-				},
-			];
-		}
-		if(!Yii::$app->request->get('trash')) {
-			$this->templateColumns['publish'] = [
-				'attribute' => 'publish',
-				'value' => function($model, $key, $index, $column) {
-					return $this->filterYesNo($model->publish);
-				},
-				'filter' => $this->filterYesNo(),
-				'contentOptions' => ['class'=>'center'],
-				'format' => 'raw',
-			];
-		}
+		$this->templateColumns['creationDisplayname'] = [
+			'attribute' => 'creationDisplayname',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->creation) ? $model->creation->displayname : '-';
+				// return $model->creationDisplayname;
+			},
+			'visible' => !Yii::$app->request->get('creation') ? true : false,
+		];
+		$this->templateColumns['publish'] = [
+			'attribute' => 'publish',
+			'value' => function($model, $key, $index, $column) {
+				return $this->filterYesNo($model->publish);
+			},
+			'filter' => $this->filterYesNo(),
+			'contentOptions' => ['class'=>'center'],
+			'format' => 'raw',
+			'visible' => !Yii::$app->request->get('trash') ? true : false,
+		];
 	}
 
 	/**

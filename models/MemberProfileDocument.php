@@ -179,26 +179,24 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 			'class' => 'yii\grid\SerialColumn',
 			'contentOptions' => ['class'=>'center'],
 		];
-		if(!Yii::$app->request->get('profile')) {
-			$this->templateColumns['profile_id'] = [
-				'attribute' => 'profile_id',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->profile) ? $model->profile->title->message : '-';
-					// return $model->profileName;
-				},
-				'filter' => MemberProfile::getProfile(),
-			];
-		}
-		if(!Yii::$app->request->get('document')) {
-			$this->templateColumns['document_id'] = [
-				'attribute' => 'document_id',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->document) ? $model->document->title->message : '-';
-					// return $model->documentName;
-				},
-				'filter' => MemberDocumentType::getType(),
-			];
-		}
+		$this->templateColumns['profile_id'] = [
+			'attribute' => 'profile_id',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->profile) ? $model->profile->title->message : '-';
+				// return $model->profileName;
+			},
+			'filter' => MemberProfile::getProfile(),
+			'visible' => !Yii::$app->request->get('profile') ? true : false,
+		];
+		$this->templateColumns['document_id'] = [
+			'attribute' => 'document_id',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->document) ? $model->document->title->message : '-';
+				// return $model->documentName;
+			},
+			'filter' => MemberDocumentType::getType(),
+			'visible' => !Yii::$app->request->get('document') ? true : false,
+		];
 		$this->templateColumns['creation_date'] = [
 			'attribute' => 'creation_date',
 			'value' => function($model, $key, $index, $column) {
@@ -206,15 +204,14 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 			},
 			'filter' => $this->filterDatepicker($this, 'creation_date'),
 		];
-		if(!Yii::$app->request->get('creation')) {
-			$this->templateColumns['creationDisplayname'] = [
-				'attribute' => 'creationDisplayname',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->creation) ? $model->creation->displayname : '-';
-					// return $model->creationDisplayname;
-				},
-			];
-		}
+		$this->templateColumns['creationDisplayname'] = [
+			'attribute' => 'creationDisplayname',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->creation) ? $model->creation->displayname : '-';
+				// return $model->creationDisplayname;
+			},
+			'visible' => !Yii::$app->request->get('creation') ? true : false,
+		];
 		$this->templateColumns['modified_date'] = [
 			'attribute' => 'modified_date',
 			'value' => function($model, $key, $index, $column) {
@@ -222,15 +219,14 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 			},
 			'filter' => $this->filterDatepicker($this, 'modified_date'),
 		];
-		if(!Yii::$app->request->get('modified')) {
-			$this->templateColumns['modifiedDisplayname'] = [
-				'attribute' => 'modifiedDisplayname',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->modified) ? $model->modified->displayname : '-';
-					// return $model->modifiedDisplayname;
-				},
-			];
-		}
+		$this->templateColumns['modifiedDisplayname'] = [
+			'attribute' => 'modifiedDisplayname',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->modified) ? $model->modified->displayname : '-';
+				// return $model->modifiedDisplayname;
+			},
+			'visible' => !Yii::$app->request->get('modified') ? true : false,
+		];
 		$this->templateColumns['updated_date'] = [
 			'attribute' => 'updated_date',
 			'value' => function($model, $key, $index, $column) {
@@ -256,18 +252,17 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 			'filter' => $this->filterYesNo(),
 			'contentOptions' => ['class'=>'center'],
 		];
-		if(!Yii::$app->request->get('trash')) {
-			$this->templateColumns['publish'] = [
-				'attribute' => 'publish',
-				'value' => function($model, $key, $index, $column) {
-					$url = Url::to(['publish', 'id'=>$model->primaryKey]);
-					return $this->quickAction($url, $model->publish);
-				},
-				'filter' => $this->filterYesNo(),
-				'contentOptions' => ['class'=>'center'],
-				'format' => 'raw',
-			];
-		}
+		$this->templateColumns['publish'] = [
+			'attribute' => 'publish',
+			'value' => function($model, $key, $index, $column) {
+				$url = Url::to(['publish', 'id'=>$model->primaryKey]);
+				return $this->quickAction($url, $model->publish);
+			},
+			'filter' => $this->filterYesNo(),
+			'contentOptions' => ['class'=>'center'],
+			'format' => 'raw',
+			'visible' => !Yii::$app->request->get('trash') ? true : false,
+		];
 	}
 
 	/**

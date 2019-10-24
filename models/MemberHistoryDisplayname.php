@@ -121,21 +121,21 @@ class MemberHistoryDisplayname extends \app\components\ActiveRecord
 			'class' => 'yii\grid\SerialColumn',
 			'contentOptions' => ['class'=>'center'],
 		];
-		if(!Yii::$app->request->get('member')) {
-			$this->templateColumns['member_search'] = [
-				'attribute' => 'member_search',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->member) ? $model->member->displayname : '-';
-				},
-			];
-			$this->templateColumns['profile_search'] = [
-				'attribute' => 'profile_search',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->member) ? $model->member->profile->title->message : '-';
-				},
-				'filter' => MemberProfile::getProfile(),
-			];
-		}
+		$this->templateColumns['member_search'] = [
+			'attribute' => 'member_search',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->member) ? $model->member->displayname : '-';
+			},
+			'visible' => !Yii::$app->request->get('member') ? true : false,
+		];
+		$this->templateColumns['profile_search'] = [
+			'attribute' => 'profile_search',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->member) ? $model->member->profile->title->message : '-';
+			},
+			'filter' => MemberProfile::getProfile(),
+			'visible' => !Yii::$app->request->get('member') ? true : false,
+		];
 		$this->templateColumns['displayname'] = [
 			'attribute' => 'displayname',
 			'value' => function($model, $key, $index, $column) {
@@ -149,14 +149,13 @@ class MemberHistoryDisplayname extends \app\components\ActiveRecord
 			},
 			'filter' => $this->filterDatepicker($this, 'updated_date'),
 		];
-		if(!Yii::$app->request->get('updated')) {
-			$this->templateColumns['updated_search'] = [
-				'attribute' => 'updated_search',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->updated) ? $model->updated->displayname : '-';
-				},
-			];
-		}
+		$this->templateColumns['updated_search'] = [
+			'attribute' => 'updated_search',
+			'value' => function($model, $key, $index, $column) {
+				return isset($model->updated) ? $model->updated->displayname : '-';
+			},
+			'visible' => !Yii::$app->request->get('updated') ? true : false,
+		];
 	}
 
 	/**
