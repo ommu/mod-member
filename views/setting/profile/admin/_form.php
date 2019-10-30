@@ -86,7 +86,9 @@ echo $form->field($model, 'profile_personal')
 	->hint(Yii::t('app', 'User limit recommendation is {limit}', ['limit'=>$model->multipleUserLimit])); ?>
 </div>
 
-<?php echo $form->field($model, 'publish')
+<?php if($model->isNewRecord && !$model->getErrors())
+	$model->publish = 1;
+echo $form->field($model, 'publish')
 	->checkbox()
 	->label($model->getAttributeLabel('publish')); ?>
 

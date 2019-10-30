@@ -80,7 +80,9 @@ echo $form->field($model, 'member_private')
 	->checkbox()
 	->label($model->getAttributeLabel('approved')); ?>
 
-<?php echo $form->field($model, 'publish')
+<?php if($model->isNewRecord && !$model->getErrors())
+	$model->publish = 1;
+echo $form->field($model, 'publish')
 	->checkbox()
 	->label($model->getAttributeLabel('publish')); ?>
 

@@ -39,7 +39,9 @@ use app\components\widgets\ActiveForm;
 	->textInput(['maxlength'=>true])
 	->label($model->getAttributeLabel('cat_name_i')); ?>
 
-<?php echo $form->field($model, 'publish')
+<?php if($model->isNewRecord && !$model->getErrors())
+	$model->publish = 1;
+echo $form->field($model, 'publish')
 	->checkbox()
 	->label($model->getAttributeLabel('publish')); ?>
 
