@@ -59,7 +59,7 @@ echo $form->field($model, 'permission', ['template' => '{label}{beginWrapper}{hi
 	->textarea(['rows'=>6, 'cols'=>50])
 	->label($model->getAttributeLabel('meta_keyword')); ?>
 
-<div class="ln_solid"></div>
+<hr/>
 
 <?php $profiles = MemberProfile::getProfile(1);
 echo $form->field($model, 'personal_profile_id')
@@ -113,7 +113,7 @@ echo $form->field($model, 'personal_profile_id')
 	])
 	->label($model->getAttributeLabel('group_profile_id')); ?>
 
-<div class="ln_solid"></div>
+<hr/>
 
 <?php echo $form->field($model, 'photo_limit')
 	->textInput(['type'=>'number'])
@@ -170,7 +170,7 @@ echo $form->field($model, 'photo_resize')
 	->label($model->getAttributeLabel('photo_file_type'))
 	->hint(Yii::t('app', 'pisahkan jenis file dengan koma (,). example: "jpg, jpeg, bmp, gif, png"')); ?>
 
-<div class="ln_solid"></div>
+<hr/>
 
 <?php echo $form->field($model, 'profile_user_limit')
 	->textInput(['type'=>'number', 'min'=>'1'])
@@ -184,7 +184,7 @@ echo $form->field($model, 'photo_resize')
 	->checkbox()
 	->label($model->getAttributeLabel('friends_auto_follow')); ?>
 
-<div class="ln_solid"></div>
+<hr/>
 
 <?php echo $form->field($model, 'submitButton')
 	->submitButton(); ?>

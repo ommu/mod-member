@@ -48,7 +48,7 @@ echo $form->field($model, 'type_id')
 	->textInput(['type'=>'number', 'min'=>'1'])
 	->label($model->getAttributeLabel('request_id')); ?>
 
-<div class="ln_solid"></div>
+<hr/>
 
 <?php echo $form->field($model, 'submitButton')
 	->submitButton(); ?>

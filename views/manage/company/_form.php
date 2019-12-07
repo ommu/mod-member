@@ -58,7 +58,7 @@ $redactorOptions = [
 	->textInput(['maxlength'=>true])
 	->label($member->getAttributeLabel('username')); ?>
 
-<div class="ln_solid"></div>
+<hr/>
 
 <?php $companyType = MemberCompanyType::getType();
 echo $form->field($model, 'company_type_id')
@@ -74,7 +74,7 @@ echo $form->field($model, 'company_cat_id')
 	->dropDownList($companyCategory, ['prompt'=>''])
 	->label($model->getAttributeLabel('company_cat_id')); ?>
 
-<div class="ln_solid"></div>
+<hr/>
 
 <?php $uploadPath = join('/', [Members::getUploadPath(false), $member->member_id]);
 $photoHeader = !$member->isNewRecord && $member->old_photo_header_i != '' ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $member->old_photo_header_i])), ['alt'=>$model->old_photo_header_i, 'class'=>'mb-3']) : '';
@@ -112,7 +112,7 @@ echo $form->field($member, 'photo_profile', ['template' => '{label}{beginWrapper
 </div>
 */?>
 
-<div class="ln_solid"></div>
+<hr/>
 
 <?php echo $form->field($model, 'info_intro')
 	->textarea(['rows'=>6, 'cols'=>50])
@@ -123,7 +123,7 @@ echo $form->field($member, 'photo_profile', ['template' => '{label}{beginWrapper
 	->widget(Redactor::className(), ['clientOptions' => $redactorOptions])
 	->label($model->getAttributeLabel('info_article')); ?>
 
-<div class="ln_solid"></div>
+<hr/>
 
 <?php $company_village = $form->field($model, 'company_village', ['template' => '{beginWrapper}{input}{error}{endWrapper}', 'horizontalCssClasses' => ['wrapper'=>'col-md-3 col-sm-4 col-xs-6 col-sm-offset-3'], 'options' => ['tag' => null]])
 	//->textInput(['maxlength'=>true, 'placeholder'=>$model->getAttributeLabel('company_village')])
@@ -195,7 +195,7 @@ echo $form->field($model, 'company_zipcode')
 	->textInput(['type'=>'number', 'min'=>'1'])
 	->label($model->getAttributeLabel('company_zipcode')); ?>
 
-<div class="ln_solid"></div>
+<hr/>
 
 <?php $memberPrivate = Members::getMemberPrivate();
 if($member->isNewRecord && !$member->getErrors())
@@ -212,7 +212,7 @@ echo $form->field($member, 'member_private')
 	->checkbox()
 	->label($member->getAttributeLabel('publish')); ?>
 
-<div class="ln_solid"></div>
+<hr/>
 
 <?php echo $form->field($model, 'submitButton')
 	->submitButton(); ?>
