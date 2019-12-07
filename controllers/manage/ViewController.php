@@ -26,9 +26,9 @@
 namespace ommu\member\controllers\manage;
 
 use Yii;
-use yii\filters\VerbFilter;
 use app\components\Controller;
 use mdm\admin\components\AccessControl;
+use yii\filters\VerbFilter;
 use ommu\member\models\MemberViews;
 use ommu\member\models\search\MemberViews as MemberViewsSearch;
 
