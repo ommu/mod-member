@@ -93,7 +93,7 @@ class UserController extends Controller
 	{
 		$member = Yii::$app->request->get('member');
 		if(!$member)
-			throw new \yii\web\NotAcceptableHttpException(Yii::t('app', 'The requested page does not exist.'));
+			throw new \yii\web\ForbiddenHttpException(Yii::t('app', 'The requested page does not exist.'));
 
 		$model = new MemberUser();
 
