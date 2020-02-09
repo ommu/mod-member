@@ -54,13 +54,13 @@ echo $form->field($model, 'profile_id')
 	->label($model->getAttributeLabel('displayname')); ?>
 
 <?php $uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
-$photoHeader = !$model->isNewRecord && $model->old_photo_header_i != '' ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->old_photo_header_i])), ['alt'=>$model->old_photo_header_i, 'class'=>'mb-3']) : '';
+$photoHeader = !$model->isNewRecord && $model->old_photo_header_i != '' ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->old_photo_header_i])), ['alt'=>$model->old_photo_header_i, 'class'=>'d-block border border-width-3 mb-3']).$model->old_photo_header_i.'<hr/>' : '';
 echo $form->field($model, 'photo_header', ['template' => '{label}{beginWrapper}<div>'.$photoHeader.'</div>{input}{error}{hint}{endWrapper}'])
 	->fileInput()
 	->label($model->getAttributeLabel('photo_header')); ?>
 
 <?php $uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
-$photoProfile = !$model->isNewRecord && $model->old_photo_profile_i != '' ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->old_photo_profile_i])), ['alt'=>$model->old_photo_profile_i, 'class'=>'mb-3']) : '';
+$photoProfile = !$model->isNewRecord && $model->old_photo_profile_i != '' ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->old_photo_profile_i])), ['alt'=>$model->old_photo_profile_i, 'class'=>'d-block border border-width-3 mb-3']).$model->old_photo_profile_i.'<hr/>' : '';
 echo $form->field($model, 'photo_profile', ['template' => '{label}{beginWrapper}<div>'.$photoProfile.'</div>{input}{error}{hint}{endWrapper}'])
 	->fileInput()
 	->label($model->getAttributeLabel('photo_profile')); ?>

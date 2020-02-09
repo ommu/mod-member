@@ -65,7 +65,7 @@ $attributes = [
 		'attribute' => 'document_filename',
 		'value' => function ($model) {
 			$uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
-			return $model->document_filename ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->document_filename])), ['alt'=>$model->document_filename, 'class'=>'mb-3']).'<br/>'.$model->document_filename : '-';
+			return $model->document_filename ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->document_filename])), ['alt'=>$model->document_filename, 'class'=>'d-block border border-width-3 mb-3']).$model->document_filename : '-';
 		},
 		'format' => 'raw',
 	],
