@@ -144,7 +144,7 @@ class MemberFollowers extends \app\components\ActiveRecord
 		$this->templateColumns['_no'] = [
 			'header' => '#',
 			'class' => 'yii\grid\SerialColumn',
-			'contentOptions' => ['class'=>'center'],
+			'contentOptions' => ['class'=>'text-center'],
 		];
 		$this->templateColumns['member_search'] = [
 			'attribute' => 'member_search',
@@ -204,7 +204,7 @@ class MemberFollowers extends \app\components\ActiveRecord
 				return $this->quickAction($url, $model->publish, 'Follow,Unfollow');
 			},
 			'filter' => $this->filterYesNo(),
-			'contentOptions' => ['class'=>'center'],
+			'contentOptions' => ['class'=>'text-center'],
 			'format' => 'raw',
 			'visible' => !Yii::$app->request->get('trash') ? true : false,
 		];

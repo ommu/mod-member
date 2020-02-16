@@ -337,7 +337,7 @@ class Members extends \app\components\ActiveRecord
 		$this->templateColumns['_no'] = [
 			'header' => '#',
 			'class' => 'yii\grid\SerialColumn',
-			'contentOptions' => ['class'=>'center'],
+			'contentOptions' => ['class'=>'text-center'],
 		];
 		$this->templateColumns['photo_profile'] = [
 			'attribute' => 'photo_profile',
@@ -438,7 +438,7 @@ class Members extends \app\components\ActiveRecord
 				return $this->filterYesNo($model->approved);
 			},
 			'filter' => $this->filterYesNo(),
-			'contentOptions' => ['class'=>'center'],
+			'contentOptions' => ['class'=>'text-center'],
 		];
 		$this->templateColumns['member_private'] = [
 			'attribute' => 'member_private',
@@ -446,7 +446,7 @@ class Members extends \app\components\ActiveRecord
 			'value' => function($model, $key, $index, $column) {
 				return self::getMemberPrivate($model->member_private);
 			},
-			'contentOptions' => ['class'=>'center'],
+			'contentOptions' => ['class'=>'text-center'],
 			'format' => 'raw',
 		];
 		$this->templateColumns['publish'] = [
@@ -456,7 +456,7 @@ class Members extends \app\components\ActiveRecord
 				return $this->quickAction($url, $model->publish, 'Enable,Disable');
 			},
 			'filter' => $this->filterYesNo(),
-			'contentOptions' => ['class'=>'center'],
+			'contentOptions' => ['class'=>'text-center'],
 			'format' => 'raw',
 			'visible' => !Yii::$app->request->get('trash') ? true : false,
 		];
