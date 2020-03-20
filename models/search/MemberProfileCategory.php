@@ -4,9 +4,9 @@
  *
  * MemberProfileCategory represents the model behind the search form about `ommu\member\models\MemberProfileCategory`.
  *
- * @author Putra Sudaryanto <putra@ommu.co>
+ * @author Putra Sudaryanto <putra@ommu.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
+ * @copyright Copyright (c) 2018 OMMU (www.ommu.id)
  * @created date 2 October 2018, 09:58 WIB
  * @modified date 2 September 2019, 18:27 WIB
  * @link https://github.com/ommu/mod-member

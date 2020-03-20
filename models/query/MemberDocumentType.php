@@ -5,9 +5,9 @@
  * This is the ActiveQuery class for [[\ommu\member\models\MemberDocumentType]].
  * @see \ommu\member\models\MemberDocumentType
  * 
- * @author Putra Sudaryanto <putra@ommu.co>
+ * @author Putra Sudaryanto <putra@ommu.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2018 Ommu Platform (www.ommu.co)
+ * @copyright Copyright (c) 2018 OMMU (www.ommu.id)
  * @created date 2 October 2018, 11:04 WIB
  * @link https://github.com/ommu/mod-member
  *
