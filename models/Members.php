@@ -42,9 +42,6 @@
  * @property MemberUser[] $users
  * @property MemberViews[] $views
  * @property MemberProfile $profile
- * @property TestimonialOption[] $options
- * @property Testimonials[] $testimonials
- * @property VacancyPackageMember[] $members
  * @property Users $approvedRltn
  * @property Users $creation
  * @property Users $modified
@@ -222,7 +219,6 @@ class Members extends \app\components\ActiveRecord
 		return $this->hasMany(MemberUser::className(), ['member_id' => 'member_id'])
 			->alias('users')
 			->andOnCondition([sprintf('%s.publish', 'users') => 1]);
-			
 	}
 
 	/**
@@ -241,34 +237,6 @@ class Members extends \app\components\ActiveRecord
 	public function getProfile()
 	{
 		return $this->hasOne(MemberProfile::className(), ['profile_id' => 'profile_id']);
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getOptions()
-	{
-		return $this->hasMany(TestimonialOption::className(), ['member_id' => 'member_id']);
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getTestimonials()
-	{
-		return $this->hasMany(Testimonials::className(), ['member_id' => 'member_id'])
-			->alias('testimonials')
-			->andOnCondition([sprintf('%s.publish', 'testimonials') => 1]);
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getMembers()
-	{
-		return $this->hasMany(VacancyPackageMember::className(), ['member_id' => 'member_id'])
-			->alias('members')
-			->andOnCondition([sprintf('%s.publish', 'members') => 1]);
 	}
 
 	/**
@@ -295,21 +263,31 @@ class Members extends \app\components\ActiveRecord
 		return $this->hasOne(Users::className(), ['user_id' => 'modified_id']);
 	}
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserOwner()
+    {
+        return $this->hasOne(MemberUser::className(), ['member_id' => 'member_id'])
+            ->alias('userOwner')
+            ->andOnCondition([sprintf('%s.publish', 'userOwner') => 1, sprintf('%s.owner', 'userOwner') => 1]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserInfo()
+    {
+        return $this->hasOne(Users::className(), ['user_id' => 'user_id'])
+            ->via('userOwner');
+    }
+
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
 	public function getUser()
 	{
 		return $this->hasOne(MemberUserView::className(), ['member_id' => 'member_id']);
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getUserInfo()
-	{
-		return $this->hasOne(Users::className(), ['user_id' => 'user_id'])
-			->via('user');
 	}
 
 	/**
@@ -506,6 +484,90 @@ class Members extends \app\components\ActiveRecord
 	{
 		return ($returnAlias ? Yii::getAlias('@public/member') : 'member');
 	}
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getProfileSetting()
+    {
+        $model = MemberSetting::getInfo(['personal_profile_id', 'company_profile_id', 'group_profile_id']);
+
+        return $model;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProfilePersonal()
+    {
+        $model = $this->profileSetting;
+
+        if($model == null) {
+            return null;
+        }
+
+        return $model->personal_profile_id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProfileCompany()
+    {
+        $model = $this->profileSetting;
+
+        if($model == null) {
+            return null;
+        }
+
+        return $model->company_profile_id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProfileGroup()
+    {
+        $model = $this->profileSetting;
+
+        if($model == null) {
+            return null;
+        }
+
+        return $model->group_profile_id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getMemberUserId($username)
+    {
+        $model = self::find()
+            ->select(['member_id', 'profile_id'])
+            ->where(['publish' => 1])
+            ->andWhere(['username' => $username]);
+        if (isset(Yii::$app->params['newsfeed']['profileIgnore'])) {
+            $model->andWhere(['NOT IN', 'profile_id', Yii::$app->params['newsfeed']['profileIgnore']]);
+        }
+        $model = $model->one();
+
+        $memberId = '';
+        if ($model != null) {
+            $memberId = $model->member_id;
+        }
+
+        $userId = '';
+        if ($model != null && $model->profile_id == $model->profilePersonal) {
+            if(isset($model->userOwner)) {
+                $userId = $model->userOwner->user_id;
+            }
+        }
+
+        return [
+            'member_id' => $memberId,
+            'user_id' => $userId,
+        ];
+    }
 
 	/**
 	 * after find attributes

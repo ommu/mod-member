@@ -283,7 +283,7 @@ class MemberSetting extends \app\components\ActiveRecord
 	/**
 	 * User get information
 	 */
-	public static function getInfo($id, $column=null)
+	public static function getInfo($column=null)
 	{
 		if($column != null) {
 			$model = self::find();
@@ -291,11 +291,11 @@ class MemberSetting extends \app\components\ActiveRecord
 				$model->select($column);
 			else
 				$model->select([$column]);
-			$model = $model->where(['id' => $id])->one();
+			$model = $model->where(['id' => 1])->one();
 			return is_array($column) ? $model : $model->$column;
 			
 		} else {
-			$model = self::findOne($id);
+			$model = self::findOne(1);
 			return $model;
 		}
 	}
