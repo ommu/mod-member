@@ -558,7 +558,7 @@ class Members extends \app\components\ActiveRecord
 
         $userId = '';
         if ($model != null && $model->profile_id == $model->profilePersonal) {
-            if(isset($model->userOwner)) {
+            if (isset($model->userOwner)) {
                 $userId = $model->userOwner->user_id;
             }
         }
