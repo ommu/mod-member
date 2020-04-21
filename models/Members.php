@@ -66,9 +66,9 @@ class Members extends \app\components\ActiveRecord
 	public $gridForbiddenColumn = ['photo_header','short_biography','approved_date','approved_search','creation_date','creationDisplayname','modified_date', 'modifiedDisplayname', 'updated_date'];
 	public $old_photo_header_i;
 	public $old_photo_profile_i;
-    public $old_approved_i;
+	public $old_approved_i;
     // owner user_id
-	public $user_id;
+    public $user_id;
 
 	public $approved_search;
 	public $creationDisplayname;
