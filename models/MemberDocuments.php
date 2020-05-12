@@ -39,7 +39,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 use thamtech\uuid\helpers\UuidHelper;
-use ommu\users\models\Users;
+use app\models\Users;
 
 class MemberDocuments extends \app\components\ActiveRecord
 {

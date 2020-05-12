@@ -42,7 +42,7 @@ namespace ommu\member\models;
 use Yii;
 use yii\helpers\Html;
 use yii\helpers\Json;
-use ommu\users\models\Users;
+use app\models\Users;
 
 class MemberSetting extends \app\components\ActiveRecord
 {

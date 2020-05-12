@@ -41,7 +41,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\Inflector;
 use app\models\SourceMessage;
-use ommu\users\models\Users;
+use app\models\Users;
 
 class MemberProfileCategory extends \app\components\ActiveRecord
 {

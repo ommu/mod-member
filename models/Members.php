@@ -55,7 +55,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
 use thamtech\uuid\helpers\UuidHelper;
-use ommu\users\models\Users;
+use app\models\Users;
 use ommu\member\models\view\MemberUser as MemberUserView;
 
 class Members extends \app\components\ActiveRecord

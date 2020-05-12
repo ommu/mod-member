@@ -45,7 +45,7 @@ use yii\helpers\Url;
 use yii\helpers\Json;
 use yii\helpers\Inflector;
 use app\models\SourceMessage;
-use ommu\users\models\Users;
+use app\models\Users;
 
 class MemberProfile extends \app\components\ActiveRecord
 {
