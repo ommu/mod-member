@@ -69,6 +69,7 @@ class Members extends \app\components\ActiveRecord
 	public $old_approved_i;
     // owner user_id
     public $user_id;
+    public $photoOverwrite = false;
 
 	public $approved_search;
 	public $creationDisplayname;
@@ -593,12 +594,11 @@ class Members extends \app\components\ActiveRecord
 
 		if(parent::beforeValidate()) {
 			$photoHeaderFileType = ['bmp','gif','jpg','png'];
-			$photo_header = UploadedFile::getInstance($this, 'photo_header');
-
-			if($photo_header instanceof UploadedFile && !$photo_header->getHasError()) {
-				if(!in_array(strtolower($photo_header->getExtension()), $photoHeaderFileType)) {
+			// $this->photo_header = UploadedFile::getInstance($this, 'photo_header');
+			if($this->photo_header instanceof UploadedFile && !$this->photo_header->getHasError()) {
+				if(!in_array(strtolower($this->photo_header->getExtension()), $photoHeaderFileType)) {
 					$this->addError('photo_header', Yii::t('app', 'The file {name} cannot be uploaded. Only files with these extensions are allowed: {extensions}', array(
-						'{name}'=>$photo_header->name,
+						'{name}'=>$this->photo_header->name,
 						'{extensions}'=>$this->formatFileType($photoHeaderFileType, false),
 					)));
 				}
@@ -608,12 +608,11 @@ class Members extends \app\components\ActiveRecord
 			} */
 
 			$photoProfileFileType = ['bmp','gif','jpg','png'];
-			$photo_profile = UploadedFile::getInstance($this, 'photo_profile');
-
-			if($photo_profile instanceof UploadedFile && !$photo_profile->getHasError()) {
-				if(!in_array(strtolower($photo_profile->getExtension()), $photoProfileFileType)) {
+			// $this->photo_profile = UploadedFile::getInstance($this, 'photo_profile');
+			if($this->photo_profile instanceof UploadedFile && !$this->photo_profile->getHasError()) {
+				if(!in_array(strtolower($this->photo_profile->getExtension()), $photoProfileFileType)) {
 					$this->addError('photo_profile', Yii::t('app', 'The file {name} cannot be uploaded. Only files with these extensions are allowed: {extensions}', array(
-						'{name}'=>$photo_profile->name,
+						'{name}'=>$this->photo_profile->name,
 						'{extensions}'=>$this->formatFileType($photoProfileFileType, false),
 					)));
 				}
@@ -647,7 +646,7 @@ class Members extends \app\components\ActiveRecord
 				$verwijderenPath = join('/', [self::getUploadPath(), 'verwijderen']);
 				$this->createUploadDirectory(self::getUploadPath(), $this->member_id);
 
-				$this->photo_header = UploadedFile::getInstance($this, 'photo_header');
+				// $this->photo_header = UploadedFile::getInstance($this, 'photo_header');
 				if($this->photo_header instanceof UploadedFile && !$this->photo_header->getHasError()) {
 					$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->photo_header->getExtension());
 					if($this->photo_header->saveAs(join('/', [$uploadPath, $fileName]))) {
@@ -656,11 +655,11 @@ class Members extends \app\components\ActiveRecord
 						$this->photo_header = $fileName;
 					}
 				} else {
-					if($this->photo_header == '')
+					if($this->photo_header == '' && $this->photoOverwrite == false)
 						$this->photo_header = $this->old_photo_header_i;
 				}
 
-				$this->photo_profile = UploadedFile::getInstance($this, 'photo_profile');
+				// $this->photo_profile = UploadedFile::getInstance($this, 'photo_profile');
 				if($this->photo_profile instanceof UploadedFile && !$this->photo_profile->getHasError()) {
 					$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->photo_profile->getExtension());
 					if($this->photo_profile->saveAs(join('/', [$uploadPath, $fileName]))) {
@@ -669,7 +668,7 @@ class Members extends \app\components\ActiveRecord
 						$this->photo_profile = $fileName;
 					}
 				} else {
-					if($this->photo_profile == '')
+					if($this->photo_profile == '' && $this->photoOverwrite == false)
 						$this->photo_profile = $this->old_photo_profile_i;
 				}
 
@@ -690,14 +689,14 @@ class Members extends \app\components\ActiveRecord
 		$this->createUploadDirectory(self::getUploadPath(), $this->member_id);
 
 		if($insert) {
-			$this->photo_header = UploadedFile::getInstance($this, 'photo_header');
+			// $this->photo_header = UploadedFile::getInstance($this, 'photo_header');
 			if($this->photo_header instanceof UploadedFile && !$this->photo_header->getHasError()) {
 				$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->photo_header->getExtension());
 				if($this->photo_header->saveAs(join('/', [$uploadPath, $fileName])))
 					self::updateAll(['photo_header' => $fileName], ['member_id' => $this->member_id]);
 			}
 
-			$this->photo_profile = UploadedFile::getInstance($this, 'photo_profile');
+			// $this->photo_profile = UploadedFile::getInstance($this, 'photo_profile');
 			if($this->photo_profile instanceof UploadedFile && !$this->photo_profile->getHasError()) {
 				$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->photo_profile->getExtension());
 				if($this->photo_profile->saveAs(join('/', [$uploadPath, $fileName])))

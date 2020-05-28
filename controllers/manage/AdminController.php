@@ -98,10 +98,14 @@ class AdminController extends Controller
 		$model = new Members();
 
 		if(Yii::$app->request->isPost) {
-			$model->load(Yii::$app->request->post());
-			// $postData = Yii::$app->request->post();
-			// $model->load($postData);
-			// $model->order = $postData['order'] ? $postData['order'] : 0;
+			$postData = Yii::$app->request->post();
+			$model->load($postData);
+			$model->photo_header = UploadedFile::getInstance($model, 'photo_header');
+			if(!($model->photo_header instanceof UploadedFile && !$model->photo_header->getHasError()))
+				$model->photo_header = $postData['photo_header'] ? $postData['photo_header'] : '';
+			$model->photo_profile = UploadedFile::getInstance($model, 'photo_profile');
+			if(!($model->photo_profile instanceof UploadedFile && !$model->photo_profile->getHasError()))
+				$model->photo_profile = $postData['photo_profile'] ? $postData['photo_profile'] : '';
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member success created.'));
@@ -133,10 +137,14 @@ class AdminController extends Controller
 		$model = $this->findModel($id);
 
 		if(Yii::$app->request->isPost) {
-			$model->load(Yii::$app->request->post());
-			// $postData = Yii::$app->request->post();
-			// $model->load($postData);
-			// $model->order = $postData['order'] ? $postData['order'] : 0;
+			$postData = Yii::$app->request->post();
+			$model->load($postData);
+			$model->photo_header = UploadedFile::getInstance($model, 'photo_header');
+			if(!($model->photo_header instanceof UploadedFile && !$model->photo_header->getHasError()))
+				$model->photo_header = $postData['photo_header'] ? $postData['photo_header'] : '';
+			$model->photo_profile = UploadedFile::getInstance($model, 'photo_profile');
+			if(!($model->photo_profile instanceof UploadedFile && !$model->photo_profile->getHasError()))
+				$model->photo_profile = $postData['photo_profile'] ? $postData['photo_profile'] : '';
 
 			if($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member success updated.'));
