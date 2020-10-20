@@ -24,6 +24,10 @@
  * @property string $short_biography
  * @property string $approved_date
  * @property integer $approved_id
+ * @property string $lastlogin_date
+ * @property integer $lastlogin_user_id
+ * @property string $lastlogin_ip
+ * @property string $lastlogin_from
  * @property string $creation_date
  * @property integer $creation_id
  * @property string $modified_date
@@ -63,7 +67,7 @@ class Members extends \app\components\ActiveRecord
 	use \ommu\traits\UtilityTrait;
 	use \ommu\traits\FileTrait;
 
-	public $gridForbiddenColumn = ['photo_header','short_biography','approved_date','approved_search','creation_date','creationDisplayname','modified_date', 'modifiedDisplayname', 'updated_date'];
+	public $gridForbiddenColumn = ['photo_header','short_biography','approved_date','approved_search', 'lastloginUserDisplayname', 'lastlogin_ip', 'lastlogin_from','creation_date','creationDisplayname','modified_date','modifiedDisplayname','updated_date'];
 	public $old_photo_header_i;
 	public $old_photo_profile_i;
 	public $old_approved_i;
@@ -71,6 +75,7 @@ class Members extends \app\components\ActiveRecord
     public $user_id;
 
 	public $approved_search;
+	public $lastloginUserDisplayname;
 	public $creationDisplayname;
 	public $modifiedDisplayname;
 
@@ -91,11 +96,11 @@ class Members extends \app\components\ActiveRecord
 	{
 		return [
 			[['profile_id', 'member_private', 'displayname'], 'required'],
-			[['publish', 'approved', 'profile_id', 'member_private', 'approved_id', 'creation_id', 'modified_id'], 'integer'],
+			[['publish', 'approved', 'profile_id', 'member_private', 'approved_id', 'lastlogin_user_id', 'creation_id', 'modified_id'], 'integer'],
 			[['photo_header', 'photo_profile', 'short_biography'], 'string'],
 			[['username', 'photo_header', 'photo_profile', 'short_biography', 'approved_date', 'creation_date', 'modified_date', 'updated_date'], 'safe'],
 			['username', 'unique'],
-			[['username'], 'string', 'max' => 32],
+			[['username', 'lastlogin_ip', 'lastlogin_from'], 'string', 'max' => 32],
 			[['displayname'], 'string', 'max' => 64],
 			[['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => MemberProfile::className(), 'targetAttribute' => ['profile_id' => 'profile_id']],
 		];
@@ -126,6 +131,10 @@ class Members extends \app\components\ActiveRecord
 			'short_biography' => Yii::t('app', 'Short Biography'),
 			'approved_date' => Yii::t('app', 'Approved Date'),
 			'approved_id' => Yii::t('app', 'Approved'),
+			'lastlogin_date' => Yii::t('app', 'Lastlogin Date'),
+			'lastlogin_user_id' => Yii::t('app', 'Lastlogin User'),
+			'lastlogin_ip' => Yii::t('app', 'Lastlogin IP'),
+			'lastlogin_from' => Yii::t('app', 'Lastlogin From'),
 			'creation_date' => Yii::t('app', 'Creation Date'),
 			'creation_id' => Yii::t('app', 'Creation'),
 			'modified_date' => Yii::t('app', 'Modified Date'),
@@ -247,6 +256,14 @@ class Members extends \app\components\ActiveRecord
 	public function getApprovedRltn()
 	{
 		return $this->hasOne(Users::className(), ['user_id' => 'approved_id']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getLastloginUser()
+	{
+		return $this->hasOne(Users::className(), ['user_id' => 'lastlogin_user_id']);
 	}
 
 	/**
@@ -381,6 +398,34 @@ class Members extends \app\components\ActiveRecord
 				return Yii::$app->formatter->asDatetime($model->creation_date, 'medium');
 			},
 			'filter' => $this->filterDatepicker($this, 'creation_date'),
+		];
+		$this->templateColumns['lastlogin_date'] = [
+			'attribute' => 'lastlogin_date',
+			'value' => function($model, $key, $index, $column) {
+				return Yii::$app->formatter->asDatetime($model->lastlogin_date, 'medium');
+			},
+			'filter' => $this->filterDatepicker($this, 'lastlogin_date'),
+		];
+		if(!Yii::$app->request->get('lastloginUser')) {
+			$this->templateColumns['lastloginUserDisplayname'] = [
+				'attribute' => 'lastloginUserDisplayname',
+				'value' => function($model, $key, $index, $column) {
+					return isset($model->lastloginUser) ? $model->lastloginUser->displayname : '-';
+					// return $model->lastloginUserDisplayname;
+				},
+			];
+		}
+		$this->templateColumns['lastlogin_ip'] = [
+			'attribute' => 'lastlogin_ip',
+			'value' => function($model, $key, $index, $column) {
+				return $model->lastlogin_ip;
+			},
+		];
+		$this->templateColumns['lastlogin_from'] = [
+			'attribute' => 'lastlogin_from',
+			'value' => function($model, $key, $index, $column) {
+				return $model->lastlogin_from;
+			},
 		];
 		$this->templateColumns['creationDisplayname'] = [
 			'attribute' => 'creationDisplayname',

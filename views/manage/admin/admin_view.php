@@ -92,6 +92,22 @@ $attributes = [
 		'attribute' => 'approved_search',
 		'value' => isset($model->approvedRltn) ? $model->approvedRltn->displayname : '-',
 	],
+    [
+        'attribute' => 'lastlogin_date',
+        'value' => Yii::$app->formatter->asDatetime($model->lastlogin_date, 'medium'),
+    ],
+    [
+        'attribute' => 'lastloginUserDisplayname',
+        'value' => isset($model->lastloginUser) ? $model->lastloginUser->displayname : '-',
+    ],
+    [
+        'attribute' => 'lastlogin_ip',
+        'value' => $model->lastlogin_ip,
+    ],
+    [
+        'attribute' => 'lastlogin_from',
+        'value' => $model->lastlogin_from,
+    ],
 	[
 		'attribute' => 'creation_date',
 		'value' => Yii::$app->formatter->asDatetime($model->creation_date, 'medium'),
