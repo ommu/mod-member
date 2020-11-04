@@ -48,8 +48,10 @@ echo $form->field($model, 'level_id')
 	->checkbox()
 	->label($model->getAttributeLabel('owner')); ?>
 
-<?php if($model->isNewRecord && !$model->getErrors())
-	$model->publish = 1;
+<?php 
+if ($model->isNewRecord && !$model->getErrors()) {
+    $model->publish = 1;
+}
 echo $form->field($model, 'publish')
 	->checkbox()
 	->label($model->getAttributeLabel('publish')); ?>

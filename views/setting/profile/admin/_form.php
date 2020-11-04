@@ -21,14 +21,14 @@ use ommu\users\models\Assignments;
 
 $js = <<<JS
 	$('.field-profile_personal input[name="profile_personal"]').on('change', function() {
-		if($(this).prop('checked')) {
+        if ($(this).prop('checked')) {
 			$('div#pages').hide();
 		} else {
 			$('div#pages').show();
 		}
 	});
 	$('.field-multiple_user input[name="multiple_user"]').on('change', function() {
-		if($(this).prop('checked')) {
+        if ($(this).prop('checked')) {
 			$('div.field-user_limit').show();
 		} else {
 			$('div.field-user_limit').hide();
@@ -67,7 +67,8 @@ echo $form->field($model, 'assignment_roles')
 	->checkboxList($assignments)
 	->label($model->getAttributeLabel('assignment_roles')); ?>
 
-<?php if($model->isNewRecord && !$model->getErrors()) {
+<?php 
+if ($model->isNewRecord && !$model->getErrors()) {
 	$model->profile_personal = 1;
 	$model->multiple_user = 0;
 }
@@ -86,8 +87,10 @@ echo $form->field($model, 'profile_personal')
 	->hint(Yii::t('app', 'User limit recommendation is {limit}', ['limit'=>$model->multipleUserLimit])); ?>
 </div>
 
-<?php if($model->isNewRecord && !$model->getErrors())
-	$model->publish = 1;
+<?php 
+if ($model->isNewRecord && !$model->getErrors()) {
+    $model->publish = 1;
+}
 echo $form->field($model, 'publish')
 	->checkbox()
 	->label($model->getAttributeLabel('publish')); ?>

@@ -138,11 +138,13 @@ class MemberContactCategory extends \app\components\ActiveRecord
 	{
 		parent::init();
 
-		if(!(Yii::$app instanceof \app\components\Application))
-			return;
+        if (!(Yii::$app instanceof \app\components\Application)) {
+            return;
+        }
 
-		if(!$this->hasMethod('search'))
-			return;
+        if (!$this->hasMethod('search')) {
+            return;
+        }
 
 		$this->templateColumns['_no'] = [
 			'header' => '#',
@@ -210,35 +212,38 @@ class MemberContactCategory extends \app\components\ActiveRecord
 	 */
 	public static function getInfo($id, $column=null)
 	{
-		if($column != null) {
-			$model = self::find();
-			if(is_array($column))
-				$model->select($column);
-			else
-				$model->select([$column]);
-			$model = $model->where(['cat_id' => $id])->one();
-			return is_array($column) ? $model : $model->$column;
-			
-		} else {
-			$model = self::findOne($id);
-			return $model;
-		}
+        if ($column != null) {
+            $model = self::find();
+            if (is_array($column)) {
+                $model->select($column);
+            } else {
+                $model->select([$column]);
+            }
+            $model = $model->where(['cat_id' => $id])->one();
+            return is_array($column) ? $model : $model->$column;
+
+        } else {
+            $model = self::findOne($id);
+            return $model;
+        }
 	}
 
 	/**
 	 * function getCategory
 	 */
-	public static function getCategory($publish=null, $array=true) 
+	public static function getCategory($publish=null, $array=true)
 	{
 		$model = self::find()->alias('t');
 		$model->leftJoin(sprintf('%s title', SourceMessage::tableName()), 't.cat_name=title.id');
-		if($publish != null)
-			$model->andWhere(['t.publish' => $publish]);
+        if ($publish != null) {
+            $model->andWhere(['t.publish' => $publish]);
+        }
 
 		$model = $model->orderBy('title.message ASC')->all();
 
-		if($array == true)
-			return \yii\helpers\ArrayHelper::map($model, 'cat_id', 'cat_name_i');
+        if ($array == true) {
+            return \yii\helpers\ArrayHelper::map($model, 'cat_id', 'cat_name_i');
+        }
 
 		return $model;
 	}
@@ -258,16 +263,18 @@ class MemberContactCategory extends \app\components\ActiveRecord
 	 */
 	public function beforeValidate()
 	{
-		if(parent::beforeValidate()) {
-			if($this->isNewRecord) {
-				if($this->creation_id == null)
-					$this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			} else {
-				if($this->modified_id == null)
-					$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			}
-		}
-		return true;
+        if (parent::beforeValidate()) {
+            if ($this->isNewRecord) {
+                if ($this->creation_id == null) {
+                    $this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            } else {
+                if ($this->modified_id == null) {
+                    $this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            }
+        }
+        return true;
 	}
 
 	/**
@@ -275,27 +282,27 @@ class MemberContactCategory extends \app\components\ActiveRecord
 	 */
 	public function beforeSave($insert)
 	{
-		$module = strtolower(Yii::$app->controller->module->id);
-		$controller = strtolower(Yii::$app->controller->id);
-		$action = strtolower(Yii::$app->controller->action->id);
+        $module = strtolower(Yii::$app->controller->module->id);
+        $controller = strtolower(Yii::$app->controller->id);
+        $action = strtolower(Yii::$app->controller->action->id);
 
-		$location = Inflector::slug($module.' '.$controller);
+        $location = Inflector::slug($module.' '.$controller);
 
-		if(parent::beforeSave($insert)) {
-			if($insert || (!$insert && !$this->cat_name)) {
-				$cat_name = new SourceMessage();
-				$cat_name->location = $location.'_title';
-				$cat_name->message = $this->cat_name_i;
-				if($cat_name->save())
-					$this->cat_name = $cat_name->id;
+        if (parent::beforeSave($insert)) {
+            if ($insert || (!$insert && !$this->cat_name)) {
+                $cat_name = new SourceMessage();
+                $cat_name->location = $location.'_title';
+                $cat_name->message = $this->cat_name_i;
+                if ($cat_name->save()) {
+                    $this->cat_name = $cat_name->id;
+                }
 
-			} else {
-				$cat_name = SourceMessage::findOne($this->cat_name);
-				$cat_name->message = $this->cat_name_i;
-				$cat_name->save();
-			}
-
-		}
-		return true;
+            } else {
+                $cat_name = SourceMessage::findOne($this->cat_name);
+                $cat_name->message = $this->cat_name_i;
+                $cat_name->save();
+            }
+        }
+        return true;
 	}
 }

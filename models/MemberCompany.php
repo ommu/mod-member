@@ -52,7 +52,7 @@ use app\modules\ipedia\models\IpediaCompany as IpediaCompanies;
 
 class MemberCompany extends \app\components\ActiveRecord
 {
-	public $gridForbiddenColumn = ['info_intro','info_article','company_country_id','company_province_id','company_city_id','company_district','company_village','company_zipcode','creation_date','creationDisplayname','modified_date', 'modifiedDisplayname', 'updated_date'];
+	public $gridForbiddenColumn = ['info_intro', 'info_article', 'company_country_id', 'company_province_id', 'company_city_id', 'company_district', 'company_village', 'company_zipcode', 'creation_date', 'creationDisplayname', 'modified_date', 'modifiedDisplayname', 'updated_date'];
 	public $member_i;
 
 	public $creationDisplayname;
@@ -200,11 +200,13 @@ class MemberCompany extends \app\components\ActiveRecord
 	{
 		parent::init();
 
-		if(!(Yii::$app instanceof \app\components\Application))
-			return;
+        if (!(Yii::$app instanceof \app\components\Application)) {
+            return;
+        }
 
-		if(!$this->hasMethod('search'))
-			return;
+        if (!$this->hasMethod('search')) {
+            return;
+        }
 
 		$this->templateColumns['_no'] = [
 			'header' => '#',
@@ -332,19 +334,20 @@ class MemberCompany extends \app\components\ActiveRecord
 	 */
 	public static function getInfo($id, $column=null)
 	{
-		if($column != null) {
-			$model = self::find();
-			if(is_array($column))
-				$model->select($column);
-			else
-				$model->select([$column]);
-			$model = $model->where(['id' => $id])->one();
-			return is_array($column) ? $model : $model->$column;
-			
-		} else {
-			$model = self::findOne($id);
-			return $model;
-		}
+        if ($column != null) {
+            $model = self::find();
+            if (is_array($column)) {
+                $model->select($column);
+            } else {
+                $model->select([$column]);
+            }
+            $model = $model->where(['id' => $id])->one();
+            return is_array($column) ? $model : $model->$column;
+
+        } else {
+            $model = self::findOne($id);
+            return $model;
+        }
 	}
 
 	/**
@@ -362,28 +365,31 @@ class MemberCompany extends \app\components\ActiveRecord
 	 */
 	public function beforeValidate()
 	{
-		if(parent::beforeValidate()) {
-			if($this->scenario == self::SCENARIO_UPDATE) {
-				if($this->company_address != '') {
-					if($this->company_district == '' && $this->company_village == '')
-						$this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute'=>$this->getAttributeLabel('company_address')]));
-					else {
-						if($this->company_district == '')
-							$this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute'=>$this->getAttributeLabel('company_district')]));
-						else if($this->company_village == '')
-							$this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute'=>$this->getAttributeLabel('company_village')]));
+        if (parent::beforeValidate()) {
+            if ($this->scenario == self::SCENARIO_UPDATE) {
+                if ($this->company_address != '') {
+                    if ($this->company_district == '' && $this->company_village == '') {
+                        $this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute'=>$this->getAttributeLabel('company_address')]));
+                    } else {
+                        if ($this->company_district == '') {
+                            $this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute'=>$this->getAttributeLabel('company_district')]));
+                        } else if ($this->company_village == '') {
+                            $this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute'=>$this->getAttributeLabel('company_village')]));
+                        }
 					}
 				}
 			}
 
-			if($this->isNewRecord) {
-				if($this->creation_id == null)
-					$this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			} else {
-				if($this->modified_id == null)
-					$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			}
-		}
-		return true;
+            if ($this->isNewRecord) {
+                if ($this->creation_id == null) {
+                    $this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            } else {
+                if ($this->modified_id == null) {
+                    $this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            }
+        }
+        return true;
 	}
 }

@@ -60,10 +60,11 @@ class MemberCompany extends MemberCompanyModel
 	 */
 	public function search($params, $column=null)
 	{
-		if(!($column && is_array($column)))
-			$query = MemberCompanyModel::find()->alias('t');
-		else
-			$query = MemberCompanyModel::find()->alias('t')->select($column);
+        if (!($column && is_array($column))) {
+            $query = MemberCompanyModel::find()->alias('t');
+        } else {
+            $query = MemberCompanyModel::find()->alias('t')->select($column);
+        }
 		$query->joinWith([
 			'member member', 
 			'company.directory company', 
@@ -80,8 +81,9 @@ class MemberCompany extends MemberCompanyModel
 			'query' => $query,
 		];
 		// disable pagination agar data pada api tampil semua
-		if(isset($params['pagination']) && $params['pagination'] == 0)
-			$dataParams['pagination'] = false;
+        if (isset($params['pagination']) && $params['pagination'] == 0) {
+            $dataParams['pagination'] = false;
+        }
 		$dataProvider = new ActiveDataProvider($dataParams);
 
 		$attributes = array_keys($this->getTableSchema()->columns);
@@ -110,11 +112,12 @@ class MemberCompany extends MemberCompanyModel
 			'defaultOrder' => ['id' => SORT_DESC],
 		]);
 
-		if(Yii::$app->request->get('id'))
-			unset($params['id']);
+        if (Yii::$app->request->get('id')) {
+            unset($params['id']);
+        }
 		$this->load($params);
 
-		if(!$this->validate()) {
+        if (!$this->validate()) {
 			// uncomment the following line if you do not want to return any records when validation fails
 			// $query->where('0=1');
 			return $dataProvider;

@@ -44,7 +44,7 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
-	public $gridForbiddenColumn = ['verified_search','creation_date','creationDisplayname','modified_date', 'modifiedDisplayname', 'updated_date'];
+	public $gridForbiddenColumn = ['verified_search', 'creation_date', 'creationDisplayname', 'modified_date', 'modifiedDisplayname', 'updated_date'];
 	public $old_status_i;
 
 	public $verified_search;
@@ -159,11 +159,13 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 	{
 		parent::init();
 
-		if(!(Yii::$app instanceof \app\components\Application))
-			return;
+        if (!(Yii::$app instanceof \app\components\Application)) {
+            return;
+        }
 
-		if(!$this->hasMethod('search'))
-			return;
+        if (!$this->hasMethod('search')) {
+            return;
+        }
 
 		$this->templateColumns['_no'] = [
 			'header' => '#',
@@ -278,19 +280,20 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 	 */
 	public static function getInfo($id, $column=null)
 	{
-		if($column != null) {
-			$model = self::find();
-			if(is_array($column))
-				$model->select($column);
-			else
-				$model->select([$column]);
-			$model = $model->where(['id' => $id])->one();
-			return is_array($column) ? $model : $model->$column;
-			
-		} else {
-			$model = self::findOne($id);
-			return $model;
-		}
+        if ($column != null) {
+            $model = self::find();
+            if (is_array($column)) {
+                $model->select($column);
+            } else {
+                $model->select([$column]);
+            }
+            $model = $model->where(['id' => $id])->one();
+            return is_array($column) ? $model : $model->$column;
+
+        } else {
+            $model = self::findOne($id);
+            return $model;
+        }
 	}
 
 	/**
@@ -310,18 +313,21 @@ class MemberCompanyContact extends \app\components\ActiveRecord
 	{
 		$action = strtolower(Yii::$app->controller->action->id);
 
-		if(parent::beforeValidate()) {
-			if($action == 'status' && $this->old_status_i != $this->status)
-				$this->verified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+        if (parent::beforeValidate()) {
+            if ($action == 'status' && $this->old_status_i != $this->status) {
+                $this->verified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+            }
 
-			if($this->isNewRecord) {
-				if($this->creation_id == null)
-					$this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			} else {
-				if($this->modified_id == null)
-					$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			}
-		}
-		return true;
+            if ($this->isNewRecord) {
+                if ($this->creation_id == null) {
+                    $this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            } else {
+                if ($this->modified_id == null) {
+                    $this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            }
+        }
+        return true;
 	}
 }

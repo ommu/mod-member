@@ -41,7 +41,7 @@ class MemberViews extends \app\components\ActiveRecord
 {
 	use \ommu\traits\UtilityTrait;
 
-	public $gridForbiddenColumn = ['modified_date','modifiedDisplayname','deleted_date'];
+	public $gridForbiddenColumn = ['modified_date', 'modifiedDisplayname', 'deleted_date'];
 
 	public $member_search;
 	public $userDisplayname;
@@ -141,11 +141,13 @@ class MemberViews extends \app\components\ActiveRecord
 	{
 		parent::init();
 
-		if(!(Yii::$app instanceof \app\components\Application))
-			return;
+        if (!(Yii::$app instanceof \app\components\Application)) {
+            return;
+        }
 
-		if(!$this->hasMethod('search'))
-			return;
+        if (!$this->hasMethod('search')) {
+            return;
+        }
 
 		$this->templateColumns['_no'] = [
 			'header' => '#',
@@ -233,19 +235,20 @@ class MemberViews extends \app\components\ActiveRecord
 	 */
 	public static function getInfo($id, $column=null)
 	{
-		if($column != null) {
-			$model = self::find();
-			if(is_array($column))
-				$model->select($column);
-			else
-				$model->select([$column]);
-			$model = $model->where(['view_id' => $id])->one();
-			return is_array($column) ? $model : $model->$column;
-			
-		} else {
-			$model = self::findOne($id);
-			return $model;
-		}
+        if ($column != null) {
+            $model = self::find();
+            if (is_array($column)) {
+                $model->select($column);
+            } else {
+                $model->select([$column]);
+            }
+            $model = $model->where(['view_id' => $id])->one();
+            return is_array($column) ? $model : $model->$column;
+
+        } else {
+            $model = self::findOne($id);
+            return $model;
+        }
 	}
 
 	public function insertView($member_id)
@@ -253,19 +256,19 @@ class MemberViews extends \app\components\ActiveRecord
 		$user_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
 		
 		$model = self::find()
-			->select(['view_id','views'])
+			->select(['view_id', 'views'])
 			->where(['publish' => 1])
 			->andWhere(['member_id' => $member_id]);
-		if($user_id != null)
-			$model->andWhere(['user_id' => $user_id]);
-		else
-			$model->andWhere(['is', 'user_id', null]);
+        if ($user_id != null) {
+            $model->andWhere(['user_id' => $user_id]);
+        } else {
+            $model->andWhere(['is', 'user_id', null]);
+        }
 		$model = $model->one();
 			
-		if($model !== null)
-			$model->updateAttributes(['views'=>$model->views+1, 'view_ip'=>$_SERVER['REMOTE_ADDR']]);
-
-		else {
+        if ($model !== null) {
+            $model->updateAttributes(['views'=>$model->views+1, 'view_ip'=>$_SERVER['REMOTE_ADDR']]);
+        } else {
 			$view = new MemberViews();
 			$view->member_id = $member_id;
 			$view->member_id = $user_id;
@@ -278,13 +281,14 @@ class MemberViews extends \app\components\ActiveRecord
 	 */
 	public function beforeValidate()
 	{
-		if(parent::beforeValidate()) {
-			if(!$this->isNewRecord) {
-				if($this->modified_id == null)
-					$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			}
-			$this->view_ip = $_SERVER['REMOTE_ADDR'];
-		}
-		return true;
+        if (parent::beforeValidate()) {
+            if (!$this->isNewRecord) {
+                if ($this->modified_id == null) {
+                    $this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            }
+            $this->view_ip = $_SERVER['REMOTE_ADDR'];
+        }
+        return true;
 	}
 }

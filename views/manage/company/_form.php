@@ -189,8 +189,10 @@ echo $form->field($model, 'company_country_id')
 	->dropDownList($companyCountry, ['prompt'=>''])
 	->label($model->getAttributeLabel('company_country_id')); ?>
 
-<?php if(!$model->getErrors() && $model->company_zipcode == 0)
-	$model->company_zipcode = '';
+<?php 
+if (!$model->getErrors() && $model->company_zipcode == 0) {
+    $model->company_zipcode = '';
+}
 echo $form->field($model, 'company_zipcode')
 	->textInput(['type'=>'number', 'min'=>'1'])
 	->label($model->getAttributeLabel('company_zipcode')); ?>
@@ -198,8 +200,9 @@ echo $form->field($model, 'company_zipcode')
 <hr/>
 
 <?php $memberPrivate = Members::getMemberPrivate();
-if($member->isNewRecord && !$member->getErrors())
-	$member->member_private = 0;
+if ($member->isNewRecord && !$member->getErrors()) {
+    $member->member_private = 0;
+}
 echo $form->field($member, 'member_private')
 	->dropDownList($memberPrivate, ['prompt'=>''])
 	->label($member->getAttributeLabel('member_private')); ?>
@@ -208,8 +211,10 @@ echo $form->field($member, 'member_private')
 	->checkbox()
 	->label($member->getAttributeLabel('approved')); ?>
 
-<?php if($model->isNewRecord && !$model->getErrors())
+<?php 
+if ($model->isNewRecord && !$model->getErrors()) {
 	$member->publish = 1;
+}
 echo $form->field($member, 'publish')
 	->checkbox()
 	->label($member->getAttributeLabel('publish')); ?>

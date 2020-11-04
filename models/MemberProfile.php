@@ -129,20 +129,22 @@ class MemberProfile extends \app\components\ActiveRecord
 	 */
 	public function getCategories($count=false, $publish=1)
 	{
-		if($count == false)
-			return $this->hasMany(MemberProfileCategory::className(), ['profile_id' => 'profile_id'])
-			->alias('categories')
-			->andOnCondition([sprintf('%s.publish', 'categories') => $publish]);
+        if ($count == false) {
+            return $this->hasMany(MemberProfileCategory::className(), ['profile_id' => 'profile_id'])
+                ->alias('categories')
+                ->andOnCondition([sprintf('%s.publish', 'categories') => $publish]);
+        }
 
 		$model = MemberProfileCategory::find()
-			->alias('t')
-			->where(['profile_id' => $this->profile_id]);
-		if($publish == 0)
-			$model->unpublish();
-		elseif($publish == 1)
-			$model->published();
-		elseif($publish == 2)
-			$model->deleted();
+            ->alias('t')
+            ->where(['profile_id' => $this->profile_id]);
+        if ($publish == 0) {
+            $model->unpublish();
+        } else if ($publish == 1) {
+            $model->published();
+        } else if ($publish == 2) {
+            $model->deleted();
+        }
 		$categories = $model->count();
 
 		return $categories ? $categories : 0;
@@ -153,20 +155,22 @@ class MemberProfile extends \app\components\ActiveRecord
 	 */
 	public function getDocuments($count=false, $publish=1)
 	{
-		if($count == false)
-			return $this->hasMany(MemberProfileDocument::className(), ['profile_id' => 'profile_id'])
-			->alias('documents')
-			->andOnCondition([sprintf('%s.publish', 'documents') => $publish]);
+        if ($count == false) {
+            return $this->hasMany(MemberProfileDocument::className(), ['profile_id' => 'profile_id'])
+                ->alias('documents')
+                ->andOnCondition([sprintf('%s.publish', 'documents') => $publish]);
+        }
 
 		$model = MemberProfileDocument::find()
-			->alias('t')
-			->where(['profile_id' => $this->profile_id]);
-		if($publish == 0)
-			$model->unpublish();
-		elseif($publish == 1)
-			$model->published();
-		elseif($publish == 2)
-			$model->deleted();
+            ->alias('t')
+            ->where(['profile_id' => $this->profile_id]);
+        if ($publish == 0) {
+            $model->unpublish();
+        } else if ($publish == 1) {
+            $model->published();
+        } else if ($publish == 2) {
+            $model->deleted();
+        }
 		$documents = $model->count();
 
 		return $documents ? $documents : 0;
@@ -177,20 +181,22 @@ class MemberProfile extends \app\components\ActiveRecord
 	 */
 	public function getMembers($count=false, $publish=1)
 	{
-		if($count == false)
-			return $this->hasMany(Members::className(), ['profile_id' => 'profile_id'])
-			->alias('members')
-			->andOnCondition([sprintf('%s.publish', 'members') => $publish]);
+        if ($count == false) {
+            return $this->hasMany(Members::className(), ['profile_id' => 'profile_id'])
+                ->alias('members')
+                ->andOnCondition([sprintf('%s.publish', 'members') => $publish]);
+        }
 
 		$model = Members::find()
-			->alias('t')
-			->where(['profile_id' => $this->profile_id]);
-		if($publish == 0)
-			$model->unpublish();
-		elseif($publish == 1)
-			$model->published();
-		elseif($publish == 2)
-			$model->deleted();
+            ->alias('t')
+            ->where(['profile_id' => $this->profile_id]);
+        if ($publish == 0) {
+            $model->unpublish();
+        } else if ($publish == 1) {
+            $model->published();
+        } else if ($publish == 2) {
+            $model->deleted();
+        }
 		$members = $model->count();
 
 		return $members ? $members : 0;
@@ -254,11 +260,13 @@ class MemberProfile extends \app\components\ActiveRecord
 	{
 		parent::init();
 
-		if(!(Yii::$app instanceof \app\components\Application))
-			return;
+        if (!(Yii::$app instanceof \app\components\Application)) {
+            return;
+        }
 
-		if(!$this->hasMethod('search'))
-			return;
+        if (!$this->hasMethod('search')) {
+            return;
+        }
 
 		$this->templateColumns['_no'] = [
 			'header' => '#',
@@ -393,37 +401,40 @@ class MemberProfile extends \app\components\ActiveRecord
 	 */
 	public static function getInfo($id, $column=null)
 	{
-		if($column != null) {
-			$model = self::find();
-			if(is_array($column))
-				$model->select($column);
-			else
-				$model->select([$column]);
-			$model = $model->where(['profile_id' => $id])->one();
-			return is_array($column) ? $model : $model->$column;
-			
-		} else {
-			$model = self::findOne($id);
-			return $model;
-		}
+        if ($column != null) {
+            $model = self::find();
+            if (is_array($column)) {
+                $model->select($column);
+            } else {
+                $model->select([$column]);
+            }
+            $model = $model->where(['profile_id' => $id])->one();
+            return is_array($column) ? $model : $model->$column;
+
+        } else {
+            $model = self::findOne($id);
+            return $model;
+        }
 	}
 
 	/**
 	 * function getProfile
 	 */
-	public static function getProfile($publish=null, $array=true) 
+	public static function getProfile($publish=null, $array=true)
 	{
 		$model = self::find()
-			->alias('t')
+            ->alias('t')
 			->select(['t.profile_id', 't.profile_name']);
 		$model->leftJoin(sprintf('%s title', SourceMessage::tableName()), 't.profile_name=title.id');
-		if($publish != null)
-			$model->andWhere(['t.publish' => $publish]);
+        if ($publish != null) {
+            $model->andWhere(['t.publish' => $publish]);
+        }
 
 		$model = $model->orderBy('title.message ASC')->all();
 
-		if($array == true)
-			return \yii\helpers\ArrayHelper::map($model, 'profile_id', 'profile_name_i');
+        if ($array == true) {
+            return \yii\helpers\ArrayHelper::map($model, 'profile_id', 'profile_name_i');
+        }
 
 		return $model;
 	}
@@ -433,10 +444,11 @@ class MemberProfile extends \app\components\ActiveRecord
 	 */
 	public static function parseAssignmentRoles($assignmentRoles, $sep='li')
 	{
-		if(!is_array($assignmentRoles) || (is_array($assignmentRoles) && empty($assignmentRoles)))
-			return '-';
+        if (!is_array($assignmentRoles) || (is_array($assignmentRoles) && empty($assignmentRoles))) {
+            return '-';
+        }
 
-		if($sep == 'li') {
+        if ($sep == 'li') {
 			return Html::ul($assignmentRoles, ['item' => function($item, $index) {
 				return Html::tag('li', $item);
 			}, 'class'=>'list-boxed']);
@@ -464,24 +476,27 @@ class MemberProfile extends \app\components\ActiveRecord
 	 */
 	public function beforeValidate()
 	{
-		if(parent::beforeValidate()) {
-			if($this->isNewRecord) {
-				if($this->creation_id == null)
-					$this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			} else {
-				if($this->modified_id == null)
-					$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			}
+        if (parent::beforeValidate()) {
+            if ($this->isNewRecord) {
+                if ($this->creation_id == null) {
+                    $this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            } else {
+                if ($this->modified_id == null) {
+                    $this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            }
 
-			if($this->profile_personal) {
+            if ($this->profile_personal) {
 				$this->multiple_user = 0;
 				$this->user_limit = 1;
 			} else {
-				if(!$this->multiple_user)
-					$this->user_limit = 1;
-			}
-		}
-		return true;
+                if (!$this->multiple_user) {
+                    $this->user_limit = 1;
+                }
+            }
+        }
+        return true;
 	}
 
 	/**
@@ -489,41 +504,43 @@ class MemberProfile extends \app\components\ActiveRecord
 	 */
 	public function beforeSave($insert)
 	{
-		$module = strtolower(Yii::$app->controller->module->id);
-		$controller = strtolower(Yii::$app->controller->id);
-		$action = strtolower(Yii::$app->controller->action->id);
+        $module = strtolower(Yii::$app->controller->module->id);
+        $controller = strtolower(Yii::$app->controller->id);
+        $action = strtolower(Yii::$app->controller->action->id);
 
-		$location = Inflector::slug($module.' '.$controller);
+        $location = Inflector::slug($module.' '.$controller);
 
-		if(parent::beforeSave($insert)) {
-			if($insert || (!$insert && !$this->profile_name)) {
-				$profile_name = new SourceMessage();
-				$profile_name->location = $location.'_title';
-				$profile_name->message = $this->profile_name_i;
-				if($profile_name->save())
-					$this->profile_name = $profile_name->id;
+        if (parent::beforeSave($insert)) {
+            if ($insert || (!$insert && !$this->profile_name)) {
+                $profile_name = new SourceMessage();
+                $profile_name->location = $location.'_title';
+                $profile_name->message = $this->profile_name_i;
+                if ($profile_name->save()) {
+                    $this->profile_name = $profile_name->id;
+                }
 
-			} else {
-				$profile_name = SourceMessage::findOne($this->profile_name);
-				$profile_name->message = $this->profile_name_i;
-				$profile_name->save();
-			}
+            } else {
+                $profile_name = SourceMessage::findOne($this->profile_name);
+                $profile_name->message = $this->profile_name_i;
+                $profile_name->save();
+            }
 
-			if($insert || (!$insert && !$this->profile_desc)) {
-				$profile_desc = new SourceMessage();
-				$profile_desc->location = $location.'_description';
-				$profile_desc->message = $this->profile_desc_i;
-				if($profile_desc->save())
-					$this->profile_desc = $profile_desc->id;
+            if ($insert || (!$insert && !$this->profile_desc)) {
+                $profile_desc = new SourceMessage();
+                $profile_desc->location = $location.'_description';
+                $profile_desc->message = $this->profile_desc_i;
+                if ($profile_desc->save()) {
+                    $this->profile_desc = $profile_desc->id;
+                }
 
-			} else {
-				$profile_desc = SourceMessage::findOne($this->profile_desc);
-				$profile_desc->message = $this->profile_desc_i;
-				$profile_desc->save();
-			}
+            } else {
+                $profile_desc = SourceMessage::findOne($this->profile_desc);
+                $profile_desc->message = $this->profile_desc_i;
+                $profile_desc->save();
+            }
 
-			$this->assignment_roles = Json::encode($this->assignment_roles);
-		}
-		return true;
+            $this->assignment_roles = Json::encode($this->assignment_roles);
+        }
+        return true;
 	}
 }

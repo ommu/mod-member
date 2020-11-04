@@ -27,7 +27,7 @@ class MemberUser extends \yii\db\ActiveQuery
 	/**
 	 * {@inheritdoc}
 	 */
-	public function active() 
+	public function active()
 	{
 		return $this->andWhere(['t.publish' => 1]);
 	}
@@ -35,7 +35,7 @@ class MemberUser extends \yii\db\ActiveQuery
 	/**
 	 * {@inheritdoc}
 	 */
-	public function deactive() 
+	public function deactive()
 	{
 		return $this->andWhere(['t.publish' => 0]);
 	}

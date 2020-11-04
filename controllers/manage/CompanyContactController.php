@@ -63,18 +63,19 @@ class CompanyContactController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$searchModel = new MemberCompanyContactSearch();
-		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = new MemberCompanyContactSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-		$gridColumn = Yii::$app->request->get('GridColumn', null);
-		$cols = [];
-		if($gridColumn != null && count($gridColumn) > 0) {
-			foreach($gridColumn as $key => $val) {
-				if($gridColumn[$key] == 1)
-					$cols[] = $key;
-			}
-		}
-		$columns = $searchModel->getGridColumn($cols);
+        $gridColumn = Yii::$app->request->get('GridColumn', null);
+        $cols = [];
+        if ($gridColumn != null && count($gridColumn) > 0) {
+            foreach ($gridColumn as $key => $val) {
+                if ($gridColumn[$key] == 1) {
+                    $cols[] = $key;
+                }
+            }
+        }
+        $columns = $searchModel->getGridColumn($cols);
 
 		$this->view->title = Yii::t('app', 'Company Contacts');
 		$this->view->description = '';
@@ -94,23 +95,25 @@ class CompanyContactController extends Controller
 	public function actionCreate()
 	{
 		$company = Yii::$app->request->get('company');
-		if(!$company)
-			throw new \yii\web\ForbiddenHttpException(Yii::t('app', 'The requested page does not exist.'));
+        if (!$company) {
+            throw new \yii\web\ForbiddenHttpException(Yii::t('app', 'The requested page does not exist.'));
+        }
 
 		$model = new MemberCompanyContact();
 
-		if(Yii::$app->request->isPost) {
+        if (Yii::$app->request->isPost) {
 			$model->load(Yii::$app->request->post());
 			$model->member_company_id = $company;
 
-			if($model->save()) {
+            if ($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member company contact success created.'));
 				return $this->redirect(['index', 'company'=>$model->member_company_id]);
 				//return $this->redirect(['view', 'id'=>$model->id]);
 
-			} else {
-				if(Yii::$app->request->isAjax)
-					return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
+            } else {
+                if (Yii::$app->request->isAjax) {
+                    return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
+                }
 			}
 		}
 
@@ -132,20 +135,21 @@ class CompanyContactController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		if(Yii::$app->request->isPost) {
+        if (Yii::$app->request->isPost) {
 			$model->load(Yii::$app->request->post());
 			// $postData = Yii::$app->request->post();
 			// $model->load($postData);
 			// $model->order = $postData['order'] ? $postData['order'] : 0;
 
-			if($model->save()) {
+            if ($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member company contact success updated.'));
 				return $this->redirect(['index', 'company'=>$model->member_company_id]);
 				//return $this->redirect(['view', 'id'=>$model->id]);
 
-			} else {
-				if(Yii::$app->request->isAjax)
-					return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
+            } else {
+                if (Yii::$app->request->isAjax) {
+                    return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
+                }
 			}
 		}
 
@@ -185,7 +189,7 @@ class CompanyContactController extends Controller
 		$model = $this->findModel($id);
 		$model->publish = 2;
 
-		if($model->save(false, ['publish','modified_id'])) {
+        if ($model->save(false, ['publish', 'modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member company contact success deleted.'));
 			return $this->redirect(['index', 'company'=>$model->member_company_id]);
 		}
@@ -203,7 +207,7 @@ class CompanyContactController extends Controller
 		$replace = $model->publish == 1 ? 0 : 1;
 		$model->publish = $replace;
 
-		if($model->save(false, ['publish','modified_id'])) {
+        if ($model->save(false, ['publish', 'modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member company contact success updated.'));
 			return $this->redirect(['index', 'company'=>$model->member_company_id]);
 		}
@@ -221,7 +225,7 @@ class CompanyContactController extends Controller
 		$replace = $model->status == 1 ? 0 : 1;
 		$model->status = $replace;
 		
-		if($model->save(false, ['status','verified_id'])) {
+        if ($model->save(false, ['status', 'verified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member company contact success updated.'));
 			return $this->redirect(['index', 'company'=>$model->member_company_id]);
 		}
@@ -236,8 +240,9 @@ class CompanyContactController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if(($model = MemberCompanyContact::findOne($id)) !== null)
-			return $model;
+        if (($model = MemberCompanyContact::findOne($id)) !== null) {
+            return $model;
+        }
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}

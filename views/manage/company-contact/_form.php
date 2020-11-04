@@ -48,8 +48,10 @@ echo $form->field($model, 'contact_cat_id')
 	->checkbox()
 	->label($model->getAttributeLabel('status')); ?>
 
-<?php if($model->isNewRecord && !$model->getErrors())
-	$model->publish = 1;
+<?php 
+if ($model->isNewRecord && !$model->getErrors()) {
+    $model->publish = 1;
+}
 echo $form->field($model, 'publish')
 	->checkbox()
 	->label($model->getAttributeLabel('publish')); ?>

@@ -38,8 +38,10 @@ use app\components\widgets\ActiveForm;
 	->textInput(['type'=>'number', 'min'=>'1'])
 	->label($model->getAttributeLabel('user_id')); ?>
 
-<?php if($model->isNewRecord && !$model->getErrors())
-	$model->publish = 1;
+<?php 
+if ($model->isNewRecord && !$model->getErrors()) {
+    $model->publish = 1;
+}
 echo $form->field($model, 'publish')
 	->checkbox()
 	->label($model->getAttributeLabel('publish')); ?>

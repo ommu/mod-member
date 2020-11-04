@@ -161,11 +161,13 @@ class MemberFriendType extends \app\components\ActiveRecord
 	{
 		parent::init();
 
-		if(!(Yii::$app instanceof \app\components\Application))
-			return;
+        if (!(Yii::$app instanceof \app\components\Application)) {
+            return;
+        }
 
-		if(!$this->hasMethod('search'))
-			return;
+        if (!$this->hasMethod('search')) {
+            return;
+        }
 
 		$this->templateColumns['_no'] = [
 			'header' => '#',
@@ -247,35 +249,38 @@ class MemberFriendType extends \app\components\ActiveRecord
 	 */
 	public static function getInfo($id, $column=null)
 	{
-		if($column != null) {
-			$model = self::find();
-			if(is_array($column))
-				$model->select($column);
-			else
-				$model->select([$column]);
-			$model = $model->where(['id' => $id])->one();
-			return is_array($column) ? $model : $model->$column;
-			
-		} else {
-			$model = self::findOne($id);
-			return $model;
-		}
+        if ($column != null) {
+            $model = self::find();
+            if (is_array($column)) {
+                $model->select($column);
+            } else {
+                $model->select([$column]);
+            }
+            $model = $model->where(['id' => $id])->one();
+            return is_array($column) ? $model : $model->$column;
+
+        } else {
+            $model = self::findOne($id);
+            return $model;
+        }
 	}
 
 	/**
 	 * function getType
 	 */
-	public static function getType($publish=null, $array=true) 
+	public static function getType($publish=null, $array=true)
 	{
 		$model = self::find()->alias('t');
 		$model->leftJoin(sprintf('%s title', SourceMessage::tableName()), 't.type_name=title.id');
-		if($publish != null)
-			$model->andWhere(['t.publish' => $publish]);
+        if ($publish != null) {
+            $model->andWhere(['t.publish' => $publish]);
+        }
 
 		$model = $model->orderBy('title.message ASC')->all();
 
-		if($array == true)
-			return \yii\helpers\ArrayHelper::map($model, 'id', 'type_name_i');
+        if ($array == true) {
+            return \yii\helpers\ArrayHelper::map($model, 'id', 'type_name_i');
+        }
 
 		return $model;
 	}
@@ -296,16 +301,18 @@ class MemberFriendType extends \app\components\ActiveRecord
 	 */
 	public function beforeValidate()
 	{
-		if(parent::beforeValidate()) {
-			if($this->isNewRecord) {
-				if($this->creation_id == null)
-					$this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			} else {
-				if($this->modified_id == null)
-					$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			}
-		}
-		return true;
+        if (parent::beforeValidate()) {
+            if ($this->isNewRecord) {
+                if ($this->creation_id == null) {
+                    $this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            } else {
+                if ($this->modified_id == null) {
+                    $this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            }
+        }
+        return true;
 	}
 
 	/**
@@ -313,47 +320,49 @@ class MemberFriendType extends \app\components\ActiveRecord
 	 */
 	public function beforeSave($insert)
 	{
-		$module = strtolower(Yii::$app->controller->module->id);
-		$controller = strtolower(Yii::$app->controller->id);
-		$action = strtolower(Yii::$app->controller->action->id);
+        $module = strtolower(Yii::$app->controller->module->id);
+        $controller = strtolower(Yii::$app->controller->id);
+        $action = strtolower(Yii::$app->controller->action->id);
 
-		$location = Inflector::slug($module.' '.$controller);
+        $location = Inflector::slug($module.' '.$controller);
 
-		if(parent::beforeSave($insert)) {
-			if($insert || (!$insert && !$this->type_name)) {
-				$type_name = new SourceMessage();
-				$type_name->location = $location.'_title';
-				$type_name->message = $this->type_name_i;
-				if($type_name->save())
-					$this->type_name = $type_name->id;
+        if (parent::beforeSave($insert)) {
+            if ($insert || (!$insert && !$this->type_name)) {
+                $type_name = new SourceMessage();
+                $type_name->location = $location.'_title';
+                $type_name->message = $this->type_name_i;
+                if ($type_name->save()) {
+                    $this->type_name = $type_name->id;
+                }
 
-			} else {
-				$type_name = SourceMessage::findOne($this->type_name);
-				$type_name->message = $this->type_name_i;
-				$type_name->save();
-			}
+            } else {
+                $type_name = SourceMessage::findOne($this->type_name);
+                $type_name->message = $this->type_name_i;
+                $type_name->save();
+            }
 
-			if($insert || (!$insert && !$this->type_desc)) {
-				$type_desc = new SourceMessage();
-				$type_desc->location = $location.'_description';
-				$type_desc->message = $this->type_desc_i;
-				if($type_desc->save())
-					$this->type_desc = $type_desc->id;
+            if ($insert || (!$insert && !$this->type_desc)) {
+                $type_desc = new SourceMessage();
+                $type_desc->location = $location.'_description';
+                $type_desc->message = $this->type_desc_i;
+                if ($type_desc->save()) {
+                    $this->type_desc = $type_desc->id;
+                }
 
-			} else {
-				$type_desc = SourceMessage::findOne($this->type_desc);
-				$type_desc->message = $this->type_desc_i;
-				$type_desc->save();
-			}
+            } else {
+                $type_desc = SourceMessage::findOne($this->type_desc);
+                $type_desc->message = $this->type_desc_i;
+                $type_desc->save();
+            }
 
-			// set to default
-			if($this->default == 1) {
-				self::model()->updateAll(array(
-					'default' => 0,
-				));
-				$this->default = 1;
-			}
-		}
-		return true;
+            // set to default
+            if ($this->default == 1) {
+                self::model()->updateAll(array(
+                    'default' => 0,
+                ));
+                $this->default = 1;
+            }
+        }
+        return true;
 	}
 }

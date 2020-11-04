@@ -70,8 +70,9 @@ echo $form->field($model, 'photo_profile', ['template' => '{label}{beginWrapper}
 	->label($model->getAttributeLabel('short_biography')); ?>
 
 <?php $memberPrivate = Members::getMemberPrivate();
-if($model->isNewRecord && !$model->getErrors())
+if ($model->isNewRecord && !$model->getErrors()) {
 	$model->member_private = 0;
+}
 echo $form->field($model, 'member_private')
 	->dropDownList($memberPrivate, ['prompt'=>''])
 	->label($model->getAttributeLabel('member_private')); ?>
@@ -80,8 +81,10 @@ echo $form->field($model, 'member_private')
 	->checkbox()
 	->label($model->getAttributeLabel('approved')); ?>
 
-<?php if($model->isNewRecord && !$model->getErrors())
-	$model->publish = 1;
+<?php 
+if ($model->isNewRecord && !$model->getErrors()) {
+    $model->publish = 1;
+}
 echo $form->field($model, 'publish')
 	->checkbox()
 	->label($model->getAttributeLabel('publish')); ?>

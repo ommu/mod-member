@@ -65,18 +65,19 @@ class AdminController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$searchModel = new MembersSearch();
-		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = new MembersSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-		$gridColumn = Yii::$app->request->get('GridColumn', null);
-		$cols = [];
-		if($gridColumn != null && count($gridColumn) > 0) {
-			foreach($gridColumn as $key => $val) {
-				if($gridColumn[$key] == 1)
-					$cols[] = $key;
-			}
-		}
-		$columns = $searchModel->getGridColumn($cols);
+        $gridColumn = Yii::$app->request->get('GridColumn', null);
+        $cols = [];
+        if ($gridColumn != null && count($gridColumn) > 0) {
+            foreach ($gridColumn as $key => $val) {
+                if ($gridColumn[$key] == 1) {
+                    $cols[] = $key;
+                }
+            }
+        }
+        $columns = $searchModel->getGridColumn($cols);
 
 		$this->view->title = Yii::t('app', 'Members');
 		$this->view->description = '';
@@ -97,24 +98,27 @@ class AdminController extends Controller
 	{
 		$model = new Members();
 
-		if(Yii::$app->request->isPost) {
+        if (Yii::$app->request->isPost) {
 			$postData = Yii::$app->request->post();
 			$model->load($postData);
 			$model->photo_header = UploadedFile::getInstance($model, 'photo_header');
-			if(!($model->photo_header instanceof UploadedFile && !$model->photo_header->getHasError()))
-				$model->photo_header = $postData['photo_header'] ? $postData['photo_header'] : '';
+            if (!($model->photo_header instanceof UploadedFile && !$model->photo_header->getHasError())) {
+                $model->photo_header = $postData['photo_header'] ? $postData['photo_header'] : '';
+            }
 			$model->photo_profile = UploadedFile::getInstance($model, 'photo_profile');
-			if(!($model->photo_profile instanceof UploadedFile && !$model->photo_profile->getHasError()))
-				$model->photo_profile = $postData['photo_profile'] ? $postData['photo_profile'] : '';
+            if (!($model->photo_profile instanceof UploadedFile && !$model->photo_profile->getHasError())) {
+                $model->photo_profile = $postData['photo_profile'] ? $postData['photo_profile'] : '';
+            }
 
-			if($model->save()) {
+            if ($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member success created.'));
 				return $this->redirect(['index']);
 				//return $this->redirect(['view', 'id'=>$model->member_id]);
 
-			} else {
-				if(Yii::$app->request->isAjax)
-					return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
+            } else {
+                if (Yii::$app->request->isAjax) {
+                    return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
+                }
 			}
 		}
 
@@ -136,24 +140,27 @@ class AdminController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		if(Yii::$app->request->isPost) {
+        if (Yii::$app->request->isPost) {
 			$postData = Yii::$app->request->post();
 			$model->load($postData);
 			$model->photo_header = UploadedFile::getInstance($model, 'photo_header');
-			if(!($model->photo_header instanceof UploadedFile && !$model->photo_header->getHasError()))
-				$model->photo_header = $postData['photo_header'] ? $postData['photo_header'] : '';
+            if (!($model->photo_header instanceof UploadedFile && !$model->photo_header->getHasError())) {
+                $model->photo_header = $postData['photo_header'] ? $postData['photo_header'] : '';
+            }
 			$model->photo_profile = UploadedFile::getInstance($model, 'photo_profile');
-			if(!($model->photo_profile instanceof UploadedFile && !$model->photo_profile->getHasError()))
-				$model->photo_profile = $postData['photo_profile'] ? $postData['photo_profile'] : '';
+            if (!($model->photo_profile instanceof UploadedFile && !$model->photo_profile->getHasError())) {
+                $model->photo_profile = $postData['photo_profile'] ? $postData['photo_profile'] : '';
+            }
 
-			if($model->save()) {
+            if ($model->save()) {
 				Yii::$app->session->setFlash('success', Yii::t('app', 'Member success updated.'));
 				return $this->redirect(['index']);
 				//return $this->redirect(['view', 'id'=>$model->member_id]);
 
-			} else {
-				if(Yii::$app->request->isAjax)
-					return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
+            } else {
+                if (Yii::$app->request->isAjax) {
+                    return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
+                }
 			}
 		}
 
@@ -193,7 +200,7 @@ class AdminController extends Controller
 		$model = $this->findModel($id);
 		$model->publish = 2;
 
-		if($model->save(false, ['publish','modified_id'])) {
+        if ($model->save(false, ['publish', 'modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member success deleted.'));
 			return $this->redirect(['index']);
 		}
@@ -211,7 +218,7 @@ class AdminController extends Controller
 		$replace = $model->publish == 1 ? 0 : 1;
 		$model->publish = $replace;
 
-		if($model->save(false, ['publish','modified_id'])) {
+        if ($model->save(false, ['publish', 'modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member success updated.'));
 			return $this->redirect(['index']);
 		}
@@ -229,7 +236,7 @@ class AdminController extends Controller
 		$replace = $model->approved == 1 ? 0 : 1;
 		$model->approved = $replace;
 
-		if($model->save(false, ['approved','approved_id'])) {
+        if ($model->save(false, ['approved', 'approved_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member success updated.'));
 			return $this->redirect(['index']);
 		}
@@ -244,8 +251,9 @@ class AdminController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if(($model = Members::findOne($id)) !== null)
-			return $model;
+        if (($model = Members::findOne($id)) !== null) {
+            return $model;
+        }
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}

@@ -150,11 +150,13 @@ class MemberSetting extends \app\components\ActiveRecord
 	{
 		parent::init();
 
-		if(!(Yii::$app instanceof \app\components\Application))
-			return;
+        if (!(Yii::$app instanceof \app\components\Application)) {
+            return;
+        }
 
-		if(!$this->hasMethod('search'))
-			return;
+        if (!$this->hasMethod('search')) {
+            return;
+        }
 
 		$this->templateColumns['_no'] = [
 			'header' => '#',
@@ -285,14 +287,15 @@ class MemberSetting extends \app\components\ActiveRecord
 	 */
 	public static function getInfo($column=null)
 	{
-		if($column != null) {
-			$model = self::find();
-			if(is_array($column))
-				$model->select($column);
-			else
-				$model->select([$column]);
-			$model = $model->where(['id' => 1])->one();
-			return is_array($column) ? $model : $model->$column;
+        if ($column != null) {
+            $model = self::find();
+            if (is_array($column)) {
+                $model->select($column);
+            } else {
+                $model->select([$column]);
+            }
+            $model = $model->where(['id' => 1])->one();
+            return is_array($column) ? $model : $model->$column;
 			
 		} else {
 			$model = self::findOne(1);
@@ -307,18 +310,20 @@ class MemberSetting extends \app\components\ActiveRecord
 	{
 		$moduleName = "module name";
 		$module = strtolower(Yii::$app->controller->module->id);
-		if(($module = Yii::$app->moduleManager->getModule($module)) != null);
-			$moduleName = strtolower($module->getName());
+        if (($module = Yii::$app->moduleManager->getModule($module)) != null) {
+            $moduleName = strtolower($module->getName());
+        }
 
 		$items = array(
 			1 => Yii::t('app', 'Yes, the public can view {module} unless they are made private.', ['module'=>$moduleName]),
 			0 => Yii::t('app', 'No, the public cannot view {module}.', ['module'=>$moduleName]),
 		);
 
-		if($value !== null)
-			return $items[$value];
-		else
-			return $items;
+        if ($value !== null) {
+            return $items[$value];
+        } else {
+            return $items;
+        }
 	}
 
 	/**
@@ -331,10 +336,11 @@ class MemberSetting extends \app\components\ActiveRecord
 			0 => Yii::t('app', 'No, not resize photo after upload.'),
 		);
 
-		if($value !== null)
-			return $items[$value];
-		else
-			return $items;
+        if ($value !== null) {
+            return $items[$value];
+        } else {
+            return $items;
+        }
 	}
 
 	/**
@@ -342,8 +348,9 @@ class MemberSetting extends \app\components\ActiveRecord
 	 */
 	public static function getSize($sizes)
 	{
-		if(empty($sizes))
-			return '-';
+        if (empty($sizes)) {
+            return '-';
+        }
 
 		$width = $sizes['width'] ? $sizes['width'] : '~';
 		$height = $sizes['height'] ? $sizes['height'] : '~';
@@ -356,8 +363,9 @@ class MemberSetting extends \app\components\ActiveRecord
 	 */
 	public function parsePhotoViewSize($view_size)
 	{
-		if(empty($view_size))
-			return '-';
+        if (empty($view_size)) {
+            return '-';
+        }
 
 		$views = [];
 		foreach ($view_size as $key => $value) {
@@ -377,8 +385,9 @@ class MemberSetting extends \app\components\ActiveRecord
 		$this->photo_resize_size = Json::decode($this->photo_resize_size);
 		$this->photo_view_size = Json::decode($this->photo_view_size);
 		$photo_file_type = Json::decode($this->photo_file_type);
-		if(!empty($photo_file_type))
-			$this->photo_file_type = $this->formatFileType($photo_file_type, false);
+        if (!empty($photo_file_type)) {
+            $this->photo_file_type = $this->formatFileType($photo_file_type, false);
+        }
 		// $this->modifiedDisplayname = isset($this->modified) ? $this->modified->displayname : '-';
 	}
 
@@ -387,13 +396,14 @@ class MemberSetting extends \app\components\ActiveRecord
 	 */
 	public function beforeValidate()
 	{
-		if(parent::beforeValidate()) {
-			if(!$this->isNewRecord) {
-				if($this->modified_id == null)
-					$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			}
-		}
-		return true;
+        if (parent::beforeValidate()) {
+            if (!$this->isNewRecord) {
+                if ($this->modified_id == null) {
+                    $this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            }
+        }
+        return true;
 	}
 
 	/**
@@ -401,36 +411,39 @@ class MemberSetting extends \app\components\ActiveRecord
 	 */
 	public function beforeSave($insert)
 	{
-		if(parent::beforeSave($insert)) {
+        if (parent::beforeSave($insert)) {
 			$this->photo_header_view_size = Json::encode($this->photo_header_view_size);
 			$this->photo_resize_size = Json::encode($this->photo_resize_size);
 			$this->photo_view_size = Json::encode($this->photo_view_size);
 			$this->photo_file_type = Json::encode($this->formatFileType($this->photo_file_type));
 
 			// insert new personal profile
-			if(!isset($this->personal) && $this->personal_profile_id != '') {
+            if (!isset($this->personal) && $this->personal_profile_id != '') {
 				$model = new MemberProfile();
 				$model->profile_name_i = $this->personal_profile_id;
-				if($model->save())
-					$this->personal_profile_id = $model->profile_id;
+                if ($model->save()) {
+                    $this->personal_profile_id = $model->profile_id;
+                }
 			}
 
 			// insert new company profile
-			if(!isset($this->company) && $this->company_profile_id != '') {
+            if (!isset($this->company) && $this->company_profile_id != '') {
 				$model = new MemberProfile();
 				$model->profile_name_i = $this->company_profile_id;
-				if($model->save())
-					$this->company_profile_id = $model->profile_id;
+                if ($model->save()) {
+                    $this->company_profile_id = $model->profile_id;
+                }
 			}
 
 			// insert new group profile
-			if(!isset($this->group) && $this->group_profile_id != '') {
+            if (!isset($this->group) && $this->group_profile_id != '') {
 				$model = new MemberProfile();
 				$model->profile_name_i = $this->group_profile_id;
-				if($model->save())
-					$this->group_profile_id = $model->profile_id;
-			}
-		}
-		return true;
+                if ($model->save()) {
+                    $this->group_profile_id = $model->profile_id;
+                }
+            }
+        }
+        return true;
 	}
 }

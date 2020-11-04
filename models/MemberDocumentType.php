@@ -102,20 +102,22 @@ class MemberDocumentType extends \app\components\ActiveRecord
 	 */
 	public function getDocuments($count=false, $publish=1)
 	{
-		if($count == false)
-			return $this->hasMany(MemberProfileDocument::className(), ['document_id' => 'document_id'])
-			->alias('documents')
-			->andOnCondition([sprintf('%s.publish', 'documents') => $publish]);
+        if ($count == false) {
+            return $this->hasMany(MemberProfileDocument::className(), ['document_id' => 'document_id'])
+                ->alias('documents')
+                ->andOnCondition([sprintf('%s.publish', 'documents') => $publish]);
+        }
 
 		$model = MemberProfileDocument::find()
-			->alias('t')
-			->where(['document_id' => $this->document_id]);
-		if($publish == 0)
-			$model->unpublish();
-		elseif($publish == 1)
-			$model->published();
-		elseif($publish == 2)
-			$model->deleted();
+            ->alias('t')
+            ->where(['document_id' => $this->document_id]);
+        if ($publish == 0) {
+            $model->unpublish();
+        } else if ($publish == 1) {
+            $model->published();
+        } else if ($publish == 2) {
+            $model->deleted();
+        }
 		$documents = $model->count();
 
 		return $documents ? $documents : 0;
@@ -169,11 +171,13 @@ class MemberDocumentType extends \app\components\ActiveRecord
 	{
 		parent::init();
 
-		if(!(Yii::$app instanceof \app\components\Application))
-			return;
+        if (!(Yii::$app instanceof \app\components\Application)) {
+            return;
+        }
 
-		if(!$this->hasMethod('search'))
-			return;
+        if (!$this->hasMethod('search')) {
+            return;
+        }
 
 		$this->templateColumns['_no'] = [
 			'header' => '#',
@@ -257,37 +261,40 @@ class MemberDocumentType extends \app\components\ActiveRecord
 	 */
 	public static function getInfo($id, $column=null)
 	{
-		if($column != null) {
-			$model = self::find();
-			if(is_array($column))
-				$model->select($column);
-			else
-				$model->select([$column]);
-			$model = $model->where(['document_id' => $id])->one();
-			return is_array($column) ? $model : $model->$column;
-			
-		} else {
-			$model = self::findOne($id);
-			return $model;
-		}
+        if ($column != null) {
+            $model = self::find();
+            if (is_array($column)) {
+                $model->select($column);
+            } else {
+                $model->select([$column]);
+            }
+            $model = $model->where(['document_id' => $id])->one();
+            return is_array($column) ? $model : $model->$column;
+
+        } else {
+            $model = self::findOne($id);
+            return $model;
+        }
 	}
 
 	/**
 	 * function getType
 	 */
-	public static function getType($publish=null, $array=true) 
+	public static function getType($publish=null, $array=true)
 	{
 		$model = self::find()
-			->alias('t')
+            ->alias('t')
 			->select(['t.document_id', 't.document_name']);
 		$model->leftJoin(sprintf('%s title', SourceMessage::tableName()), 't.document_name=title.id');
-		if($publish != null)
-			$model->andWhere(['t.publish' => $publish]);
+        if ($publish != null) {
+            $model->andWhere(['t.publish' => $publish]);
+        }
 
 		$model = $model->orderBy('title.message ASC')->all();
 
-		if($array == true)
-			return \yii\helpers\ArrayHelper::map($model, 'document_id', 'document_name_i');
+        if ($array == true) {
+            return \yii\helpers\ArrayHelper::map($model, 'document_id', 'document_name_i');
+        }
 
 		return $model;
 	}
@@ -310,16 +317,18 @@ class MemberDocumentType extends \app\components\ActiveRecord
 	 */
 	public function beforeValidate()
 	{
-		if(parent::beforeValidate()) {
-			if($this->isNewRecord) {
-				if($this->creation_id == null)
-					$this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			} else {
-				if($this->modified_id == null)
-					$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			}
-		}
-		return true;
+        if (parent::beforeValidate()) {
+            if ($this->isNewRecord) {
+                if ($this->creation_id == null) {
+                    $this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            } else {
+                if ($this->modified_id == null) {
+                    $this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            }
+        }
+        return true;
 	}
 
 	/**
@@ -327,40 +336,41 @@ class MemberDocumentType extends \app\components\ActiveRecord
 	 */
 	public function beforeSave($insert)
 	{
-		$module = strtolower(Yii::$app->controller->module->id);
-		$controller = strtolower(Yii::$app->controller->id);
-		$action = strtolower(Yii::$app->controller->action->id);
+        $module = strtolower(Yii::$app->controller->module->id);
+        $controller = strtolower(Yii::$app->controller->id);
+        $action = strtolower(Yii::$app->controller->action->id);
 
-		$location = Inflector::slug($module.' '.$controller);
+        $location = Inflector::slug($module.' '.$controller);
 
-		if(parent::beforeSave($insert)) {
-			if($insert || (!$insert && !$this->document_name)) {
-				$document_name = new SourceMessage();
-				$document_name->location = $location.'_title';
-				$document_name->message = $this->document_name_i;
-				if($document_name->save())
-					$this->document_name = $document_name->id;
+        if (parent::beforeSave($insert)) {
+            if ($insert || (!$insert && !$this->document_name)) {
+                $document_name = new SourceMessage();
+                $document_name->location = $location.'_title';
+                $document_name->message = $this->document_name_i;
+                if ($document_name->save()) {
+                    $this->document_name = $document_name->id;
+                }
 
-			} else {
-				$document_name = SourceMessage::findOne($this->document_name);
-				$document_name->message = $this->document_name_i;
-				$document_name->save();
-			}
+            } else {
+                $document_name = SourceMessage::findOne($this->document_name);
+                $document_name->message = $this->document_name_i;
+                $document_name->save();
+            }
 
-			if($insert || (!$insert && !$this->document_desc)) {
-				$document_desc = new SourceMessage();
-				$document_desc->location = $location.'_description';
-				$document_desc->message = $this->document_desc_i;
-				if($document_desc->save())
-					$this->document_desc = $document_desc->id;
+            if ($insert || (!$insert && !$this->document_desc)) {
+                $document_desc = new SourceMessage();
+                $document_desc->location = $location.'_description';
+                $document_desc->message = $this->document_desc_i;
+                if ($document_desc->save()) {
+                    $this->document_desc = $document_desc->id;
+                }
 
-			} else {
-				$document_desc = SourceMessage::findOne($this->document_desc);
-				$document_desc->message = $this->document_desc_i;
-				$document_desc->save();
-			}
-
-		}
-		return true;
+            } else {
+                $document_desc = SourceMessage::findOne($this->document_desc);
+                $document_desc->message = $this->document_desc_i;
+                $document_desc->save();
+            }
+        }
+        return true;
 	}
 }

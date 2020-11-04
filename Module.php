@@ -32,11 +32,12 @@ class Module extends \app\components\Module
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getViewPath() 
+	public function getViewPath()
 	{
-		if(preg_match('/app/', get_class(Yii::$app->controller)))
-			return Yii::getAlias('@app/modules/member/views');
-		else
-			return Yii::getAlias('@ommu/member/views');
+        if (preg_match('/app/', get_class(Yii::$app->controller))) {
+            return Yii::getAlias('@app/modules/member/views');
+        } else {
+            return Yii::getAlias('@ommu/member/views');
+        }
 	}
 }

@@ -21,12 +21,12 @@ use yii\widgets\DetailView;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Profile Documents'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->profile->title->message;
 
-if(!$small) {
-$this->params['menu']['content'] = [
-	['label' => Yii::t('app', 'Detail'), 'url' => Url::to(['view', 'id'=>$model->id]), 'icon' => 'eye', 'htmlOptions' => ['class'=>'btn btn-success']],
-	['label' => Yii::t('app', 'Update'), 'url' => Url::to(['update', 'id'=>$model->id]), 'icon' => 'pencil', 'htmlOptions' => ['class'=>'btn btn-primary']],
-	['label' => Yii::t('app', 'Delete'), 'url' => Url::to(['delete', 'id'=>$model->id]), 'htmlOptions' => ['data-confirm'=>Yii::t('app', 'Are you sure you want to delete this item?'), 'data-method'=>'post', 'class'=>'btn btn-danger'], 'icon' => 'trash'],
-];
+if (!$small) {
+    $this->params['menu']['content'] = [
+        ['label' => Yii::t('app', 'Detail'), 'url' => Url::to(['view', 'id'=>$model->id]), 'icon' => 'eye', 'htmlOptions' => ['class'=>'btn btn-success']],
+        ['label' => Yii::t('app', 'Update'), 'url' => Url::to(['update', 'id'=>$model->id]), 'icon' => 'pencil', 'htmlOptions' => ['class'=>'btn btn-primary']],
+        ['label' => Yii::t('app', 'Delete'), 'url' => Url::to(['delete', 'id'=>$model->id]), 'htmlOptions' => ['data-confirm'=>Yii::t('app', 'Are you sure you want to delete this item?'), 'data-method'=>'post', 'class'=>'btn btn-danger'], 'icon' => 'trash'],
+    ];
 } ?>
 
 <div class="member-profile-document-view">
@@ -48,8 +48,9 @@ $attributes = [
 		'attribute' => 'profileName',
 		'value' => function ($model) {
 			$profileName = isset($model->profile) ? $model->profile->title->message : '-';
-			if($profileName != '-')
-				return Html::a($profileName, ['setting/profile/view', 'id'=>$model->profile_id], ['title'=>$profileName, 'class'=>'modal-btn']);
+            if ($profileName != '-') {
+                return Html::a($profileName, ['setting/profile/view', 'id'=>$model->profile_id], ['title'=>$profileName, 'class'=>'modal-btn']);
+            }
 			return $profileName;
 		},
 		'format' => 'html',
@@ -58,8 +59,9 @@ $attributes = [
 		'attribute' => 'documentName',
 		'value' => function ($model) {
 			$documentName = isset($model->document) ? $model->document->title->message : '-';
-			if($documentName != '-')
-				return Html::a($documentName, ['document/view', 'id'=>$model->document_id], ['title'=>$documentName, 'class'=>'modal-btn']);
+            if ($documentName != '-') {
+                return Html::a($documentName, ['document/view', 'id'=>$model->document_id], ['title'=>$documentName, 'class'=>'modal-btn']);
+            }
 			return $documentName;
 		},
 		'format' => 'html',

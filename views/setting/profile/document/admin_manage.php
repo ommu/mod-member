@@ -22,7 +22,7 @@ use yii\widgets\Pjax;
 
 $this->params['breadcrumbs'][] = $this->title;
 
-if($profile != null) {
+if ($profile != null) {
 	$this->params['menu']['content'] = [
 		['label' => Yii::t('app', 'Add Profile Document'), 'url' => Url::to(['create', 'id'=>$profile->profile_id]), 'icon' => 'plus-square', 'htmlOptions' => ['class'=>'btn modal-btn btn-success']],
 	];
@@ -36,11 +36,13 @@ $this->params['menu']['option'] = [
 <div class="member-profile-document-manage">
 <?php Pjax::begin(); ?>
 
-<?php if($document != null)
-	echo $this->render('/setting/document/admin_view', ['model'=>$document, 'small'=>true]); ?>
+<?php if ($document != null) {
+    echo $this->render('/setting/document/admin_view', ['model'=>$document, 'small'=>true]);
+} ?>
 
-<?php if($profile != null)
-	echo $this->render('/setting/profile/admin/admin_view', ['model'=>$profile, 'small'=>true]); ?>
+<?php if ($profile != null) {
+    echo $this->render('/setting/profile/admin/admin_view', ['model'=>$profile, 'small'=>true]);
+} ?>
 
 <?php //echo $this->render('_search', ['model'=>$searchModel]); ?>
 
@@ -52,12 +54,15 @@ array_push($columnData, [
 	'class' => 'app\components\grid\ActionColumn',
 	'header' => Yii::t('app', 'Option'),
 	'urlCreator' => function($action, $model, $key, $index) {
-		if($action == 'view')
-			return Url::to(['view', 'id'=>$key]);
-		if($action == 'update')
-			return Url::to(['update', 'id'=>$key]);
-		if($action == 'delete')
-			return Url::to(['delete', 'id'=>$key]);
+        if ($action == 'view') {
+            return Url::to(['view', 'id'=>$key]);
+        }
+        if ($action == 'update') {
+            return Url::to(['update', 'id'=>$key]);
+        }
+        if ($action == 'delete') {
+            return Url::to(['delete', 'id'=>$key]);
+        }
 	},
 	'buttons' => [
 		'view' => function ($url, $model, $key) {

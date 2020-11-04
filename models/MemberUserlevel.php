@@ -154,11 +154,13 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	{
 		parent::init();
 
-		if(!(Yii::$app instanceof \app\components\Application))
-			return;
+        if (!(Yii::$app instanceof \app\components\Application)) {
+            return;
+        }
 
-		if(!$this->hasMethod('search'))
-			return;
+        if (!$this->hasMethod('search')) {
+            return;
+        }
 
 		$this->templateColumns['_no'] = [
 			'header' => '#',
@@ -240,25 +242,26 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	 */
 	public static function getInfo($id, $column=null)
 	{
-		if($column != null) {
-			$model = self::find();
-			if(is_array($column))
-				$model->select($column);
-			else
-				$model->select([$column]);
-			$model = $model->where(['level_id' => $id])->one();
-			return is_array($column) ? $model : $model->$column;
-			
-		} else {
-			$model = self::findOne($id);
-			return $model;
-		}
+        if ($column != null) {
+            $model = self::find();
+            if (is_array($column)) {
+                $model->select($column);
+            } else {
+                $model->select([$column]);
+            }
+            $model = $model->where(['level_id' => $id])->one();
+            return is_array($column) ? $model : $model->$column;
+
+        } else {
+            $model = self::findOne($id);
+            return $model;
+        }
 	}
 
 	/**
 	 * function getDefault
 	 */
-	public static function getDefault() 
+	public static function getDefault()
 	{
 		$model = self::find()
 			->select(['level_id'])
@@ -271,17 +274,19 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	/**
 	 * function getUserlevel
 	 */
-	public static function getUserlevel($publish=null, $array=true) 
+	public static function getUserlevel($publish=null, $array=true)
 	{
 		$model = self::find()->alias('t');
 		$model->leftJoin(sprintf('%s title', SourceMessage::tableName()), 't.level_name=title.id');
-		if($publish != null)
-			$model->andWhere(['t.publish' => $publish]);
+        if ($publish != null) {
+            $model->andWhere(['t.publish' => $publish]);
+        }
 
 		$model = $model->orderBy('title.message ASC')->all();
 
-		if($array == true)
-			return \yii\helpers\ArrayHelper::map($model, 'level_id', 'level_name_i');
+        if ($array == true) {
+            return \yii\helpers\ArrayHelper::map($model, 'level_id', 'level_name_i');
+        }
 
 		return $model;
 	}
@@ -302,16 +307,18 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	 */
 	public function beforeValidate()
 	{
-		if(parent::beforeValidate()) {
-			if($this->isNewRecord) {
-				if($this->creation_id == null)
-					$this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			} else {
-				if($this->modified_id == null)
-					$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			}
-		}
-		return true;
+        if (parent::beforeValidate()) {
+            if ($this->isNewRecord) {
+                if ($this->creation_id == null) {
+                    $this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            } else {
+                if ($this->modified_id == null) {
+                    $this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            }
+        }
+        return true;
 	}
 
 	/**
@@ -319,47 +326,49 @@ class MemberUserlevel extends \app\components\ActiveRecord
 	 */
 	public function beforeSave($insert)
 	{
-		$module = strtolower(Yii::$app->controller->module->id);
-		$controller = strtolower(Yii::$app->controller->id);
-		$action = strtolower(Yii::$app->controller->action->id);
+        $module = strtolower(Yii::$app->controller->module->id);
+        $controller = strtolower(Yii::$app->controller->id);
+        $action = strtolower(Yii::$app->controller->action->id);
 
-		$location = Inflector::slug($module.' '.$controller);
+        $location = Inflector::slug($module.' '.$controller);
 
-		if(parent::beforeSave($insert)) {
-			if($insert || (!$insert && !$this->level_name)) {
-				$level_name = new SourceMessage();
-				$level_name->location = $location.'_title';
-				$level_name->message = $this->level_name_i;
-				if($level_name->save())
-					$this->level_name = $level_name->id;
+        if (parent::beforeSave($insert)) {
+            if ($insert || (!$insert && !$this->level_name)) {
+                $level_name = new SourceMessage();
+                $level_name->location = $location.'_title';
+                $level_name->message = $this->level_name_i;
+                if ($level_name->save()) {
+                    $this->level_name = $level_name->id;
+                }
 
-			} else {
-				$level_name = SourceMessage::findOne($this->level_name);
-				$level_name->message = $this->level_name_i;
-				$level_name->save();
-			}
+            } else {
+                $level_name = SourceMessage::findOne($this->level_name);
+                $level_name->message = $this->level_name_i;
+                $level_name->save();
+            }
 
-			if($insert || (!$insert && !$this->level_desc)) {
-				$level_desc = new SourceMessage();
-				$level_desc->location = $location.'_description';
-				$level_desc->message = $this->level_desc_i;
-				if($level_desc->save())
-					$this->level_desc = $level_desc->id;
+            if ($insert || (!$insert && !$this->level_desc)) {
+                $level_desc = new SourceMessage();
+                $level_desc->location = $location.'_description';
+                $level_desc->message = $this->level_desc_i;
+                if ($level_desc->save()) {
+                    $this->level_desc = $level_desc->id;
+                }
 
-			} else {
-				$level_desc = SourceMessage::findOne($this->level_desc);
-				$level_desc->message = $this->level_desc_i;
-				$level_desc->save();
-			}
+            } else {
+                $level_desc = SourceMessage::findOne($this->level_desc);
+                $level_desc->message = $this->level_desc_i;
+                $level_desc->save();
+            }
 
-			// set to default
-			if($this->default == 1) {
-				self::model()->updateAll(array(
-					'default' => 0,
-				));
-				$this->default = 1;
-			}
-		}
-		return true;
+            // set to default
+            if ($this->default == 1) {
+                self::model()->updateAll(array(
+                    'default' => 0,
+                ));
+                $this->default = 1;
+            }
+        }
+        return true;
 	}
 }

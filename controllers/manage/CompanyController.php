@@ -62,18 +62,19 @@ class CompanyController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$searchModel = new MemberCompanySearch();
-		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = new MemberCompanySearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-		$gridColumn = Yii::$app->request->get('GridColumn', null);
-		$cols = [];
-		if($gridColumn != null && count($gridColumn) > 0) {
-			foreach($gridColumn as $key => $val) {
-				if($gridColumn[$key] == 1)
-					$cols[] = $key;
-			}
-		}
-		$columns = $searchModel->getGridColumn($cols);
+        $gridColumn = Yii::$app->request->get('GridColumn', null);
+        $cols = [];
+        if ($gridColumn != null && count($gridColumn) > 0) {
+            foreach ($gridColumn as $key => $val) {
+                if ($gridColumn[$key] == 1) {
+                    $cols[] = $key;
+                }
+            }
+        }
+        $columns = $searchModel->getGridColumn($cols);
 
 		$this->view->title = Yii::t('app', 'Companies');
 		$this->view->description = '';
@@ -96,28 +97,28 @@ class CompanyController extends Controller
 		$member = new Members();
 		$member->scenario = Members::SCENARIO_MEMBER_COMPANY;
 
-		if(Yii::$app->request->isPost) {
+        if (Yii::$app->request->isPost) {
 			$postData = Yii::$app->request->post();
 			$model->load($postData);
 			$member->load($postData);
 			$member->profile_id = 3;
 
-			if(Model::validateMultiple([$model, $member])) {
+            if (Model::validateMultiple([$model, $member])) {
 				$model->company_city_id = $postData['company_city_id'] ? $postData['company_city_id'] : 0;
 				$model->company_province_id = $postData['company_province_id'] ? $postData['company_province_id'] : 0;
 				$model->company_country_id = $postData['company_country_id'] ? $postData['company_country_id'] : 0;
 				$model->company_zipcode = $postData['company_zipcode'] ? $postData['company_zipcode'] : 0;
 				
-				if($member->save()) {
+                if ($member->save()) {
 					$model->member_id = $member->member_id;
 					$company_id = IpediaCompanies::createCompany($member->displayname);
-					if(($company = IpediaCompanies::findOne($company_id)) !== null) {
+                    if (($company = IpediaCompanies::findOne($company_id)) !== null) {
 						$company->member_id = $member->member_id;
 						$company->save();
 					}
 					$model->company_id = $company_id;
 
-					if($model->save()) {
+                    if ($model->save()) {
 						Yii::$app->session->setFlash('success', Yii::t('app', 'Member company success created.'));
 						return $this->redirect(['index']);
 						//return $this->redirect(['view', 'id'=>$model->id]);
@@ -148,14 +149,14 @@ class CompanyController extends Controller
 		$member = Members::findOne($model->member_id);
 		$member->scenario = Members::SCENARIO_MEMBER_COMPANY;
 
-		if(Yii::$app->request->isPost) {
+        if (Yii::$app->request->isPost) {
 			$postData = Yii::$app->request->post();
 			$model->load($postData);
 			$member->load($postData);
 
-			if(Model::validateMultiple([$model, $member])) {
-				if($member->save()) {
-					if($model->save()) {
+            if (Model::validateMultiple([$model, $member])) {
+                if ($member->save()) {
+                    if ($model->save()) {
 						Yii::$app->session->setFlash('success', Yii::t('app', 'Member company success updated.'));
 						return $this->redirect(['index']);
 						//return $this->redirect(['view', 'id'=>$model->id]);
@@ -214,8 +215,9 @@ class CompanyController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if(($model = MemberCompany::findOne($id)) !== null)
-			return $model;
+        if (($model = MemberCompany::findOne($id)) !== null) {
+            return $model;
+        }
 
 		throw new \yii\web\NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
 	}

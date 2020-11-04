@@ -67,7 +67,7 @@ class Members extends \app\components\ActiveRecord
 	use \ommu\traits\UtilityTrait;
 	use \ommu\traits\FileTrait;
 
-	public $gridForbiddenColumn = ['photo_header','short_biography','approved_date','approved_search', 'lastloginUserDisplayname', 'lastlogin_ip', 'lastlogin_from','creation_date','creationDisplayname','modified_date','modifiedDisplayname','updated_date'];
+	public $gridForbiddenColumn = ['photo_header', 'short_biography', 'approved_date', 'approved_search', 'lastloginUserDisplayname', 'lastlogin_ip', 'lastlogin_from', 'creation_date', 'creationDisplayname', 'modified_date', 'modifiedDisplayname', 'updated_date'];
 	public $old_photo_header_i;
 	public $old_photo_profile_i;
 	public $old_approved_i;
@@ -325,11 +325,13 @@ class Members extends \app\components\ActiveRecord
 	{
 		parent::init();
 
-		if(!(Yii::$app instanceof \app\components\Application))
-			return;
+        if (!(Yii::$app instanceof \app\components\Application)) {
+            return;
+        }
 
-		if(!$this->hasMethod('search'))
-			return;
+        if (!$this->hasMethod('search')) {
+            return;
+        }
 
 		$this->templateColumns['_no'] = [
 			'header' => '#',
@@ -406,15 +408,14 @@ class Members extends \app\components\ActiveRecord
 			},
 			'filter' => $this->filterDatepicker($this, 'lastlogin_date'),
 		];
-		if(!Yii::$app->request->get('lastloginUser')) {
-			$this->templateColumns['lastloginUserDisplayname'] = [
-				'attribute' => 'lastloginUserDisplayname',
-				'value' => function($model, $key, $index, $column) {
-					return isset($model->lastloginUser) ? $model->lastloginUser->displayname : '-';
-					// return $model->lastloginUserDisplayname;
-				},
-			];
-		}
+        $this->templateColumns['lastloginUserDisplayname'] = [
+            'attribute' => 'lastloginUserDisplayname',
+            'value' => function($model, $key, $index, $column) {
+                return isset($model->lastloginUser) ? $model->lastloginUser->displayname : '-';
+                // return $model->lastloginUserDisplayname;
+            },
+            'visible' => !Yii::$app->request->get('lastloginUser') ? true : false,
+        ];
 		$this->templateColumns['lastlogin_ip'] = [
 			'attribute' => 'lastlogin_ip',
 			'value' => function($model, $key, $index, $column) {
@@ -492,19 +493,20 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public static function getInfo($id, $column=null)
 	{
-		if($column != null) {
-			$model = self::find();
-			if(is_array($column))
-				$model->select($column);
-			else
-				$model->select([$column]);
-			$model = $model->where(['member_id' => $id])->one();
-			return is_array($column) ? $model : $model->$column;
-			
-		} else {
-			$model = self::findOne($id);
-			return $model;
-		}
+        if ($column != null) {
+            $model = self::find();
+            if (is_array($column)) {
+                $model->select($column);
+            } else {
+                $model->select([$column]);
+            }
+            $model = $model->where(['member_id' => $id])->one();
+            return is_array($column) ? $model : $model->$column;
+
+        } else {
+            $model = self::findOne($id);
+            return $model;
+        }
 	}
 
 	/**
@@ -517,17 +519,18 @@ class Members extends \app\components\ActiveRecord
 			'1' => Yii::t('app', 'Private'),
 		);
 
-		if($value !== null)
-			return $items[$value];
-		else
-			return $items;
+        if ($value !== null) {
+            return $items[$value];
+        } else {
+            return $items;
+        }
 	}
 
 	/**
 	 * @param returnAlias set true jika ingin kembaliannya path alias atau false jika ingin string
 	 * relative path. default true.
 	 */
-	public static function getUploadPath($returnAlias=true) 
+	public static function getUploadPath($returnAlias=true)
 	{
 		return ($returnAlias ? Yii::getAlias('@public/member') : 'member');
 	}
@@ -549,7 +552,7 @@ class Members extends \app\components\ActiveRecord
     {
         $model = $this->profileSetting;
 
-        if($model == null) {
+        if ($model == null) {
             return null;
         }
 
@@ -563,7 +566,7 @@ class Members extends \app\components\ActiveRecord
     {
         $model = $this->profileSetting;
 
-        if($model == null) {
+        if ($model == null) {
             return null;
         }
 
@@ -577,7 +580,7 @@ class Members extends \app\components\ActiveRecord
     {
         $model = $this->profileSetting;
 
-        if($model == null) {
+        if ($model == null) {
             return null;
         }
 
@@ -636,47 +639,52 @@ class Members extends \app\components\ActiveRecord
 	{
 		$action = strtolower(Yii::$app->controller->action->id);
 
-		if(parent::beforeValidate()) {
-			$photoHeaderFileType = ['bmp','gif','jpg','png'];
+        if (parent::beforeValidate()) {
+			$photoHeaderFileType = ['bmp', 'gif', 'jpg', 'png'];
 			// $this->photo_header = UploadedFile::getInstance($this, 'photo_header');
-			if($this->photo_header instanceof UploadedFile && !$this->photo_header->getHasError()) {
-				if(!in_array(strtolower($this->photo_header->getExtension()), $photoHeaderFileType)) {
+            if ($this->photo_header instanceof UploadedFile && !$this->photo_header->getHasError()) {
+                if (!in_array(strtolower($this->photo_header->getExtension()), $photoHeaderFileType)) {
 					$this->addError('photo_header', Yii::t('app', 'The file {name} cannot be uploaded. Only files with these extensions are allowed: {extensions}', array(
 						'{name}'=>$this->photo_header->name,
 						'{extensions}'=>$this->formatFileType($photoHeaderFileType, false),
 					)));
 				}
 			} /* else {
-				if($this->isNewRecord || (!$this->isNewRecord && $this->old_photo_header_i == ''))
-					$this->addError('photo_header', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}'=>$this->getAttributeLabel('photo_header'))));
+                if ($this->isNewRecord || (!$this->isNewRecord && $this->old_photo_header_i == '')) {
+                    $this->addError('photo_header', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}'=>$this->getAttributeLabel('photo_header'))));
+                }
 			} */
 
-			$photoProfileFileType = ['bmp','gif','jpg','png'];
+			$photoProfileFileType = ['bmp', 'gif', 'jpg', 'png'];
 			// $this->photo_profile = UploadedFile::getInstance($this, 'photo_profile');
-			if($this->photo_profile instanceof UploadedFile && !$this->photo_profile->getHasError()) {
-				if(!in_array(strtolower($this->photo_profile->getExtension()), $photoProfileFileType)) {
+            if ($this->photo_profile instanceof UploadedFile && !$this->photo_profile->getHasError()) {
+                if (!in_array(strtolower($this->photo_profile->getExtension()), $photoProfileFileType)) {
 					$this->addError('photo_profile', Yii::t('app', 'The file {name} cannot be uploaded. Only files with these extensions are allowed: {extensions}', array(
 						'{name}'=>$this->photo_profile->name,
 						'{extensions}'=>$this->formatFileType($photoProfileFileType, false),
 					)));
 				}
 			} /* else {
-				if($this->isNewRecord || (!$this->isNewRecord && $this->old_photo_profile_i == ''))
-					$this->addError('photo_profile', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}'=>$this->getAttributeLabel('photo_profile'))));
+                if ($this->isNewRecord || (!$this->isNewRecord && $this->old_photo_profile_i == '')) {
+                    $this->addError('photo_profile', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}'=>$this->getAttributeLabel('photo_profile'))));
+                }
 			} */
 
-			if($action == 'approved' && $this->old_approved_i != $this->approved)
-				$this->approved_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+            if ($action == 'approved' && $this->old_approved_i != $this->approved) {
+                $this->approved_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+            }
 
-			if($this->isNewRecord) {
-				if($this->creation_id == null)
-					$this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			} else {
-				if($this->modified_id == null)
-					$this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
-			}
-		}
-		return true;
+            if ($this->isNewRecord) {
+                if ($this->creation_id == null) {
+                    $this->creation_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            } else {
+                if ($this->modified_id == null) {
+                    $this->modified_id = !Yii::$app->user->isGuest ? Yii::$app->user->id : null;
+                }
+            }
+        }
+        return true;
 	}
 
 	/**
@@ -684,41 +692,45 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public function beforeSave($insert)
 	{
-		if(parent::beforeSave($insert)) {
-			if(!$insert) {
-				$uploadPath = join('/', [self::getUploadPath(), $this->member_id]);
-				$verwijderenPath = join('/', [self::getUploadPath(), 'verwijderen']);
-				$this->createUploadDirectory(self::getUploadPath(), $this->member_id);
+        if (parent::beforeSave($insert)) {
+            if (!$insert) {
+                $uploadPath = join('/', [self::getUploadPath(), $this->member_id]);
+                $verwijderenPath = join('/', [self::getUploadPath(), 'verwijderen']);
+                $this->createUploadDirectory(self::getUploadPath(), $this->member_id);
 
 				// $this->photo_header = UploadedFile::getInstance($this, 'photo_header');
-				if($this->photo_header instanceof UploadedFile && !$this->photo_header->getHasError()) {
+                if ($this->photo_header instanceof UploadedFile && !$this->photo_header->getHasError()) {
 					$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->photo_header->getExtension());
-					if($this->photo_header->saveAs(join('/', [$uploadPath, $fileName]))) {
-						if($this->old_photo_header_i != '' && file_exists(join('/', [$uploadPath, $this->old_photo_header_i])))
-							rename(join('/', [$uploadPath, $this->old_photo_header_i]), join('/', [$verwijderenPath, time().'_change_'.$this->old_photo_header_i]));
+                    if ($this->photo_header->saveAs(join('/', [$uploadPath, $fileName]))) {
+                        if ($this->old_photo_header_i != '' && file_exists(join('/', [$uploadPath, $this->old_photo_header_i]))) {
+                            rename(join('/', [$uploadPath, $this->old_photo_header_i]), join('/', [$verwijderenPath, time().'_change_'.$this->old_photo_header_i]));
+                        }
 						$this->photo_header = $fileName;
 					}
 				} else {
-					if($this->photo_header == '')
-						$this->photo_header = $this->old_photo_header_i;
+                    if ($this->photo_header == '') {
+                        $this->photo_header = $this->old_photo_header_i;
+                    }
 				}
 
 				// $this->photo_profile = UploadedFile::getInstance($this, 'photo_profile');
-				if($this->photo_profile instanceof UploadedFile && !$this->photo_profile->getHasError()) {
+                if ($this->photo_profile instanceof UploadedFile && !$this->photo_profile->getHasError()) {
 					$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->photo_profile->getExtension());
-					if($this->photo_profile->saveAs(join('/', [$uploadPath, $fileName]))) {
-						if($this->old_photo_profile_i != '' && file_exists(join('/', [$uploadPath, $this->old_photo_profile_i])))
-							rename(join('/', [$uploadPath, $this->old_photo_profile_i]), join('/', [$verwijderenPath, time().'_change_'.$this->old_photo_profile_i]));
+                    if ($this->photo_profile->saveAs(join('/', [$uploadPath, $fileName]))) {
+                        if ($this->old_photo_profile_i != '' && file_exists(join('/', [$uploadPath, $this->old_photo_profile_i]))) {
+                            rename(join('/', [$uploadPath, $this->old_photo_profile_i]), join('/', [$verwijderenPath, time().'_change_'.$this->old_photo_profile_i]));
+                        }
 						$this->photo_profile = $fileName;
 					}
 				} else {
-					if($this->photo_profile == '')
-						$this->photo_profile = $this->old_photo_profile_i;
+                    if ($this->photo_profile == '') {
+                        $this->photo_profile = $this->old_photo_profile_i;
+                    }
 				}
 
-			}
-		}
-		return true;
+            }
+        }
+        return true;
 	}
 
 	/**
@@ -726,30 +738,32 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public function afterSave($insert, $changedAttributes)
 	{
-		parent::afterSave($insert, $changedAttributes);
+        parent::afterSave($insert, $changedAttributes);
 
-		$uploadPath = join('/', [self::getUploadPath(), $this->member_id]);
-		$verwijderenPath = join('/', [self::getUploadPath(), 'verwijderen']);
-		$this->createUploadDirectory(self::getUploadPath(), $this->member_id);
+        $uploadPath = join('/', [self::getUploadPath(), $this->member_id]);
+        $verwijderenPath = join('/', [self::getUploadPath(), 'verwijderen']);
+        $this->createUploadDirectory(self::getUploadPath(), $this->member_id);
 
-		if($insert) {
+        if ($insert) {
 			// $this->photo_header = UploadedFile::getInstance($this, 'photo_header');
-			if($this->photo_header instanceof UploadedFile && !$this->photo_header->getHasError()) {
+            if ($this->photo_header instanceof UploadedFile && !$this->photo_header->getHasError()) {
 				$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->photo_header->getExtension());
-				if($this->photo_header->saveAs(join('/', [$uploadPath, $fileName])))
-					self::updateAll(['photo_header' => $fileName], ['member_id' => $this->member_id]);
+                if ($this->photo_header->saveAs(join('/', [$uploadPath, $fileName]))) {
+                    self::updateAll(['photo_header' => $fileName], ['member_id' => $this->member_id]);
+                }
 			}
 
 			// $this->photo_profile = UploadedFile::getInstance($this, 'photo_profile');
-			if($this->photo_profile instanceof UploadedFile && !$this->photo_profile->getHasError()) {
+            if ($this->photo_profile instanceof UploadedFile && !$this->photo_profile->getHasError()) {
 				$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->photo_profile->getExtension());
-				if($this->photo_profile->saveAs(join('/', [$uploadPath, $fileName])))
-					self::updateAll(['photo_profile' => $fileName], ['member_id' => $this->member_id]);
+                if ($this->photo_profile->saveAs(join('/', [$uploadPath, $fileName]))) {
+                    self::updateAll(['photo_profile' => $fileName], ['member_id' => $this->member_id]);
+                }
 			}
 
 		} else {
-			if(array_key_exists('publish', $changedAttributes) && $this->publish != $changedAttributes['publish'] && $this->publish == 2) {
-				if(class_exists('ommu\ipedia\models\IpediaCompanies')) {
+            if (array_key_exists('publish', $changedAttributes) && $this->publish != $changedAttributes['publish'] && $this->publish == 2) {
+                if (class_exists('ommu\ipedia\models\IpediaCompanies')) {
 					\ommu\ipedia\models\IpediaCompanies::find()->where(['member_id'=>$this->member_id])->updateAttributes(['member_id'=>null]);
 				}
 			}
@@ -761,16 +775,18 @@ class Members extends \app\components\ActiveRecord
 	 */
 	public function afterDelete()
 	{
-		parent::afterDelete();
+        parent::afterDelete();
 
-		$uploadPath = join('/', [self::getUploadPath(), $this->member_id]);
-		$verwijderenPath = join('/', [self::getUploadPath(), 'verwijderen']);
+        $uploadPath = join('/', [self::getUploadPath(), $this->member_id]);
+        $verwijderenPath = join('/', [self::getUploadPath(), 'verwijderen']);
 
-		if($this->photo_header != '' && file_exists(join('/', [$uploadPath, $this->photo_header])))
-			rename(join('/', [$uploadPath, $this->photo_header]), join('/', [$verwijderenPath, time().'_deleted_'.$this->photo_header]));
+        if ($this->photo_header != '' && file_exists(join('/', [$uploadPath, $this->photo_header]))) {
+            rename(join('/', [$uploadPath, $this->photo_header]), join('/', [$verwijderenPath, time().'_deleted_'.$this->photo_header]));
+        }
 
-		if($this->photo_profile != '' && file_exists(join('/', [$uploadPath, $this->photo_profile])))
-			rename(join('/', [$uploadPath, $this->photo_profile]), join('/', [$verwijderenPath, time().'_deleted_'.$this->photo_profile]));
+        if ($this->photo_profile != '' && file_exists(join('/', [$uploadPath, $this->photo_profile]))) {
+            rename(join('/', [$uploadPath, $this->photo_profile]), join('/', [$verwijderenPath, time().'_deleted_'.$this->photo_profile]));
+        }
 
 	}
 }
