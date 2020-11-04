@@ -43,8 +43,9 @@ class AdminController extends Controller
 	 */
 	public function init()
 	{
-		parent::init();
-		$this->subMenu = $this->module->params['setting_submenu'];
+        parent::init();
+
+        $this->subMenu = $this->module->params['setting_submenu'];
 	}
 
 	/**
@@ -52,18 +53,18 @@ class AdminController extends Controller
 	 */
 	public function behaviors()
 	{
-		return [
-			'access' => [
-				'class' => AccessControl::className(),
-			],
-			'verbs' => [
-				'class' => VerbFilter::className(),
-				'actions' => [
-					'delete' => ['POST'],
-					'publish' => ['POST'],
-				],
-			],
-		];
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                    'publish' => ['POST'],
+                ],
+            ],
+        ];
 	}
 
 	/**
@@ -71,7 +72,7 @@ class AdminController extends Controller
 	 */
 	public function actionIndex()
 	{
-		return $this->redirect(['manage']);
+        return $this->redirect(['manage']);
 	}
 
 	/**
@@ -111,27 +112,27 @@ class AdminController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model = new MemberProfile();
+        $model = new MemberProfile();
 
         if (Yii::$app->request->isPost) {
-			$model->load(Yii::$app->request->post());
-			// $postData = Yii::$app->request->post();
-			// $model->load($postData);
-			// $model->order = $postData['order'] ? $postData['order'] : 0;
+            $model->load(Yii::$app->request->post());
+            // $postData = Yii::$app->request->post();
+            // $model->load($postData);
+            // $model->order = $postData['order'] ? $postData['order'] : 0;
 
             if ($model->save()) {
-				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success created.'));
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success created.'));
                 if (!Yii::$app->request->isAjax) {
 					return $this->redirect(['view', 'id'=>$model->profile_id]);
                 }
-				return $this->redirect(Yii::$app->request->referrer ?: ['view', 'id'=>$model->profile_id]);
+                return $this->redirect(Yii::$app->request->referrer ?: ['view', 'id'=>$model->profile_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
                     return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
                 }
-			}
-		}
+            }
+        }
 
 		$this->view->title = Yii::t('app', 'Create Profile');
 		$this->view->description = '';
@@ -153,24 +154,24 @@ class AdminController extends Controller
 		$model->scenario = $model::SCENARIO_UPADTE;
 
         if (Yii::$app->request->isPost) {
-			$model->load(Yii::$app->request->post());
-			// $postData = Yii::$app->request->post();
-			// $model->load($postData);
-			// $model->order = $postData['order'] ? $postData['order'] : 0;
+            $model->load(Yii::$app->request->post());
+            // $postData = Yii::$app->request->post();
+            // $model->load($postData);
+            // $model->order = $postData['order'] ? $postData['order'] : 0;
 
             if ($model->save()) {
-				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success updated.'));
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success updated.'));
                 if (!Yii::$app->request->isAjax) {
 					return $this->redirect(['update', 'id'=>$model->profile_id]);
                 }
-				return $this->redirect(Yii::$app->request->referrer ?: ['update', 'id'=>$model->profile_id]);
+                return $this->redirect(Yii::$app->request->referrer ?: ['update', 'id'=>$model->profile_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
                     return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
                 }
-			}
-		}
+            }
+        }
 
 		$this->subMenu = $this->module->params['profile_submenu'];
 		$this->view->title = Yii::t('app', 'Update Profile: {profile-name}', ['profile-name' => $model->title->message]);
@@ -188,7 +189,7 @@ class AdminController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$model = $this->findModel($id);
+        $model = $this->findModel($id);
 
 		$this->subMenu = $this->module->params['profile_submenu'];
 		$this->view->title = Yii::t('app', 'Detail Profile: {profile-name}', ['profile-name' => $model->title->message]);

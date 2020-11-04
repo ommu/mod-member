@@ -55,18 +55,18 @@ class CategoryController extends Controller
 	 */
 	public function behaviors()
 	{
-		return [
-			'access' => [
-				'class' => AccessControl::className(),
-			],
-			'verbs' => [
-				'class' => VerbFilter::className(),
-				'actions' => [
-					'delete' => ['POST'],
-					'publish' => ['POST'],
-				],
-			],
-		];
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                    'publish' => ['POST'],
+                ],
+            ],
+        ];
 	}
 
 	/**
@@ -74,7 +74,7 @@ class CategoryController extends Controller
 	 */
 	public function actionIndex()
 	{
-		return $this->redirect(['manage']);
+        return $this->redirect(['manage']);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class CategoryController extends Controller
         $columns = $searchModel->getGridColumn($cols);
 
         if (($profile = Yii::$app->request->get('profile')) != null) {
-			$this->subMenuParam = $profile;
+            $this->subMenuParam = $profile;
 			$profile = \ommu\member\models\MemberProfile::findOne($profile);
 		}
 
@@ -128,25 +128,25 @@ class CategoryController extends Controller
 		$model->profile_id = $id;
 
         if (Yii::$app->request->isPost) {
-			$model->load(Yii::$app->request->post());
-			// $postData = Yii::$app->request->post();
-			// $model->load($postData);
-			// $model->order = $postData['order'] ? $postData['order'] : 0;
+            $model->load(Yii::$app->request->post());
+            // $postData = Yii::$app->request->post();
+            // $model->load($postData);
+            // $model->order = $postData['order'] ? $postData['order'] : 0;
 
             if ($model->save()) {
-				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success created.'));
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success created.'));
                 if (!Yii::$app->request->isAjax) {
 					return $this->redirect(['manage', 'profile'=>$model->profile_id]);
                 }
-				return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
-				//return $this->redirect(['view', 'id'=>$model->cat_id]);
+                return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
+                //return $this->redirect(['view', 'id'=>$model->cat_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
                     return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
                 }
-			}
-		}
+            }
+        }
 
 		$this->view->title = Yii::t('app', 'Create Profile Category');
 		$this->view->description = '';
@@ -168,24 +168,24 @@ class CategoryController extends Controller
 		$this->subMenuParam = $model->profile_id;
 
         if (Yii::$app->request->isPost) {
-			$model->load(Yii::$app->request->post());
-			// $postData = Yii::$app->request->post();
-			// $model->load($postData);
-			// $model->order = $postData['order'] ? $postData['order'] : 0;
+            $model->load(Yii::$app->request->post());
+            // $postData = Yii::$app->request->post();
+            // $model->load($postData);
+            // $model->order = $postData['order'] ? $postData['order'] : 0;
 
             if ($model->save()) {
-				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success updated.'));
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile category success updated.'));
                 if (!Yii::$app->request->isAjax) {
 					return $this->redirect(['update', 'id'=>$model->cat_id]);
                 }
-				return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
+                return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
                     return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
                 }
-			}
-		}
+            }
+        }
 
 		$this->view->title = Yii::t('app', 'Update Profile Category: {cat-name}', ['cat-name' => $model->title->message]);
 		$this->view->description = '';
@@ -202,7 +202,7 @@ class CategoryController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$model = $this->findModel($id);
+        $model = $this->findModel($id);
 		$this->subMenuParam = $model->profile_id;
 
 		$this->view->title = Yii::t('app', 'Detail Profile Category: {cat-name}', ['cat-name' => $model->title->message]);

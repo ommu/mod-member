@@ -43,17 +43,17 @@ class CompanyController extends Controller
 	 */
 	public function behaviors()
 	{
-		return [
-			'access' => [
-				'class' => AccessControl::className(),
-			],
-			'verbs' => [
-				'class' => VerbFilter::className(),
-				'actions' => [
-					'delete' => ['POST'],
-				],
-			],
-		];
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
 	}
 
 	/**
@@ -93,15 +93,15 @@ class CompanyController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model = new MemberCompany();
+        $model = new MemberCompany();
 		$member = new Members();
 		$member->scenario = Members::SCENARIO_MEMBER_COMPANY;
 
         if (Yii::$app->request->isPost) {
-			$postData = Yii::$app->request->post();
-			$model->load($postData);
-			$member->load($postData);
-			$member->profile_id = 3;
+            $postData = Yii::$app->request->post();
+            $model->load($postData);
+            $member->load($postData);
+            $member->profile_id = 3;
 
             if (Model::validateMultiple([$model, $member])) {
 				$model->company_city_id = $postData['company_city_id'] ? $postData['company_city_id'] : 0;
@@ -150,9 +150,9 @@ class CompanyController extends Controller
 		$member->scenario = Members::SCENARIO_MEMBER_COMPANY;
 
         if (Yii::$app->request->isPost) {
-			$postData = Yii::$app->request->post();
-			$model->load($postData);
-			$member->load($postData);
+            $postData = Yii::$app->request->post();
+            $model->load($postData);
+            $member->load($postData);
 
             if (Model::validateMultiple([$model, $member])) {
                 if ($member->save()) {
@@ -181,7 +181,7 @@ class CompanyController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$model = $this->findModel($id);
+        $model = $this->findModel($id);
 
 		$this->view->title = Yii::t('app', 'Detail Company: {member-id}', ['member-id' => $model->member->displayname]);
 		$this->view->description = '';

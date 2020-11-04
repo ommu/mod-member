@@ -58,18 +58,18 @@ class DocumentController extends Controller
 	 */
 	public function behaviors()
 	{
-		return [
-			'access' => [
-				'class' => AccessControl::className(),
-			],
-			'verbs' => [
-				'class' => VerbFilter::className(),
-				'actions' => [
-					'delete' => ['POST'],
-					'publish' => ['POST'],
-				],
-			],
-		];
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                    'publish' => ['POST'],
+                ],
+            ],
+        ];
 	}
 
 	/**
@@ -77,7 +77,7 @@ class DocumentController extends Controller
 	 */
 	public function actionIndex()
 	{
-		return $this->redirect(['manage']);
+        return $this->redirect(['manage']);
 	}
 
 	/**
@@ -104,7 +104,7 @@ class DocumentController extends Controller
             $document = \ommu\member\models\MemberDocumentType::findOne($document);
         }
         if (($profile = Yii::$app->request->get('profile')) != null) {
-			$this->subMenuParam = $profile;
+            $this->subMenuParam = $profile;
 			$profile = \ommu\member\models\MemberProfile::findOne($profile);
 		}
 
@@ -135,25 +135,25 @@ class DocumentController extends Controller
 		$model->profile_id = $id;
 
         if (Yii::$app->request->isPost) {
-			$model->load(Yii::$app->request->post());
-			// $postData = Yii::$app->request->post();
-			// $model->load($postData);
-			// $model->order = $postData['order'] ? $postData['order'] : 0;
+            $model->load(Yii::$app->request->post());
+            // $postData = Yii::$app->request->post();
+            // $model->load($postData);
+            // $model->order = $postData['order'] ? $postData['order'] : 0;
 
             if ($model->save()) {
-				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success created.'));
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success created.'));
                 if (!Yii::$app->request->isAjax) {
 					return $this->redirect(['manage', 'profile'=>$model->profile_id]);
                 }
-				return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
-				//return $this->redirect(['view', 'id'=>$model->id]);
+                return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
+                //return $this->redirect(['view', 'id'=>$model->id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
                     return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
                 }
-			}
-		}
+            }
+        }
 
 		$this->view->title = Yii::t('app', 'Create Profile Document');
 		$this->view->description = '';
@@ -175,24 +175,24 @@ class DocumentController extends Controller
 		$this->subMenuParam = $model->profile_id;
 
         if (Yii::$app->request->isPost) {
-			$model->load(Yii::$app->request->post());
-			// $postData = Yii::$app->request->post();
-			// $model->load($postData);
-			// $model->order = $postData['order'] ? $postData['order'] : 0;
+            $model->load(Yii::$app->request->post());
+            // $postData = Yii::$app->request->post();
+            // $model->load($postData);
+            // $model->order = $postData['order'] ? $postData['order'] : 0;
 
             if ($model->save()) {
-				Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success updated.'));
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success updated.'));
                 if (!Yii::$app->request->isAjax) {
                     return $this->redirect(['update', 'id'=>$model->id]);
                 }
-				return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
+                return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
                     return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
                 }
-			}
-		}
+            }
+        }
 
 		$this->view->title = Yii::t('app', 'Update Profile Document: {profile-id}', ['profile-id' => $model->profile->title->message]);
 		$this->view->description = '';
@@ -209,7 +209,7 @@ class DocumentController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$model = $this->findModel($id);
+        $model = $this->findModel($id);
 		$this->subMenuParam = $model->profile_id;
 
 		$this->view->title = Yii::t('app', 'Detail Profile Document: {profile-id}', ['profile-id' => $model->profile->title->message]);

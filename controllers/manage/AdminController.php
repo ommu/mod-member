@@ -43,20 +43,20 @@ class AdminController extends Controller
 	 */
 	public function behaviors()
 	{
-		return [
-			'access' => [
-				'class' => AccessControl::className(),
-			],
-			'verbs' => [
-				'class' => VerbFilter::className(),
-				'actions' => [
-					'delete' => ['POST'],
-					'publish' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                    'publish' => ['POST'],
 					'approved' => ['POST'],
 					'member-private' => ['POST'],
-				],
-			],
-		];
+                ],
+            ],
+        ];
 	}
 
 	/**
@@ -96,31 +96,31 @@ class AdminController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model = new Members();
+        $model = new Members();
 
         if (Yii::$app->request->isPost) {
-			$postData = Yii::$app->request->post();
-			$model->load($postData);
-			$model->photo_header = UploadedFile::getInstance($model, 'photo_header');
+            $postData = Yii::$app->request->post();
+            $model->load($postData);
+            $model->photo_header = UploadedFile::getInstance($model, 'photo_header');
             if (!($model->photo_header instanceof UploadedFile && !$model->photo_header->getHasError())) {
                 $model->photo_header = $postData['photo_header'] ? $postData['photo_header'] : '';
             }
-			$model->photo_profile = UploadedFile::getInstance($model, 'photo_profile');
+            $model->photo_profile = UploadedFile::getInstance($model, 'photo_profile');
             if (!($model->photo_profile instanceof UploadedFile && !$model->photo_profile->getHasError())) {
                 $model->photo_profile = $postData['photo_profile'] ? $postData['photo_profile'] : '';
             }
 
             if ($model->save()) {
-				Yii::$app->session->setFlash('success', Yii::t('app', 'Member success created.'));
-				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id'=>$model->member_id]);
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Member success created.'));
+                return $this->redirect(['index']);
+                //return $this->redirect(['view', 'id'=>$model->member_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
                     return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
                 }
-			}
-		}
+            }
+        }
 
 		$this->view->title = Yii::t('app', 'Create Member');
 		$this->view->description = '';
@@ -141,28 +141,28 @@ class AdminController extends Controller
 		$model = $this->findModel($id);
 
         if (Yii::$app->request->isPost) {
-			$postData = Yii::$app->request->post();
-			$model->load($postData);
-			$model->photo_header = UploadedFile::getInstance($model, 'photo_header');
+            $postData = Yii::$app->request->post();
+            $model->load($postData);
+            $model->photo_header = UploadedFile::getInstance($model, 'photo_header');
             if (!($model->photo_header instanceof UploadedFile && !$model->photo_header->getHasError())) {
                 $model->photo_header = $postData['photo_header'] ? $postData['photo_header'] : '';
             }
-			$model->photo_profile = UploadedFile::getInstance($model, 'photo_profile');
+            $model->photo_profile = UploadedFile::getInstance($model, 'photo_profile');
             if (!($model->photo_profile instanceof UploadedFile && !$model->photo_profile->getHasError())) {
                 $model->photo_profile = $postData['photo_profile'] ? $postData['photo_profile'] : '';
             }
 
             if ($model->save()) {
-				Yii::$app->session->setFlash('success', Yii::t('app', 'Member success updated.'));
-				return $this->redirect(['index']);
-				//return $this->redirect(['view', 'id'=>$model->member_id]);
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Member success updated.'));
+                return $this->redirect(['index']);
+                //return $this->redirect(['view', 'id'=>$model->member_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
                     return \yii\helpers\Json::encode(\app\components\widgets\ActiveForm::validate($model));
                 }
-			}
-		}
+            }
+        }
 
 		$this->view->title = Yii::t('app', 'Update Member: {username}', ['username' => $model->displayname]);
 		$this->view->description = '';
@@ -179,7 +179,7 @@ class AdminController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$model = $this->findModel($id);
+        $model = $this->findModel($id);
 
 		$this->view->title = Yii::t('app', 'Detail Member: {username}', ['username' => $model->displayname]);
 		$this->view->description = '';

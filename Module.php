@@ -26,7 +26,7 @@ class Module extends \app\components\Module
 	 */
 	public function init()
 	{
-		parent::init();
+        parent::init();
 	}
 
 	/**

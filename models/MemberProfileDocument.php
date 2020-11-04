@@ -168,7 +168,7 @@ class MemberProfileDocument extends \app\components\ActiveRecord
 	 */
 	public function init()
 	{
-		parent::init();
+        parent::init();
 
         if (!(Yii::$app instanceof \app\components\Application)) {
             return;
@@ -335,8 +335,8 @@ class MemberProfileDocument extends \app\components\ActiveRecord
                 if ($model->save()) {
                     $this->document_id = $model->document_id;
                 }
-			}
-		}
+            }
+        }
 
 		return true;
 	}
