@@ -23,9 +23,9 @@ $this->params['breadcrumbs'][] = $model->title->message;
 
 if (!$small) {
     $this->params['menu']['content'] = [
-        ['label' => Yii::t('app', 'Detail'), 'url' => Url::to(['view', 'id'=>$model->cat_id]), 'icon' => 'eye', 'htmlOptions' => ['class'=>'btn btn-success']],
-        ['label' => Yii::t('app', 'Update'), 'url' => Url::to(['update', 'id'=>$model->cat_id]), 'icon' => 'pencil', 'htmlOptions' => ['class'=>'btn btn-primary']],
-        ['label' => Yii::t('app', 'Delete'), 'url' => Url::to(['delete', 'id'=>$model->cat_id]), 'htmlOptions' => ['data-confirm'=>Yii::t('app', 'Are you sure you want to delete this item?'), 'data-method'=>'post', 'class'=>'btn btn-danger'], 'icon' => 'trash'],
+        ['label' => Yii::t('app', 'Detail'), 'url' => Url::to(['view', 'id' => $model->cat_id]), 'icon' => 'eye', 'htmlOptions' => ['class' => 'btn btn-info']],
+        ['label' => Yii::t('app', 'Update'), 'url' => Url::to(['update', 'id' => $model->cat_id]), 'icon' => 'pencil', 'htmlOptions' => ['class' => 'btn btn-primary']],
+        ['label' => Yii::t('app', 'Delete'), 'url' => Url::to(['delete', 'id' => $model->cat_id]), 'htmlOptions' => ['data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'), 'data-method' => 'post', 'class' => 'btn btn-danger'], 'icon' => 'trash'],
     ];
 } ?>
 
@@ -40,7 +40,7 @@ $attributes = [
 	],
 	[
 		'attribute' => 'publish',
-		'value' => $model->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish, 'Enable,Disable'),
+		'value' => $model->quickAction(Url::to(['publish', 'id' => $model->primaryKey]), $model->publish, 'Enable,Disable'),
 		'format' => 'raw',
 		'visible' => !$small,
 	],
@@ -49,7 +49,7 @@ $attributes = [
 		'value' => function ($model) {
 			$profileName = isset($model->profile) ? $model->profile->title->message : '-';
             if ($profileName != '-') {
-                return Html::a($profileName, ['setting/profile/view', 'id'=>$model->profile_id], ['title'=>$profileName, 'class'=>'modal-btn']);
+                return Html::a($profileName, ['setting/profile/view', 'id' => $model->profile_id], ['title' => $profileName, 'class' => 'modal-btn']);
             }
 			return $profileName;
 		},
@@ -71,7 +71,7 @@ $attributes = [
 		'attribute' => 'companies',
 		'value' => function ($model) {
 			$companies = $model->getCompanies(true);
-			return Html::a($companies, ['company/manage', 'companyCat'=>$model->primaryKey], ['title'=>Yii::t('app', '{count} companies', ['count'=>$companies])]);
+			return Html::a($companies, ['company/manage', 'companyCat' => $model->primaryKey], ['title' => Yii::t('app', '{count} companies', ['count' => $companies])]);
 		},
 		'format' => 'html',
 		'visible' => !$small,
@@ -103,7 +103,7 @@ $attributes = [
 	],
 	[
 		'attribute' => '',
-		'value' => Html::a(Yii::t('app', 'Update'), ['update', 'id'=>$model->primaryKey], ['title'=>Yii::t('app', 'Update'), 'class'=>'btn btn-success btn-sm']),
+		'value' => Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->primaryKey], ['title' => Yii::t('app', 'Update'), 'class' => 'btn btn-primary btn-sm']),
 		'format' => 'html',
 		'visible' => !$small && Yii::$app->request->isAjax ? true : false,
 	],
@@ -112,7 +112,7 @@ $attributes = [
 echo DetailView::widget([
 	'model' => $model,
 	'options' => [
-		'class'=>'table table-striped detail-view',
+		'class' => 'table table-striped detail-view',
 	],
 	'attributes' => $attributes,
 ]); ?>

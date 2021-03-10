@@ -33,11 +33,11 @@ use ommu\member\models\MemberDocumentType;
 
 		<?php $profile = MemberProfile::getProfile();
 		echo $form->field($model, 'profile_id')
-			->dropDownList($profile, ['prompt'=>'']);?>
+			->dropDownList($profile, ['prompt' => '']);?>
 
 		<?php $document = MemberDocumentType::getType();
 		echo $form->field($model, 'document_id')
-			->dropDownList($document, ['prompt'=>'']);?>
+			->dropDownList($document, ['prompt' => '']);?>
 
 		<?php echo $form->field($model, 'creation_date')
 			->input('date');?>
@@ -53,10 +53,10 @@ use ommu\member\models\MemberDocumentType;
 			->input('date');?>
 
 		<?php echo $form->field($model, 'required')
-			->dropDownList($model->filterYesNo(), ['prompt'=>'']);?>
+			->dropDownList($model->filterYesNo(), ['prompt' => '']);?>
 
 		<?php echo $form->field($model, 'publish')
-			->dropDownList($model->filterYesNo(), ['prompt'=>'']);?>
+			->dropDownList($model->filterYesNo(), ['prompt' => '']);?>
 
 		<div class="form-group">
 			<?php echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']); ?>

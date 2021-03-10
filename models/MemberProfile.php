@@ -271,7 +271,7 @@ class MemberProfile extends \app\components\ActiveRecord
 		$this->templateColumns['_no'] = [
 			'header' => '#',
 			'class' => 'app\components\grid\SerialColumn',
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 		];
 		$this->templateColumns['profile_name_i'] = [
 			'attribute' => 'profile_name_i',
@@ -332,30 +332,30 @@ class MemberProfile extends \app\components\ActiveRecord
 			'attribute' => 'categories',
 			'value' => function($model, $key, $index, $column) {
 				$categories = $model->getCategories(true);
-				return Html::a($categories, ['setting/profile/category/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} categories', ['count'=>$categories]), 'data-pjax'=>0]);
+				return Html::a($categories, ['setting/profile/category/manage', 'profile' => $model->primaryKey, 'publish' => 1], ['title' => Yii::t('app', '{count} categories', ['count' => $categories]), 'data-pjax' => 0]);
 			},
 			'filter' => false,
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 			'format' => 'raw',
 		];
 		$this->templateColumns['documents'] = [
 			'attribute' => 'documents',
 			'value' => function($model, $key, $index, $column) {
 				$documents = $model->getDocuments(true);
-				return Html::a($documents, ['setting/profile/document/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} documents', ['count'=>$documents]), 'data-pjax'=>0]);
+				return Html::a($documents, ['setting/profile/document/manage', 'profile' => $model->primaryKey, 'publish' => 1], ['title' => Yii::t('app', '{count} documents', ['count' => $documents]), 'data-pjax' => 0]);
 			},
 			'filter' => false,
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 			'format' => 'raw',
 		];
 		$this->templateColumns['members'] = [
 			'attribute' => 'members',
 			'value' => function($model, $key, $index, $column) {
 				$members = $model->getMembers(true);
-				return Html::a($members, ['admin/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} members', ['count'=>$members]), 'data-pjax'=>0]);
+				return Html::a($members, ['admin/manage', 'profile' => $model->primaryKey, 'publish' => 1], ['title' => Yii::t('app', '{count} members', ['count' => $members]), 'data-pjax' => 0]);
 			},
 			'filter' => false,
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 			'format' => 'raw',
 		];
 		$this->templateColumns['profile_personal'] = [
@@ -364,7 +364,7 @@ class MemberProfile extends \app\components\ActiveRecord
 				return $this->filterYesNo($model->profile_personal);
 			},
 			'filter' => $this->filterYesNo(),
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 		];
 		$this->templateColumns['multiple_user'] = [
 			'attribute' => 'multiple_user',
@@ -373,7 +373,7 @@ class MemberProfile extends \app\components\ActiveRecord
 				return $this->filterYesNo($model->multiple_user);
 			},
 			'filter' => $this->filterYesNo(),
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 		];
 		$this->templateColumns['user_limit'] = [
 			'attribute' => 'user_limit',
@@ -381,16 +381,16 @@ class MemberProfile extends \app\components\ActiveRecord
 			'value' => function($model, $key, $index, $column) {
 				return $model->user_limit;
 			},
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 		];
 		$this->templateColumns['publish'] = [
 			'attribute' => 'publish',
 			'value' => function($model, $key, $index, $column) {
-				$url = Url::to(['publish', 'id'=>$model->primaryKey]);
+				$url = Url::to(['publish', 'id' => $model->primaryKey]);
 				return $this->quickAction($url, $model->publish, 'Enable,Disable');
 			},
 			'filter' => $this->filterYesNo(),
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 			'format' => 'raw',
 			'visible' => !Yii::$app->request->get('trash') ? true : false,
 		];
@@ -451,7 +451,7 @@ class MemberProfile extends \app\components\ActiveRecord
         if ($sep == 'li') {
 			return Html::ul($assignmentRoles, ['item' => function($item, $index) {
 				return Html::tag('li', $item);
-			}, 'class'=>'list-boxed']);
+			}, 'class' => 'list-boxed']);
 		}
 
 		return implode($sep, $answer);

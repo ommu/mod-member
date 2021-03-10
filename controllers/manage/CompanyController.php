@@ -121,7 +121,7 @@ class CompanyController extends Controller
                     if ($model->save()) {
 						Yii::$app->session->setFlash('success', Yii::t('app', 'Member company success created.'));
 						return $this->redirect(['index']);
-						//return $this->redirect(['view', 'id'=>$model->id]);
+						//return $this->redirect(['view', 'id' => $model->id]);
 					}
 				}
 			}
@@ -159,7 +159,7 @@ class CompanyController extends Controller
                     if ($model->save()) {
 						Yii::$app->session->setFlash('success', Yii::t('app', 'Member company success updated.'));
 						return $this->redirect(['index']);
-						//return $this->redirect(['view', 'id'=>$model->id]);
+						//return $this->redirect(['view', 'id' => $model->id]);
 					}
 				}
 			}

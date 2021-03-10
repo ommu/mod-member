@@ -197,7 +197,7 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 		$this->templateColumns['_no'] = [
 			'header' => '#',
 			'class' => 'app\components\grid\SerialColumn',
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 		];
 		$this->templateColumns['profile_id'] = [
 			'attribute' => 'profile_id',
@@ -269,20 +269,20 @@ class MemberProfileCategory extends \app\components\ActiveRecord
 			'attribute' => 'companies',
 			'value' => function($model, $key, $index, $column) {
 				$companies = $model->getCompanies(true);
-				return Html::a($companies, ['company/manage', 'companyCat'=>$model->primaryKey], ['title'=>Yii::t('app', '{count} companies', ['count'=>$companies]), 'data-pjax'=>0]);
+				return Html::a($companies, ['company/manage', 'companyCat' => $model->primaryKey], ['title' => Yii::t('app', '{count} companies', ['count' => $companies]), 'data-pjax' => 0]);
 			},
 			'filter' => false,
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 			'format' => 'raw',
 		];
 		$this->templateColumns['publish'] = [
 			'attribute' => 'publish',
 			'value' => function($model, $key, $index, $column) {
-				$url = Url::to(['publish', 'id'=>$model->primaryKey]);
+				$url = Url::to(['publish', 'id' => $model->primaryKey]);
 				return $this->quickAction($url, $model->publish, 'Enable,Disable');
 			},
 			'filter' => $this->filterYesNo(),
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 			'format' => 'raw',
 			'visible' => !Yii::$app->request->get('trash') ? true : false,
 		];

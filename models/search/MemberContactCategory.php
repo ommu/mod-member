@@ -69,14 +69,15 @@ class MemberContactCategory extends MemberContactCategoryModel
 			'title title', 
 			'creation creation', 
 			'modified modified'
-		])
-		->groupBy(['cat_id']);
+		]);
 
-		// add conditions that should always apply here
+		$query->groupBy(['cat_id']);
+
+        // add conditions that should always apply here
 		$dataParams = [
 			'query' => $query,
 		];
-		// disable pagination agar data pada api tampil semua
+        // disable pagination agar data pada api tampil semua
         if (isset($params['pagination']) && $params['pagination'] == 0) {
             $dataParams['pagination'] = false;
         }
@@ -103,10 +104,10 @@ class MemberContactCategory extends MemberContactCategoryModel
 		$this->load($params);
 
         if (!$this->validate()) {
-			// uncomment the following line if you do not want to return any records when validation fails
-			// $query->where('0=1');
-			return $dataProvider;
-		}
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
 
 		// grid filtering conditions
 		$query->andFilterWhere([
@@ -127,7 +128,7 @@ class MemberContactCategory extends MemberContactCategoryModel
             } else {
                 $query->andFilterWhere(['t.publish' => $this->publish]);
             }
-		}
+        }
 
 		$query->andFilterWhere(['like', 'title.message', $this->cat_name_i])
 			->andFilterWhere(['like', 'creation.displayname', $this->creationDisplayname])

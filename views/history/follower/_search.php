@@ -31,7 +31,7 @@ use ommu\member\models\MemberProfile;
 
 		<?php $profile = MemberProfile::getProfile();
 		echo $form->field($model, 'profile_search')
-			->dropDownList($profile, ['prompt'=>'']);?>
+			->dropDownList($profile, ['prompt' => '']);?>
 
 		<?php echo $form->field($model, 'member_search');?>
 
@@ -43,7 +43,7 @@ use ommu\member\models\MemberProfile;
 		<?php echo $form->field($model, 'creationDisplayname');?>
 
 		<?php echo $form->field($model, 'publish')
-			->dropDownList($model->filterYesNo(), ['prompt'=>'']);?>
+			->dropDownList($model->filterYesNo(), ['prompt' => '']);?>
 
 		<div class="form-group">
 			<?php echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']); ?>

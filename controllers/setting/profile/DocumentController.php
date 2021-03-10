@@ -143,10 +143,10 @@ class DocumentController extends Controller
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success created.'));
                 if (!Yii::$app->request->isAjax) {
-					return $this->redirect(['manage', 'profile'=>$model->profile_id]);
+					return $this->redirect(['manage', 'profile' => $model->profile_id]);
                 }
-                return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
-                //return $this->redirect(['view', 'id'=>$model->id]);
+                return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile' => $model->profile_id]);
+                //return $this->redirect(['view', 'id' => $model->id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
@@ -183,9 +183,9 @@ class DocumentController extends Controller
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success updated.'));
                 if (!Yii::$app->request->isAjax) {
-                    return $this->redirect(['update', 'id'=>$model->id]);
+                    return $this->redirect(['update', 'id' => $model->id]);
                 }
-                return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
+                return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile' => $model->profile_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
@@ -233,7 +233,7 @@ class DocumentController extends Controller
 
         if ($model->save(false, ['publish', 'modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success deleted.'));
-			return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
+			return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile' => $model->profile_id]);
 		}
 	}
 
@@ -251,7 +251,7 @@ class DocumentController extends Controller
 
         if ($model->save(false, ['publish', 'modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile document success updated.'));
-			return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile'=>$model->profile_id]);
+			return $this->redirect(Yii::$app->request->referrer ?: ['manage', 'profile' => $model->profile_id]);
 		}
 	}
 

@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Create');
 
 $company = Yii::$app->request->get('company');
 $this->params['menu']['content'] = [
-	['label' => Yii::t('app', 'Back To Manage'), 'url' => Url::to(['index', 'company'=>$company]), 'icon' => 'table'],
+	['label' => Yii::t('app', 'Back To Manage'), 'url' => Url::to(['index', 'company' => $company]), 'icon' => 'table'],
 ];
 ?>
 

@@ -40,10 +40,10 @@ use ommu\member\models\MemberDocuments;
 <?php //echo $form->errorSummary($model);?>
 
 <?php echo $form->field($model, 'profile_document_id')
-	->dropDownList($document, ['prompt'=>''])
+	->dropDownList($document, ['prompt' => ''])
 	->label($model->getAttributeLabel('profile_document_id')); ?>
 
-<?php $documentFilename = !$model->isNewRecord && $model->old_document_filename_i != '' ? Html::img(Url::to(join('/', ['@webpublic', MemberDocuments::getUploadPath(false), $model->old_document_filename_i])), ['alt'=>$model->old_document_filename_i, 'class'=>'d-block border border-width-3 mb-3']).$model->old_document_filename_i.'<hr/>' : '';
+<?php $documentFilename = !$model->isNewRecord && $model->old_document_filename_i != '' ? Html::img(Url::to(join('/', ['@webpublic', MemberDocuments::getUploadPath(false), $model->old_document_filename_i])), ['alt' => $model->old_document_filename_i, 'class' => 'd-block border border-width-3 mb-4']).$model->old_document_filename_i.'<hr/>' : '';
 echo $form->field($model, 'document_filename', ['template' => '{label}{beginWrapper}<div>'.$documentFilename.'</div>{input}{error}{hint}{endWrapper}'])
 	->fileInput()
 	->label($model->getAttributeLabel('document_filename')); ?>

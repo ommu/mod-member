@@ -104,7 +104,7 @@ class ContactCategoryController extends Controller
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Member contact category success created.'));
                 return $this->redirect(['index']);
-                //return $this->redirect(['view', 'id'=>$model->cat_id]);
+                //return $this->redirect(['view', 'id' => $model->cat_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
@@ -140,7 +140,7 @@ class ContactCategoryController extends Controller
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Member contact category success updated.'));
                 return $this->redirect(['index']);
-                //return $this->redirect(['view', 'id'=>$model->cat_id]);
+                //return $this->redirect(['view', 'id' => $model->cat_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {

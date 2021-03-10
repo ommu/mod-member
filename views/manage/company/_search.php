@@ -34,11 +34,11 @@ use ommu\member\models\MemberProfileCategory;
 
 		<?php $companyType = MemberCompanyType::getType();
 		echo $form->field($model, 'company_type_id')
-			->dropDownList($companyType, ['prompt'=>'']);?>
+			->dropDownList($companyType, ['prompt' => '']);?>
 
 		<?php $companyCategory = MemberProfileCategory::getCategory();
 		echo $form->field($model, 'company_cat_id')
-			->dropDownList($companyCategory, ['prompt'=>'']);?>
+			->dropDownList($companyCategory, ['prompt' => '']);?>
 
 		<?php echo $form->field($model, 'info_intro');?>
 

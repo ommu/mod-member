@@ -104,7 +104,7 @@ class UserLevelController extends Controller
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Member userlevel success created.'));
                 return $this->redirect(['index']);
-                //return $this->redirect(['view', 'id'=>$model->level_id]);
+                //return $this->redirect(['view', 'id' => $model->level_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
@@ -140,7 +140,7 @@ class UserLevelController extends Controller
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Member userlevel success updated.'));
                 return $this->redirect(['index']);
-                //return $this->redirect(['view', 'id'=>$model->level_id]);
+                //return $this->redirect(['view', 'id' => $model->level_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {

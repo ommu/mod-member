@@ -32,13 +32,13 @@ use ommu\member\models\MemberDocumentType;
 
 		<?php $profile = MemberProfile::getProfile();
 		echo $form->field($model, 'profile_search')
-			->dropDownList($profile, ['prompt'=>'']);?>
+			->dropDownList($profile, ['prompt' => '']);?>
 
 		<?php echo $form->field($model, 'member_search');?>
 
 		<?php $document = MemberDocumentType::getType();
 		echo $form->field($model, 'document_search')
-			->dropDownList($document, ['prompt'=>'']);?>
+			->dropDownList($document, ['prompt' => '']);?>
 
 		<?php echo $form->field($model, 'document_filename');?>
 
@@ -59,10 +59,10 @@ use ommu\member\models\MemberDocumentType;
 			->input('date');?>
 
 		<?php echo $form->field($model, 'status')
-			->dropDownList($model->filterYesNo(), ['prompt'=>'']);?>
+			->dropDownList($model->filterYesNo(), ['prompt' => '']);?>
 
 		<?php echo $form->field($model, 'publish')
-			->dropDownList($model->filterYesNo(), ['prompt'=>'']);?>
+			->dropDownList($model->filterYesNo(), ['prompt' => '']);?>
 
 		<div class="form-group">
 			<?php echo Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']); ?>

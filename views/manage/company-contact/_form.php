@@ -22,7 +22,7 @@ use ommu\member\models\MemberContactCategory;
 <div class="member-company-contact-form">
 
 <?php $form = ActiveForm::begin([
-	'options' => ['class'=>'form-horizontal form-label-left'],
+	'options' => ['class' => 'form-horizontal form-label-left'],
 	'enableClientValidation' => true,
 	'enableAjaxValidation' => false,
 	//'enableClientScript' => true,
@@ -37,11 +37,11 @@ use ommu\member\models\MemberContactCategory;
 
 <?php $category = MemberContactCategory::getCategory();
 echo $form->field($model, 'contact_cat_id')
-	->dropDownList($category, ['prompt'=>''])
+	->dropDownList($category, ['prompt' => ''])
 	->label($model->getAttributeLabel('contact_cat_id')); ?>
 
 <?php echo $form->field($model, 'contact_value')
-	->textarea(['rows'=>6, 'cols'=>50])
+	->textarea(['rows' => 6, 'cols' => 50])
 	->label($model->getAttributeLabel('contact_value')); ?>
 
 <?php echo $form->field($model, 'status')

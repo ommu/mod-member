@@ -164,7 +164,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 		$this->templateColumns['_no'] = [
 			'header' => '#',
 			'class' => 'app\components\grid\SerialColumn',
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 		];
 		$this->templateColumns['member_search'] = [
 			'attribute' => 'member_search',
@@ -193,7 +193,7 @@ class MemberDocuments extends \app\components\ActiveRecord
 			'attribute' => 'document_filename',
 			'value' => function($model, $key, $index, $column) {
 				$uploadPath = join('/', [self::getUploadPath(false), $model->id]);
-				return $model->document_filename ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->document_filename])), ['alt'=>$model->document_filename]) : '-';
+				return $model->document_filename ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->document_filename])), ['alt' => $model->document_filename]) : '-';
 			},
 			'format' => 'html',
 		];
@@ -247,17 +247,17 @@ class MemberDocuments extends \app\components\ActiveRecord
 			'value' => function($model, $key, $index, $column) {
 				return self::getStatus($model->status);
 			},
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 			'format' => 'raw',
 		];
 		$this->templateColumns['publish'] = [
 			'attribute' => 'publish',
 			'value' => function($model, $key, $index, $column) {
-				$url = Url::to(['publish', 'id'=>$model->primaryKey]);
+				$url = Url::to(['publish', 'id' => $model->primaryKey]);
 				return $this->quickAction($url, $model->publish);
 			},
 			'filter' => $this->filterYesNo(),
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 			'format' => 'raw',
 			'visible' => !Yii::$app->request->get('trash') ? true : false,
 		];
@@ -324,13 +324,13 @@ class MemberDocuments extends \app\components\ActiveRecord
             if ($document_filename instanceof UploadedFile && !$document_filename->getHasError()) {
                 if (!in_array(strtolower($document_filename->getExtension()), $documentFilenameFileType)) {
 					$this->addError('document_filename', Yii::t('app', 'The file {name} cannot be uploaded. Only files with these extensions are allowed: {extensions}', array(
-						'{name}'=>$document_filename->name,
-						'{extensions}'=>$this->formatFileType($documentFilenameFileType, false),
+						'{name}' => $document_filename->name,
+						'{extensions}' => $this->formatFileType($documentFilenameFileType, false),
 					)));
                 }
             } else {
                 if ($this->isNewRecord || (!$this->isNewRecord && $this->old_document_filename_i == '')) {
-                    $this->addError('document_filename', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}'=>$this->getAttributeLabel('document_filename'))));
+                    $this->addError('document_filename', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}' => $this->getAttributeLabel('document_filename'))));
                 }
 			}
 
@@ -394,7 +394,7 @@ class MemberDocuments extends \app\components\ActiveRecord
             if ($this->document_filename instanceof UploadedFile && !$this->document_filename->getHasError()) {
 				$fileName = join('-', [time(), UuidHelper::uuid()]).'.'.strtolower($this->document_filename->getExtension());
                 if ($this->document_filename->saveAs(join('/', [$uploadPath, $fileName]))) {
-                    self::updateAll(['document_filename' => $fileName], ['id'=>$this->id]);
+                    self::updateAll(['document_filename' => $fileName], ['id' => $this->id]);
                 }
 			}
 

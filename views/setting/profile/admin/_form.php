@@ -41,7 +41,7 @@ JS;
 <div class="member-profile-form">
 
 <?php $form = ActiveForm::begin([
-	'options' => ['class'=>'form-horizontal form-label-left'],
+	'options' => ['class' => 'form-horizontal form-label-left'],
 	'enableClientValidation' => false,
 	'enableAjaxValidation' => false,
 	//'enableClientScript' => true,
@@ -55,11 +55,11 @@ JS;
 <?php //echo $form->errorSummary($model);?>
 
 <?php echo $form->field($model, 'profile_name_i')
-	->textInput(['maxlength'=>true])
+	->textInput(['maxlength' => true])
 	->label($model->getAttributeLabel('profile_name_i')); ?>
 
 <?php echo $form->field($model, 'profile_desc_i')
-	->textarea(['rows'=>6, 'cols'=>50, 'maxlength'=>true])
+	->textarea(['rows' => 6, 'cols' => 50, 'maxlength' => true])
 	->label($model->getAttributeLabel('profile_desc_i')); ?>
 
 <?php $assignments = Assignments::getRoles();
@@ -76,15 +76,15 @@ echo $form->field($model, 'profile_personal')
 	->checkbox()
 	->label($model->getAttributeLabel('profile_personal')); ?>
 
-<div id="pages" class="mb-3" <?php echo $model->profile_personal == 1 ? 'style="display: none;"' : ''; ?>>
+<div id="pages" class="mb-4" <?php echo $model->profile_personal == 1 ? 'style="display: none;"' : ''; ?>>
 <?php echo $form->field($model, 'multiple_user')
 	->checkbox()
 	->label($model->getAttributeLabel('multiple_user')); ?>
 
 <?php echo $form->field($model, 'user_limit', ['options' => ['style' => $model->multiple_user == 0 ? 'display: none' : '']])
-	->textInput(['type'=>'number', 'min'=>'1'])
+	->textInput(['type' => 'number', 'min' => '1'])
 	->label($model->getAttributeLabel('user_limit'))
-	->hint(Yii::t('app', 'User limit recommendation is {limit}', ['limit'=>$model->multipleUserLimit])); ?>
+	->hint(Yii::t('app', 'User limit recommendation is {limit}', ['limit' => $model->multipleUserLimit])); ?>
 </div>
 
 <?php 

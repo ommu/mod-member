@@ -31,7 +31,7 @@ use ommu\member\models\MemberProfile;
 
 		<?php $profile = MemberProfile::getProfile();
 		echo $form->field($model, 'profile_search')
-			->dropDownList($profile, ['prompt'=>'']);?>
+			->dropDownList($profile, ['prompt' => '']);?>
 
 		<?php echo $form->field($model, 'member_search');?>
 

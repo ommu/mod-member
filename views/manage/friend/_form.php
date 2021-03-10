@@ -22,7 +22,7 @@ use ommu\member\models\MemberFriendType;
 <div class="member-friends-form">
 
 <?php $form = ActiveForm::begin([
-	'options' => ['class'=>'form-horizontal form-label-left'],
+	'options' => ['class' => 'form-horizontal form-label-left'],
 	'enableClientValidation' => true,
 	'enableAjaxValidation' => false,
 	//'enableClientScript' => true,
@@ -37,15 +37,15 @@ use ommu\member\models\MemberFriendType;
 
 <?php $type = MemberFriendType::getType();
 echo $form->field($model, 'type_id')
-	->dropDownList($type, ['prompt'=>''])
+	->dropDownList($type, ['prompt' => ''])
 	->label($model->getAttributeLabel('type_id')); ?>
 
 <?php echo $form->field($model, 'user_id')
-	->textInput(['type'=>'number', 'min'=>'1'])
+	->textInput(['type' => 'number', 'min' => '1'])
 	->label($model->getAttributeLabel('user_id')); ?>
 
 <?php echo $form->field($model, 'request_id')
-	->textInput(['type'=>'number', 'min'=>'1'])
+	->textInput(['type' => 'number', 'min' => '1'])
 	->label($model->getAttributeLabel('request_id')); ?>
 
 <hr/>

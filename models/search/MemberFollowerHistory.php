@@ -70,14 +70,15 @@ class MemberFollowerHistory extends MemberFollowerHistoryModel
 			'follower.member.profile.title profile',
 			'follower.member member', 
 			'follower.user user'
-		])
-		->groupBy(['id']);
+		]);
 
-		// add conditions that should always apply here
+		$query->groupBy(['id']);
+
+        // add conditions that should always apply here
 		$dataParams = [
 			'query' => $query,
 		];
-		// disable pagination agar data pada api tampil semua
+        // disable pagination agar data pada api tampil semua
         if (isset($params['pagination']) && $params['pagination'] == 0) {
             $dataParams['pagination'] = false;
         }
@@ -111,10 +112,10 @@ class MemberFollowerHistory extends MemberFollowerHistoryModel
 		$this->load($params);
 
         if (!$this->validate()) {
-			// uncomment the following line if you do not want to return any records when validation fails
-			// $query->where('0=1');
-			return $dataProvider;
-		}
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
 
 		// grid filtering conditions
 		$query->andFilterWhere([
@@ -133,7 +134,7 @@ class MemberFollowerHistory extends MemberFollowerHistoryModel
             } else {
                 $query->andFilterWhere(['t.publish' => $this->publish]);
             }
-		}
+        }
 
 		$query->andFilterWhere(['like', 'creation.displayname', $this->creationDisplayname])
 			->andFilterWhere(['like', 'member.displayname', $this->member_search])

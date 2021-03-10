@@ -22,7 +22,7 @@ use ommu\member\models\MemberUserlevel;
 <div class="member-user-form">
 
 <?php $form = ActiveForm::begin([
-	'options' => ['class'=>'form-horizontal form-label-left'],
+	'options' => ['class' => 'form-horizontal form-label-left'],
 	'enableClientValidation' => true,
 	'enableAjaxValidation' => false,
 	//'enableClientScript' => true,
@@ -37,11 +37,11 @@ use ommu\member\models\MemberUserlevel;
 
 <?php $level = MemberUserlevel::getUserlevel();
 echo $form->field($model, 'level_id')
-	->dropDownList($level, ['prompt'=>''])
+	->dropDownList($level, ['prompt' => ''])
 	->label($model->getAttributeLabel('level_id')); ?>
 
 <?php echo $form->field($model, 'user_id')
-	->textInput(['type'=>'number', 'min'=>'1'])
+	->textInput(['type' => 'number', 'min' => '1'])
 	->label($model->getAttributeLabel('user_id')); ?>
 
 <?php echo $form->field($model, 'owner')

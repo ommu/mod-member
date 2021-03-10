@@ -25,7 +25,7 @@ use yii\helpers\ArrayHelper;
 <div class="member-profile-document-form">
 
 <?php $form = ActiveForm::begin([
-	'options' => ['class'=>'form-horizontal form-label-left'],
+	'options' => ['class' => 'form-horizontal form-label-left'],
 	'enableClientValidation' => true,
 	'enableAjaxValidation' => false,
 	//'enableClientScript' => true,
@@ -44,7 +44,7 @@ echo $form->field($model, 'document_id')
 		'options' => [
 			'placeholder' => Yii::t('app', 'Select a document type..'),
 		],
-		'items' => ArrayHelper::merge([''=>Yii::t('app', 'Select a document type..')], $document),
+		'items' => ArrayHelper::merge(['' => Yii::t('app', 'Select a document type..')], $document),
 		'pluginOptions' => [
 			'valueField' => 'id',
 			'labelField' => 'label',

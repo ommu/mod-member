@@ -123,9 +123,9 @@ class AdminController extends Controller
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success created.'));
                 if (!Yii::$app->request->isAjax) {
-					return $this->redirect(['view', 'id'=>$model->profile_id]);
+					return $this->redirect(['view', 'id' => $model->profile_id]);
                 }
-                return $this->redirect(Yii::$app->request->referrer ?: ['view', 'id'=>$model->profile_id]);
+                return $this->redirect(Yii::$app->request->referrer ?: ['view', 'id' => $model->profile_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
@@ -162,9 +162,9 @@ class AdminController extends Controller
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Member profile success updated.'));
                 if (!Yii::$app->request->isAjax) {
-					return $this->redirect(['update', 'id'=>$model->profile_id]);
+					return $this->redirect(['update', 'id' => $model->profile_id]);
                 }
-                return $this->redirect(Yii::$app->request->referrer ?: ['update', 'id'=>$model->profile_id]);
+                return $this->redirect(Yii::$app->request->referrer ?: ['update', 'id' => $model->profile_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {

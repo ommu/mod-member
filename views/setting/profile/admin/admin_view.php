@@ -33,7 +33,7 @@ $attributes = [
 	],
 	[
 		'attribute' => 'publish',
-		'value' => $model->quickAction(Url::to(['publish', 'id'=>$model->primaryKey]), $model->publish, 'Enable,Disable'),
+		'value' => $model->quickAction(Url::to(['publish', 'id' => $model->primaryKey]), $model->publish, 'Enable,Disable'),
 		'format' => 'raw',
 		'visible' => !$small,
 	],
@@ -69,7 +69,7 @@ $attributes = [
 		'attribute' => 'categories',
 		'value' => function ($model) {
 			$categories = $model->getCategories(true);
-			return Html::a($categories, ['setting/profile/category/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} categories', ['count'=>$categories])]);
+			return Html::a($categories, ['setting/profile/category/manage', 'profile' => $model->primaryKey, 'publish' => 1], ['title' => Yii::t('app', '{count} categories', ['count' => $categories])]);
 		},
 		'format' => 'html',
 		'visible' => !$small,
@@ -78,7 +78,7 @@ $attributes = [
 		'attribute' => 'documents',
 		'value' => function ($model) {
 			$documents = $model->getDocuments(true);
-			return Html::a($documents, ['setting/profile/document/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} documents', ['count'=>$documents])]);
+			return Html::a($documents, ['setting/profile/document/manage', 'profile' => $model->primaryKey, 'publish' => 1], ['title' => Yii::t('app', '{count} documents', ['count' => $documents])]);
 		},
 		'format' => 'html',
 		'visible' => !$small,
@@ -87,7 +87,7 @@ $attributes = [
 		'attribute' => 'members',
 		'value' => function ($model) {
 			$members = $model->getMembers(true);
-			return Html::a($members, ['admin/manage', 'profile'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} members', ['count'=>$members])]);
+			return Html::a($members, ['admin/manage', 'profile' => $model->primaryKey, 'publish' => 1], ['title' => Yii::t('app', '{count} members', ['count' => $members])]);
 		},
 		'format' => 'html',
 		'visible' => !$small,
@@ -119,7 +119,7 @@ $attributes = [
 	],
 	[
 		'attribute' => '',
-		'value' => Html::a(Yii::t('app', 'Update'), ['update', 'id'=>$model->primaryKey], ['title'=>Yii::t('app', 'Update'), 'class'=>'btn btn-success btn-sm']),
+		'value' => Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->primaryKey], ['title' => Yii::t('app', 'Update'), 'class' => 'btn btn-primary btn-sm']),
 		'format' => 'html',
 		'visible' => !$small && Yii::$app->request->isAjax ? true : false,
 	],
@@ -128,7 +128,7 @@ $attributes = [
 echo DetailView::widget([
 	'model' => $model,
 	'options' => [
-		'class'=>'table table-striped detail-view',
+		'class' => 'table table-striped detail-view',
 	],
 	'attributes' => $attributes,
 ]); ?>

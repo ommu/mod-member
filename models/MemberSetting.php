@@ -161,7 +161,7 @@ class MemberSetting extends \app\components\ActiveRecord
 		$this->templateColumns['_no'] = [
 			'header' => '#',
 			'class' => 'app\components\grid\SerialColumn',
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 		];
 		$this->templateColumns['license'] = [
 			'attribute' => 'license',
@@ -262,7 +262,7 @@ class MemberSetting extends \app\components\ActiveRecord
 				return $this->filterYesNo($model->profile_page_user_auto_follow);
 			},
 			'filter' => $this->filterYesNo(),
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 		];
 		$this->templateColumns['photo_resize'] = [
 			'attribute' => 'photo_resize',
@@ -270,7 +270,7 @@ class MemberSetting extends \app\components\ActiveRecord
 				return $this->filterYesNo($model->photo_resize);
 			},
 			'filter' => $this->filterYesNo(),
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 		];
 		$this->templateColumns['friends_auto_follow'] = [
 			'attribute' => 'friends_auto_follow',
@@ -278,7 +278,7 @@ class MemberSetting extends \app\components\ActiveRecord
 				return $this->filterYesNo($model->friends_auto_follow);
 			},
 			'filter' => $this->filterYesNo(),
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 		];
 	}
 
@@ -315,8 +315,8 @@ class MemberSetting extends \app\components\ActiveRecord
         }
 
 		$items = array(
-			1 => Yii::t('app', 'Yes, the public can view {module} unless they are made private.', ['module'=>$moduleName]),
-			0 => Yii::t('app', 'No, the public cannot view {module}.', ['module'=>$moduleName]),
+			1 => Yii::t('app', 'Yes, the public can view {module} unless they are made private.', ['module' => $moduleName]),
+			0 => Yii::t('app', 'No, the public cannot view {module}.', ['module' => $moduleName]),
 		);
 
         if ($value !== null) {
@@ -371,7 +371,7 @@ class MemberSetting extends \app\components\ActiveRecord
 		foreach ($view_size as $key => $value) {
 			$views[] = ucfirst($key).": ".self::getSize($value);
 		}
-		return Html::ul($views, ['encode'=>false, 'class'=>'list-boxed']);
+		return Html::ul($views, ['encode' => false, 'class' => 'list-boxed']);
 	}
 
 	/**

@@ -103,7 +103,7 @@ class CompanyTypeController extends Controller
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Member company type success created.'));
                 return $this->redirect(['index']);
-                //return $this->redirect(['view', 'id'=>$model->type_id]);
+                //return $this->redirect(['view', 'id' => $model->type_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
@@ -139,7 +139,7 @@ class CompanyTypeController extends Controller
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Member company type success updated.'));
                 return $this->redirect(['index']);
-                //return $this->redirect(['view', 'id'=>$model->type_id]);
+                //return $this->redirect(['view', 'id' => $model->type_id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {

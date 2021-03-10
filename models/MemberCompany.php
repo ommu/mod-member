@@ -211,7 +211,7 @@ class MemberCompany extends \app\components\ActiveRecord
 		$this->templateColumns['_no'] = [
 			'header' => '#',
 			'class' => 'app\components\grid\SerialColumn',
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 		];
 		$this->templateColumns['member_i'] = [
 			'attribute' => 'member_i',
@@ -369,12 +369,12 @@ class MemberCompany extends \app\components\ActiveRecord
             if ($this->scenario == self::SCENARIO_UPDATE) {
                 if ($this->company_address != '') {
                     if ($this->company_district == '' && $this->company_village == '') {
-                        $this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute'=>$this->getAttributeLabel('company_address')]));
+                        $this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute' => $this->getAttributeLabel('company_address')]));
                     } else {
                         if ($this->company_district == '') {
-                            $this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute'=>$this->getAttributeLabel('company_district')]));
+                            $this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute' => $this->getAttributeLabel('company_district')]));
                         } else if ($this->company_village == '') {
-                            $this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute'=>$this->getAttributeLabel('company_village')]));
+                            $this->addError('company_address', Yii::t('app', '{attribute} cannot be blank.', ['attribute' => $this->getAttributeLabel('company_village')]));
                         }
 					}
 				}

@@ -107,8 +107,8 @@ class CompanyContactController extends Controller
 
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Member company contact success created.'));
-                return $this->redirect(['index', 'company'=>$model->member_company_id]);
-                //return $this->redirect(['view', 'id'=>$model->id]);
+                return $this->redirect(['index', 'company' => $model->member_company_id]);
+                //return $this->redirect(['view', 'id' => $model->id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
@@ -143,8 +143,8 @@ class CompanyContactController extends Controller
 
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Member company contact success updated.'));
-                return $this->redirect(['index', 'company'=>$model->member_company_id]);
-                //return $this->redirect(['view', 'id'=>$model->id]);
+                return $this->redirect(['index', 'company' => $model->member_company_id]);
+                //return $this->redirect(['view', 'id' => $model->id]);
 
             } else {
                 if (Yii::$app->request->isAjax) {
@@ -191,7 +191,7 @@ class CompanyContactController extends Controller
 
         if ($model->save(false, ['publish', 'modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member company contact success deleted.'));
-			return $this->redirect(['index', 'company'=>$model->member_company_id]);
+			return $this->redirect(['index', 'company' => $model->member_company_id]);
 		}
 	}
 
@@ -209,7 +209,7 @@ class CompanyContactController extends Controller
 
         if ($model->save(false, ['publish', 'modified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member company contact success updated.'));
-			return $this->redirect(['index', 'company'=>$model->member_company_id]);
+			return $this->redirect(['index', 'company' => $model->member_company_id]);
 		}
 	}
 
@@ -227,7 +227,7 @@ class CompanyContactController extends Controller
 		
         if ($model->save(false, ['status', 'verified_id'])) {
 			Yii::$app->session->setFlash('success', Yii::t('app', 'Member company contact success updated.'));
-			return $this->redirect(['index', 'company'=>$model->member_company_id]);
+			return $this->redirect(['index', 'company' => $model->member_company_id]);
 		}
 	}
 

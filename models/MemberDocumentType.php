@@ -182,7 +182,7 @@ class MemberDocumentType extends \app\components\ActiveRecord
 		$this->templateColumns['_no'] = [
 			'header' => '#',
 			'class' => 'app\components\grid\SerialColumn',
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 		];
 		$this->templateColumns['document_name_i'] = [
 			'attribute' => 'document_name_i',
@@ -200,10 +200,10 @@ class MemberDocumentType extends \app\components\ActiveRecord
 			'attribute' => 'documents',
 			'value' => function($model, $key, $index, $column) {
 				$documents = $model->getDocuments(true);
-				return Html::a($documents, ['setting/profile/document/manage', 'document'=>$model->primaryKey, 'publish'=>1], ['title'=>Yii::t('app', '{count} documents', ['count'=>$documents]), 'data-pjax'=>0]);
+				return Html::a($documents, ['setting/profile/document/manage', 'document' => $model->primaryKey, 'publish' => 1], ['title' => Yii::t('app', '{count} documents', ['count' => $documents]), 'data-pjax' => 0]);
 			},
 			'filter' => false,
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 			'format' => 'raw',
 		];
 		$this->templateColumns['creation_date'] = [
@@ -246,11 +246,11 @@ class MemberDocumentType extends \app\components\ActiveRecord
 		$this->templateColumns['publish'] = [
 			'attribute' => 'publish',
 			'value' => function($model, $key, $index, $column) {
-				$url = Url::to(['publish', 'id'=>$model->primaryKey]);
+				$url = Url::to(['publish', 'id' => $model->primaryKey]);
 				return $this->quickAction($url, $model->publish);
 			},
 			'filter' => $this->filterYesNo(),
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 			'format' => 'raw',
 			'visible' => !Yii::$app->request->get('trash') ? true : false,
 		];

@@ -31,7 +31,7 @@ use ommu\member\models\MemberFriendType;
 
 		<?php $type = MemberFriendType::getType();
 		echo $form->field($model, 'type_id')
-			->dropDownList($type, ['prompt'=>'']);?>
+			->dropDownList($type, ['prompt' => '']);?>
 
 		<?php echo $form->field($model, 'userDisplayname');?>
 

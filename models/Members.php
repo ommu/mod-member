@@ -336,13 +336,13 @@ class Members extends \app\components\ActiveRecord
 		$this->templateColumns['_no'] = [
 			'header' => '#',
 			'class' => 'app\components\grid\SerialColumn',
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 		];
 		$this->templateColumns['photo_profile'] = [
 			'attribute' => 'photo_profile',
 			'value' => function($model, $key, $index, $column) {
 				$uploadPath = join('/', [self::getUploadPath(false), $model->member_id]);
-				return $model->photo_profile ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->photo_profile])), ['alt'=>$model->photo_profile]) : '-';
+				return $model->photo_profile ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->photo_profile])), ['alt' => $model->photo_profile]) : '-';
 			},
 			'format' => 'html',
 		];
@@ -370,7 +370,7 @@ class Members extends \app\components\ActiveRecord
 			'attribute' => 'photo_header',
 			'value' => function($model, $key, $index, $column) {
 				$uploadPath = join('/', [self::getUploadPath(false), $model->member_id]);
-				return $model->photo_header ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->photo_header])), ['alt'=>$model->photo_header]) : '-';
+				return $model->photo_header ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->photo_header])), ['alt' => $model->photo_header]) : '-';
 			},
 			'format' => 'html',
 		];
@@ -464,7 +464,7 @@ class Members extends \app\components\ActiveRecord
 				return $this->filterYesNo($model->approved);
 			},
 			'filter' => $this->filterYesNo(),
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 		];
 		$this->templateColumns['member_private'] = [
 			'attribute' => 'member_private',
@@ -472,17 +472,17 @@ class Members extends \app\components\ActiveRecord
 			'value' => function($model, $key, $index, $column) {
 				return self::getMemberPrivate($model->member_private);
 			},
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 			'format' => 'raw',
 		];
 		$this->templateColumns['publish'] = [
 			'attribute' => 'publish',
 			'value' => function($model, $key, $index, $column) {
-				$url = Url::to(['publish', 'id'=>$model->primaryKey]);
+				$url = Url::to(['publish', 'id' => $model->primaryKey]);
 				return $this->quickAction($url, $model->publish, 'Enable,Disable');
 			},
 			'filter' => $this->filterYesNo(),
-			'contentOptions' => ['class'=>'text-center'],
+			'contentOptions' => ['class' => 'text-center'],
 			'format' => 'raw',
 			'visible' => !Yii::$app->request->get('trash') ? true : false,
 		];
@@ -645,13 +645,13 @@ class Members extends \app\components\ActiveRecord
             if ($this->photo_header instanceof UploadedFile && !$this->photo_header->getHasError()) {
                 if (!in_array(strtolower($this->photo_header->getExtension()), $photoHeaderFileType)) {
 					$this->addError('photo_header', Yii::t('app', 'The file {name} cannot be uploaded. Only files with these extensions are allowed: {extensions}', array(
-						'{name}'=>$this->photo_header->name,
-						'{extensions}'=>$this->formatFileType($photoHeaderFileType, false),
+						'{name}' => $this->photo_header->name,
+						'{extensions}' => $this->formatFileType($photoHeaderFileType, false),
 					)));
 				}
 			} /* else {
                 if ($this->isNewRecord || (!$this->isNewRecord && $this->old_photo_header_i == '')) {
-                    $this->addError('photo_header', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}'=>$this->getAttributeLabel('photo_header'))));
+                    $this->addError('photo_header', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}' => $this->getAttributeLabel('photo_header'))));
                 }
 			} */
 
@@ -660,13 +660,13 @@ class Members extends \app\components\ActiveRecord
             if ($this->photo_profile instanceof UploadedFile && !$this->photo_profile->getHasError()) {
                 if (!in_array(strtolower($this->photo_profile->getExtension()), $photoProfileFileType)) {
 					$this->addError('photo_profile', Yii::t('app', 'The file {name} cannot be uploaded. Only files with these extensions are allowed: {extensions}', array(
-						'{name}'=>$this->photo_profile->name,
-						'{extensions}'=>$this->formatFileType($photoProfileFileType, false),
+						'{name}' => $this->photo_profile->name,
+						'{extensions}' => $this->formatFileType($photoProfileFileType, false),
 					)));
 				}
 			} /* else {
                 if ($this->isNewRecord || (!$this->isNewRecord && $this->old_photo_profile_i == '')) {
-                    $this->addError('photo_profile', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}'=>$this->getAttributeLabel('photo_profile'))));
+                    $this->addError('photo_profile', Yii::t('app', '{attribute} cannot be blank.', array('{attribute}' => $this->getAttributeLabel('photo_profile'))));
                 }
 			} */
 
@@ -764,7 +764,7 @@ class Members extends \app\components\ActiveRecord
 		} else {
             if (array_key_exists('publish', $changedAttributes) && $this->publish != $changedAttributes['publish'] && $this->publish == 2) {
                 if (class_exists('ommu\ipedia\models\IpediaCompanies')) {
-					\ommu\ipedia\models\IpediaCompanies::find()->where(['member_id'=>$this->member_id])->updateAttributes(['member_id'=>null]);
+					\ommu\ipedia\models\IpediaCompanies::find()->where(['member_id' => $this->member_id])->updateAttributes(['member_id' => null]);
 				}
 			}
 		}

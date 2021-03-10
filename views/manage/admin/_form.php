@@ -42,31 +42,31 @@ use ommu\member\models\MemberProfile;
 
 <?php $profile = MemberProfile::getProfile();
 echo $form->field($model, 'profile_id')
-	->dropDownList($profile, ['prompt'=>''])
+	->dropDownList($profile, ['prompt' => ''])
 	->label($model->getAttributeLabel('profile_id')); ?>
 
 <?php echo $form->field($model, 'username')
-	->textInput(['maxlength'=>true])
+	->textInput(['maxlength' => true])
 	->label($model->getAttributeLabel('username')); ?>
 
 <?php echo $form->field($model, 'displayname')
-	->textInput(['maxlength'=>true])
+	->textInput(['maxlength' => true])
 	->label($model->getAttributeLabel('displayname')); ?>
 
 <?php $uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
-$photoHeader = !$model->isNewRecord && $model->old_photo_header_i != '' ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->old_photo_header_i])), ['alt'=>$model->old_photo_header_i, 'class'=>'d-block border border-width-3 mb-3']).$model->old_photo_header_i.'<hr/>' : '';
+$photoHeader = !$model->isNewRecord && $model->old_photo_header_i != '' ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->old_photo_header_i])), ['alt' => $model->old_photo_header_i, 'class' => 'd-block border border-width-3 mb-4']).$model->old_photo_header_i.'<hr/>' : '';
 echo $form->field($model, 'photo_header', ['template' => '{label}{beginWrapper}<div>'.$photoHeader.'</div>{input}{error}{hint}{endWrapper}'])
 	->fileInput()
 	->label($model->getAttributeLabel('photo_header')); ?>
 
 <?php $uploadPath = join('/', [Members::getUploadPath(false), $model->member_id]);
-$photoProfile = !$model->isNewRecord && $model->old_photo_profile_i != '' ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->old_photo_profile_i])), ['alt'=>$model->old_photo_profile_i, 'class'=>'d-block border border-width-3 mb-3']).$model->old_photo_profile_i.'<hr/>' : '';
+$photoProfile = !$model->isNewRecord && $model->old_photo_profile_i != '' ? Html::img(Url::to(join('/', ['@webpublic', $uploadPath, $model->old_photo_profile_i])), ['alt' => $model->old_photo_profile_i, 'class' => 'd-block border border-width-3 mb-4']).$model->old_photo_profile_i.'<hr/>' : '';
 echo $form->field($model, 'photo_profile', ['template' => '{label}{beginWrapper}<div>'.$photoProfile.'</div>{input}{error}{hint}{endWrapper}'])
 	->fileInput()
 	->label($model->getAttributeLabel('photo_profile')); ?>
 
 <?php echo $form->field($model, 'short_biography')
-	->textarea(['rows'=>6, 'cols'=>50])
+	->textarea(['rows' => 6, 'cols' => 50])
 	->label($model->getAttributeLabel('short_biography')); ?>
 
 <?php $memberPrivate = Members::getMemberPrivate();
@@ -74,7 +74,7 @@ if ($model->isNewRecord && !$model->getErrors()) {
 	$model->member_private = 0;
 }
 echo $form->field($model, 'member_private')
-	->dropDownList($memberPrivate, ['prompt'=>''])
+	->dropDownList($memberPrivate, ['prompt' => ''])
 	->label($model->getAttributeLabel('member_private')); ?>
 
 <?php echo $form->field($model, 'approved')
