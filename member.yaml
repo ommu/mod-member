@@ -1,6 +1,6 @@
 profile_submenu:
   view:
-    label: Info
+    label: Detail
     url:
       0: 'setting/profile/admin/view'
       id: $_GET*id
