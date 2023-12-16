@@ -31,7 +31,7 @@
 	],
 	"require": {
 		"php": "~7.0",
-		"ommu/ipedia": "dev-master"
+		"ommu/ipedia": "v2.x-dev"
 	},
 	"autoload": {
 		"psr-4": {
