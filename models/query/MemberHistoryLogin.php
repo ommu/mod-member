@@ -6,7 +6,7 @@
  * @see \ommu\member\models\MemberHistoryLogin
  * 
  * @author Putra Sudaryanto <putra@ommu.id>
- * @contact (+62)856-299-4114
+ * @contact (+62)811-2540-432
  * @copyright Copyright (c) 2020 Upgrad.id
  * @created date 12 October 2020, 09:12 WIB
  * @link https://github.com/ommu/mod-member
