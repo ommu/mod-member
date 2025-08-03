@@ -160,7 +160,7 @@ class DocumentController extends Controller
 
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Member document type success updated.'));
-				if s(!Yii::$app->request->isAjax) {
+				if (!Yii::$app->request->isAjax) {
 					return $this->redirect(['update', 'id' => $model->document_id]);
                 }
                 return $this->redirect(Yii::$app->request->referrer ?: ['update', 'id' => $model->document_id]);
